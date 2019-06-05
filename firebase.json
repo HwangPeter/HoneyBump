@@ -9,7 +9,11 @@
     ]
   },
   "hosting": {
-    "public": "src",
+    "public": "views",
+    "rewrites" : [ {
+      "source": "/emailNotVerified",
+      "function": "emailNotVerified"
+    }],
     "ignore": [
       "firebase.json",
       "**/.*",
