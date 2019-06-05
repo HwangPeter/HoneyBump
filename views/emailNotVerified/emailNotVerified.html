@@ -1,0 +1,30 @@
+<!Doctype html>
+<html>
+
+<head>
+  <title>Verify Email Required</title>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+</head>
+
+<body>
+
+  <div id="loginDiv" class="main-div">
+    <h1>Your email must be verified to continue. Check your email for the verification link.</h1>
+    <h4>Didn't receive the email?</h4>
+
+    <button id="resendEmail">
+      Resend Email</button>
+
+  </div>
+  <div id="emailSent">
+    <h4>Your email verification has been sent! Email may take a few minutes to arrive.</h4>
+  </div>
+
+
+
+  <script type="module" src="/emailNotVerified/emailNotVerified.js"></script>
+
+</body>
+
+</html>
