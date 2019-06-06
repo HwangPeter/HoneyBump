@@ -1,6 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-exports.emailNotVerified = functions.https.onRequest((req, res) => {
-    res.sendFile('/views/emailNotVerified/emailNotVerified.html', {root: '../' });
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: "https://honeybump-49085.firebaseio.com"
 });

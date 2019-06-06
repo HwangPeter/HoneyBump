@@ -12,7 +12,7 @@
     "public": "views",
     "rewrites" : [ {
       "source": "/emailNotVerified",
-      "function": "emailNotVerified"
+      "destination": "/emailNotVerified/emailNotVerified.html"
     }],
     "ignore": [
       "firebase.json",

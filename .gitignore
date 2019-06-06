@@ -63,3 +63,6 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# firebase admin SDK
+honeybump-49085-firebase-adminsdk-46c54-3f11fb5754.json
