@@ -1,0 +1,79 @@
+<!Doctype html>
+<html>
+
+<head>
+  <title>SignUp</title>
+  <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
+</head>
+<h1>MyHoneyBump</h1>
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="#">
+      <h1>Create Account</h1>
+      <h2>Please fill out the form below</h2>
+      <input id="signUpFirstName" type="text" placeholder="First name" />
+      <input id="signUpLastName" type="text" placeholder="Last name" />
+      <input id="signUpEmail" type="email" placeholder="Email" maxlength="255" />
+      <input id="signUpPass" type="password" placeholder="Password" />
+      <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
+      <div style="float:left">
+        <span style="display:inline">Mother's Birthdate (Optional)</span>
+        <div class="popup" id="whyPopup">Why?
+          <span class="popuptext" id="whyPopupText">The mother's age is required to provide relevant medical information.</span>
+        </div>
+      </div>
+      <div class="birthdate-container">
+        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
+          style="float:left;" />
+        <input id="signUpMomDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
+          style="float:right;" />
+        <input id="signUpMomYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
+      </div>
+      <div style="float:left">
+        <span style="display:inline">Expected Delivery Date (Optional)</span>
+        <div class="popup" id="dontKnowPopup">Don't know?
+          <span class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</span>
+        </div>
+      </div>
+      <div class="delivery-date-container">
+        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
+          style="float:left;" />
+        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
+          style="float:right;" />
+        <input id="signUpBabyYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
+      </div>
+      <button form="" id="signUpButton">Sign Up</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form action="#">
+      <h1>Log in</h1>
+      <h2>to your account</h2>
+      <input id="loginEmail" type="email" placeholder="Email" maxlength="255" />
+      <input id="loginPass" type="password" placeholder="Password" />
+      <a href="forgotPassword">Forgot your password?</a>
+      <button form="" id="loginButton">Log In</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To view your information please log in</p>
+        <button form="" class="ghost" id="ghostLogin">Log In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Expecting?</h1>
+        <p>Signup to receive a personalized plan to help manage your pregnancy</p>
+        <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/signUpLogin/signUpLogin.js"></script>
+
+</html>
