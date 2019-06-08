@@ -20,21 +20,6 @@ const btnSignUp = document.getElementById('btnLoginSignUp');
 const userEmail = document.getElementById('emailField');
 const userPassword = document.getElementById('passwordField');
 
-//TODO: Remove after moving code.
-// btnLogin.addEventListener('click', e => {
-//     let email = userEmail.value;
-//     let pass = userPassword.value;
-//     if (passwordIsValid(pass)) {
-//         let pass = userPassword.value;
-//         let auth = firebase.auth();
-//         const promise = auth.signInWithEmailAndPassword(email, pass);
-//         promise.catch(e => alert(e.message));
-//     }
-//     else {
-//         alert("Passwords must be 6 characters or more.");
-//     }
-// });
-
 btnSignUp.addEventListener('click', e => {
     window.location.href = "/signUpLogin";
 });
@@ -45,7 +30,6 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
             window.location.href = "/emailNotVerified";
         }
         btnLogout.style.visibility = 'visible';
-        btnLogin.style.visibility = 'hidden';
         btnSignUp.style.visibility = 'hidden';
         document.getElementById('loginStatusDiv').style.visibility = 'visible';
     }
@@ -60,13 +44,3 @@ btnLogout.addEventListener('click', e => {
     let auth = firebase.auth();
     auth.signOut();
 });
-
-
-function passwordIsValid(userPass) {
-    if (userPass.length < 6) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}

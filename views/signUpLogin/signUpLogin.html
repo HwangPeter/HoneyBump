@@ -4,11 +4,18 @@
 <head>
   <title>SignUp</title>
   <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+  <link rel="icon" type="image/png" href="/img/favicon.ico" sizes="16x16" />
+
 </head>
-<h1>MyHoneyBump</h1>
+<div id="logo" style="text-align: center; margin-bottom: 5px;">
+  <img style="vertical-align:middle; width:50px;height:50px;" src="/img/logo.png" alt="myHoneyBumpLogo">
+  <span style="vertical-align:middle; font-size:40px; font-weight:bold; color:rgba(164,209,224,1)">myHoneyBump</span>
+</div>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
     <form action="#">
@@ -22,14 +29,13 @@
       <div style="float:left">
         <span style="display:inline">Mother's Birthdate (Optional)</span>
         <div class="popup" id="whyPopup">Why?
-          <span class="popuptext" id="whyPopupText">The mother's age is required to provide relevant medical information.</span>
+          <span class="popuptext" id="whyPopupText">The mother's age is required to provide relevant medical
+            information.</span>
         </div>
       </div>
       <div class="birthdate-container">
-        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
-          style="float:left;" />
-        <input id="signUpMomDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
-          style="float:right;" />
+        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1" />
+        <input id="signUpMomDay" class="monthDay" type="number" placeholder="Day" max="31" min="1" />
         <input id="signUpMomYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
       </div>
       <div style="float:left">
@@ -39,12 +45,11 @@
         </div>
       </div>
       <div class="delivery-date-container">
-        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
-          style="float:left;" />
-        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
-          style="float:right;" />
+        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1" />
+        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="Day" max="31" min="1" />
         <input id="signUpBabyYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
       </div>
+      <h3 id="sign-up-error"></h3>
       <button form="" id="signUpButton">Sign Up</button>
     </form>
   </div>
@@ -54,7 +59,8 @@
       <h2>to your account</h2>
       <input id="loginEmail" type="email" placeholder="Email" maxlength="255" />
       <input id="loginPass" type="password" placeholder="Password" />
-      <a href="forgotPassword">Forgot your password?</a>
+      <a href="/resetPassword">Forgot your password?</a>
+      <h3 id="log-in-error"></h3>
       <button form="" id="loginButton">Log In</button>
     </form>
   </div>

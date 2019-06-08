@@ -12,6 +12,10 @@
     "public": "views",
     "rewrites": [
       {
+        "source": "/",
+        "destination": "/index.html"
+      },
+      {
         "source": "/emailNotVerified",
         "destination": "/emailNotVerified/emailNotVerified.html"
       },
@@ -21,12 +25,20 @@
         "type": 301
       },
       {
-        "source": "/forgotPassword",
-        "destination": "/forgotPassword/forgotPassword.html"
+        "source": "/resetPassword",
+        "destination": "/resetPassword/resetPassword.html"
       },
       {
         "source": "/500",
         "destination": "/500/500.html"
+      },
+      {
+        "source": "/test",
+        "destination": "/test.html"
+      },
+      {
+        "source": "/favicon.ico",
+        "destination": "/img/favicon.ico"
       }
     ],
     "ignore": [
