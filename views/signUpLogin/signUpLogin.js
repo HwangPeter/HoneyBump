@@ -56,14 +56,14 @@ loginButton.addEventListener('click', () => {
     let pass = loginPass.value;
     let errorText = document.getElementById('log-in-error');
 
-    firebase.auth().signInWithEmailAndPassword(email, pass).then(function() {
+    firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
         window.location.href = "/";
-      }).catch(function(error) {
+    }).catch(function (error) {
         errorText.innerHTML = error.message;
         loginButton.disabled = false;
         loginButton.style.opacity = "1";
         return 0;
-      });
+    });
 
     // let data = jsonifyLoginData();
 
@@ -76,7 +76,12 @@ loginButton.addEventListener('click', () => {
 });
 
 signUpButton.addEventListener('click', () => {
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.5";
+
     if (!highlightWrongSignUpFields()) {
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
         return false;
     }
 
@@ -122,6 +127,8 @@ signUpButton.addEventListener('click', () => {
         });
     }).catch(function (error) {
         errorText.innerHTML = error.message;
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
         return 0;
     });
 });
