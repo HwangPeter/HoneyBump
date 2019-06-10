@@ -206,12 +206,12 @@ input:focus {
 }
 
 .monthDay {
-    width: calc(24%-5px);
+    width: 25%;
 		margin-right: 5px;
 }
 
 .year {
-		width: calc(52%-10px);
+		width: 50%;
 
 }
 

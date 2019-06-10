@@ -43,95 +43,15 @@ ghostLoginButton.addEventListener('click', () => {
     container.classList.remove("right-panel-active");
 });
 
+
 loginButton.addEventListener('click', () => {
-    // TODO: Add remove errorText.
-    loginButton.disabled = true;
-    loginButton.style.opacity = "0.5";
-    if (!highlightWrongLoginFields()) {
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return 0;
-    }
-    let email = loginEmail.value;
-    let pass = loginPass.value;
-    let errorText = document.getElementById('log-in-error');
-
-    firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
-        window.location.href = "/";
-    }).catch(function (error) {
-        errorText.innerHTML = error.message;
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return 0;
-    });
-
-    // let data = jsonifyLoginData();
-
-    // let logData = {
-    //     event: "error",
-    //     context: JSON.stringify(data),
-    //     message: "Failed SOME SHIT BOI."
-    // };
-    // firebase.functions().httpsCallable('logUserAuthError')(logData);
+    handleLogin();
 });
 
 signUpButton.addEventListener('click', () => {
-    loginButton.disabled = true;
-    loginButton.style.opacity = "0.5";
-
-    if (!highlightWrongSignUpFields()) {
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return false;
-    }
-
-    let email = signUpEmail.value;
-    let pass = signUpPass.value;
-    let errorText = document.getElementById('sign-up-error');
-
-    firebase.auth().createUserWithEmailAndPassword(email, pass).then(function () {
-        errorText.innerHTML = "";
-
-        let data = jsonifySignUpData();
-
-        firebase.functions().httpsCallable('storeNewUserData')(data).then(function () {
-            let user = firebase.auth().currentUser;
-            user.sendEmailVerification().then(function () {
-                window.location.href = "/emailNotVerified";
-            }).catch(function (error) {
-                // Failed to send email verification
-                let data = jsonifyLoginData();
-
-                let logData = {
-                    event: "error",
-                    context: JSON.stringify(data),
-                    message: "Failed to send email verification"
-                };
-
-                firebase.functions().httpsCallable('logUserAuthError')(logData);
-                window.location.href = "/emailNotVerified";
-            });
-
-        }).catch(function (error) {
-            // Failed to call storeNewUserData Cloud Function
-            let data = jsonifyLoginData();
-
-            let logData = {
-                event: "error",
-                context: JSON.stringify(data),
-                message: "Failed to call storeNewUserData Cloud Function"
-            };
-
-            firebase.functions().httpsCallable('logUserAuthError')(logData);
-            window.location.href = "/500";
-        });
-    }).catch(function (error) {
-        errorText.innerHTML = error.message;
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return 0;
-    });
+    handleSignUp();
 });
+
 
 whyPopup.addEventListener('click', () => {
     var popup = document.getElementById("whyPopupText");
@@ -139,9 +59,7 @@ whyPopup.addEventListener('click', () => {
     window.setTimeout(function () {
         popup.classList.toggle("show");
     }, 3000);
-})
-
-
+});
 
 dontKnowPopup.addEventListener('click', () => {
     var popup = document.getElementById("dontKnowPopupText");
@@ -149,7 +67,88 @@ dontKnowPopup.addEventListener('click', () => {
     window.setTimeout(function () {
         popup.classList.toggle("show");
     }, 3000);
-})
+});
+
+
+
+loginPass.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleLogin();
+    }
+};
+
+loginEmail.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleLogin();
+    }
+};
+
+signUpFirstName.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpLastName.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpEmail.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpPass.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpPassConfirm.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomMonth.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomDay.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomYear.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyMonth.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyDay.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyYear.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
 
 // Highlights missing input fields. Returns false if any required fields were found missing.
 function highlightWrongSignUpFields() {
@@ -201,7 +200,7 @@ function highlightWrongSignUpFields() {
     }
     if (pass != passConfirm) {
         let errorText = document.getElementById('sign-up-error');
-        errorText.innerHTML = "Passwords do not match.";
+        errorText.innerHTML = "Passwords do not match";
         signUpPass.style.border = "2px solid red";
         signUpPassConfirm.style.border = "2px solid red";
         return false;
@@ -316,4 +315,84 @@ function babyDateHalfFilled() {
         return true;
     }
     return false;
+}
+
+function handleLogin() {
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.5";
+    if (!highlightWrongLoginFields()) {
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    }
+    let email = loginEmail.value;
+    let pass = loginPass.value;
+    let errorText = document.getElementById('log-in-error');
+
+    firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
+        window.location.href = "/";
+    }).catch(function (error) {
+        errorText.innerHTML = error.message;
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    });
+}
+
+function handleSignUp() {
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.5";
+
+    if (!highlightWrongSignUpFields()) {
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return false;
+    }
+
+    let email = signUpEmail.value;
+    let pass = signUpPass.value;
+    let errorText = document.getElementById('sign-up-error');
+
+    firebase.auth().createUserWithEmailAndPassword(email, pass).then(function () {
+        errorText.innerHTML = "";
+
+        let data = jsonifySignUpData();
+
+        firebase.functions().httpsCallable('storeNewUserData')(data).then(function () {
+            let user = firebase.auth().currentUser;
+            user.sendEmailVerification().then(function () {
+                window.location.href = "/emailNotVerified";
+            }).catch(function (error) {
+                // Failed to send email verification
+                let data = jsonifyLoginData();
+
+                let logData = {
+                    event: "error",
+                    context: JSON.stringify(data),
+                    message: "Failed to send email verification"
+                };
+
+                firebase.functions().httpsCallable('logUserAuthError')(logData);
+                window.location.href = "/emailNotVerified";
+            });
+
+        }).catch(function (error) {
+            // Failed to call storeNewUserData Cloud Function
+            let data = jsonifyLoginData();
+
+            let logData = {
+                event: "error",
+                context: JSON.stringify(data),
+                message: "Failed to call storeNewUserData Cloud Function"
+            };
+
+            firebase.functions().httpsCallable('logUserAuthError')(logData);
+            window.location.href = "/500";
+        });
+    }).catch(function (error) {
+        errorText.innerHTML = error.message;
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    });
 }
