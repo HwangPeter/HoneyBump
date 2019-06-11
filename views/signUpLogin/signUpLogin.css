@@ -1,9 +1,11 @@
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-
-
 * {
 	box-sizing: border-box;
+}
+
+header {
+	align-items: center;
+	display: inline;
 }
 
 body {
@@ -12,21 +14,28 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Quicksand', sans-serif;
 	height: 100vh;
 	margin: -20px 0 50px;
 }
 
 h1 {
 	font-weight: bold;
-    margin: 0;
-    text-align: center;
+  margin: 0;
+  text-align: center;
 }
 
 h2 {
-    font-size: 14px;
-    font-weight: normal;
+  font-size: 14px;
+  font-weight: normal;
 	text-align: center;
+}
+
+h3 {
+	font-size: 14px;
+	color: red;
+	text-align: center;
+	font-weight: normal;
 }
 
 p {
@@ -109,8 +118,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid rgba(164,209,224,1);
+	background-color: rgba(164,209,224,1);
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -136,7 +145,6 @@ button.ghost {
 form {
 	background-color: #FFFFFF;
 	display: flex;
-	align-items: left;
 	justify-content: center;
 	flex-direction: column;
 	padding: 0 50px;
@@ -146,19 +154,14 @@ form {
 
 input {
 	background-color: #eee;
-	border: none;
+	border: 2px transparent;
 	padding: 12px 15px;
 	margin: 8px 0;
 	width: 100%;
 }
 
 input:focus {
-	outline-color: #333;
-	outline-width: 2px;
-}
-
-.error {
-  border:2px solid red;
+	outline: 2px solid #333;
 }
 
 .container {
@@ -168,7 +171,7 @@ input:focus {
 	overflow: hidden;
 	width: 768px;
 	max-width: 100%;
-    min-height: 600px;
+    min-height: 680px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
 }
@@ -198,23 +201,23 @@ input:focus {
 }
 
 .birthdate-container {
-    width: 100%;
-    display: inline-flex;
+		width: 100%;
+		display: inline-flex;
 }
 
 .monthDay {
-    width: 26%;
-    margin-right: 5px;
-
+    width: 25%;
+		margin-right: 5px;
 }
 
 .year {
-    width: 48%;
+		width: 50%;
+
 }
 
 .delivery-date-container {
-    width: 100%;
-    display: inline-flex;
+		width: 100%;
+		display: inline-flex;
 }
 
 
@@ -253,9 +256,7 @@ input:focus {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: rgba(164,209,224,1);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;

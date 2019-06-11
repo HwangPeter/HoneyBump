@@ -14,6 +14,7 @@
 }());
 
 const resendBtn = document.getElementById('resendEmail');
+const signOutBtn = document.getElementById('signOut');
 
 resendBtn.addEventListener('click', e => {
     let user = firebase.auth().currentUser;
@@ -23,4 +24,12 @@ resendBtn.addEventListener('click', e => {
         alert(error.message);
     });
     promise.catch(e => alert(e.message));
+});
+
+signOutBtn.addEventListener('click', e => {
+    firebase.auth().signOut().then(function() {
+        window.location.href = "/";
+      }).catch(function(error) {
+        window.location.href = "/500";
+      });
 });

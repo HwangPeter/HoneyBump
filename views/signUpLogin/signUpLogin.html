@@ -2,13 +2,20 @@
 <html>
 
 <head>
-  <title>SignUp</title>
+  <title>Sign Up</title>
   <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+  <link rel="icon" type="image/png" href="/img/logo/favicon-16x16.png" sizes="16x16" />
+
 </head>
-<h1>MyHoneyBump</h1>
+<div id="logo" style="text-align: center; margin-bottom: 5px;">
+  <img style="vertical-align:middle; width:50px;height:50px;" src="/img/logo/logo.png" alt="myHoneyBumpLogo">
+  <span style="vertical-align:middle; font-size:40px; font-weight:bold; color:rgba(164,209,224,1)">myHoneyBump</span>
+</div>
 <div class="container" id="container">
   <div class="form-container sign-up-container">
     <form action="#">
@@ -22,15 +29,13 @@
       <div style="float:left">
         <span style="display:inline">Mother's Birthdate (Optional)</span>
         <div class="popup" id="whyPopup">Why?
-          <span class="popuptext" id="whyPopupText">The mother's age is required to provide relevant medical information.</span>
+          <span class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your pregnancy</span>
         </div>
       </div>
       <div class="birthdate-container">
-        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
-          style="float:left;" />
-        <input id="signUpMomDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
-          style="float:right;" />
-        <input id="signUpMomYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
+        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpMomDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
       </div>
       <div style="float:left">
         <span style="display:inline">Expected Delivery Date (Optional)</span>
@@ -39,22 +44,22 @@
         </div>
       </div>
       <div class="delivery-date-container">
-        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="Month" max="12" min="1"
-          style="float:left;" />
-        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="Day" max="31" min="1"
-          style="float:right;" />
-        <input id="signUpBabyYear" class="year" type="number" placeholder="Year" max="9999" min="1900" />
+        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpBabyYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
       </div>
+      <h3 id="sign-up-error"></h3>
       <button form="" id="signUpButton">Sign Up</button>
     </form>
   </div>
   <div class="form-container sign-in-container">
     <form action="#">
-      <h1>Log in</h1>
-      <h2>to your account</h2>
+      <h1>Log In</h1>
+      <h2>To your account</h2>
       <input id="loginEmail" type="email" placeholder="Email" maxlength="255" />
       <input id="loginPass" type="password" placeholder="Password" />
-      <a href="forgotPassword">Forgot your password?</a>
+      <a href="/resetPassword">Forgot your password?</a>
+      <h3 id="log-in-error"></h3>
       <button form="" id="loginButton">Log In</button>
     </form>
   </div>
@@ -62,12 +67,12 @@
     <div class="overlay">
       <div class="overlay-panel overlay-left">
         <h1>Welcome Back!</h1>
-        <p>To view your information please log in</p>
+        <p>To view your account, please sign in</p>
         <button form="" class="ghost" id="ghostLogin">Log In</button>
       </div>
       <div class="overlay-panel overlay-right">
         <h1>Expecting?</h1>
-        <p>Signup to receive a personalized plan to help manage your pregnancy</p>
+        <p>Sign up for a personalized checklist and other tools to help manage your pregnancy</p>
         <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
       </div>
     </div>

@@ -1,4 +1,3 @@
-
 (function () {
     // Initialize Firebase
     var firebaseConfig = {
@@ -44,53 +43,15 @@ ghostLoginButton.addEventListener('click', () => {
     container.classList.remove("right-panel-active");
 });
 
+
 loginButton.addEventListener('click', () => {
-    firebase.functions().httpsCallable('addMessages')({data: loginEmail.value}).then(function(result) {
-    console.log('Cloud Function called successfully.');
-    window.alert('Here is the result of the formula: ');
-  }).catch(function(error) {
-    // Getting the Error details.
-    var code = error.code;
-    var message = error.message;
-    var details = error.details;
-    console.error('There was an error when calling the Cloud Function', error);
-    window.alert('There was an error when calling the Cloud Function:\n\nError Code: '
-        + code + '\nError Message:' + message + '\nError Details:' + details);
-  });
+    handleLogin();
 });
 
 signUpButton.addEventListener('click', () => {
-    let firstName = signUpFirstName.value;
-    let lastName = signUpLastName.value;
-    let email = signUpEmail.value;
-    let pass = signUpPass.value;
-    let passConfirm = signUpPassConfirm.value;
-    let momMonth = signUpMomMonth.value;
-    let momDay = signUpMomDay.value;
-    let momYear = signUpMomYear.value;
-    let babyMonth = signUpBabyMonth.value;
-    let babyDay = signUpBabyDay.value;
-    let babyYear = signUpBabyYear.value;
-    if (!highlightWrongFields()) {
-        return 0;
-    }
-    else {
-        firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function (error) {
-            console.log(error.code);
-            console.log(error.message);
-            window.location.href = "/500.html";
-        }).then(function () {
-            let user = firebase.auth().currentUser;
-            user.sendEmailVerification().then(function () {
-                window.location.href = "/emailNotVerified";
-            }).catch(function (error) {
-                // Failed to send email verification
-                console.log(error.message);
-                window.location.href = "/500.html";
-            });
-        })
-    }
+    handleSignUp();
 });
+
 
 whyPopup.addEventListener('click', () => {
     var popup = document.getElementById("whyPopupText");
@@ -98,9 +59,7 @@ whyPopup.addEventListener('click', () => {
     window.setTimeout(function () {
         popup.classList.toggle("show");
     }, 3000);
-})
-
-
+});
 
 dontKnowPopup.addEventListener('click', () => {
     var popup = document.getElementById("dontKnowPopupText");
@@ -108,43 +67,332 @@ dontKnowPopup.addEventListener('click', () => {
     window.setTimeout(function () {
         popup.classList.toggle("show");
     }, 3000);
-})
+});
 
-// Checks for missing input fields. Returns false if any fields were found missing.
-function highlightWrongFields() {
+
+
+loginPass.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleLogin();
+    }
+};
+
+loginEmail.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleLogin();
+    }
+};
+
+signUpFirstName.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpLastName.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpEmail.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpPass.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpPassConfirm.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomMonth.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomDay.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpMomYear.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyMonth.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyDay.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+signUpBabyYear.onkeydown = function (e) {
+    if (e.keyCode == 13) {
+        handleSignUp();
+    }
+};
+
+
+// Highlights missing input fields. Returns false if any required fields were found missing.
+function highlightWrongSignUpFields() {
+    unhighlightAllFields();
     let missingField = false;
     let firstName = signUpFirstName.value;
     let lastName = signUpLastName.value;
     let email = signUpEmail.value;
     let pass = signUpPass.value;
     let passConfirm = signUpPassConfirm.value;
+
     if (!firstName) {
-        document.getElementById("signUpFirstName").className = document.getElementById("signUpFirstName").className + " error";
+        signUpFirstName.style.border = "2px solid red";
         missingField = true;
     }
     if (!lastName) {
-        document.getElementById("signUpLastName").className = document.getElementById("signUpLastName").className + " error";
+        signUpLastName.style.border = "2px solid red";
         missingField = true;
     }
     if (!email) {
-        document.getElementById("signUpEmail").className = document.getElementById("signUpEmail").className + " error";
+        signUpEmail.style.border = "2px solid red";
         missingField = true;
     }
     if (!pass) {
-        document.getElementById("signUpPass").className = document.getElementById("signUpPass").className + " error";
+        signUpPass.style.border = "2px solid red";
         missingField = true;
     }
     if (!passConfirm) {
-        document.getElementById("signUpPassConfirm").className = document.getElementById("signUpPassConfirm").className + " error";
+        signUpPassConfirm.style.border = "2px solid red";
         missingField = true;
+    }
+    if (momDateHalfFilled()) {
+        signUpMomMonth.style.border = "2px solid red";
+        signUpMomDay.style.border = "2px solid red";
+        signUpMomYear.style.border = "2px solid red";
+        missingField = true;
+    }
+    if (babyDateHalfFilled()) {
+        signUpBabyMonth.style.border = "2px solid red";
+        signUpBabyDay.style.border = "2px solid red";
+        signUpBabyYear.style.border = "2px solid red";
+        missingField = true;
+    }
+
+    if (missingField) {
+        let errorText = document.getElementById('sign-up-error');
+        errorText.innerHTML = "Please finish filling necessary fields.";
+        return false;
     }
     if (pass != passConfirm) {
-        document.getElementById("signUpPass").className = document.getElementById("signUpPass").className + " error";
-        document.getElementById("signUpPassConfirm").className = document.getElementById("signUpPassConfirm").className + " error";
-        missingField = true;
-    }
-    if (missingField) {
+        let errorText = document.getElementById('sign-up-error');
+        errorText.innerHTML = "Passwords do not match";
+        signUpPass.style.border = "2px solid red";
+        signUpPassConfirm.style.border = "2px solid red";
         return false;
     }
     return true;
+}
+
+// Highlights missing input fields. Returns false if any required fields were found missing.
+function highlightWrongLoginFields() {
+    unhighlightAllFields();
+    let email = loginEmail.value;
+    let pass = loginPass.value;
+    let missingField = false;
+
+    if (!email) {
+        document.getElementById("loginEmail").style.border = "2px solid red";
+        missingField = true;
+    }
+    if (!pass) {
+        document.getElementById("loginPass").style.border = "2px solid red";
+        missingField = true;
+    }
+
+    if (missingField) {
+        let errorText = document.getElementById('log-in-error');
+        errorText.innerHTML = "Please finish filling necessary fields.";
+        return false;
+    }
+    return true;
+}
+
+function unhighlightAllFields() {
+    signUpFirstName.style.border = "2px transparent";
+    signUpLastName.style.border = "2px transparent";
+    signUpEmail.style.border = "2px transparent";
+    signUpPass.style.border = "2px transparent";
+    signUpPassConfirm.style.border = "2px transparent";
+    signUpMomMonth.style.border = "2px transparent";
+    signUpMomDay.style.border = "2px transparent";
+    signUpMomYear.style.border = "2px transparent";
+    signUpBabyMonth.style.border = "2px transparent";
+    signUpBabyDay.style.border = "2px transparent";
+    signUpBabyYear.style.border = "2px transparent";
+    loginEmail.style.border = "2px transparent";
+    loginPass.style.border = "2px transparent";
+}
+
+// On sign up, user must be logged in already before calling this function
+function jsonifySignUpData() {
+    let firstName = signUpFirstName.value;
+    let lastName = signUpLastName.value;
+    let email = signUpEmail.value;
+    let momMonth = signUpMomMonth.value;
+    let momDay = signUpMomDay.value;
+    let momYear = signUpMomYear.value;
+    let babyMonth = signUpBabyMonth.value;
+    let babyDay = signUpBabyDay.value;
+    let babyYear = signUpBabyYear.value;
+    let uid = firebase.auth().currentUser.uid;
+
+    var data = {
+        "uid": uid,
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email
+    };
+
+    if (momMonth && momDay && momYear) {
+        data["momMonth"] = momMonth;
+        data["momDay"] = momDay;
+        data["momYear"] = momYear;
+    }
+    if (babyMonth && babyDay && babyYear) {
+        data["babyMonth"] = babyMonth;
+        data["babyDay"] = babyDay;
+        data["babyYear"] = babyYear;
+    }
+
+    return data;
+}
+
+function jsonifyLoginData() {
+    let email = loginEmail.value;
+    let pass = loginPass.value;
+    //TODO: Remove uid lines
+    let uid = firebase.auth().currentUser.uid;
+
+    var data = {
+        "uid": uid,
+        "email": email,
+        "pass": pass
+    }
+
+    return data;
+}
+
+function momDateHalfFilled() {
+    let momMonth = signUpMomMonth.value;
+    let momDay = signUpMomDay.value;
+    let momYear = signUpMomYear.value;
+    if ((momMonth || momDay || momYear) && (!momMonth || !momDay || !momYear)) {
+        return true;
+    }
+    return false;
+}
+
+function babyDateHalfFilled() {
+    let babyMonth = signUpBabyMonth.value;
+    let babyDay = signUpBabyDay.value;
+    let babyYear = signUpBabyYear.value;
+    if ((babyMonth || babyDay || babyYear) && (!babyMonth || !babyDay || !babyYear)) {
+        return true;
+    }
+    return false;
+}
+
+function handleLogin() {
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.5";
+    if (!highlightWrongLoginFields()) {
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    }
+    let email = loginEmail.value;
+    let pass = loginPass.value;
+    let errorText = document.getElementById('log-in-error');
+
+    firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
+        window.location.href = "/";
+    }).catch(function (error) {
+        errorText.innerHTML = error.message;
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    });
+}
+
+function handleSignUp() {
+    loginButton.disabled = true;
+    loginButton.style.opacity = "0.5";
+
+    if (!highlightWrongSignUpFields()) {
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return false;
+    }
+
+    let email = signUpEmail.value;
+    let pass = signUpPass.value;
+    let errorText = document.getElementById('sign-up-error');
+
+    firebase.auth().createUserWithEmailAndPassword(email, pass).then(function () {
+        errorText.innerHTML = "";
+
+        let data = jsonifySignUpData();
+
+        firebase.functions().httpsCallable('storeNewUserData')(data).then(function () {
+            let user = firebase.auth().currentUser;
+            user.sendEmailVerification().then(function () {
+                window.location.href = "/emailNotVerified";
+            }).catch(function (error) {
+                // Failed to send email verification
+                let data = jsonifyLoginData();
+
+                let logData = {
+                    event: "error",
+                    context: JSON.stringify(data),
+                    message: "Failed to send email verification"
+                };
+
+                firebase.functions().httpsCallable('logUserAuthError')(logData);
+                window.location.href = "/emailNotVerified";
+            });
+
+        }).catch(function (error) {
+            // Failed to call storeNewUserData Cloud Function
+            let data = jsonifyLoginData();
+
+            let logData = {
+                event: "error",
+                context: JSON.stringify(data),
+                message: "Failed to call storeNewUserData Cloud Function"
+            };
+
+            firebase.functions().httpsCallable('logUserAuthError')(logData);
+            window.location.href = "/500";
+        });
+    }).catch(function (error) {
+        errorText.innerHTML = error.message;
+        loginButton.disabled = false;
+        loginButton.style.opacity = "1";
+        return 0;
+    });
 }
