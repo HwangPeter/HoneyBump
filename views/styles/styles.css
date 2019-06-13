@@ -1,7 +1,5 @@
 /* Light grey - #f6f5f7;
 Light blue - (164,209,224,1); */
-/* some comment
-*/
 
 header {
     font-family: "Raleway";
@@ -82,7 +80,12 @@ button:active {
 }
 
 button:focus {
-	outline: none;
+    outline: none;
+}
+
+button:hover {
+    background-color: white;
+    color: rgba(164,209,224,1);
 }
 
 input {
