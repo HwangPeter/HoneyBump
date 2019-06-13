@@ -10,7 +10,39 @@
     "source": "functions"
   },
   "hosting": {
-    "public": "public",
+
+    "public": "views",
+    "rewrites": [
+      {
+        "source": "/",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/emailNotVerified",
+        "destination": "/emailNotVerified/emailNotVerified.html"
+      },
+      {
+        "source": "/[Ss][Ii][Gg][Nn][Uu][Pp][Ll][Oo][Gg][Ii][Nn]",
+        "destination": "/signUpLogin/signUpLogin.html",
+        "type": 301
+      },
+      {
+        "source": "/resetPassword",
+        "destination": "/resetPassword/resetPassword.html"
+      },
+      {
+        "source": "/500",
+        "destination": "/500/500.html"
+      },
+      {
+        "source": "/test",
+        "destination": "/test.html"
+      },
+      {
+        "source": "/favicon.ico",
+        "destination": "/img/favicon.ico"
+      }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",

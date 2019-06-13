@@ -1,0 +1,84 @@
+<!Doctype html>
+<html>
+
+<head>
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+  <link rel="icon" type="image/png" href="/img/logo/favicon-16x16.png" sizes="16x16" />
+
+</head>
+<div id="logo" style="text-align: center; margin-bottom: 5px;">
+  <img style="vertical-align:middle; width:50px;height:50px;" src="/img/logo/logo.png" alt="myHoneyBumpLogo">
+  <span style="vertical-align:middle; font-size:40px; font-weight:bold; color:rgba(164,209,224,1)">myHoneyBump</span>
+</div>
+<div class="container" id="container">
+  <div class="form-container sign-up-container">
+    <form action="#">
+      <h1>Create Account</h1>
+      <h2>Please fill out the form below</h2>
+      <input id="signUpFirstName" type="text" placeholder="First name" />
+      <input id="signUpLastName" type="text" placeholder="Last name" />
+      <input id="signUpEmail" type="email" placeholder="Email" maxlength="255" />
+      <input id="signUpPass" type="password" placeholder="Password" />
+      <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
+      <div style="float:left">
+        <span style="display:inline">Mother's Birthdate (Optional)</span>
+        <div class="popup" id="whyPopup">Why?
+          <span class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your pregnancy</span>
+        </div>
+      </div>
+      <div class="birthdate-container">
+        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpMomDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
+      </div>
+      <div style="float:left">
+        <span style="display:inline">Expected Delivery Date (Optional)</span>
+        <div class="popup" id="dontKnowPopup">Don't know?
+          <span class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</span>
+        </div>
+      </div>
+      <div class="delivery-date-container">
+        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpBabyYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
+      </div>
+      <h3 id="sign-up-error"></h3>
+      <button form="" id="signUpButton">Sign Up</button>
+    </form>
+  </div>
+  <div class="form-container sign-in-container">
+    <form action="#">
+      <h1>Log In</h1>
+      <h2>To your account</h2>
+      <input id="loginEmail" type="email" placeholder="Email" maxlength="255" />
+      <input id="loginPass" type="password" placeholder="Password" />
+      <a href="/resetPassword">Forgot your password?</a>
+      <h3 id="log-in-error"></h3>
+      <button form="" id="loginButton">Log In</button>
+    </form>
+  </div>
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Welcome Back!</h1>
+        <p>To view your account, please sign in</p>
+        <button form="" class="ghost" id="ghostLogin">Log In</button>
+      </div>
+      <div class="overlay-panel overlay-right">
+        <h1>Expecting?</h1>
+        <p>Sign up for a personalized checklist and other tools to help manage your pregnancy</p>
+        <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/signUpLogin/signUpLogin.js"></script>
+
+</html>
