@@ -1,5 +1,5 @@
 /* Light grey - #f6f5f7;
-Light blue - (164,209,224,1); */
+Light blue - rgba(164,209,224,1); */
 
 header {
     font-family: "Raleway";
@@ -91,6 +91,11 @@ button:hover {
 input {
     font-family: "Montserrat";
     font-size: 14px;
+    background-color: #eee;
+    border: 2px transparent;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
 }
 
 input:focus {

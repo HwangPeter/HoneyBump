@@ -6,6 +6,9 @@
 header {
 	align-items: center;
 	display: inline;
+	font-size: 55px;
+	color: rgba(164,209,224,1);
+
 }
 
 body {
@@ -14,43 +17,43 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: 'Quicksand', sans-serif;
 	height: 100vh;
 	margin: -20px 0 50px;
 }
 
 h1 {
+	font-size: 30px;
 	font-weight: bold;
-  margin: 0;
-  text-align: center;
+  	margin: 0;
+  	text-align: center;
 }
 
 h2 {
-  font-size: 14px;
-  font-weight: normal;
+	font-size: 15px;
+  	font-weight: normal;
 	text-align: center;
+	line-height: 20px;
+	letter-spacing: 0.5px;
 }
 
 h3 {
-	font-size: 14px;
 	color: red;
 	text-align: center;
 	font-weight: normal;
 }
 
+h4 {
+	text-align: left;
+    font-size: 12px;
+    font-weight: normal;
+    clear: both;
+}
+
 p {
-	font-size: 14px;
 	font-weight: 100;
 	line-height: 20px;
 	letter-spacing: 0.5px;
 	margin: 20px 0 30px;
-}
-
-span {
-    text-align: left;
-    font-size: 12px;
-    font-weight: normal;
-    clear: both;
 }
 
 .why {
@@ -114,32 +117,16 @@ a {
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
-}
-
-button {
-	border-radius: 20px;
-	border: 1px solid rgba(164,209,224,1);
-	background-color: rgba(164,209,224,1);
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
-}
-
-button:active {
-	transform: scale(0.95);
-}
-
-button:focus {
-	outline: none;
+	font-weight: 300px;
 }
 
 button.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
+}
+
+button.ghost:hover {
+	background-color: white;
 }
 
 form {
@@ -151,15 +138,6 @@ form {
 	height: 100%;
 	text-align: left;
 }
-
-input {
-	background-color: #eee;
-	border: 2px transparent;
-	padding: 12px 15px;
-	margin: 8px 0;
-	width: 100%;
-}
-
 
 .container {
 	background-color: #fff;

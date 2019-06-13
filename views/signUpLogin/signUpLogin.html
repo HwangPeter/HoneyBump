@@ -5,7 +5,6 @@
   <title>Sign Up</title>
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
-  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,400&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -17,7 +16,7 @@
 </head>
 <div id="logo" style="text-align: center; margin-bottom: 5px;">
   <img style="vertical-align:middle; width:50px;height:50px;" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
-  <span style="vertical-align:middle; font-size:40px; font-weight:bold; color:rgba(164,209,224,1)">myHoneyBump</span>
+  <header style="vertical-align:middle;">myHoneyBump</header>
 </div>
 <div class="container" id="container" style="align-content: center;">
   <div class="form-container sign-up-container">
@@ -30,9 +29,9 @@
       <input id="signUpPass" type="password" placeholder="Password" />
       <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
       <div style="float:left">
-        <span style="display:inline">Mother's Birthdate (Optional)</span>
+        <h4 style="display:inline">Mother's Birthdate (Optional)</h4>
         <div class="popup" id="whyPopup">Why?
-          <span class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your pregnancy</span>
+          <h4 class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your pregnancy</h4>
         </div>
       </div>
       <div class="birthdate-container">
@@ -41,9 +40,9 @@
         <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
       </div>
       <div style="float:left">
-        <span style="display:inline">Expected Delivery Date (Optional)</span>
+        <h4 style="display:inline">Expected Delivery Date (Optional)</h4>
         <div class="popup" id="dontKnowPopup">Don't know?
-          <span class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</span>
+          <h4 class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</h4>
         </div>
       </div>
       <div class="delivery-date-container">
@@ -70,12 +69,12 @@
     <div class="overlay">
       <div class="overlay-panel overlay-left">
         <h1>Welcome Back!</h1>
-        <p>To view your account, please sign in</p>
+        <h2>To view your account, please sign in</h2>
         <button form="" class="ghost" id="ghostLogin">Log In</button>
       </div>
       <div class="overlay-panel overlay-right">
         <h1>Expecting?</h1>
-        <p>Sign up for a personalized checklist and other tools to help manage your pregnancy</p>
+        <h2>Sign up for a personalized checklist and other tools to help manage your pregnancy</h2>
         <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
       </div>
     </div>
