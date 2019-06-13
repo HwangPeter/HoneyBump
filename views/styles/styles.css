@@ -1,0 +1,93 @@
+/* Light grey - #f6f5f7;
+Light blue - (164,209,224,1); */
+
+header {
+    font-family: "Raleway";
+    font-size: 45px;
+}
+
+body {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+    /*alskjdflaksjdflasjflsajkfljsdlkfjsd*/
+}
+
+h1 {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+}
+
+h2 {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+}
+
+h3 {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+}
+
+h4 {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+}
+
+h5 {
+    font-family: "Montserrat";
+    font-size: 14px;
+    line-height: 18px;
+}
+
+p {
+    font-family: "Montserrat";
+    font-size: 14px;
+	font-weight: 100;
+	line-height: 18px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+span {
+    font-family: "Montserrat";
+    font-size: 14px;
+}
+/*
+a {
+    
+}
+*/
+
+button {
+    font-family: "Montserrat";
+    font-size:14px;
+    font-weight: bold;
+    border-radius: 7px;
+	border: 1px solid rgba(164,209,224,1);
+	background-color: rgba(164,209,224,1);
+	color: #FFFFFF;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+button:active {
+	transform: scale(0.95);
+}
+
+button:focus {
+	outline: none;
+}
+
+input {
+    font-family: "Montserrat";
+    font-size: 14px;
+}
+/*
+input:focus {
+} */
