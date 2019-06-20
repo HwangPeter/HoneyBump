@@ -318,26 +318,37 @@ function babyDateHalfFilled() {
 }
 
 function handleLogin() {
-    loginButton.disabled = true;
-    loginButton.style.opacity = "0.5";
-    if (!highlightWrongLoginFields()) {
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return 0;
-    }
-    let email = loginEmail.value;
-    let pass = loginPass.value;
-    let errorText = document.getElementById('log-in-error');
-
-    firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
-        window.location.href = "/";
-    }).catch(function (error) {
-        errorText.innerHTML = error.message;
-        loginButton.disabled = false;
-        loginButton.style.opacity = "1";
-        return 0;
+    let data = {
+        text: "something"
+    };
+    firebase.functions().httpsCallable('sendVerification').call(data)
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((error) => {
+        console.log(error);
     });
-}
+
+    // loginButton.disabled = true;
+    // loginButton.style.opacity = "0.5";
+    // if (!highlightWrongLoginFields()) {
+    //     loginButton.disabled = false;
+    //     loginButton.style.opacity = "1";
+    //     return 0;
+    // }
+    // let email = loginEmail.value;
+    // let pass = loginPass.value;
+    // let errorText = document.getElementById('log-in-error');
+
+    // firebase.auth().signInWithEmailAndPassword(email, pass).then(function () {
+    //     window.location.href = "/";
+    // }).catch(function (error) {
+    //     errorText.innerHTML = error.message;
+    //     loginButton.disabled = false;
+    //     loginButton.style.opacity = "1";
+    //     return 0;
+    // });
+};
 
 function handleSignUp() {
     loginButton.disabled = true;
@@ -355,12 +366,17 @@ function handleSignUp() {
 
     firebase.auth().createUserWithEmailAndPassword(email, pass).then(function () {
         errorText.innerHTML = "";
-
         let data = jsonifySignUpData();
 
         firebase.functions().httpsCallable('storeNewUserData')(data).then(function () {
             let user = firebase.auth().currentUser;
             user.sendEmailVerification().then(function () {
+                // user.updateEmail("laksdjflks@lkasdjfkladsf.com").then(function() {
+                //     //TODO: Configure update email properly.
+                //     console.log("Updated email successfully.");
+                //   }).catch(function(error) {
+                //     console.log(error);
+                //   });
                 window.location.href = "/emailNotVerified";
             }).catch(function (error) {
                 // Failed to send email verification

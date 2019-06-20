@@ -7,18 +7,15 @@ header {
 	align-items: center;
 	display: inline;
 	font-size: 55px;
-	color: rgba(164,209,224,1);
-
 }
 
 body {
-	background: #f6f5f7;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	height: 100vh;
-	margin: -20px 0 50px;
+	overflow: hidden;
 }
 
 h1 {
@@ -113,7 +110,6 @@ p {
   }
 
 a {
-	color: #333;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
@@ -122,15 +118,15 @@ a {
 
 button.ghost {
 	background-color: transparent;
-	border-color: #FFFFFF;
+	border-color: #FAF6F1;
 }
 
 button.ghost:hover {
-	background-color: white;
+	background-color: #FAF6F1;
+	color: #6B5875;
 }
 
 form {
-	background-color: #FFFFFF;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -140,18 +136,18 @@ form {
 }
 
 .container {
-	background-color: #fff;
+	background-color: #FAF6F1;
 	border-radius: 10px;
 	position: relative;
-	overflow: hidden;
 	width: 768px;
 	max-width: 100%;
-    min-height: 680px;
+	min-height: 640px;
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
 }
 
 .form-container {
+	overflow: hidden;
 	position: absolute;
 	top: 0;
 	height: 100%;
@@ -176,23 +172,23 @@ form {
 }
 
 .birthdate-container {
-		width: 100%;
-		display: inline-flex;
+	width: 100%;
+	display: inline-flex;
 }
 
 .monthDay {
     width: 25%;
-		margin-right: 5px;
+	margin-right: 5px;
 }
 
 .year {
-		width: 50%;
+	width: 50%;
 
 }
 
 .delivery-date-container {
-		width: 100%;
-		display: inline-flex;
+	width: 100%;
+	display: inline-flex;
 }
 
 
@@ -231,11 +227,10 @@ form {
 }
 
 .overlay {
-	background: rgba(164,209,224,1);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
-	color: #FFFFFF;
+	color: #FAF6F1;
 	position: relative;
 	left: -100%;
 	height: 100%;

@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 const { Logging } = require('@google-cloud/logging');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
+const path = require('path');
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -56,9 +57,10 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       pass: 'admin123'
     },
     tls: {
-      rejectUnauthorized:false
+      rejectUnauthorized: false
     }
- })
+  });
+
   cors(req, res, async () => {
     const dest = 'phwang94@gmail.com';
     let htmlEmail;
@@ -76,7 +78,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       html: htmlEmail,
       attachments: [{
         filename: 'logo.png',
-        path: __dirname + '/emailFiles/logo.png',
+        path: path.join(__dirname, '/emailFiles/logo.png'),
         cid: 'logo'
       }]
     };
@@ -94,3 +96,20 @@ exports.sendMail = functions.https.onRequest((req, res) => {
 function getParameterFromActionHandlerURL(parameter) {
 
 }
+
+exports.sendVerification = functions.https.onCall((data, context) => {
+  // return "what";
+  return new Promise((resolve, reject) => {
+    if (context.auth) {
+      resolve("User is logged in.");
+    }
+    else {
+      reject(new Error("Access denied."));
+    }
+  }).then(resolveValue => {
+    return resolveValue;
+  })
+  .catch(rejectValue => {
+    return rejectValue;
+  });
+});

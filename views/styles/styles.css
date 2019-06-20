@@ -1,45 +1,57 @@
-/* Light grey - #f6f5f7;
-Light blue - rgba(164,209,224,1); */
-
+/* Light grey - #f6f5f7; */
+/* Light blue - rgba(164,209,224,1); */
+/* Off white: #f6f5f7; */
+/* Beige: #EAE6E1; */
+/* Lighter Beige: #FAF6F1 */
+/* Purple: #6B5875; */
+/* Charcoal: #6B686D */
 header {
-    font-family: "Raleway";
+    font-family: "Josefin Sans";
     font-size: 45px;
+    font-weight: 400;
+    color: #6B5875;
 }
 
 body {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    background: white;
 }
 
 h1 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    color: #6B686D;
 }
 
 h2 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    color: #6B686D;
 }
 
 h3 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    color: #6B686D;
 }
 
 h4 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    color: #6B686D;
 }
 
 h5 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
+    color: #6B686D;
 }
 
 p {
@@ -48,26 +60,27 @@ p {
 	font-weight: 100;
 	line-height: 18px;
 	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
+    margin: 20px 0 30px;
+    color: #6B686D;
 }
 
 span {
     font-family: "Montserrat";
     font-size: 14px;
+    color: #6B686D;
 }
-/*
+
 a {
-    
+    color: #6B686D;
 }
-*/
 
 button {
     font-family: "Montserrat";
     font-size:14px;
     font-weight: bold;
-    border-radius: 7px;
-	border: 1px solid rgba(164,209,224,1);
-	background-color: rgba(164,209,224,1);
+    border-radius: 4px;
+	border: 1px solid #6B5875;
+	background-color: #6B5875;
 	color: #FFFFFF;
 	padding: 12px 45px;
 	letter-spacing: 1px;
@@ -84,14 +97,14 @@ button:focus {
 }
 
 button:hover {
-    background-color: white;
-    color: rgba(164,209,224,1);
+    background-color: #FAF6F1;
+    color: #6B5875;
 }
 
 input {
     font-family: "Montserrat";
     font-size: 14px;
-    background-color: #eee;
+    background-color: #FFFFFF;
     border: 2px transparent;
     padding: 12px 15px;
     margin: 8px 0;
@@ -99,5 +112,24 @@ input {
 }
 
 input:focus {
-	outline: 2px solid #333;
+	outline: 2px solid #6B686D;
+}
+
+form {
+    background-color: #FAF6F1;
+}
+
+.overlay {
+    background-color: #6B5875;
+}
+
+.TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
+    background: #fff;
+    border: 1px solid #6B686D;
+    border-radius: 50%;
+    color: #6B686D;
+    fill: #6B686D;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
 }
