@@ -4,6 +4,7 @@ const { Logging } = require('@google-cloud/logging');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
 const path = require('path');
+const crypto = require('crypto');
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -44,9 +45,41 @@ exports.logUserAuthError = functions.https.onCall((data) => {
   log.write(entry);
 });
 
+exports.sendVerification = functions.https.onCall((data, context) => {
+  return new Promise(async (resolve, reject) => {
+    if (context.auth) {
+      // User is logged in.
+      db = admin.firestore();
+      try {
+        const verificationToken = await generateToken();
+        db.collection('users').doc(context.auth.uid).update({ verifyToken: verificationToken })
+        .then(update => {
+          sendVerificationEmail("phwang94@gmail.com");
+          console.log(context.auth.token.email);
+          return "Success";
+        })
+        .catch(err => {
+          return err;
+        });
+      }
+      catch (err) {
+        return "Error: " + err;
+      }
+    }
+    else {
+      reject(new Error("Access denied."));
+    }
+    return "hmm";
+  }).then(resolveValue => {
+    return resolveValue;
+  })
+    .catch(rejectValue => {
+      return rejectValue;
+    });
+});
 
 // // Send verification email
-exports.sendMail = functions.https.onRequest((req, res) => {
+function sendVerificationEmail(email) {
   let transporter = nodemailer.createTransport({
     host: "mail.myhoneybump.com",
     name: "no-reply@myHoneyBump.com",
@@ -62,17 +95,18 @@ exports.sendMail = functions.https.onRequest((req, res) => {
   });
 
   cors(req, res, async () => {
-    const dest = 'phwang94@gmail.com';
+    const dest = email;
     let htmlEmail;
     try {
-      htmlEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
+      var defaultEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
+      htmlEmail = defaultEmail.replace("EMAIL ADDRESS HERE", email);
     } catch (e) {
       // Failed to read file.
       return res.send(e);
     }
 
     const mailOptions = {
-      from: 'myHoneyBump <no-reply@myHoneyBump.com>', // Something like: Jane Doe <janedoe@gmail.com>
+      from: 'myHoneyBump <no-reply@myHoneyBump.com>',
       to: dest,
       subject: 'Verify your email for myHoneyBump',
       html: htmlEmail,
@@ -91,25 +125,16 @@ exports.sendMail = functions.https.onRequest((req, res) => {
       return res.send('Sent');
     });
   });
-});
-
-function getParameterFromActionHandlerURL(parameter) {
-
 }
 
-exports.sendVerification = functions.https.onCall((data, context) => {
-  // return "what";
+function generateToken({ stringBase = 'base64', byteLength = 48 } = {}) {
   return new Promise((resolve, reject) => {
-    if (context.auth) {
-      resolve("User is logged in.");
-    }
-    else {
-      reject(new Error("Access denied."));
-    }
-  }).then(resolveValue => {
-    return resolveValue;
-  })
-  .catch(rejectValue => {
-    return rejectValue;
+    crypto.randomBytes(byteLength, (err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(buffer.toString(stringBase));
+      }
+    });
   });
-});
+}
