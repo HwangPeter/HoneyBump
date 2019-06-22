@@ -323,10 +323,10 @@ function handleLogin() {
     };
     firebase.functions().httpsCallable('sendVerification').call(data)
     .then((result) => {
-        console.log(result);
+        window.location.href = "/emailNotVerified"
     })
     .catch((error) => {
-        console.log(error);
+        window.location.href = "/500";
     });
 
     // loginButton.disabled = true;

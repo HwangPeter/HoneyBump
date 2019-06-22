@@ -52,24 +52,17 @@ exports.sendVerification = functions.https.onCall((data, context) => {
       db = admin.firestore();
       try {
         const verificationToken = await generateToken();
-        db.collection('users').doc(context.auth.uid).update({ verifyToken: verificationToken })
-        .then(update => {
-          sendVerificationEmail("phwang94@gmail.com");
-          console.log(context.auth.token.email);
-          return "Success";
-        })
-        .catch(err => {
-          return err;
-        });
+        await db.collection('users').doc(context.auth.uid).update({ verifyToken: verificationToken });
+        await sendVerificationEmail(context.auth.token.email, verificationToken);
+        return resolve("Success");
       }
       catch (err) {
-        return "Error: " + err;
+        throw (err);
       }
     }
     else {
       reject(new Error("Access denied."));
     }
-    return "hmm";
   }).then(resolveValue => {
     return resolveValue;
   })
@@ -79,7 +72,7 @@ exports.sendVerification = functions.https.onCall((data, context) => {
 });
 
 // // Send verification email
-function sendVerificationEmail(email) {
+async function sendVerificationEmail(email, verificationToken) {
   let transporter = nodemailer.createTransport({
     host: "mail.myhoneybump.com",
     name: "no-reply@myHoneyBump.com",
@@ -94,40 +87,41 @@ function sendVerificationEmail(email) {
     }
   });
 
-  cors(req, res, async () => {
-    const dest = email;
-    let htmlEmail;
-    try {
-      var defaultEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
-      htmlEmail = defaultEmail.replace("EMAIL ADDRESS HERE", email);
-    } catch (e) {
-      // Failed to read file.
-      return res.send(e);
+  const dest = email;
+  var htmlEmail;
+  try {
+    htmlEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
+    htmlEmail = htmlEmail.replace(/EMAIL ADDRESS HERE/g, email);
+    let verificationUrl = 'href="https://honeybump-49085.firebaseapp.com/verification/?tk=' + verificationToken + '"';
+    htmlEmail = htmlEmail.replace(/href=""/g, verificationUrl);
+  } catch (e) {
+    // Failed to read file.
+    return e;
+  }
+
+  const mailOptions = {
+    from: 'myHoneyBump <no-reply@myHoneyBump.com>',
+    to: dest,
+    subject: 'Verify your email for myHoneyBump',
+    html: htmlEmail,
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(__dirname, '/emailFiles/logo.png'),
+      cid: 'logo'
+    }]
+  };
+
+  return transporter.sendMail(mailOptions, (erro, info) => {
+    if (erro) {
+      // Failed to send mail.
+      console.log(erro);
+      return erro.toString();
     }
-
-    const mailOptions = {
-      from: 'myHoneyBump <no-reply@myHoneyBump.com>',
-      to: dest,
-      subject: 'Verify your email for myHoneyBump',
-      html: htmlEmail,
-      attachments: [{
-        filename: 'logo.png',
-        path: path.join(__dirname, '/emailFiles/logo.png'),
-        cid: 'logo'
-      }]
-    };
-
-    return transporter.sendMail(mailOptions, (erro, info) => {
-      if (erro) {
-        // Failed to send mail.
-        return res.send(erro.toString());
-      }
-      return res.send('Sent');
-    });
+    return 'Sent';
   });
 }
 
-function generateToken({ stringBase = 'base64', byteLength = 48 } = {}) {
+function generateToken({ stringBase = 'hex', byteLength = 48 } = {}) {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(byteLength, (err, buffer) => {
       if (err) {
@@ -138,3 +132,37 @@ function generateToken({ stringBase = 'base64', byteLength = 48 } = {}) {
     });
   });
 }
+
+exports.verifyUser = functions.https.onCall((data, context) => {
+  return new Promise(async (resolve, reject) => {
+    if (context.auth) {
+      // User is logged in.
+      db = admin.firestore();
+      try {
+        console.log("Hmmm");
+        const snapshot = await db.collection('users').doc(context.auth.uid).get();
+        const correctToken = snapshot.data();
+        console.log(data);
+        console.log(correctToken);
+        if (data === correctToken) {
+          //verify user here.
+          return resolve("User is verified");
+        }
+        else {
+          return reject(new Error("Error: Token does not match"));
+        }
+      }
+      catch (err) {
+        throw (err);
+      }
+    }
+    else {
+      reject(new Error("Access denied."));
+    }
+  }).then(resolveValue => {
+    return resolveValue;
+  })
+    .catch(rejectValue => {
+      return rejectValue;
+    });
+});

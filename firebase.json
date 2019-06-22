@@ -41,6 +41,10 @@
       {
         "source": "/favicon.ico",
         "destination": "/img/favicon.ico"
+      },
+      {
+        "source": "/verification/**",
+        "destination": "/verification/verification.html"
       }
     ],
     "ignore": [
