@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: #6B686D;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+#btnLoginSignup {
+    font-family: "Montserrat";
+    font-size:14px;
+    font-weight: bold;
+    border-radius: 4px;
+	border: 1px solid #6B5875;
+	background-color: #6B5875;
+	color: #FFFFFF;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+#btnLogout {
+    font-family: "Montserrat";
+    font-size:14px;
+    font-weight: bold;
+    border-radius: 4px;
+	border: 1px solid #6B5875;
+	background-color: #6B5875;
+	color: #FFFFFF;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.navigation_container {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: white;
+}
+
+.landingpic {
+    width: 100%;
+    height: auto;
+    z-index: -1;
+}
+
+.textinpiccontainer{
+    position: relative;
+    text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.gallerycontainer {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.gallerycontent {
+    display: inline-block;
+    width: 400px;
+    height: 400px;
+    margin: 50px;
+    text-align: center;
+}

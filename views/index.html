@@ -1,27 +1,100 @@
 <!Doctype html>
-<html>
+<html lang="en-US">
 
 <head>
-  <title>myHoneyBump</title>
+  <title>Pregnancy Planning - myHoneyBump</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
   <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
 </head>
 
-<body>
-<!--This is a comment-->
-  <div id="loginDiv" class="main-div">
-    <h1>myHoneyBump Homepage</h1>
+<body style="min-height: 100%; top: 0px;">
+  <div class="navigation_container">
+    <div style="float:left;">
+      <header style="vertical-align:middle;"><img style="vertical-align:middle;width:50px;height:50pxfloat:left;" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
+      myHoneyBump</header>
+    </div>
+    <div>
+      <ul>
+        <!--Figure out why btnLoginSignup is not working with CSS-->
+        <!--Verify link still works with js-->
+        <li><a href="" id="btnLogout">Logout</a></li>
+        <li><a href="" id="btnLoginSignUp">log in/sign up</a></li>
+        <li><a href="">The Buzz</a></li>
+        <li><a href="">Must-Haves</a></li>
+        <li><a href="">My (free!) baby website</a></li>
+        <li><a href="checklist/checklist.html">pregnancy checklist</a></li>
+        <li><a href="index.html">home</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="textinpiccontainer">
+    <img class="landingpic" alt="Hand on stomach" src="img/Hand_on_stomach.png">
+    <div class="centered">
+      <p>Pregnancy Planning made easy</p>
+      <button>create</button>
+    </div>
+  </div>
 
+  <p>Why choose myHoneyBump?</p>
+  <p>Our goal is to simplify the who's, what's, when’s, why’s and how’s of your pregnancy.  myHoneyBump breaks down the many mysteries and pregnancy questions so that you have more time to enjoy this once (or maybe more!) in a lifetime experience</p>
+  
+  <!--align the text in the container vertically somehow-->
+  <!--Get the padding between the boxes smaller-->
+  <div class="gallerycontainer">
+    <div class="gallerycontent">
+      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+    </div>
+    <div class="gallerycontent">
+      <h1>Pregnancy Checklist</h1><br>
+      <p>Explore things like what tests to expect, when to announce pregnancy, and when to start sleeping on your left side.</p>
+      <button>Learn</button>
+    </div>
+  </div>
+
+  <div class="gallerycontainer">
+    <div class="gallerycontent">
+      <h1>Baby Shower Website</h1><br>
+      <p>Customize a FREE website for your baby shower! Send email invitations, collect RSVPs, and share your registry all in one place.</p>
+      <button>Learn</button>
+    </div>
+    <div class="gallerycontent">
+      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+    </div>
+  </div>
+
+  <div class="gallerycontainer">
+    <div class="gallerycontent">
+      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+    </div>
+    <div class="gallerycontent">
+      <h1>The "Buzz"</h1><br>
+      <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
+    </div>
+  </div>
+
+<br>
+<br>
+<br>
+<br>
+  <div style="clear: left">
+    <div id="loginDiv" class="main-div">
+    <h1>myHoneyBump Homepage</h1>
+    </div>
     <button id="btnLoginSignUp">
       Log In/Sign Up</button>
 
     <button id="btnLogout">
       Logout</button>
-
-  </div>
-  <div id="loginStatusDiv">
+    <div id="loginStatusDiv">
     <h3>You are now logged in.</h3>
+    </div>
   </div>
 
 
