@@ -47,7 +47,7 @@ exports.logUserAuthError = functions.https.onCall((data) => {
 
 exports.sendVerification = functions.https.onCall((data, context) => {
   return new Promise(async (resolve, reject) => {
-    if (context.auth) {
+    if (context.auth.uid) {
       // User is logged in.
       db = admin.firestore();
       try {
@@ -61,13 +61,13 @@ exports.sendVerification = functions.https.onCall((data, context) => {
       }
     }
     else {
-      reject(new Error("Access denied."));
+      return reject(new Error("Access denied."));
     }
   }).then(resolveValue => {
     return resolveValue;
   })
     .catch(rejectValue => {
-      return rejectValue;
+      return rejectValue.message;
     });
 });
 
