@@ -2,14 +2,20 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="/styles/styles.css">
   <title>Verify Email Required</title>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png"
+        href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
+        sizes="16x16" />
 </head>
 
 <body>
 
-  <div id="loginDiv" class="main-div">
+  <div id="loginDiv" class="main-div" style="text-align: center;">
     <h1>Your email must be verified to continue. Check your email for the verification link.</h1>
     <h4>Didn't receive the email?</h4>
 
@@ -17,7 +23,7 @@
       Resend Email</button>
 
     <button id="signOut">
-     Sign Out</button>
+      Sign Out</button>
 
   </div>
   <div id="emailSent">

@@ -24,8 +24,8 @@ exports.storeNewUserData = functions.https.onCall((data) => {
 
   let uid = data.uid;
   delete data.uid;
-  var promise = db.collection('users').doc(uid).set(data);
-  promise.catch(e => console.log(e.message));
+  return db.collection('users').doc(uid).set(data)
+    .catch(e => console.log(e.message));
 });
 
 // Log all errors related to user authentication: login, sign up, email reset, etc.
@@ -138,47 +138,41 @@ exports.verifyUser = functions.https.onCall(async (data, context) => {
   return new Promise(async (resolve, reject) => {
     if (context.auth.uid) {
       // User is logged in.
-      console.log(context.auth.uid);
       db = admin.firestore();
-      //const snapshot = await db.collection('users').doc(context.auth.uid).get();
       return await db.collection('users').doc(context.auth.uid).get()
         .then(doc => {
           if (!doc.exists) {
-            console.log('No such document!');
             return reject(new Error('No such document!'));
           } else {
             const correctToken = doc.data().verifyToken;
             if (data.token.toString() === correctToken.toString()) {
+              admin.auth().updateUser(context.auth.uid, { emailVerified: true })
               return resolve("Token matches");
             }
             else {
-              return reject(new Error("Token does not match."));
+              return reject(new Error("Verification code expired or does not match."));
             }
           }
         })
         .catch(err => {
-          console.log('Error getting document', err);
-          return reject(new Error('Error getting document'));
+          console.log("Error getting document");
+          return reject(new Error('Internal error.' + err));
         });
-      // const correctToken = snapshot.data();
-      // console.log(data);
-      // console.log(correctToken);
-      // if (data === correctToken) {
-      //   //verify user here.
-      //   return snapshot;
-      // }
-      // // else {
-      // //   return reject(new Error("Error: Token does not match"));
-      // // }
-      // return snapshot;
     }
     else {
+      console.log("User not logged in.");
       reject(new Error("User not logged in, access denied."));
     }
   }).then(resolveValue => {
-    return resolveValue;
+    return {
+      "result": resolveValue,
+      "status": 200
+    };
   })
     .catch(rejectValue => {
-      return rejectValue.message;
+      return {
+        "rejectValue": rejectValue.message,
+        "status": 500
+      };
     });
 });

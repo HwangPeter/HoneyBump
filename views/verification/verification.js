@@ -18,12 +18,15 @@
                 handleVerification(tokenObj);
             }
             else {
-                console.log("user still isnt logged in.");
+                console.log("User isn't logged in. Access denied.");
+                window.location.href = "/";
             }
         });
     }
     catch (err) {
-        document.getElementById('status').innerHTML = "Verification failed.";
+        document.getElementById('status').innerHTML = "Verification failed. Redirecting in 4 seconds.";
+            console.log(err);
+            setTimeout(redirectToEmailNotVerified, 4000);
     }
 }());
 
@@ -48,14 +51,30 @@ function parseURLParams(url) {
 }
 
 function handleVerification(token) {
-    var verifyUser = firebase.functions().httpsCallable('verifyUser')
+    var verifyUser = firebase.functions().httpsCallable('verifyUser');
     verifyUser(token)
         .then((result) => {
-            console.log(JSON.stringify(result));
-            //window.location.href = "/"
+            if (result.data.status == 200) {
+                // User is verified.
+                document.getElementById('status').innerHTML = "Your email has been successfully verified! <br><br>Redirecting to homepage in 4 seconds.";
+                setTimeout(redirectToHome, 4000);
+            }
+            else {
+                throw (result.data);
+            }
         })
         .catch((error) => {
-            console.log("hmm" + error);
-            //window.location.href = "/emailNotVerified";
+            // User is not verified.
+            document.getElementById('status').innerHTML = "Verification failed. " + error.rejectValue + " Redirecting in 4 seconds.";
+            console.log(error);
+            setTimeout(redirectToEmailNotVerified, 4000);
         });
+}
+
+function redirectToHome() {
+    window.location.href = "/";
+}
+
+function redirectToEmailNotVerified() {
+    window.location.href = "/emailNotVerified";
 }
