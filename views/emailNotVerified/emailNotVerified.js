@@ -17,19 +17,31 @@ const resendBtn = document.getElementById('resendEmail');
 const signOutBtn = document.getElementById('signOut');
 
 resendBtn.addEventListener('click', e => {
-    let user = firebase.auth().currentUser;
-    const promise = user.sendEmailVerification().then(function() {
-        document.getElementById('emailSent').style.visibility = 'visible';
-    }).catch(function(error) {
-        alert(error.message);
-    });
-    promise.catch(e => alert(e.message));
+    firebase.functions().httpsCallable('sendVerification').call()
+        .then(() => {
+            document.getElementById('emailSent').style.visibility = 'visible';
+        })
+        .catch((error) => {
+            console.log(error);
+            // Failed to send email verification
+            let data = jsonifySignUpData();
+            data["error"] = error;
+
+            let logData = {
+                event: "error",
+                context: JSON.stringify(data),
+                message: "Failed to send email verification"
+            };
+
+            firebase.functions().httpsCallable('logUserAuthError')(logData);
+            window.location.href = "/emailNotVerified";
+        });
 });
 
 signOutBtn.addEventListener('click', e => {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function () {
         window.location.href = "/";
-      }).catch(function(error) {
+    }).catch(function (error) {
         window.location.href = "/500";
-      });
+    });
 });
