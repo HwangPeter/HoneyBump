@@ -136,7 +136,6 @@ footer {
     line-height: 3;
 }
 
-/*This class is not being referenced by anything, delete?*/
 .TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
     background: #fff;
     border: 1px solid #6B686D;

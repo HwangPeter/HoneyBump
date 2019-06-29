@@ -61,17 +61,6 @@ li a:hover {
     background-color: white;
 }
 
-.footer {
-    background-color: #EAE6E1;
-    line-height: 3;
-}
-
-.footer:before {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 .landingpic {
     width: 100%;
     height: auto;
