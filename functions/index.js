@@ -4,6 +4,7 @@ const { Logging } = require('@google-cloud/logging');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({ origin: true });
 const path = require('path');
+const crypto = require('crypto');
 
 const fs = require('fs');
 const { promisify } = require('util');
@@ -23,8 +24,8 @@ exports.storeNewUserData = functions.https.onCall((data) => {
 
   let uid = data.uid;
   delete data.uid;
-  var promise = db.collection('users').doc(uid).set(data);
-  promise.catch(e => console.log(e.message));
+  return db.collection('users').doc(uid).set(data)
+    .catch(e => console.log(e.message));
 });
 
 // Log all errors related to user authentication: login, sign up, email reset, etc.
@@ -44,9 +45,34 @@ exports.logUserAuthError = functions.https.onCall((data) => {
   log.write(entry);
 });
 
+exports.sendVerification = functions.https.onCall((data, context) => {
+  return new Promise(async (resolve, reject) => {
+    if (context.auth.uid) {
+      // User is logged in.
+      db = admin.firestore();
+      try {
+        const verificationToken = await generateToken();
+        await db.collection('users').doc(context.auth.uid).update({ verifyToken: verificationToken });
+        await sendVerificationEmail(context.auth.token.email, verificationToken);
+        return resolve("Success");
+      }
+      catch (err) {
+        throw (err);
+      }
+    }
+    else {
+      return reject(new Error("Access denied."));
+    }
+  }).then(resolveValue => {
+    return resolveValue;
+  })
+    .catch(rejectValue => {
+      return rejectValue.message;
+    });
+});
 
 // // Send verification email
-exports.sendMail = functions.https.onRequest((req, res) => {
+async function sendVerificationEmail(email, verificationToken) {
   let transporter = nodemailer.createTransport({
     host: "mail.myhoneybump.com",
     name: "no-reply@myHoneyBump.com",
@@ -61,55 +87,92 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     }
   });
 
-  cors(req, res, async () => {
-    const dest = 'phwang94@gmail.com';
-    let htmlEmail;
-    try {
-      htmlEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
-    } catch (e) {
-      // Failed to read file.
-      return res.send(e);
+  const dest = email;
+  var htmlEmail;
+  try {
+    htmlEmail = await readFile('emailFiles/verifyEmail.html', { encoding: 'utf-8' });
+    htmlEmail = htmlEmail.replace(/EMAIL ADDRESS HERE/g, email);
+    let verificationUrl = 'href="https://honeybump-49085.firebaseapp.com/verification/?tk=' + verificationToken + '"';
+    htmlEmail = htmlEmail.replace(/href=""/g, verificationUrl);
+  } catch (e) {
+    // Failed to read file.
+    return e;
+  }
+
+  const mailOptions = {
+    from: 'myHoneyBump <no-reply@myHoneyBump.com>',
+    to: dest,
+    subject: 'Verify your email for myHoneyBump',
+    html: htmlEmail,
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(__dirname, '/emailFiles/logo.png'),
+      cid: 'logo'
+    }]
+  };
+
+  return transporter.sendMail(mailOptions, (erro, info) => {
+    if (erro) {
+      // Failed to send mail.
+      console.log(erro);
+      return erro.toString();
     }
-
-    const mailOptions = {
-      from: 'myHoneyBump <no-reply@myHoneyBump.com>', // Something like: Jane Doe <janedoe@gmail.com>
-      to: dest,
-      subject: 'Verify your email for myHoneyBump',
-      html: htmlEmail,
-      attachments: [{
-        filename: 'logo.png',
-        path: path.join(__dirname, '/emailFiles/logo.png'),
-        cid: 'logo'
-      }]
-    };
-
-    return transporter.sendMail(mailOptions, (erro, info) => {
-      if (erro) {
-        // Failed to send mail.
-        return res.send(erro.toString());
-      }
-      return res.send('Sent');
-    });
+    return 'Sent';
   });
-});
-
-function getParameterFromActionHandlerURL(parameter) {
-
 }
 
-exports.sendVerification = functions.https.onCall((data, context) => {
-  // return "what";
+function generateToken({ stringBase = 'hex', byteLength = 48 } = {}) {
   return new Promise((resolve, reject) => {
-    if (context.auth) {
-      resolve("User is logged in.");
+    crypto.randomBytes(byteLength, (err, buffer) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(buffer.toString(stringBase));
+      }
+    });
+  });
+}
+
+exports.verifyUser = functions.https.onCall(async (data, context) => {
+
+  return new Promise(async (resolve, reject) => {
+    if (context.auth.uid) {
+      // User is logged in.
+      db = admin.firestore();
+      return await db.collection('users').doc(context.auth.uid).get()
+        .then(doc => {
+          if (!doc.exists) {
+            return reject(new Error('No such document!'));
+          } else {
+            const correctToken = doc.data().verifyToken;
+            if (data.token.toString() === correctToken.toString()) {
+              admin.auth().updateUser(context.auth.uid, { emailVerified: true })
+              return resolve("Token matches");
+            }
+            else {
+              return reject(new Error("Verification code expired or does not match."));
+            }
+          }
+        })
+        .catch(err => {
+          console.log("Error getting document");
+          return reject(new Error('Internal error.' + err));
+        });
     }
     else {
-      reject(new Error("Access denied."));
+      console.log("User not logged in.");
+      reject(new Error("User not logged in, access denied."));
     }
   }).then(resolveValue => {
-    return resolveValue;
+    return {
+      "result": resolveValue,
+      "status": 200
+    };
   })
-  .catch(rejectValue => {
-    return rejectValue;
-  });
+    .catch(rejectValue => {
+      return {
+        "rejectValue": rejectValue.message,
+        "status": 500
+      };
+    });
 });
