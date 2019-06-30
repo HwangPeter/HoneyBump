@@ -123,15 +123,13 @@ form {
     background-color: #6B5875;
 }
 
-/*also on styles.css, delete?*/
 .footer:before {
     content: "";
     display: table;
     clear: both;
 }
 
-/*also on styles.css, delete?*/
-footer {
+.footer {
     background-color: #EAE6E1;
     line-height: 3;
 }
