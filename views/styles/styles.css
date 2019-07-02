@@ -172,6 +172,10 @@ form {
     text-transform: uppercase;
 }
 
+.footer a:hover {
+    text-decoration: underline;
+}
+
 .TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
     background: #fff;
     border: 1px solid #6B686D;
