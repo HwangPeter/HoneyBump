@@ -2,40 +2,44 @@
 <html lang="en-US">
 
 <head>
+  <!--Don't forget to the put the icon into the favicon(on the tab)-->
+  <!--Put Lucida Sans font onto the logo, it currently is using montserrate-->
   <title>Pregnancy Planning - myHoneyBump</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
   <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
   <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
+  <link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203" sizes="16x16" />
 </head>
 
 <body style="min-height: 100%; top: 0px;">
-  <div class="navigation_container">
+  <div class="navigation-container">
     <div style="float:left;">
-      <header style="vertical-align:middle;"><img style="vertical-align:middle;width:50px;height:50pxfloat:left;" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
+      <header><img style="vertical-align:middle;width:50px;height:50pxfloat:left;" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
       myHoneyBump</header>
     </div>
     <div>
-      <ul>
+      <ul class="navigation-ul">
         <!--Figure out why btnLoginSignup is not working with CSS-->
         <!--Verify link still works with js-->
-        <li><a href="" id="btnLogout">Logout</a></li>
-        <li><a href="" id="btnLoginSignUp">log in/sign up</a></li>
-        <li><a href="">The Buzz</a></li>
-        <li><a href="">Must-Haves</a></li>
-        <li><a href="">My (free!) baby website</a></li>
-        <li><a href="checklist/checklist.html">pregnancy checklist</a></li>
-        <li><a href="index.html">home</a></li>
+        <li class="navigation-li"><a href="" id="btnLogout">Logout</a></li>
+        <li class="navigation-li"><a href="/signUpLogin" id="btnLoginSignUp">log in/sign up</a></li>
+        <li class="navigation-li"><a href="">The Buzz</a></li>
+        <li class="navigation-li"><a href="">Must-Haves</a></li>
+        <li class="navigation-li"><a href="">My (free!) baby website</a></li>
+        <li class="navigation-li"><a href="checklist/checklist.html">pregnancy checklist</a></li>
+        <li class="navigation-li"><a href="index.html">home</a></li>
       </ul>
     </div>
   </div>
   
   <div class="textinpiccontainer">
-    <img class="landingpic" alt="Hand on stomach" src="img/Hand_on_stomach.png">
+    <img class="landingpic" alt="Hand on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FHand_on_Stomach.png?alt=media&token=ebfea8df-7dd5-4849-865b-4747761994b2">
     <div class="centered">
       <p>Pregnancy Planning made easy</p>
       <button>create</button>
@@ -49,7 +53,7 @@
   <!--Get the padding between the boxes smaller-->
   <div class="gallerycontainer">
     <div class="gallerycontent">
-      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
     </div>
     <div class="gallerycontent">
       <h1>Pregnancy Checklist</h1><br>
@@ -65,18 +69,31 @@
       <button>Learn</button>
     </div>
     <div class="gallerycontent">
-      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
     </div>
   </div>
 
   <div class="gallerycontainer">
     <div class="gallerycontent">
-      <img alt="kirby" src="img/kirby.jpg" style="width:300px;height:300px;">
+      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
     </div>
     <div class="gallerycontent">
       <h1>The "Buzz"</h1><br>
       <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
     </div>
+  </div>
+
+  <!--fix formatting for links, figure out if links css specific for footer or shared-->
+  <div class="footer">
+    <a href="">About myHoneyBump</a><br>
+    <a href="">Contact us</a><br>
+    <a href="">Advertise with us</a><br>
+    <a href="">Privacy Policy</a><br>
+    <a href="">Terms & Conditions</a><br>
+    <br>
+    <br>
+    <br>
+    <br>
   </div>
 
 <br>
