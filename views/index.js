@@ -20,11 +20,11 @@ const btnSignUp = document.getElementById('btnLoginSignUp');
 const userEmail = document.getElementById('emailField');
 const userPassword = document.getElementById('passwordField');
 
-/*
+
 btnSignUp.addEventListener('click', e => {
     window.location.href = "/signUpLogin";
 });
-*/
+
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         if(!firebase.auth().currentUser.emailVerified) {
