@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+/*
 #btnLoginSignup {
     font-family: "Montserrat";
     font-size:14px;
@@ -29,7 +30,7 @@
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
 }
-
+*/
 .landingpic {
     width: 100%;
     height: auto;
