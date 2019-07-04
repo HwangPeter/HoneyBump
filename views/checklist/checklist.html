@@ -19,7 +19,6 @@
 </head>
 
 <body>
-    <!-- <input type="checkbox" /> -->
     <div id="content">
         <header>
             <p>Header</p>
@@ -28,24 +27,36 @@
             <div class="centerX">
                 <div id="checklist-container">
                     <div id="checklist-header">
-                        Checklist header. Add task? Other shit here.
+                        Checklist header. Need add task, trimester select, and sort-list buttons.
                     </div>
                     <div id="checklist">
-                        <div class="list-item-container">
-                            <div class="list-item">
-                                Task here.
-                            </div>
+                    </div>
+                </div>
+                <div id="add-task-container" style="display: none;" class="animated slideInUp">
+                    <div class="list-item-container">
+                        <div class="textarea-div">
+                            <textarea id="add-task-task-name" placeholder="Add task..." rows="1" wrap="off"></textarea>
                         </div>
-                        <div class="list-item-container">
-                                <div class="list-item">
-                                    Task here.
-                                </div>
-                            </div>
+                    </div>
+                    <div class="textarea-description-div">
+                        <textarea id="add-description-area" placeholder="Add description..."></textarea>
+                    </div>
+                    <div id="add-task-button-container">
+                        <div class="cancel-button-div">
+                            <button id="cancel">Cancel</button>
+                        </div>
+                        <div class="add-task-button-div">
+                            <button id="add-task-done-btn">Done</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
+    </div>
+    </div>
+    </main>
     </div>
 </body>
+
+<script type="module" src="/checklist/checklist.js"></script>
 
 </html>
