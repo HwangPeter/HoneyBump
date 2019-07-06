@@ -14,12 +14,12 @@
         if (user) {
             let data = await loadChecklist();
             await generateChecklist(data);
-            addAllEventListeners();
+            addAllEventListeners(data);
 
         }
         else {
             console.log("User is logged out. Access denied.");
-            window.location.href = "/";
+            window.location.href = "/signUpLogin";
         }
     });
 }());
@@ -33,10 +33,10 @@ async function loadChecklist() {
         if (!snapshot.exists) {
             let defaultChecklist = await db.collection('checklist').doc('prepregnancy').get()
             await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').set(defaultChecklist.data())
-            .catch(e => {
-                console.log("Error adding new task." + e.message);
-                return e.message;
-            })
+                .catch(e => {
+                    console.log("Error adding new task." + e.message);
+                    return e.message;
+                })
             return defaultChecklist.data();
         }
         else {
@@ -51,7 +51,7 @@ async function loadChecklist() {
 
 async function generateChecklist(checklistObj) {
     let checklist = document.getElementById('checklist');
-    let addTaskHTML = '<div class="list-item-container">\n' +
+    let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
         '<div class="list-item">\n' +
         '<div class="button-div">\n' +
         '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
@@ -88,7 +88,7 @@ async function generateChecklist(checklistObj) {
                         '</button >\n' +
                         '</div >\n' +
                         '<div class="textarea-div">\n' +
-                        '<textarea placeholder="Add task..." rows="1" wrap="off">' + checklistObj[key][subKey].name + '</textarea>\n' +
+                        '<textarea readonly="readonly" placeholder="Add task..." rows="1" wrap="off">' + checklistObj[key][subKey].name + '</textarea>\n' +
                         '</div >\n' +
                         '</div >\n' +
                         '</div >\n'
@@ -101,9 +101,8 @@ async function generateChecklist(checklistObj) {
 }
 
 
-function addAllEventListeners() {
+function addAllEventListeners(data) {
     const db = firebase.firestore();
-    const addTaskArea = document.getElementById('add-task-area');
     const addTaskCloseBtn = document.getElementById('cancel');
     const addTaskDoneBtn = document.getElementById('add-task-done-btn');
 
@@ -196,17 +195,104 @@ function addAllEventListeners() {
             }
         }
     }
+    
+    // Event delegation for handling clicks on any particular task.
+    if (document.addEventListener) {
+        document.addEventListener("click", handleClick, false);
+    }
+    else if (document.attachEvent) {
+        document.attachEvent("onclick", handleClick);
+    }
 
-    // User clicked "Add task..." Brings up add task menu.
-    addTaskArea.addEventListener('focus', () => {
-        document.getElementById('add-task-container').classList.remove("slideOutDown");
-        document.getElementById('add-task-container').style.display = "";
-    });
+    function handleClick(event) {
+        event = event || window.event;
+        const target = event.target || event.srcElement;
+
+        var element = target;
+
+        // Climb up the document tree from the target of the event
+        while (element) {
+            if (/list-item-container/.test(element.className) && element.id !== "task-name") {
+                // If id is task-name, then user clicked inside the add-task container, not the main checklist.
+                handleListItemContainerClick(element);
+                break;
+            }
+            else if (element.nodeName === "BUTTON") {
+                break;
+            }
+            element = element.parentNode;
+        }
+    }
+
+    function handleListItemContainerClick(element) {
+        if (element.id === "add-task-list-item-container") {
+            // Clicked the "add task..." area.
+            autoSize(document.getElementById('add-description-area'));
+            document.getElementById('add-task-container').classList.remove("slideOutDown");
+            document.getElementById('add-task-container').style.display = "";
+        }
+        else if (element.id === "add-task-task-name") {
+
+        }
+        else {
+            // Clicked on any task.
+            let taskName = getTaskName(element);
+            if (taskName) {
+                let description = getDescription(data, taskName);
+                document.getElementById('add-task-task-name').value = taskName;
+                autoSize(document.getElementById('add-task-task-name'));
+                document.getElementById('add-description-area').value = description;
+                document.getElementById('add-task-container').classList.remove("slideOutDown");
+                document.getElementById('add-task-container').style.display = "";
+                autoSize(document.getElementById('add-description-area'));
+            }
+        }
+
+    }
+
+    // Takes any element and checks if it has a textarea child. Returns the textarea value which is the task name.
+    // Returns empty string if not found.
+    function getTaskName(element) {
+        var taskName = ""
+        for (var i = 0; i < element.childNodes.length; i++) {
+            if (element.childNodes[i].nodeName === "TEXTAREA") {
+                taskName = element.childNodes[i].value;
+                return taskName;
+            }
+            else {
+                if (element.childNodes[i].hasChildNodes()) {
+                    taskName = getTaskName(element.childNodes[i]);
+                }
+            }
+        }
+        return taskName;
+    }
+
+    // Takes data object which contains all checklist data. Searches for the task name and returns the matching description.
+    // Returns empty string if not found.
+    function getDescription(data, taskName) {
+        var description = "";
+        Object.keys(data).forEach(key => {
+            if (typeof data[key] === "object") {
+                // Iterating through sections.
+                Object.keys(data[key]).forEach(subKey => {
+                    if (typeof data[key][subKey] === "object") {
+                        // Iterating through tasks.
+                        if (data[key][subKey].name === taskName) {
+                            description = data[key][subKey].description;
+                        }
+                    }
+                });
+            }
+        });
+        return description;
+    }
 
     // User clicked "cancel" button inside add task menu. Closes add task menu.
     addTaskCloseBtn.addEventListener('click', () => {
         document.getElementById('add-task-container').classList.add("slideOutDown");
         document.getElementById('add-task-task-name').value = "";
+        document.getElementById('add-task-task-name').style.height = "40px";
         document.getElementById('add-description-area').value = "";
     });
 
@@ -221,7 +307,46 @@ function addAllEventListeners() {
             })
         console.log("Storing obj successful");
     });
+
+    // Autosizing add-task-task-name and description
+    const taskName = document.getElementById('add-task-task-name');
+    taskName.setAttribute('style', 'height:' + (taskName.scrollHeight) + 'px;');
+    taskName.addEventListener("input", autoSize, false);
+    const description = document.getElementById('add-description-area');
+    description.setAttribute('style', 'height:' + (description.scrollHeight) + 'px;');
+    description.addEventListener("input", autoSize, false);
+
+    function autoSize(element) {
+        try {
+            // For when called by event listeners for input
+            this.style.height = 'auto';
+            let maxHeight = document.getElementById('add-task-top-container').offsetHeight * 0.8;
+            if (this.scrollHeight < maxHeight) {
+                this.style.height = (this.scrollHeight) + 'px';
+            }
+            else {
+                this.style.height = (maxHeight) + 'px';
+            }
+        }
+        catch {
+            try {
+                // For when called by clicking open a task.
+                element.style.height = 'auto';
+                let maxHeight = document.getElementById('add-task-top-container').offsetHeight * 0.8;
+                if (element.scrollHeight < maxHeight) {
+                    element.style.height = (element.scrollHeight) + 'px';
+                }
+                else {
+                    element.style.height = (maxHeight) + 'px';
+                }
+            }
+            catch {
+
+            }
+        }
+    }
 }
+
 
 /* Checklist document structure
 Each document contains an object containing all information for that trimester. Each trimester is allocated its own document.

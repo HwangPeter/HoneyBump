@@ -88,7 +88,8 @@ footer {
 
 /* To change task height:
 1. Change height of list-item-container and line-height of textarea by the same amount.
-2. Change textarea-description-div height: calc(100% - 50px - 45px); The middle value must be changed the same amount.*/
+2. Change textarea-description-div height: calc(100% - 50px - 45px); The middle value must be changed the same amount.
+3. In checklist.js, change document.getElementById('add-task-task-name').style.height = "40px"; to new height. */
 .list-item-container {
     margin: auto;
     background-color: transparent;
@@ -96,8 +97,24 @@ footer {
     height: 40px;
     position: relative;
     resize: none;
-    width: calc(100%);
+    max-height: 90%;
+    width: 100%;
 }
+
+.list-item-container#task-name {
+    height: auto;
+}
+
+.list-item-container#task-name:hover {
+    background-color: white;
+    background-image: none;
+}
+
+.list-item-container:hover {
+    background-color: #FAF6F1;
+    background-image: linear-gradient(to right, #f6f8f9 80%, white);
+}
+
 
 .list-item {
     float: left;
@@ -112,14 +129,15 @@ footer {
     width: calc(100% - 60px);
 }
 
-.list-item:hover {
-    background-color: #FAF6F1;
-    background-image: linear-gradient(to right, #f6f8f9 80%, white);
-}
-
 .button-div {
     padding-right: 30px; 
     display: inline-block;
+    height: 100%;
+}
+
+#add-task-top-container {
+    height: calc(100% - 50px);
+    overflow-y: auto;
 }
 
 .textarea-div {
@@ -132,15 +150,20 @@ footer {
 .textarea-description-div {
     display: inline-block; 
     width: calc(100% - 34px);
-    height: calc(100% - 50px - 45px);
+    /* height: calc(100% - 50px - 45px); */
 }
 
 #add-description-area {
-    height: 100%;
-    border-bottom: none;
+    min-height: 80px;
+    border: none;
+    overflow-y: auto;
+    border: 1px solid #d5dce0;
+    border-radius: 4px;
 }
 
 textarea {
+    word-wrap: break-word;
+    white-space: pre-wrap;
     border: 2px solid transparent;
     font-family: "Montserrat";
     font-size: 13px;
@@ -149,13 +172,15 @@ textarea {
     background: transparent;
     border-radius: 0;
     display: block;
-    outline: 0;
+    outline: none;
     overflow: hidden;
     position: relative;
     resize: none;
     top: 0;
     width: 100%;
     border-bottom: 1px solid #e0e6e8;
+
+    box-sizing: padding-box;
 }
 
 textarea:focus {
@@ -212,16 +237,24 @@ button:hover {
     width: calc(100% - 4px);
     top: 0;
     left: 0;
+    overflow: auto;
+}
+
+#add-task-task-name {
+    box-sizing: border-box;
+    resize: none;
+    min-height: 40px;
 }
 
 #add-task-button-container {
     margin: 10px 0px 10px 0px;
     float: left;
     display: block;
-    position: relative;
+    position: absolute;
     text-align: left;
     width: 100%;
     height: 35px;
+    bottom: 0;
 }
 
 .add-task-button-div {

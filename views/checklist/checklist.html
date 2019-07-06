@@ -33,13 +33,15 @@
                     </div>
                 </div>
                 <div id="add-task-container" style="display: none;" class="animated slideInUp">
-                    <div class="list-item-container">
-                        <div class="textarea-div">
-                            <textarea id="add-task-task-name" placeholder="Add task..." rows="1" wrap="off"></textarea>
+                    <div id="add-task-top-container">
+                        <div id="task-name" class="list-item-container">
+                            <div class="textarea-div">
+                                <textarea id="add-task-task-name" class="autoExpand" placeholder="Add task..." rows="1"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="textarea-description-div">
-                        <textarea id="add-description-area" placeholder="Add description..."></textarea>
+                        <div id="description-div" class="textarea-description-div">
+                            <textarea id="add-description-area" placeholder="Add description..."></textarea>
+                        </div>
                     </div>
                     <div id="add-task-button-container">
                         <div class="cancel-button-div">
@@ -51,12 +53,10 @@
                     </div>
                 </div>
             </div>
-    </div>
-    </div>
-    </main>
+        </main>
     </div>
 </body>
 
-<script type="module" src="/checklist/checklist.js"></script>
+<script type="text/javascript" src="/checklist/checklist.js"></script>
 
 </html>
