@@ -12,10 +12,18 @@
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            let data = await loadChecklist();
+            let docName = "prepregnancy";
+            let data = await loadChecklist(docName);
             await generateChecklist(data);
+            docName = "Tasks I Added";
+            let userAddedChecklist = await loadChecklist(docName)
+                .catch(e => {
+                    document.getElementById('checklist').innerText = "Failed to get checklist, please try again.";
+                });
+            if (userAddedChecklist) {
+                await generateChecklist(userAddedChecklist);
+            }
             addAllEventListeners(data);
-
         }
         else {
             console.log("User is logged out. Access denied.");
@@ -25,14 +33,14 @@
 }());
 
 
-async function loadChecklist() {
+async function loadChecklist(docName) {
     let uid = firebase.auth().currentUser.uid;
     let db = firebase.firestore();
     try {
-        let snapshot = await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').get()
-        if (!snapshot.exists) {
-            let defaultChecklist = await db.collection('checklist').doc('prepregnancy').get()
-            await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').set(defaultChecklist.data())
+        let snapshot = await db.collection('users').doc(uid).collection('checklist').doc(docName).get()
+        if (!snapshot.exists && docName !== "Tasks I Added") {
+            let defaultChecklist = await db.collection('checklist').doc(docName).get()
+            await db.collection('users').doc(uid).collection('checklist').doc(docName).set(defaultChecklist.data())
                 .catch(e => {
                     console.log("Error adding new task." + e.message);
                     return e.message;
@@ -51,20 +59,6 @@ async function loadChecklist() {
 
 async function generateChecklist(checklistObj) {
     let checklist = document.getElementById('checklist');
-    let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
-        '<div class="list-item">\n' +
-        '<div class="button-div">\n' +
-        '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
-        '</svg>\n' +
-        '</button>\n' +
-        '</div>\n' +
-        '<div class="textarea-div">\n' +
-        '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off"></textarea>\n' +
-        '</div>\n' +
-        '</div>\n' +
-        '</div>\n';
-
 
     Object.keys(checklistObj).forEach(key => {
         // Iterating through sections.
@@ -74,7 +68,8 @@ async function generateChecklist(checklistObj) {
                 '<h2 class="section">' + checklistObj[key].title + '</h2>\n' +
                 '</div>\n' +
                 '</div>\n';
-            checklist.innerHTML += (sectionHTML);
+            checklist.insertAdjacentHTML('beforeend', sectionHTML);
+
             Object.keys(checklistObj[key]).forEach(subKey => {
                 //Iterating through tasks
                 if (typeof checklistObj[key][subKey] === "object") {
@@ -88,16 +83,30 @@ async function generateChecklist(checklistObj) {
                         '</button >\n' +
                         '</div >\n' +
                         '<div class="textarea-div">\n' +
-                        '<textarea readonly="readonly" placeholder="Add task..." rows="1" wrap="off">' + checklistObj[key][subKey].name + '</textarea>\n' +
+                        '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[key][subKey].name + '</textarea>\n' +
                         '</div >\n' +
                         '</div >\n' +
                         '</div >\n'
-                    checklist.innerHTML += (taskHTML);
+                    checklist.insertAdjacentHTML('beforeend', taskHTML);
                 }
             });
         }
     });
-    checklist.innerHTML += (addTaskHTML)
+
+    let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
+        '<div class="list-item">\n' +
+        '<div class="button-div">\n' +
+        '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
+        '</svg>\n' +
+        '</button>\n' +
+        '</div>\n' +
+        '<div class="textarea-div">\n' +
+        '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off"></textarea>\n' +
+        '</div>\n' +
+        '</div>\n' +
+        '</div>\n';
+    checklist.insertAdjacentHTML('beforeend', addTaskHTML)
 }
 
 
@@ -195,7 +204,7 @@ function addAllEventListeners(data) {
             }
         }
     }
-    
+
     // Event delegation for handling clicks on any particular task.
     if (document.addEventListener) {
         document.addEventListener("click", handleClick, false);
@@ -228,6 +237,9 @@ function addAllEventListeners(data) {
         if (element.id === "add-task-list-item-container") {
             // Clicked the "add task..." area.
             autoSize(document.getElementById('add-description-area'));
+            document.getElementById('add-description-area').disabled = false;
+            document.getElementById('add-task-task-name').disabled = false;
+            document.getElementById('add-description-area').placeholder = "Add description...";
             document.getElementById('add-task-container').classList.remove("slideOutDown");
             document.getElementById('add-task-container').style.display = "";
         }
@@ -240,10 +252,18 @@ function addAllEventListeners(data) {
             if (taskName) {
                 let description = getDescription(data, taskName);
                 document.getElementById('add-task-task-name').value = taskName;
-                autoSize(document.getElementById('add-task-task-name'));
-                document.getElementById('add-description-area').value = description;
+                document.getElementById('add-description-area').value = description.data;
+                document.getElementById('add-description-area').disabled = !description.editable;
+                document.getElementById('add-task-task-name').disabled = !description.editable;
+                if (description.editable) {
+                    document.getElementById('add-description-area').placeholder = "Add description...";
+                }
+                else {
+                    document.getElementById('add-description-area').placeholder = "";
+                }
                 document.getElementById('add-task-container').classList.remove("slideOutDown");
                 document.getElementById('add-task-container').style.display = "";
+                autoSize(document.getElementById('add-task-task-name'));
                 autoSize(document.getElementById('add-description-area'));
             }
         }
@@ -268,10 +288,14 @@ function addAllEventListeners(data) {
         return taskName;
     }
 
-    // Takes data object which contains all checklist data. Searches for the task name and returns the matching description.
-    // Returns empty string if not found.
+    /* Takes data object which contains all checklist data. 
+    Searches for the task name and returns an object containing description inside data key and editable key.
+    Default tasks are return editable as false, custom tasks return editable as true.
+    Returns obj with editable key as true if not found.
+    */
     function getDescription(data, taskName) {
-        var description = "";
+        var description = {};
+        description.editable = true;
         Object.keys(data).forEach(key => {
             if (typeof data[key] === "object") {
                 // Iterating through sections.
@@ -279,7 +303,9 @@ function addAllEventListeners(data) {
                     if (typeof data[key][subKey] === "object") {
                         // Iterating through tasks.
                         if (data[key][subKey].name === taskName) {
-                            description = data[key][subKey].description;
+                            description.data = data[key][subKey].description;
+                            description.editable = (data[key].title === "Tasks I Added");
+                            return description;
                         }
                     }
                 });
@@ -290,25 +316,128 @@ function addAllEventListeners(data) {
 
     // User clicked "cancel" button inside add task menu. Closes add task menu.
     addTaskCloseBtn.addEventListener('click', () => {
+        closeAddTaskMenu();
+    });
+
+    function closeAddTaskMenu() {
         document.getElementById('add-task-container').classList.add("slideOutDown");
         document.getElementById('add-task-task-name').value = "";
         document.getElementById('add-task-task-name').style.height = "40px";
         document.getElementById('add-description-area').value = "";
-    });
+        document.getElementById('add-task-task-name').style = ""
+    }
 
     // User clicked "Done" button inside add task menu. 
     addTaskDoneBtn.addEventListener('click', async () => {
-        let uid = firebase.auth().currentUser.uid;
-        console.log(uid);
-        await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').set(prepregnancyObj)
-            .catch(e => {
-                console.log("Error adding new task." + e);
-                return;
-            })
-        console.log("Storing obj successful");
+        if (document.getElementById('add-task-task-name').value) {
+            // Task name is not empty
+            taskObj = {
+                name: document.getElementById('add-task-task-name').value,
+                description: document.getElementById('add-description-area').value,
+                references: "",
+                completed: "false",
+                importance: "1"
+            }
+            addNewTaskToChecklist(taskObj);
+        }
+        else {
+            document.getElementById('add-task-task-name').style.borderBottom = "2px solid red";
+        }
     });
 
-    // Autosizing add-task-task-name and description
+    /* Takes a task object and adds the necessary HTML to display the new task.
+    */
+    function addNewTaskToChecklist(taskObj) {
+        let sectionList = document.getElementById('checklist').getElementsByClassName('section');
+        var found = false;
+        let taskHTML = '<div class="list-item-container">\n' +
+            '<div class="list-item">\n' +
+            '<div class="button-div">\n' +
+            '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+            '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+            '</path >\n' +
+            '</svg >\n' +
+            '</button >\n' +
+            '</div >\n' +
+            '<div class="textarea-div">\n' +
+            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + taskObj.name + '</textarea>\n' +
+            '</div >\n' +
+            '</div >\n' +
+            '</div >\n'
+
+        for (var i = 0; i < sectionList.length; i++) {
+            if (sectionList[i].textContent === "Tasks I Added") {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+            modifiedChecklist = addNewTaskToChecklistObj(userAddedChecklist, taskObj);
+            // TODO: Store in firestore
+            closeAddTaskMenu();
+        }
+        else {
+            let sectionHTML = '<div class="list-item-container">\n' +
+                '<div class="list-item">\n' +
+                '<h2 class="section">' + "Tasks I Added" + '</h2>\n' +
+                '</div>\n' +
+                '</div>\n';
+
+            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
+            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+            //TODO: Store in firestore
+            let userAddedChecklist = createNewUserAddedChecklist(taskObj);
+            modifiedChecklist = addNewTaskToChecklistObj(userAddedChecklist, taskObj);
+            console.log(modifiedChecklist);
+            closeAddTaskMenu();
+        }
+    }
+
+    /* Takes a task object and creates a checklist object containing that task obj. Returns the new checklist obj.
+    */
+    function createNewUserAddedChecklist(taskObj) {
+        let section = {
+            taskCount: "1",
+            title: "NoSection",
+            task1: taskObj
+        }
+        let userAddedChecklist = {
+            sectionCount: "1",
+            section1: section
+        }
+        return userAddedChecklist;
+    }
+
+    /* Takes a checklist obj, section title (optional), and task obj and appends the task to the checklist obj. 
+    Returns the new checklist obj.
+    */
+    function addNewTaskToChecklistObj(checklistObj, taskObj, sectionTitle) {
+        if (typeof section === 'string') {
+            Object.keys(checklistObj).forEach(key => {
+                if (typeof checklistObj[key] === "object" && checklistObj[key].title === sectionTitle) {
+                    let newTaskCount = parseInt(checklistObj[key].taskCount) + 1;
+                    checklistObj[key].taskCount = newTaskCount.toString();
+                    checklistObj["task" + newTaskCount.toString()] = taskObj;
+                }
+                return checklistObj;
+            });
+        }
+        else {
+            Object.keys(checklistObj).forEach(key => {
+                if (typeof checklistObj[key] === "object" && checklistObj[key].title === "NoSection") {
+                    let newTaskCount = parseInt(checklistObj[key].taskCount) + 1;
+                    checklistObj[key].taskCount = newTaskCount.toString();
+                    checklistObj[key]["task" + newTaskCount.toString()] = taskObj;
+                }
+                return checklistObj;
+            });
+        }
+        return checklistObj;
+    }
+
+    // Autosizing add-task-task-name and add-description-area.
     const taskName = document.getElementById('add-task-task-name');
     taskName.setAttribute('style', 'height:' + (taskName.scrollHeight) + 'px;');
     taskName.addEventListener("input", autoSize, false);
@@ -359,7 +488,7 @@ Users -> UserID -> checklist -> name of trimester ->
         task1: {
             name: string (The actual task.)
             description: string
-            completed: bool (Used for the checkmark and organization.)
+            completed: string (Used for the checkmark and organization.)
             importance: string (Perhaps on a scale of 1-5)
         }
         task2: {...}
@@ -378,4 +507,16 @@ secondTrimester: {...}
 thirdTrimester: {...}
 postPregnancy: {...}
 
+*/
+
+/*
+This function stores data into the default checklist.
+let uid = firebase.auth().currentUser.uid;
+        console.log(uid);
+        await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').set(prepregnancyObj)
+            .catch(e => {
+                console.log("Error adding new task." + e);
+                return;
+            })
+        console.log("Storing obj successful");
 */

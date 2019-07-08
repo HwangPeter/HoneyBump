@@ -82,8 +82,8 @@ footer {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 150px);
-    overflow: scroll;
+    height: calc(100vh - 185px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    overflow-y: scroll;
 }
 
 /* To change task height:
@@ -157,8 +157,15 @@ footer {
     min-height: 80px;
     border: none;
     overflow-y: auto;
-    border: 1px solid #d5dce0;
+    border: 2px solid transparent;
+    border-bottom: 1px solid #d5dce0;
     border-radius: 4px;
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+}
+
+#add-description-area:focus {
+    border: 2px solid #d5dce0;
 }
 
 textarea {
@@ -179,7 +186,7 @@ textarea {
     top: 0;
     width: 100%;
     border-bottom: 1px solid #e0e6e8;
-
+    /* padding: 0px 10px; */
     box-sizing: padding-box;
 }
 
@@ -241,6 +248,8 @@ button:hover {
 }
 
 #add-task-task-name {
+    /* Enlarged font size for task name. */
+    font-size: 16px;
     box-sizing: border-box;
     resize: none;
     min-height: 40px;
