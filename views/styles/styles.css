@@ -22,33 +22,40 @@ body {
 
 h1 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 50px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h2 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 40px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h3 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 35px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h4 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 30px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h5 {
+    font-family: "Montserrat";
+    font-size: 20px;
+    line-height: 18px;
+    color: #6B686D;
+}
+
+h6 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
@@ -125,8 +132,8 @@ form {
 }
 
 .navigation-container {
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 23px;
+    padding-bottom: 23px;
     background-color: white;
 }
 
@@ -146,7 +153,7 @@ form {
     display: block;
     color: #6B686D;
     text-align: center;
-    padding: 14px 16px;
+    padding: 14px 15px;
     text-decoration: none;
     text-transform: uppercase;
 }
@@ -172,6 +179,10 @@ form {
     text-transform: uppercase;
 }
 
+.footer a:hover {
+    text-decoration: underline;
+}
+
 .TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
     background: #fff;
     border: 1px solid #6B686D;
@@ -183,6 +194,7 @@ form {
     padding: 5px;
 	outline: 2px solid #333;
 }
+
 /*Sizing for phones*/
 @media only screen and (max-width: 600px) {
   [class*="col-"] {
