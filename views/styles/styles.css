@@ -7,10 +7,14 @@
 /* Charcoal: #6B686D */
 header {
     font-family: "Josefin Sans";
-    font-size: 45px;
+    font-size: 20px;
     font-weight: 400;
     color: #6B5875;
-    vertical-align: middle;
+}
+
+.logopic {
+    width: 30px;
+    height: 30px;
 }
 
 body {
@@ -232,4 +236,11 @@ form {
   .col-10 {width: 83.33%;}
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
+  header {
+    font-size: 45px;
+  }
+  .logopic {
+    width: 50px;
+    height: 50px;
+  }
 }
