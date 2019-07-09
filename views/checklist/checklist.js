@@ -12,18 +12,41 @@
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            let docName = "prepregnancy";
-            let data = await loadChecklist(docName);
-            await generateChecklist(data);
-            docName = "Tasks I Added";
-            let userAddedChecklist = await loadChecklist(docName)
-                .catch(e => {
+            var checklistsObj = {};
+            let activeChecklists = await getActiveChecklists();
+            for (var i = 0; i < activeChecklists.length; i++) {
+                var docName = "";
+                if (activeChecklists[i] === 0) { docName = "prePregnancy"; }
+                else if (activeChecklists[i] === 1) { docName = "firstTrimester"; }
+                else if (activeChecklists[i] === 2) { docName = "secondTrimester"; }
+                else if (activeChecklists[i] === 3) { docName = "thirdTrimester"; }
+                else if (activeChecklists[i] === 4) { docName = "postPregnancy"; }
+                else if (activeChecklists[i] === 5) { docName = "Tasks I Added"; }
+                else {
                     document.getElementById('checklist').innerText = "Failed to get checklist, please try again.";
-                });
-            if (userAddedChecklist) {
-                await generateChecklist(userAddedChecklist);
+                    return;
+                }
+                let data = await loadChecklist(docName);
+                await generateChecklist(data);
+                checklistsObj[docName] = data;
             }
-            addAllEventListeners(data);
+
+            let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
+                '<div class="list-item">\n' +
+                '<div class="button-div">\n' +
+                '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
+                '</svg>\n' +
+                '</button>\n' +
+                '</div>\n' +
+                '<div class="textarea-div">\n' +
+                //Remove the readonly on the next line for desktop version of the site.
+                '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off" readonly></textarea>\n' +
+                '</div>\n' +
+                '</div>\n' +
+                '</div>\n';
+            document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
+            addAllEventListeners(checklistsObj, activeChecklists);
         }
         else {
             console.log("User is logged out. Access denied.");
@@ -32,7 +55,96 @@
     });
 }());
 
+/* Reads users/{uid}/document to get activeChecklists. If missing, estimates trimester based on baby's due date.
+If that is also missing, returns [0] for prepregnancy.
+Always returns a list of numbers. */
+async function getActiveChecklists() {
+    let uid = firebase.auth().currentUser.uid;
+    let db = firebase.firestore();
+    var activeChecklists = [];
+    try {
+        let snapshot = await db.collection('users').doc(uid).get()
+        if (!snapshot.exists) {
+            return (new Error("Something went wrong grabbing user info"));
+        }
+        else {
+            let data = snapshot.data();
+            if ("activeChecklists" in data) {
+                activeChecklists = data.activeChecklists;
+            }
+            else if ("babyDay" in data) {
+                let babyBirthdate = toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay) + ", " + toDoubleDigit(data.babyYear);
+                let today = new Date();
+                let daysLeft = dayDiff(today, babyBirthdate);
+                let weeksPregnant = Math.floor((40 - (daysLeft / 7)));
+                if (weeksPregnant < 0) {
+                    activeChecklists.push(0);
+                }
+                else if (weeksPregnant >= 0 && weeksPregnant <= 12) {
+                    activeChecklists.push(1);
+                }
+                else if (weeksPregnant > 12 && weeksPregnant <= 26) {
+                    activeChecklists.push(2);
+                }
+                else if (weeksPregnant > 26) {
+                    activeChecklists.push(3);
+                }
+                else if (weeksPregnant > 40) {
+                    activeChecklists.push(4);
+                }
+                else {
+                    activeChecklists.push(0);
+                }
+                await storeActiveChecklists(activeChecklists);
+            }
+            else {
+                activeChecklists.push(0);
+                await storeActiveChecklists(activeChecklists);
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return error.message;
+    }
+    activeChecklists.sort(function (a, b) { return a - b });
+    return activeChecklists;
+}
 
+/* Turns single digit numbers into double digit numbers. e.g. 9 returns "09". Takes number and returns string. */
+function toDoubleDigit(n) {
+    n = parseInt(n);
+    return n > 9 ? "" + n : "0" + n;
+}
+
+/* Takes current date in the form of new Date(), and target date in the form of a "Month, Day, Year" string.
+Returns days until that date. */
+function dayDiff(CurrentDate, targetDate) {
+    var TYear = CurrentDate.getFullYear();
+    var TDay = new Date(targetDate);
+    TDay.getFullYear(TYear);
+    var DayCount = (TDay - CurrentDate) / (1000 * 60 * 60 * 24);
+    DayCount = Math.round(DayCount);
+    return (DayCount);
+}
+
+/* Takes a list containing numbers of active checklists. Numbers refer to each trimester from 0-4.
+*/
+async function storeActiveChecklists(activeChecklists) {
+    let uid = firebase.auth().currentUser.uid;
+    let db = firebase.firestore();
+    activeChecklists.sort(function (a, b) { return a - b });
+    await db.collection('users').doc(uid).set({ activeChecklists }, { merge: true })
+        .catch(e => {
+            console.log("Error storing active checklists." + e.message);
+            return e.message;
+        })
+
+}
+
+/* Takes name of the checklist document (string) and returns the data contained in that document.
+Returns error message if it failed.
+*/
 async function loadChecklist(docName) {
     let uid = firebase.auth().currentUser.uid;
     let db = firebase.firestore();
@@ -42,10 +154,13 @@ async function loadChecklist(docName) {
             let defaultChecklist = await db.collection('checklist').doc(docName).get()
             await db.collection('users').doc(uid).collection('checklist').doc(docName).set(defaultChecklist.data())
                 .catch(e => {
-                    console.log("Error adding new task." + e.message);
+                    console.log("Error storing default checklist." + e.message);
                     return e.message;
                 })
             return defaultChecklist.data();
+        }
+        else if (!snapshot.exists && docName === "Tasks I Added") {
+            return "";
         }
         else {
             return snapshot.data();
@@ -59,7 +174,6 @@ async function loadChecklist(docName) {
 
 async function generateChecklist(checklistObj) {
     let checklist = document.getElementById('checklist');
-
     Object.keys(checklistObj).forEach(key => {
         // Iterating through sections.
         if (typeof checklistObj[key] === "object") {
@@ -92,118 +206,13 @@ async function generateChecklist(checklistObj) {
             });
         }
     });
-
-    let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
-        '<div class="list-item">\n' +
-        '<div class="button-div">\n' +
-        '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
-        '</svg>\n' +
-        '</button>\n' +
-        '</div>\n' +
-        '<div class="textarea-div">\n' +
-        '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off"></textarea>\n' +
-        '</div>\n' +
-        '</div>\n' +
-        '</div>\n';
-    checklist.insertAdjacentHTML('beforeend', addTaskHTML)
 }
 
 
-function addAllEventListeners(data) {
+function addAllEventListeners(checklistsObj, activeChecklists) {
     const db = firebase.firestore();
     const addTaskCloseBtn = document.getElementById('cancel');
     const addTaskDoneBtn = document.getElementById('add-task-done-btn');
-
-    // TODO: Remove this prepregnancyObj later. This is for testing.
-    var prepregnancyObj = {
-        sectionCount: "2",
-        section1: {
-            title: "Daily",
-            taskCount: "2",
-            task1: {
-                name: "Take daily prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
-                completed: "false",
-                importance: "1"
-            },
-            task2: {
-                name: "Daily Kegel exercises",
-                description: 'What are Kegels and how do I do them?\nKegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:\n1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.\n2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.\n3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
-                completed: "false",
-                importance: "1"
-            }
-        },
-        section2: {
-            title: "Before getting pregnant",
-            taskCount: "9",
-            task1: {
-                name: "Pick an OB-GYN",
-                description: "",
-                references: "",
-                completed: "false",
-                importance: "1"
-            },
-            task2: {
-                name: "Make a preconception appointment",
-                description: "It is important to make a preconception appointment with your health care provider to learn things about your body that might complicate your pregnancy (or learn how to prevent these complications).  At this appointment, you can expect to discuss your overall health, medications you are taking that might affect a growing fetus (be sure to bring a list of all medications and supplements you are taking!), and how to manage health conditions (for example, diabetes or hypertension) that might impact your pregnancy.  You may also receive vaccines for which you are not already immune, and receive a Pap test as well as sexually transmitted infection (STI) screening.  Your provider might also suggest genetic carrier screening which is a lab test that can help determine the risk of having a baby with certain genetic conditions.  The Office on Women’s Health provides a worksheet to bring with you, to help remember what to talk about and to take notes on: https://www.womenshealth.gov/files/documents/preconception-visit.pdf ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2018. Good health before pregnancy: Prepregnancy care. American College of Obstetricians and Gynecologists. Retrieved from \n\nhttps://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Prepregnancy-Care ",
-                completed: "false",
-                importance: "1"
-            },
-            task3: {
-                name: "Complete genetic carrier screening",
-                description: "Genetic carrier screening is a lab test done using either blood or saliva to check your possibility of having a child with some serious health conditions.  Carrier screening typically looks to see if you or partner carry the genes for cystic fibrosis, fragile X syndrome, sickle cell disease, Tay-Sachcs disease, or spinal muscular atrophy. ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what ",
-                completed: "false",
-                importance: "1"
-            },
-            task4: {
-                name: "Visit the dentist",
-                description: "Why is the dentist so important? \nDuring pregnancy, you may be more susceptible to gingivitis, cavities, and loose teeth (among other oral changes).  Dental care is always important, especially before and during your pregnancy to help prevent and promptly treat these problems.  Be sure to let your dentist know if you are already pregnant, as there are some procedures he may choose to wait on until later in your pregnancy or after you have delivered. ",
-                references: "APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/  \n\nACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false  ",
-                completed: "false",
-                importance: "1"
-            },
-            task5: {
-                name: "Create a healthy lifestyle plan and stick to it!",
-                description: "Healthy Lifestyle Plan \nTalk with your healthcare provider about what lifestyle changes are appropriate for you, especially in regards to maternal health.  Some suggestions your doctor might make include limiting caffeine intake, making an exercise plan, healthy eating habits, and updating your immunizations. ",
-                references: "",
-                completed: "false",
-                importance: "1"
-            },
-            task6: {
-                name: "Stop smoking, drinking alcohol, and using illicit drugs and marijuana.",
-                description: "Why? \nParticipating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  According to The American College of Obstetricians and Gynecologists, drinking alcohol can cause irreversible birth defects and fetal alcohol syndrome as well as miscarriage and stillbirth.  Smoking (including electronic cigarettes and even second-hand smoke!), or the use of nicotine products is harmful because they reduce blood flow to your growing fetus.  This increases the risks of preterm birth, low birth weight, colic, sudden infant death syndrome (SIDS), asthma, and obesity during childhood.  Illegal drug use can lead to birth defects, miscarriage, preterm labor, and fetal death.  Although marijuana is legal in some places, that doesn’t mean it’s safe during pregnancy.  It is known to increase the risks of stillbirth and low birth weight as well as increase attention and behavior problems in childhood.  If you need help quitting any of the above, talk with your obstetrician and use the following resources: \n\nAlcohol: www.aa.org  \nNarcotics/opioids: www.na.org  \nSmoking: www.lung.org or 1-800-QUIT-NOW ",
-                references: "ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can  \n\nMayo Clinic. 2017. Pregnancy nutrition: foods to avoid during pregnancy. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844  ",
-                completed: "false",
-                importance: "1"
-            },
-            task7: {
-                name: "Research disability leave, maternity leave, and baby bonding rights in your state",
-                description: "",
-                references: "",
-                completed: "false",
-                importance: "1"
-            },
-            task8: {
-                name: "Learn about foods and activities to avoid while pregnant",
-                description: "See our What Should I Avoid While Pregnant? web page",
-                references: "",
-                completed: "false",
-                importance: "1"
-            },
-            task9: {
-                name: "Select baby books to read",
-                description: "",
-                references: "",
-                completed: "false",
-                importance: "1"
-            }
-        }
-    }
 
     // Event delegation for handling clicks on any particular task.
     if (document.addEventListener) {
@@ -250,7 +259,7 @@ function addAllEventListeners(data) {
             // Clicked on any task.
             let taskName = getTaskName(element);
             if (taskName) {
-                let description = getDescription(data, taskName);
+                let description = getDescription(checklistsObj, taskName);
                 document.getElementById('add-task-task-name').value = taskName;
                 document.getElementById('add-description-area').value = description.data;
                 document.getElementById('add-description-area').disabled = !description.editable;
@@ -288,28 +297,30 @@ function addAllEventListeners(data) {
         return taskName;
     }
 
-    /* Takes data object which contains all checklist data. 
+    /* Takes object which contains all checklist data. 
     Searches for the task name and returns an object containing description inside data key and editable key.
     Default tasks are return editable as false, custom tasks return editable as true.
     Returns obj with editable key as true if not found.
     */
-    function getDescription(data, taskName) {
+    function getDescription(checklistsObj, taskName) {
         var description = {};
         description.editable = true;
-        Object.keys(data).forEach(key => {
-            if (typeof data[key] === "object") {
-                // Iterating through sections.
-                Object.keys(data[key]).forEach(subKey => {
-                    if (typeof data[key][subKey] === "object") {
-                        // Iterating through tasks.
-                        if (data[key][subKey].name === taskName) {
-                            description.data = data[key][subKey].description;
-                            description.editable = (data[key].title === "Tasks I Added");
-                            return description;
+        Object.keys(checklistsObj).forEach(checklistObj => {
+            Object.keys(checklistsObj[checklistObj]).forEach(key => {
+                if (typeof checklistsObj[checklistObj][key] === "object") {
+                    // Iterating through sections.
+                    Object.keys(checklistsObj[checklistObj][key]).forEach(subKey => {
+                        if (typeof checklistsObj[checklistObj][key][subKey] === "object") {
+                            // Iterating through tasks.
+                            if (checklistsObj[checklistObj][key][subKey].name === taskName) {
+                                description.data = checklistsObj[checklistObj][key][subKey].description;
+                                description.editable = (checklistsObj[checklistObj][key].title === "Tasks I Added");
+                                return description;
+                            }
                         }
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
         return description;
     }
@@ -338,7 +349,7 @@ function addAllEventListeners(data) {
                 completed: "false",
                 importance: "1"
             }
-            addNewTaskToChecklist(taskObj);
+            await addNewTaskToChecklist(taskObj);
         }
         else {
             document.getElementById('add-task-task-name').style.borderBottom = "2px solid red";
@@ -346,8 +357,9 @@ function addAllEventListeners(data) {
     });
 
     /* Takes a task object and adds the necessary HTML to display the new task.
+    Also stores this new task in firestore.
     */
-    function addNewTaskToChecklist(taskObj) {
+    async function addNewTaskToChecklist(taskObj) {
         let sectionList = document.getElementById('checklist').getElementsByClassName('section');
         var found = false;
         let taskHTML = '<div class="list-item-container">\n' +
@@ -374,9 +386,12 @@ function addAllEventListeners(data) {
 
         if (found) {
             document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
-            modifiedChecklist = addNewTaskToChecklistObj(userAddedChecklist, taskObj);
-            // TODO: Store in firestore
+            addNewTaskToChecklistObj(checklistsObj["Tasks I Added"], taskObj);
             closeAddTaskMenu();
+            await storeChecklistsIntoDB(checklistsObj["Tasks I Added"], "Tasks I Added")
+                .catch(e => {
+                    console.log("Failed to store new task." + e.message);
+                });
         }
         else {
             let sectionHTML = '<div class="list-item-container">\n' +
@@ -387,12 +402,23 @@ function addAllEventListeners(data) {
 
             document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
             document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
-            //TODO: Store in firestore
-            let userAddedChecklist = createNewUserAddedChecklist(taskObj);
-            modifiedChecklist = addNewTaskToChecklistObj(userAddedChecklist, taskObj);
-            console.log(modifiedChecklist);
+            checklistsObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj);
             closeAddTaskMenu();
+            await storeChecklistsIntoDB(checklistsObj["Tasks I Added"], "Tasks I Added")
+                .catch(e => {
+                    console.log("Failed to store new task." + e.message);
+                });
+            activeChecklists.push(5);
+            storeActiveChecklists(activeChecklists);
         }
+    }
+
+    // Takes obj for a specific trimester checklist or "Tasks I Added" checklist object. Saves it into DB using set and merge.
+    // Returns promise from firestore.
+    function storeChecklistsIntoDB(checklistObj, docName) {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        return db.collection('users').doc(uid).collection("checklist").doc(docName).set(checklistObj, { merge: true })
     }
 
     /* Takes a task object and creates a checklist object containing that task obj. Returns the new checklist obj.
@@ -400,7 +426,7 @@ function addAllEventListeners(data) {
     function createNewUserAddedChecklist(taskObj) {
         let section = {
             taskCount: "1",
-            title: "NoSection",
+            title: "Tasks I Added",
             task1: taskObj
         }
         let userAddedChecklist = {
@@ -411,7 +437,6 @@ function addAllEventListeners(data) {
     }
 
     /* Takes a checklist obj, section title (optional), and task obj and appends the task to the checklist obj. 
-    Returns the new checklist obj.
     */
     function addNewTaskToChecklistObj(checklistObj, taskObj, sectionTitle) {
         if (typeof section === 'string') {
@@ -421,20 +446,17 @@ function addAllEventListeners(data) {
                     checklistObj[key].taskCount = newTaskCount.toString();
                     checklistObj["task" + newTaskCount.toString()] = taskObj;
                 }
-                return checklistObj;
             });
         }
         else {
             Object.keys(checklistObj).forEach(key => {
-                if (typeof checklistObj[key] === "object" && checklistObj[key].title === "NoSection") {
+                if (typeof checklistObj[key] === "object" && checklistObj[key].title === "Tasks I Added") {
                     let newTaskCount = parseInt(checklistObj[key].taskCount) + 1;
                     checklistObj[key].taskCount = newTaskCount.toString();
                     checklistObj[key]["task" + newTaskCount.toString()] = taskObj;
                 }
-                return checklistObj;
             });
         }
-        return checklistObj;
     }
 
     // Autosizing add-task-task-name and add-description-area.
@@ -479,6 +501,7 @@ function addAllEventListeners(data) {
 
 /* Checklist document structure
 Each document contains an object containing all information for that trimester. Each trimester is allocated its own document.
+User added tasks is also within its own document.
 Users -> UserID -> checklist -> name of trimester ->
 {
     sectionCount: string (To easily append sections, we need to keep track of them.)
@@ -488,6 +511,7 @@ Users -> UserID -> checklist -> name of trimester ->
         task1: {
             name: string (The actual task.)
             description: string
+            references: string
             completed: string (Used for the checkmark and organization.)
             importance: string (Perhaps on a scale of 1-5)
         }
@@ -507,16 +531,4 @@ secondTrimester: {...}
 thirdTrimester: {...}
 postPregnancy: {...}
 
-*/
-
-/*
-This function stores data into the default checklist.
-let uid = firebase.auth().currentUser.uid;
-        console.log(uid);
-        await db.collection('users').doc(uid).collection('checklist').doc('prepregnancy').set(prepregnancyObj)
-            .catch(e => {
-                console.log("Error adding new task." + e);
-                return;
-            })
-        console.log("Storing obj successful");
 */
