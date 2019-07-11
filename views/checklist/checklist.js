@@ -26,6 +26,7 @@
 }());
 
 // TODO: When marking a DEFAULT task as hidden, find all other default tasks with the same name and mark them as hidden as well.
+// TODO: Change activechecklists to a list of string instead of numbers. Can call the names of checklists directly (and medical conditions).
 
 // Requests users/{uid}/checklist/settings from firestore and returns the data.
 // If it does not exist, generates the data and creates a settings document. Sets showHidden and showComplete to false by default.
@@ -344,10 +345,23 @@ function addAllEventListeners(checklistObj, settings) {
                 break;
             }
             else if (element.nodeName === "BUTTON") {
+                if (element.childNodes[0].data) {
+                    handleTrimesterButtonClick(element);
+                }
+                // TODO: Add else if for checklist buttons.
                 break;
             }
             element = element.parentNode;
         }
+    }
+
+    function handleTrimesterButtonClick(element) {
+        if (element.childNodes[0].data === "Pre") { element.classList.toggle("activePre") }
+        else if (element.childNodes[0].data === "1st") { element.classList.toggle("activeFirst") }
+        else if (element.childNodes[0].data === "2nd") { element.classList.toggle("activeSecond") }
+        else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
+        else if (element.childNodes[0].data === "Post") { element.classList.toggle("activePost") }
+        else if (element.childNodes[0].data === "Medical") { element.classList.toggle("activeMedical") }
     }
 
     function handleListItemContainerClick(element) {
@@ -581,7 +595,7 @@ function addAllEventListeners(checklistObj, settings) {
 
             document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
             document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
-            checklistObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj);
+            checklistObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj, true);
             closeAddTaskMenu();
             await storeChecklistIntoDB(checklistObj)
                 .catch(e => {
@@ -600,9 +614,10 @@ function addAllEventListeners(checklistObj, settings) {
         return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
     }
 
-    /* Takes a task object and creates a checklist object containing that task obj. Returns the new checklist obj.
+    /* Takes a task object and creates a checklist object containing that task obj. Takes optional isTasksIAdded parameter.
+    Returns the new checklist obj.
     */
-    function createNewUserAddedChecklist(taskObj) {
+    function createNewUserAddedChecklist(taskObj, isTasksIAdded) {
         let section = {
             taskCount: "1",
             title: "Tasks I Added",
@@ -611,6 +626,15 @@ function addAllEventListeners(checklistObj, settings) {
         let userAddedChecklist = {
             sectionCount: "1",
             section1: section
+        }
+        try {
+            if (isTasksIAdded) {
+                userAddedChecklist.taskCount = "1";
+            }
+        }
+        catch
+        {
+            // Try catch block is just to handle a missing value. No need to handle it if it fails.
         }
         return userAddedChecklist;
     }
@@ -637,6 +661,7 @@ function addAllEventListeners(checklistObj, settings) {
                     trimesterObj[key].taskCount = newTaskCount.toString();
                     trimesterObj[key]["task" + newTaskCount.toString()] = taskObj;
                     trimesterObj[key]["task" + newTaskCount.toString()].id = newTaskCount.toString();
+                    trimesterObj.taskCount = newTaskCount.toString();
                     taskCount = newTaskCount.toString();
                 }
             });

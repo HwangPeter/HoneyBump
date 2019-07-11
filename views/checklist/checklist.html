@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="checklist/checklist.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
@@ -27,7 +27,26 @@
             <div class="centerX">
                 <div id="checklist-container">
                     <div id="checklist-header">
-                        Checklist header. Need add task, trimester select, and sort-list buttons.
+                        <div class="trimester-button-container">
+                            <div class="trimester-button-div">
+                                <button id="prePregnancy" class="trimester-button">Pre</button>
+                            </div>
+                            <div class="trimester-button-div">
+                                <button id="firstTrimester" class="trimester-button">1st</button>
+                            </div>
+                            <div class="trimester-button-div">
+                                <button id="secondTrimester" class="trimester-button">2nd</button>
+                            </div>
+                            <div class="trimester-button-div">
+                                <button id="thirdTrimester" class="trimester-button">3rd</button>
+                            </div>
+                            <div class="trimester-button-div">
+                                <button id="postPregnancy" class="trimester-button">Post</button>
+                            </div>
+                            <div class="trimester-button-div">
+                                <button id="medicalConditions" class="trimester-button">Medical</button>
+                            </div>
+                        </div>
                     </div>
                     <div id="checklist">
                     </div>

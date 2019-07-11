@@ -69,11 +69,116 @@ footer {
     border-bottom: 1px solid #e0e6e8;
     border-radius: 4px 4px 0 0;
     align-items: center;
-    height: 55px;
+    height: 70px;
     position: relative;
     flex: auto;
-    padding-left: 30px;
-    padding-right: 30px;
+}
+
+.trimester-button-container {
+    display: block;
+    /* margin: 2px; */
+    height: 95%;
+    width: 85%;
+    /* TODO: Change background color back later. */
+    /* background-color: pink; */
+}
+
+.trimester-button-div {
+    display: inline-block;
+    width: 32%;
+    height: 44%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    /* background-color: red; */
+}
+
+.trimester-button {
+    font-size: 13px;
+    font-weight: 500;
+    height: 100%;
+    width: 100%;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 0px 0px 0px 0px;
+    position: relative;
+}
+
+#prePregnancy {
+    color: #a972cb;
+    border: 2px solid;
+    background: none;
+}
+
+#firstTrimester {
+    color: #ef6eae;
+    border: 2px solid;
+    background: none;
+}
+
+#secondTrimester {
+    color: #ff7f82;
+    border: 2px solid;
+    background: none;
+}
+
+#thirdTrimester {
+    color: #ffa260;
+    border: 2px solid;
+    background: none;
+}
+
+#postPregnancy {
+    color: #8fc866;
+    border: 2px solid;
+    background: none;
+}
+
+#medicalConditions {
+    color: #19bc8b;
+    border: 2px solid;
+    background: none;
+}
+
+.activePre {
+    border: 2px solid #a972cb !important;
+    background-color: #a972cb !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
+}
+
+.activeFirst {
+    border: 2px solid #ef6eae !important;
+    background-color: #ef6eae !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
+}
+
+.activeSecond {
+    border: 2px solid #ff7f82 !important;
+    background-color: #ff7f82 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
+}
+
+.activeThird {
+    border: 2px solid #ffa260 !important;
+    background-color: #ffa260 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
+}
+
+.activePost {
+    border: 2px solid #8fc866 !important;
+    background-color: #8fc866 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
+}
+
+.activeMedical {
+    border: 2px solid #19bc8b !important;
+    background-color: #19bc8b !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.0);
 }
 
 #checklist {
@@ -82,7 +187,7 @@ footer {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 185px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100vh - 200px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow-y: scroll;
 }
 
