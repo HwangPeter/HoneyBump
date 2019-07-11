@@ -1,8 +1,8 @@
 /* Checklist document structure
-Each document contains an object containing all information for that trimester. Each trimester is allocated its own document.
-User added tasks is also within its own document.
-Users -> UserID -> checklist -> name of trimester ->
-{
+Document contains an object containing all tasks across all trimesters.
+Each trimester as well as "Tasks I Added" are contained within their own objects.
+Users -> UserID -> checklist -> checklist ->
+prePregnancy: {
     sectionCount: string (To easily append sections, we need to keep track of them.)
     section1: {
         title: string (Name of the section. e.g. Daily, ASAP, etc.)
@@ -12,9 +12,10 @@ Users -> UserID -> checklist -> name of trimester ->
             description: string
             references: string
             completed: string (Used for the checkmark and organization.)
-            repeat: string (Used for when tasks appear in multiple trimesters and must be repeated.)
+            *repeat: string (Used for when tasks appear in multiple trimesters and must be repeated. Only exists if task needs repeating.)
             *notes: string (Only exists once user has added a note to a task.)
-            *hidden: stirng (Only exists if user has chosen to hide a task.)
+            *hidden: string (Only exists if user has chosen to hide a task.)
+            **id: string (Only exists for tasks in "Tasks I Added" section. Task id's needed here since tasks can have the same name.)
         }
         task2: {...}
         ...
@@ -31,7 +32,7 @@ firstTrimester: {...}
 secondTrimester: {...}
 thirdTrimester: {...}
 postPregnancy: {...}
-
+Tasks I Added: {...}
 */
 
 
