@@ -26,7 +26,6 @@
 }());
 
 // TODO: When marking a DEFAULT task as hidden, find all other default tasks with the same name and mark them as hidden as well.
-// TODO: Change activechecklists to a list of string instead of numbers. Can call the names of checklists directly (and medical conditions).
 
 // Requests users/{uid}/checklist/settings from firestore and returns the data.
 // If it does not exist, generates the data and creates a settings document. Sets showHidden and showComplete to false by default.
@@ -84,7 +83,7 @@ async function getActiveChecklists() {
                 else if (weeksPregnant > 12 && weeksPregnant <= 26) {
                     activeChecklists.push(2);
                 }
-                else if (weeksPregnant > 26) {
+                else if (weeksPregnant > 26 && weeksPregnant <= 40) {
                     activeChecklists.push(3);
                 }
                 else if (weeksPregnant > 40) {
@@ -161,6 +160,27 @@ async function loadChecklist() {
     }
 }
 
+// Returns the data contained in default checklist.
+// Returns error message if it failed.
+async function loadDefaultChecklist() {
+    let uid = firebase.auth().currentUser.uid;
+    let db = firebase.firestore();
+    try {
+        let snapshot = await db.collection('checklist').doc('defaultChecklist').get()
+        if (!snapshot.exists) {
+            console.log("Error storing default checklist." + e.message);
+            return e.message;
+        }
+        else {
+            return snapshot.data();
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return error.message;
+    }
+}
+
 async function generateChecklist(checklistObj, settings) {
     let checklist = document.getElementById('checklist');
     var currentlyDisplayedTaskList = [];
@@ -168,18 +188,34 @@ async function generateChecklist(checklistObj, settings) {
     let trimester = "";
 
     for (i = 0; i < settings.activeChecklists.length; i++) {
-        if (settings.activeChecklists[i] === 0) { trimester = "prePregnancy" }
-        else if (settings.activeChecklists[i] === 1) { trimester = "firstTrimester" }
-        else if (settings.activeChecklists[i] === 2) { trimester = "secondTrimester" }
-        else if (settings.activeChecklists[i] === 3) { trimester = "thirdTrimester" }
-        else if (settings.activeChecklists[i] === 4) { trimester = "PostPregnancy" }
+        if (settings.activeChecklists[i] === 0) {
+            trimester = "prePregnancy";
+            document.getElementById(trimester).classList.add("activePre");
+        }
+        else if (settings.activeChecklists[i] === 1) {
+            trimester = "firstTrimester";
+            document.getElementById(trimester).classList.add("activeFirst");
+        }
+        else if (settings.activeChecklists[i] === 2) {
+            trimester = "secondTrimester";
+            document.getElementById(trimester).classList.add("activeSecond");
+        }
+        else if (settings.activeChecklists[i] === 3) {
+            trimester = "thirdTrimester";
+            document.getElementById(trimester).classList.add("activeThird");
+        }
+        else if (settings.activeChecklists[i] === 4) {
+            trimester = "postPregnancy";
+            document.getElementById(trimester).classList.add("activePost");
+        }
         else if (settings.activeChecklists[i] === 5) { trimester = "Tasks I Added" }
+        //TODO: Add toggle for medical button.
 
         try {
             Object.keys(checklistObj[trimester]).forEach(key => {
                 if (typeof checklistObj[trimester][key] === "object") {
                     // Iterating through sections
-                    if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
+                    // if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
                         if (nextSectionIsAfterDaily) {
                             // This is to mark the section after Daily in order to add additional Daily tasks.
                             let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
@@ -190,6 +226,9 @@ async function generateChecklist(checklistObj, settings) {
 
                             checklist.insertAdjacentHTML('beforeend', sectionHTML);
                             nextSectionIsAfterDaily = false;
+                        }
+                        else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+
                         }
                         else {
                             let sectionHTML = '<div class="list-item-container">\n' +
@@ -205,7 +244,7 @@ async function generateChecklist(checklistObj, settings) {
                             if (typeof checklistObj[trimester][key][subKey] === "object") {
                                 //Iterating through tasks
                                 let inDailySection = (checklistObj[trimester][key].title === "Daily");
-                                if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, inDailySection)) {
+                                if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
                                     let taskHTML = "";
                                     if (trimester === "Tasks I Added") {
                                         taskHTML = '<div class="list-item-container">\n' +
@@ -258,17 +297,25 @@ async function generateChecklist(checklistObj, settings) {
                             nextSectionIsAfterDaily = true;
                         }
                     }
-                }
+                // }
             });
         }
         catch {
             // If a trimester is in activeChecklists but does not exist in the database, this removes the trimester from the activeChecklists.
             // Mostly for "Tasks I Added" being empty and it being listed as an activeChecklist.
-            if (!checklistObj[trimester]) {
+            if (!checklistObj[trimester] && trimester === "Tasks I Added") {
                 settings.activeChecklists = settings.activeChecklists.filter(function (item) {
                     return item !== settings.activeChecklists[i];
                 })
                 await storeSettings(settings);
+            }
+            else if (!checklistObj[trimester]) {
+                let defaultChecklist = await loadDefaultChecklist();
+                checklistObj[trimester] = defaultChecklist[trimester];
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
         }
     }
@@ -290,10 +337,18 @@ async function generateChecklist(checklistObj, settings) {
     document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
 }
 
+// Takes checklistObj containing all data. Saves it into DB using set and merge.
+// Returns promise from firestore.
+function storeChecklistIntoDB(checklistObj) {
+    let uid = firebase.auth().currentUser.uid;
+    let db = firebase.firestore();
+    return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
+}
+
 /* Takes the task obj, current displayed task list, settings obj, and boolean inDailySection
     Returns true or false depending on whether the task should be displayed.
 */
-function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, inDailySection) {
+function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, checklistObj, inDailySection) {
     let result = true;
     if ("hidden" in task && settings.showHidden !== "true") {
         result = false;
@@ -301,16 +356,45 @@ function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, inDai
     else if (task.completed === "true" && settings.showComplete !== "true") {
         result = false;
     }
-    else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task)) {
-        if (!inDailySection) {
-            result = true;
-        }
-        else {
+    else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && ("repeat" in task)) {
+        if (inDailySection) {
             result = false;
         }
+        else {
+            result = true;
+        }
+    }
+    else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task)) {
+        result = false;
     }
     else {
-        result = true;
+        // result = true;
+        result = checkForTaskInOtherTrimesters(task, checklistObj);
+    }
+    return result;
+}
+
+function checkForTaskInOtherTrimesters(taskObj, checklistObj) {
+    let result = true;
+    try {
+        for (let trimester in checklistObj) {
+            if (checklistObj[trimester] !== "Tasks I Added") {
+                for (let section in checklistObj[trimester]) {
+                    if (typeof checklistObj[trimester][section] === "object") {
+                        for (let task in checklistObj[trimester][section]) {
+                            if (typeof checklistObj[trimester][section][task] === "object" && checklistObj[trimester][section][task].name === taskObj.name) {
+                                if (checklistObj[trimester][section][task].completed === "true" || "hidden" in checklistObj[trimester][section][task]) {
+                                    result = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch (err) {
+        console.log(err);
     }
     return result;
 }
@@ -331,7 +415,7 @@ function addAllEventListeners(checklistObj, settings) {
         document.attachEvent("onclick", handleClick);
     }
 
-    function handleClick(event) {
+    async function handleClick(event) {
         event = event || window.event;
         const target = event.target || event.srcElement;
 
@@ -346,7 +430,7 @@ function addAllEventListeners(checklistObj, settings) {
             }
             else if (element.nodeName === "BUTTON") {
                 if (element.childNodes[0].data) {
-                    handleTrimesterButtonClick(element);
+                    await handleTrimesterButtonClick(element);
                 }
                 // TODO: Add else if for checklist buttons.
                 break;
@@ -355,9 +439,46 @@ function addAllEventListeners(checklistObj, settings) {
         }
     }
 
-    function handleTrimesterButtonClick(element) {
-        if (element.childNodes[0].data === "Pre") { element.classList.toggle("activePre") }
-        else if (element.childNodes[0].data === "1st") { element.classList.toggle("activeFirst") }
+    async function handleTrimesterButtonClick(element) {
+        if (element.childNodes[0].data === "Pre") {
+            element.classList.toggle("activePre"); //Change
+            if (element.classList.contains("activePre")) { //Change
+                settings.activeChecklists.push(0); //Change
+                settings.activeChecklists.sort(function (a, b) { return a - b });
+                await storeSettings(settings);
+            }
+            else {
+                if (settings.activeChecklists.indexOf(0) > -1) {
+                    settings.activeChecklists.splice(settings.activeChecklists.indexOf(0), 1);
+                }
+                await storeSettings(settings);
+            }
+            var myNode = document.getElementById("checklist");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
+            await generateChecklist(checklistObj, settings);
+        }
+        else if (element.childNodes[0].data === "1st") {
+            element.classList.toggle("activeFirst"); //Change
+            if (element.classList.contains("activeFirst")) { //Change
+                settings["activeChecklists"].push(1); //Change
+                settings["activeChecklists"].sort(function (a, b) { return a - b });
+                await storeSettings(settings);
+            }
+            else {
+                let index = settings.activeChecklists.indexOf(1);
+                if (index > -1) {
+                    settings.activeChecklists.splice(index, 1);
+                }
+                await storeSettings(settings);
+            }
+            var myNode = document.getElementById("checklist");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
+            await generateChecklist(checklistObj, settings);
+        }
         else if (element.childNodes[0].data === "2nd") { element.classList.toggle("activeSecond") }
         else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
         else if (element.childNodes[0].data === "Post") { element.classList.toggle("activePost") }
@@ -602,16 +723,8 @@ function addAllEventListeners(checklistObj, settings) {
                     console.log("Failed to store new task." + e.message);
                 });
             settings.activeChecklists.push(5);
-            storeSettings(settings);
+            await storeSettings(settings);
         }
-    }
-
-    // Takes obj for a specific trimester checklist or "Tasks I Added" checklist object. Saves it into DB using set and merge.
-    // Returns promise from firestore.
-    function storeChecklistIntoDB(checklistObj) {
-        let uid = firebase.auth().currentUser.uid;
-        let db = firebase.firestore();
-        return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
     }
 
     /* Takes a task object and creates a checklist object containing that task obj. Takes optional isTasksIAdded parameter.
