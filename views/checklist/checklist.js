@@ -216,87 +216,87 @@ async function generateChecklist(checklistObj, settings) {
                 if (typeof checklistObj[trimester][key] === "object") {
                     // Iterating through sections
                     // if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
-                        if (nextSectionIsAfterDaily) {
-                            // This is to mark the section after Daily in order to add additional Daily tasks.
-                            let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
-                                '<div class="list-item">\n' +
-                                '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
-                                '</div>\n' +
-                                '</div>\n';
+                    if (nextSectionIsAfterDaily) {
+                        // This is to mark the section after Daily in order to add additional Daily tasks.
+                        let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
+                            '<div class="list-item">\n' +
+                            '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
+                            '</div>\n' +
+                            '</div>\n';
 
-                            checklist.insertAdjacentHTML('beforeend', sectionHTML);
-                            nextSectionIsAfterDaily = false;
-                        }
-                        else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-
-                        }
-                        else {
-                            let sectionHTML = '<div class="list-item-container">\n' +
-                                '<div class="list-item">\n' +
-                                '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
-                                '</div>\n' +
-                                '</div>\n';
-
-                            checklist.insertAdjacentHTML('beforeend', sectionHTML);
-                        }
-
-                        Object.keys(checklistObj[trimester][key]).forEach(subKey => {
-                            if (typeof checklistObj[trimester][key][subKey] === "object") {
-                                //Iterating through tasks
-                                let inDailySection = (checklistObj[trimester][key].title === "Daily");
-                                if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
-                                    let taskHTML = "";
-                                    if (trimester === "Tasks I Added") {
-                                        taskHTML = '<div class="list-item-container">\n' +
-                                            '<div class="list-item">\n' +
-                                            '<div class="button-div">\n' +
-                                            '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                                            '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                                            '</path >\n' +
-                                            '</svg >\n' +
-                                            '</button >\n' +
-                                            '</div >\n' +
-                                            '<div class="textarea-div">\n' +
-                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
-                                            + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                            '</div >\n' +
-                                            '</div >\n' +
-                                            '</div >\n'
-                                    }
-                                    else {
-                                        taskHTML = '<div class="list-item-container">\n' +
-                                            '<div class="list-item">\n' +
-                                            '<div class="button-div">\n' +
-                                            '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                                            '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                                            '</path >\n' +
-                                            '</svg >\n' +
-                                            '</button >\n' +
-                                            '</div >\n' +
-                                            '<div class="textarea-div">\n' +
-                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                            '</div >\n' +
-                                            '</div >\n' +
-                                            '</div >\n'
-                                    }
-
-                                    if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-                                        // If we're in the daily section of a trimester and there is already a daily section displayed
-                                        document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
-                                    }
-                                    else {
-                                        checklist.insertAdjacentHTML('beforeend', taskHTML);
-                                    }
-                                    currentlyDisplayedTaskList.push(checklistObj[trimester][key][subKey].name);
-                                }
-                            }
-                        });
-                        // This is so Daily section isnt displayed multiple times.
-                        if (checklistObj[trimester][key].title === "Daily") {
-                            currentlyDisplayedTaskList.push("Daily");
-                            nextSectionIsAfterDaily = true;
-                        }
+                        checklist.insertAdjacentHTML('beforeend', sectionHTML);
+                        nextSectionIsAfterDaily = false;
                     }
+                    else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+
+                    }
+                    else {
+                        let sectionHTML = '<div class="list-item-container">\n' +
+                            '<div class="list-item">\n' +
+                            '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
+                            '</div>\n' +
+                            '</div>\n';
+
+                        checklist.insertAdjacentHTML('beforeend', sectionHTML);
+                    }
+
+                    Object.keys(checklistObj[trimester][key]).forEach(subKey => {
+                        if (typeof checklistObj[trimester][key][subKey] === "object") {
+                            //Iterating through tasks
+                            let inDailySection = (checklistObj[trimester][key].title === "Daily");
+                            if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
+                                let taskHTML = "";
+                                if (trimester === "Tasks I Added") {
+                                    taskHTML = '<div class="list-item-container">\n' +
+                                        '<div class="list-item">\n' +
+                                        '<div class="button-div">\n' +
+                                        '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                                        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                                        '</path >\n' +
+                                        '</svg >\n' +
+                                        '</button >\n' +
+                                        '</div >\n' +
+                                        '<div class="textarea-div">\n' +
+                                        '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
+                                        + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
+                                        '</div >\n' +
+                                        '</div >\n' +
+                                        '</div >\n'
+                                }
+                                else {
+                                    taskHTML = '<div class="list-item-container">\n' +
+                                        '<div class="list-item">\n' +
+                                        '<div class="button-div">\n' +
+                                        '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                                        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                                        '</path >\n' +
+                                        '</svg >\n' +
+                                        '</button >\n' +
+                                        '</div >\n' +
+                                        '<div class="textarea-div">\n' +
+                                        '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
+                                        '</div >\n' +
+                                        '</div >\n' +
+                                        '</div >\n'
+                                }
+
+                                if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+                                    // If we're in the daily section of a trimester and there is already a daily section displayed
+                                    document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
+                                }
+                                else {
+                                    checklist.insertAdjacentHTML('beforeend', taskHTML);
+                                }
+                                currentlyDisplayedTaskList.push(checklistObj[trimester][key][subKey].name);
+                            }
+                        }
+                    });
+                    // This is so Daily section isnt displayed multiple times.
+                    if (checklistObj[trimester][key].title === "Daily") {
+                        currentlyDisplayedTaskList.push("Daily");
+                        nextSectionIsAfterDaily = true;
+                    }
+                }
                 // }
             });
         }
@@ -368,7 +368,6 @@ function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, check
         result = false;
     }
     else {
-        // result = true;
         result = checkForTaskInOtherTrimesters(task, checklistObj);
     }
     return result;
@@ -402,10 +401,13 @@ function checkForTaskInOtherTrimesters(taskObj, checklistObj) {
 function addAllEventListeners(checklistObj, settings) {
     const db = firebase.firestore();
     const addTaskCloseBtn = document.getElementById('cancel');
-    const addTaskDoneBtn = document.getElementById('add-task-done-btn');
+    const addTaskDoneBtn = document.getElementById('done');
     var addingNewTask = false;
     var currentTaskInfo = {};
     var taskTextArea;
+    //For checking if description was changed.
+    var unEditedDescription = "" ;
+    var unEditedTaskName = "";
 
     // Event delegation for handling clicks on any particular task.
     if (document.addEventListener) {
@@ -440,6 +442,7 @@ function addAllEventListeners(checklistObj, settings) {
     }
 
     async function handleTrimesterButtonClick(element) {
+        disableTrimesterButtons();
         if (element.childNodes[0].data === "Pre") {
             element.classList.toggle("activePre"); //Change
             if (element.classList.contains("activePre")) { //Change
@@ -483,6 +486,25 @@ function addAllEventListeners(checklistObj, settings) {
         else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
         else if (element.childNodes[0].data === "Post") { element.classList.toggle("activePost") }
         else if (element.childNodes[0].data === "Medical") { element.classList.toggle("activeMedical") }
+        enableTrimesterButtons();
+    }
+
+    function disableTrimesterButtons() {
+        document.getElementById('prePregnancy').disabled = true;
+        document.getElementById('firstTrimester').disabled = true;
+        document.getElementById('secondTrimester').disabled = true;
+        document.getElementById('thirdTrimester').disabled = true;
+        document.getElementById('postPregnancy').disabled = true;
+        document.getElementById('medicalConditions').disabled = true;
+    }
+
+    function enableTrimesterButtons() {
+        document.getElementById('prePregnancy').disabled = false;
+        document.getElementById('firstTrimester').disabled = false;
+        document.getElementById('secondTrimester').disabled = false;
+        document.getElementById('thirdTrimester').disabled = false;
+        document.getElementById('postPregnancy').disabled = false;
+        document.getElementById('medicalConditions').disabled = false;
     }
 
     function handleListItemContainerClick(element) {
@@ -510,6 +532,8 @@ function addAllEventListeners(checklistObj, settings) {
                 document.getElementById('add-task-task-name').disabled = !description.editable;
                 if (description.editable) {
                     document.getElementById('add-description-area').placeholder = "Add description...";
+                    unEditedDescription = document.getElementById('add-description-area').value;
+                    unEditedTaskName = document.getElementById('add-task-task-name').value;
                 }
                 else {
                     document.getElementById('add-description-area').placeholder = "";
@@ -606,23 +630,35 @@ function addAllEventListeners(checklistObj, settings) {
                     id: "1"
                 }
                 await addNewTaskToChecklist(taskObj);
+                closeAddTaskMenu();
             }
             else if (currentTaskInfo.id) {
                 // Modifying a task in "Tasks I Added"
-                taskObj = {
-                    name: document.getElementById('add-task-task-name').value,
-                    description: document.getElementById('add-description-area').value,
-                    references: "",
-                    completed: "false",
-                    id: currentTaskInfo.id
+                if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value) {
+                    // Changes were made to the task.
+                    taskObj = {
+                        name: document.getElementById('add-task-task-name').value,
+                        description: document.getElementById('add-description-area').value,
+                        references: "",
+                        completed: "false",
+                        id: currentTaskInfo.id
+                    }
+                    updateChecklistObj(taskObj);
+                    taskTextArea.value = document.getElementById('add-task-task-name').value;
+                    closeAddTaskMenu();
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
                 }
-                updateChecklistObj(taskObj);
-                taskTextArea.value = document.getElementById('add-task-task-name').value;
+                else {
+                    // No changes made to task.
+                    console.log("No changes made");
+                    closeAddTaskMenu();
+                }
+            }
+            else {
                 closeAddTaskMenu();
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
             }
         }
         else {

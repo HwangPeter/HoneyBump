@@ -139,13 +139,15 @@ const checklistObj = {
                 name: "Apply stretch mark prevention cream",
                 description: "Why?\nWhile stretch marks during pregnancy may not be completely preventable, you can reduce your chances of getting them by liberally applying stretch mark prevention cream each day. Consider applying this lotion not only to your stomach, but also to your breasts, buttocks, back and thighs.",
                 references: "",
-                completed: "false"
+                completed: "false",
+                repeat: "true"
             },
             task4: {
                 name: "Read baby books",
                 description: "",
                 references: "",
-                completed: "false"
+                completed: "false",
+                repeat: "true"
             }
         },
         section2: {
