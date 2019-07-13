@@ -33,6 +33,11 @@ secondTrimester: {...}
 thirdTrimester: {...}
 postPregnancy: {...}
 Tasks I Added: {...}
+settings: {
+    activeChecklists: list containing Numbers showing the active trimesters.
+    showComplete: string
+    showHidden: string
+}
 */
 
 

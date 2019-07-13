@@ -12,11 +12,10 @@
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            let settings = await getSettings();
             let checklistObj = await loadChecklist();
 
-            await generateChecklist(checklistObj, settings);
-            addAllEventListeners(checklistObj, settings);
+            await generateChecklist(checklistObj, checklistObj.settings);
+            addAllEventListeners(checklistObj, checklistObj.settings);
         }
         else {
             console.log("User is logged out. Access denied.");
@@ -26,31 +25,6 @@
 }());
 
 // TODO: When marking a DEFAULT task as hidden, find all other default tasks with the same name and mark them as hidden as well.
-
-// Requests users/{uid}/checklist/settings from firestore and returns the data.
-// If it does not exist, generates the data and creates a settings document. Sets showHidden and showComplete to false by default.
-async function getSettings() {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-
-    let snapshot = await db.collection('users').doc(uid).collection('checklist').doc('settings').get()
-    if (!snapshot.exists) {
-        let settings = {
-            activeChecklists: await getActiveChecklists(),
-            showHidden: "false",
-            showComplete: "false"
-        }
-        await storeSettings(settings)
-            .catch(e => {
-                console.log("Error storing settings." + e.message);
-                return settings;
-            })
-        return settings;
-    }
-    else {
-        return snapshot.data();
-    }
-}
 
 /* Reads users/{uid}/document to get activeChecklists. If missing, estimates trimester based on baby's due date.
 If that is also missing, returns [0] for prepregnancy.
@@ -126,12 +100,12 @@ function dayDiff(CurrentDate, targetDate) {
 /* Takes a settings object.
     Returns the promise from firebase of the storing request.
 */
-async function storeSettings(settings) {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-    settings.activeChecklists.sort(function (a, b) { return a - b });
-    return db.collection('users').doc(uid).collection('checklist').doc('settings').set(settings, { merge: true })
-}
+// async function storeSettings(settings) {
+//     let uid = firebase.auth().currentUser.uid;
+//     let db = firebase.firestore();
+//     settings.activeChecklists.sort(function (a, b) { return a - b });
+//     return db.collection('users').doc(uid).collection('checklist').doc('settings').set(settings, { merge: true })
+// }
 
 /* Returns the data contained in user's checklist, or returns default checklist if user doesn't have one.
 Returns error message if it failed.
@@ -143,15 +117,34 @@ async function loadChecklist() {
         let snapshot = await db.collection('users').doc(uid).collection('checklist').doc("checklist").get()
         if (!snapshot.exists) {
             let defaultChecklist = await db.collection('checklist').doc("defaultChecklist").get()
-            await db.collection('users').doc(uid).collection('checklist').doc("checklist").set(defaultChecklist.data())
+            let checklistObj = defaultChecklist.data();
+            let settings = {
+                activeChecklists: await getActiveChecklists(),
+                showHidden: "false",
+                showComplete: "false"
+            }
+            checklistObj.settings = settings;
+            storeChecklistIntoDB(checklistObj, true)
                 .catch(e => {
-                    console.log("Error storing default checklist." + e.message);
-                    return e.message;
-                })
-            return defaultChecklist.data();
+                    console.log("Failed to store settings." + e.message);
+                });
+            return checklistObj;
         }
         else {
-            return snapshot.data();
+            let checklistObj = snapshot.data();
+            if (!("settings" in snapshot.data())) {
+                let settings = {
+                    activeChecklists: await getActiveChecklists(),
+                    showHidden: "false",
+                    showComplete: "false"
+                }
+                checklistObj.settings = settings;
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store settings." + e.message);
+                    });
+            }
+            return checklistObj;
         }
     }
     catch (error) {
@@ -228,7 +221,7 @@ async function generateChecklist(checklistObj, settings) {
                         nextSectionIsAfterDaily = false;
                     }
                     else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-
+                        // Do nothing if Daily section is already placed onto checklist.
                     }
                     else {
                         let sectionHTML = '<div class="list-item-container">\n' +
@@ -307,7 +300,10 @@ async function generateChecklist(checklistObj, settings) {
                 settings.activeChecklists = settings.activeChecklists.filter(function (item) {
                     return item !== settings.activeChecklists[i];
                 })
-                await storeSettings(settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
             else if (!checklistObj[trimester]) {
                 let defaultChecklist = await loadDefaultChecklist();
@@ -319,7 +315,7 @@ async function generateChecklist(checklistObj, settings) {
             }
         }
     }
-
+    removeEmptySections();
     let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
         '<div class="list-item">\n' +
         '<div class="button-div">\n' +
@@ -337,12 +333,30 @@ async function generateChecklist(checklistObj, settings) {
     document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
 }
 
-// Takes checklistObj containing all data. Saves it into DB using set and merge.
+// Checks for sections next to each other and deletes the first section if found.
+function removeEmptySections() {
+    let checklistItems = document.getElementById('checklist').children;
+    for (var i = 0; i < checklistItems.length - 1; i++) {
+        // Removing section from checklist.
+        if (checklistItems[i].children[0].children[0].nodeName === "H2" && checklistItems[i + 1].children[0].children[0].nodeName === "H2") {
+            document.getElementById('checklist').removeChild(checklistItems[i]);
+            break;
+        }
+    }
+}
+
+// Takes checklistObj containing all data. Optional boolean deleting value.
+// Saves it into DB using set and merge. Merge is false if deleting.
 // Returns promise from firestore.
-function storeChecklistIntoDB(checklistObj) {
+function storeChecklistIntoDB(checklistObj, deleting) {
     let uid = firebase.auth().currentUser.uid;
     let db = firebase.firestore();
-    return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
+    if (deleting) {
+        return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj);
+    }
+    else {
+        return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
+    }
 }
 
 /* Takes the task obj, current displayed task list, settings obj, and boolean inDailySection
@@ -373,6 +387,8 @@ function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, check
     return result;
 }
 
+// Takes a task object and the checklist object and checks for the same task in other trimesters. 
+// Returns whether task should be displayed as a boolean value.
 function checkForTaskInOtherTrimesters(taskObj, checklistObj) {
     let result = true;
     try {
@@ -402,12 +418,14 @@ function addAllEventListeners(checklistObj, settings) {
     const db = firebase.firestore();
     const addTaskCloseBtn = document.getElementById('cancel');
     const addTaskDoneBtn = document.getElementById('done');
+    const deleteBtn = document.getElementById('delete');
     var addingNewTask = false;
     var currentTaskInfo = {};
     var taskTextArea;
     //For checking if description was changed.
-    var unEditedDescription = "" ;
+    var unEditedDescription = "";
     var unEditedTaskName = "";
+    var unEditedNotes = "";
 
     // Event delegation for handling clicks on any particular task.
     if (document.addEventListener) {
@@ -448,13 +466,19 @@ function addAllEventListeners(checklistObj, settings) {
             if (element.classList.contains("activePre")) { //Change
                 settings.activeChecklists.push(0); //Change
                 settings.activeChecklists.sort(function (a, b) { return a - b });
-                await storeSettings(settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
             else {
                 if (settings.activeChecklists.indexOf(0) > -1) {
                     settings.activeChecklists.splice(settings.activeChecklists.indexOf(0), 1);
                 }
-                await storeSettings(settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
             var myNode = document.getElementById("checklist");
             while (myNode.firstChild) {
@@ -467,14 +491,20 @@ function addAllEventListeners(checklistObj, settings) {
             if (element.classList.contains("activeFirst")) { //Change
                 settings["activeChecklists"].push(1); //Change
                 settings["activeChecklists"].sort(function (a, b) { return a - b });
-                await storeSettings(settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
             else {
                 let index = settings.activeChecklists.indexOf(1);
                 if (index > -1) {
                     settings.activeChecklists.splice(index, 1);
                 }
-                await storeSettings(settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
             }
             var myNode = document.getElementById("checklist");
             while (myNode.firstChild) {
@@ -516,6 +546,7 @@ function addAllEventListeners(checklistObj, settings) {
             document.getElementById('add-description-area').placeholder = "Add description...";
             document.getElementById('add-task-container').classList.remove("slideOutDown");
             document.getElementById('add-task-container').style.display = "";
+            document.getElementById('delete').style.display = "none";
             addingNewTask = true;
         }
         else if (element.id === "add-task-task-name") {
@@ -524,12 +555,16 @@ function addAllEventListeners(checklistObj, settings) {
         else {
             // Clicked on any task.
             currentTaskInfo = getTaskInfo(element);
+            document.getElementById('delete').style.display = "";
             if (currentTaskInfo.taskName) {
-                let description = getDescription(checklistObj, currentTaskInfo);
+                let description = getTaskData(checklistObj, currentTaskInfo);
                 document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
                 document.getElementById('add-description-area').value = description.data;
                 document.getElementById('add-description-area').disabled = !description.editable;
                 document.getElementById('add-task-task-name').disabled = !description.editable;
+                if ("notesData" in description) {
+                    document.getElementById('add-notes-area').value = description.notesData;
+                }
                 if (description.editable) {
                     document.getElementById('add-description-area').placeholder = "Add description...";
                     unEditedDescription = document.getElementById('add-description-area').value;
@@ -538,6 +573,7 @@ function addAllEventListeners(checklistObj, settings) {
                 else {
                     document.getElementById('add-description-area').placeholder = "";
                 }
+                unEditedNotes = document.getElementById('add-notes-area').value;
                 document.getElementById('add-task-container').classList.remove("slideOutDown");
                 document.getElementById('add-task-container').style.display = "";
                 autoSize(document.getElementById('add-task-task-name'));
@@ -572,11 +608,11 @@ function addAllEventListeners(checklistObj, settings) {
     }
 
     /* Takes object which contains all checklist data. 
-    Searches for the task name and returns an object containing description inside data key and editable key.
     Default tasks are return editable as false, custom tasks return editable as true.
-    Returns obj with editable key as true if not found.
+    Searches for the task name and returns an object containing description inside data key, editable key, and notes in notesData key.
+    Editable key is true if not found.
     */
-    function getDescription(checklistObj, taskInfo) {
+    function getTaskData(checklistObj, taskInfo) {
         var description = {};
         description.editable = true;
         Object.keys(checklistObj).forEach(trimester => {
@@ -589,11 +625,17 @@ function addAllEventListeners(checklistObj, settings) {
                             if ("id" in taskInfo && checklistObj[trimester][key][subKey].id === taskInfo.id) {
                                 description.data = checklistObj[trimester][key][subKey].description;
                                 description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                if ("notes" in checklistObj[trimester][key][subKey]) {
+                                    description.notesData = checklistObj[trimester][key][subKey].notes
+                                }
                                 return description;
                             }
                             else if (!("id" in taskInfo) && checklistObj[trimester][key][subKey].name === taskInfo.taskName) {
                                 description.data = checklistObj[trimester][key][subKey].description;
                                 description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                if ("notes" in checklistObj[trimester][key][subKey]) {
+                                    description.notesData = checklistObj[trimester][key][subKey].notes
+                                }
                                 return description;
                             }
                         }
@@ -603,6 +645,64 @@ function addAllEventListeners(checklistObj, settings) {
         });
         return description;
     }
+
+    // User clicked "delete" button. Deletes the task as well as any duplicate tasks in other trimesters.
+    deleteBtn.addEventListener('click', async () => {
+        try {
+            // Try block is to exit the function early when a trimester is deleted.
+            for (trimester in checklistObj) {
+                if (trimester !== "settings") {
+                    for (section in checklistObj[trimester]) {
+                        if (typeof checklistObj[trimester][section] === "object") {
+                            for (task in checklistObj[trimester][section]) {
+                                if (typeof checklistObj[trimester][section][task] === "object") {
+                                    // Iterating through tasks.
+                                    if ("id" in currentTaskInfo && checklistObj[trimester][section][task].id === currentTaskInfo.id) {
+                                        // Handling delete of user added tasks.
+                                        delete checklistObj[trimester][section][task];
+                                        checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                        checklistObj[trimester].taskCount = (parseInt(checklistObj[trimester].taskCount) - 1).toString();
+                                        if (checklistObj[trimester].taskCount === "0") {
+                                            let checklistItems = document.getElementById('checklist').children;
+                                            for (var i = 0; i < checklistItems.length; i++) {
+                                                if (checklistItems[i].children[0].children[0].innerHTML === "Tasks I Added") {
+                                                    document.getElementById('checklist').removeChild(checklistItems[i]);
+                                                    break;
+                                                }
+                                            }
+                                            delete checklistObj[trimester];
+                                            return;
+                                        }
+                                    }
+                                    else if (!("id" in currentTaskInfo) && checklistObj[trimester][section][task].name === currentTaskInfo.taskName) {
+                                        // Handling delete of default given tasks.
+                                        delete checklistObj[trimester][section][task];
+                                        checklistObj[trimester][key].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                    }
+                                }
+                            };
+                        }
+                        if (checklistObj[trimester][section].taskCount === "0") {
+                            delete checklistObj[trimester][section];
+                        }
+                    };
+                    if (checklistObj[trimester].sectionCount === "0") {
+                        delete checklistObj[trimester];
+                    }
+                };
+            }
+        }
+        catch (err) {
+            console.log("Error inside try catch." + err.message);
+        }
+        taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
+        removeEmptySections();
+        closeAddTaskMenu();
+        await storeChecklistIntoDB(checklistObj, true)
+            .catch(e => {
+                console.log("Failed to delete task." + e.message);
+            });
+    });
 
     // User clicked "cancel" button inside add task menu. Closes add task menu.
     addTaskCloseBtn.addEventListener('click', () => {
@@ -614,7 +714,8 @@ function addAllEventListeners(checklistObj, settings) {
         document.getElementById('add-task-task-name').value = "";
         document.getElementById('add-task-task-name').style.height = "40px";
         document.getElementById('add-description-area').value = "";
-        document.getElementById('add-task-task-name').style = ""
+        document.getElementById('add-task-task-name').style = "";
+        document.getElementById('add-notes-area').value = "";
     }
 
     // User clicked "Done" button inside add task menu. 
@@ -629,19 +730,26 @@ function addAllEventListeners(checklistObj, settings) {
                     completed: "false",
                     id: "1"
                 }
+                if (document.getElementById('add-notes-area').value) {
+                    taskObj.notes = document.getElementById('add-notes-area').value;
+                }
                 await addNewTaskToChecklist(taskObj);
                 closeAddTaskMenu();
             }
             else if (currentTaskInfo.id) {
                 // Modifying a task in "Tasks I Added"
-                if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value) {
+                if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value || unEditedNotes !== document.getElementById('add-notes-area').value) {
                     // Changes were made to the task.
+                    // TODO: Get complete value from whether button is complete.
                     taskObj = {
                         name: document.getElementById('add-task-task-name').value,
                         description: document.getElementById('add-description-area').value,
                         references: "",
                         completed: "false",
                         id: currentTaskInfo.id
+                    }
+                    if (document.getElementById('add-notes-area').value) {
+                        taskObj.notes = document.getElementById('add-notes-area').value;
                     }
                     updateChecklistObj(taskObj);
                     taskTextArea.value = document.getElementById('add-task-task-name').value;
@@ -658,6 +766,21 @@ function addAllEventListeners(checklistObj, settings) {
                 }
             }
             else {
+                if (unEditedNotes !== document.getElementById('add-notes-area').value) {
+                    console.log("Storing new notes");
+                    taskObj = {
+                        name: document.getElementById('add-task-task-name').value,
+                        description: document.getElementById('add-description-area').value,
+                        references: "",
+                        completed: "false",
+                        notes: document.getElementById('add-notes-area').value
+                    }
+                    updateChecklistObj(taskObj);
+                    await storeChecklistIntoDB(checklistObj, true)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
+                }
                 closeAddTaskMenu();
             }
         }
@@ -759,7 +882,10 @@ function addAllEventListeners(checklistObj, settings) {
                     console.log("Failed to store new task." + e.message);
                 });
             settings.activeChecklists.push(5);
-            await storeSettings(settings);
+            await storeChecklistIntoDB(checklistObj)
+                .catch(e => {
+                    console.log("Failed to store new task." + e.message);
+                });
         }
     }
 
@@ -830,7 +956,7 @@ function addAllEventListeners(checklistObj, settings) {
         try {
             // For when called by event listeners for input
             this.style.height = 'auto';
-            let maxHeight = document.getElementById('add-task-top-container').offsetHeight * 0.8;
+            let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.6;
             if (this.scrollHeight < maxHeight) {
                 this.style.height = (this.scrollHeight) + 'px';
             }
@@ -842,7 +968,7 @@ function addAllEventListeners(checklistObj, settings) {
             try {
                 // For when called by clicking open a task.
                 element.style.height = 'auto';
-                let maxHeight = document.getElementById('add-task-top-container').offsetHeight * 0.8;
+                let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.6;
                 if (element.scrollHeight < maxHeight) {
                     element.style.height = (element.scrollHeight) + 'px';
                 }

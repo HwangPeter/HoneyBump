@@ -231,7 +231,7 @@ footer {
     overflow: hidden;
     position: relative;
     resize: none;
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
 }
 
 .button-div {
@@ -240,7 +240,7 @@ footer {
     height: 100%;
 }
 
-#add-task-top-container {
+#add-task-bottom-container {
     height: calc(100% - 55px);
     overflow-y: auto;
 }
@@ -255,7 +255,7 @@ footer {
 .textarea-description-div {
     display: inline-block; 
     width: calc(100% - 34px);
-    /* height: calc(100% - 50px - 45px); */
+    /* max-height: calc(100% - 100px - 45px); */
 }
 
 #add-description-area {
@@ -298,6 +298,21 @@ textarea {
 textarea:focus {
     outline: none !important;
     border-bottom: 2px solid #6B5875;
+}
+
+#add-notes-area {
+    min-height: 80px;
+    border: none;
+    overflow-y: auto;
+    border: 2px solid transparent;
+    border-bottom: 1px solid #d5dce0;
+    border-radius: 4px;
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+}
+
+#add-notes-area:focus {
+    border: 2px solid #d5dce0;
 }
 
 button {
@@ -366,7 +381,8 @@ button:hover {
     position: relative;
     width: 100%;
     height: 35px;
-    bottom: 0;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e0e6e8;
 }
 
 .option-button-div {
