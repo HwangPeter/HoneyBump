@@ -1,4 +1,4 @@
-checklistNameSpace = function () {
+(function () {
     var checklistObj;
     // Initialize Firebase
     var firebaseConfig = {
@@ -621,6 +621,7 @@ checklistNameSpace = function () {
             }
             else {
                 // Clicked on any task.
+                document.getElementById('checklist-container').classList.add("shifted-left");
                 currentTaskInfo = getTaskNameID(element);
                 document.getElementById('delete').style.display = "";
                 if (currentTaskInfo.taskName) {
@@ -778,11 +779,14 @@ checklistNameSpace = function () {
 
         function closeAddTaskMenu() {
             document.getElementById('add-task-container').classList.add("slideOutDown");
-            document.getElementById('add-task-task-name').value = "";
-            document.getElementById('add-task-task-name').style.height = "40px";
-            document.getElementById('add-description-area').value = "";
-            document.getElementById('add-task-task-name').style = "";
-            document.getElementById('add-notes-area').value = "";
+            setTimeout(function () {
+                document.getElementById('add-task-task-name').value = "";
+                document.getElementById('add-task-task-name').style.height = "40px";
+                document.getElementById('add-description-area').value = "";
+                document.getElementById('add-task-task-name').style = "";
+                document.getElementById('add-notes-area').value = "";
+                document.getElementById('checklist-container').classList.remove("shifted-left");
+            }, 220);
         }
 
         // User clicked "Done" button inside add task menu. 
@@ -1021,7 +1025,7 @@ checklistNameSpace = function () {
             try {
                 // For when called by event listeners for input
                 this.style.height = 'auto';
-                let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.4;
+                let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.35;
                 if (this.scrollHeight < maxHeight) {
                     this.style.height = (this.scrollHeight) + 'px';
                 }
@@ -1033,7 +1037,7 @@ checklistNameSpace = function () {
                 try {
                     // For when called by clicking open a task.
                     element.style.height = 'auto';
-                    let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.4;
+                    let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.35;
                     if (element.scrollHeight < maxHeight) {
                         element.style.height = (element.scrollHeight) + 'px';
                     }
@@ -1090,7 +1094,7 @@ checklistNameSpace = function () {
 
         /* User clicked on the additional options button*/
         function optionsClicked() {
-            let buttonWidth = document.getElementById('additional-options-button').offsetWidth - 201;
+            let buttonWidth = document.getElementById('button-container').offsetWidth - 201;
             document.getElementById('options-dropdown').style.transform = "translate(" + buttonWidth + "px, 10px)";
             document.getElementById("options-dropdown").classList.toggle("show");
         }
@@ -1104,4 +1108,4 @@ checklistNameSpace = function () {
             document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
         }
     }
-}();
+})();
