@@ -47,7 +47,7 @@ main {
 .centerX {
     margin: auto;
     position: relative;
-    height: 100%;
+    height: calc(100% - 4px);
 }
 
 footer { 
@@ -61,7 +61,7 @@ footer {
     border: 2px solid #6B5875;
     box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
     position: relative;
-    height: calc(100% - 4px);
+    height: calc(100%);
 }
 
 .shifted-left {
@@ -264,7 +264,7 @@ footer {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 200px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100vh - 201px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow-y: scroll;
 }
 
@@ -338,10 +338,9 @@ footer {
 
 #add-description-area {
     min-height: 80px;
-    border: none;
     overflow-y: auto;
     border: 2px solid transparent;
-    border-bottom: 1px solid #d5dce0;
+    border-bottom: 2px solid #d5dce0;
     border-radius: 4px;
     width: calc(100% - 20px);
     padding: 0px 10px;
@@ -368,7 +367,7 @@ textarea {
     resize: none;
     top: 0;
     width: 100%;
-    border-bottom: 1px solid #e0e6e8;
+    border-bottom: 2px solid #e0e6e8;
     /* padding: 0px 10px; */
     box-sizing: padding-box;
 }
@@ -380,10 +379,9 @@ textarea:focus {
 
 #add-notes-area {
     min-height: 80px;
-    border: none;
     overflow-y: auto;
     border: 2px solid transparent;
-    border-bottom: 1px solid #d5dce0;
+    border-bottom: 2x solid #d5dce0;
     border-radius: 4px;
     width: calc(100% - 20px);
     padding: 0px 10px;
@@ -432,7 +430,7 @@ button.checkmark{
     position: absolute;
     border-radius: 4px;
     background-color: white;
-    height: calc(100% - 4px);
+    height: calc(100%);
     width: calc(100% - 4px);
     top: 0;
     left: 0;

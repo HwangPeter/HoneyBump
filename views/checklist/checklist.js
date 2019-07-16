@@ -621,7 +621,9 @@
             }
             else {
                 // Clicked on any task.
-                document.getElementById('checklist-container').classList.add("shifted-left");
+                if (element.childNodes[1].childNodes[1].nodeName !== "H2"){
+                    document.getElementById('checklist-container').classList.add("shifted-left");
+                }
                 currentTaskInfo = getTaskNameID(element);
                 document.getElementById('delete').style.display = "";
                 if (currentTaskInfo.taskName) {
