@@ -1,4 +1,5 @@
-(function () {
+checklistNameSpace = function () {
+    var checklistObj;
     // Initialize Firebase
     var firebaseConfig = {
         apiKey: "AIzaSyCi8N03o0dLjoU83NoQUES5Vb3bUspOkCI",
@@ -12,973 +13,1096 @@
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-            let checklistObj = await loadChecklist();
+            checklistObj = await loadChecklist();
 
             await generateChecklist(checklistObj, checklistObj.settings);
             addAllEventListeners(checklistObj, checklistObj.settings);
+            updateDropdownMenu();
         }
         else {
             console.log("User is logged out. Access denied.");
             window.location.href = "/signUpLogin";
         }
     });
-}());
+    // TODO: When marking a DEFAULT task as hidden, find all other default tasks with the same name and mark them as hidden as well.
 
-// TODO: When marking a DEFAULT task as hidden, find all other default tasks with the same name and mark them as hidden as well.
-
-/* Reads users/{uid}/document to get activeChecklists. If missing, estimates trimester based on baby's due date.
-If that is also missing, returns [0] for prepregnancy.
-Always returns a list of numbers. */
-async function getActiveChecklists() {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-    var activeChecklists = [];
-    try {
-        let snapshot = await db.collection('users').doc(uid).get()
-        if (!snapshot.exists) {
-            return (new Error("Something went wrong grabbing user info"));
-        }
-        else {
-            let data = snapshot.data();
-            if ("activeChecklists" in data) {
-                activeChecklists = data.activeChecklists;
+    /* Reads users/{uid}/document to get activeChecklists. If missing, estimates trimester based on baby's due date.
+    If that is also missing, returns [0] for prepregnancy.
+    Always returns a list of numbers. */
+    async function getActiveChecklists() {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        var activeChecklists = [];
+        try {
+            let snapshot = await db.collection('users').doc(uid).get()
+            if (!snapshot.exists) {
+                return (new Error("Something went wrong grabbing user info"));
             }
-            else if ("babyDay" in data) {
-                let babyBirthdate = toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay) + ", " + toDoubleDigit(data.babyYear);
-                let today = new Date();
-                let daysLeft = dayDiff(today, babyBirthdate);
-                let weeksPregnant = Math.floor((40 - (daysLeft / 7)));
-                if (weeksPregnant < 0) {
-                    activeChecklists.push(0);
+            else {
+                let data = snapshot.data();
+                if ("activeChecklists" in data) {
+                    activeChecklists = data.activeChecklists;
                 }
-                else if (weeksPregnant >= 0 && weeksPregnant <= 12) {
-                    activeChecklists.push(1);
-                }
-                else if (weeksPregnant > 12 && weeksPregnant <= 26) {
-                    activeChecklists.push(2);
-                }
-                else if (weeksPregnant > 26 && weeksPregnant <= 40) {
-                    activeChecklists.push(3);
-                }
-                else if (weeksPregnant > 40) {
-                    activeChecklists.push(4);
+                else if ("babyDay" in data) {
+                    let babyBirthdate = toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay) + ", " + toDoubleDigit(data.babyYear);
+                    let today = new Date();
+                    let daysLeft = dayDiff(today, babyBirthdate);
+                    let weeksPregnant = Math.floor((40 - (daysLeft / 7)));
+                    if (weeksPregnant < 0) {
+                        activeChecklists.push(0);
+                    }
+                    else if (weeksPregnant >= 0 && weeksPregnant <= 12) {
+                        activeChecklists.push(1);
+                    }
+                    else if (weeksPregnant > 12 && weeksPregnant <= 26) {
+                        activeChecklists.push(2);
+                    }
+                    else if (weeksPregnant > 26 && weeksPregnant <= 40) {
+                        activeChecklists.push(3);
+                    }
+                    else if (weeksPregnant > 40) {
+                        activeChecklists.push(4);
+                    }
+                    else {
+                        activeChecklists.push(0);
+                    }
                 }
                 else {
                     activeChecklists.push(0);
                 }
             }
-            else {
-                activeChecklists.push(0);
-            }
         }
-    }
-    catch (error) {
-        console.log(error);
-        return error.message;
-    }
-    activeChecklists.sort(function (a, b) { return a - b });
-    return activeChecklists;
-}
-
-/* Turns single digit numbers into double digit numbers. e.g. 9 returns "09". Takes number and returns string. */
-function toDoubleDigit(n) {
-    n = parseInt(n);
-    return n > 9 ? "" + n : "0" + n;
-}
-
-/* Takes current date in the form of new Date(), and target date in the form of a "Month, Day, Year" string.
-Returns days until that date. */
-function dayDiff(CurrentDate, targetDate) {
-    var TYear = CurrentDate.getFullYear();
-    var TDay = new Date(targetDate);
-    TDay.getFullYear(TYear);
-    var DayCount = (TDay - CurrentDate) / (1000 * 60 * 60 * 24);
-    DayCount = Math.round(DayCount);
-    return (DayCount);
-}
-
-/* Takes a settings object.
-    Returns the promise from firebase of the storing request.
-*/
-// async function storeSettings(settings) {
-//     let uid = firebase.auth().currentUser.uid;
-//     let db = firebase.firestore();
-//     settings.activeChecklists.sort(function (a, b) { return a - b });
-//     return db.collection('users').doc(uid).collection('checklist').doc('settings').set(settings, { merge: true })
-// }
-
-/* Returns the data contained in user's checklist, or returns default checklist if user doesn't have one.
-Returns error message if it failed.
-*/
-async function loadChecklist() {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-    try {
-        let snapshot = await db.collection('users').doc(uid).collection('checklist').doc("checklist").get()
-        if (!snapshot.exists) {
-            let defaultChecklist = await db.collection('checklist').doc("defaultChecklist").get()
-            let checklistObj = defaultChecklist.data();
-            let settings = {
-                activeChecklists: await getActiveChecklists(),
-                showHidden: "false",
-                showComplete: "false"
-            }
-            checklistObj.settings = settings;
-            storeChecklistIntoDB(checklistObj, true)
-                .catch(e => {
-                    console.log("Failed to store settings." + e.message);
-                });
-            return checklistObj;
+        catch (error) {
+            console.log(error);
+            return error.message;
         }
-        else {
-            let checklistObj = snapshot.data();
-            if (!("settings" in snapshot.data())) {
+        activeChecklists.sort(function (a, b) { return a - b });
+        return activeChecklists;
+    }
+
+    /* Turns single digit numbers into double digit numbers. e.g. 9 returns "09". Takes number and returns string. */
+    function toDoubleDigit(n) {
+        n = parseInt(n);
+        return n > 9 ? "" + n : "0" + n;
+    }
+
+    /* Takes current date in the form of new Date(), and target date in the form of a "Month, Day, Year" string.
+    Returns days until that date. */
+    function dayDiff(CurrentDate, targetDate) {
+        var TYear = CurrentDate.getFullYear();
+        var TDay = new Date(targetDate);
+        TDay.getFullYear(TYear);
+        var DayCount = (TDay - CurrentDate) / (1000 * 60 * 60 * 24);
+        DayCount = Math.round(DayCount);
+        return (DayCount);
+    }
+
+    /* Returns the data contained in user's checklist, or returns default checklist if user doesn't have one.
+    Returns error message if it failed.
+    */
+    async function loadChecklist() {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        try {
+            let snapshot = await db.collection('users').doc(uid).collection('checklist').doc("checklist").get()
+            if (!snapshot.exists) {
+                let defaultChecklist = await db.collection('checklist').doc("defaultChecklist").get()
+                let checklistObj = defaultChecklist.data();
                 let settings = {
                     activeChecklists: await getActiveChecklists(),
                     showHidden: "false",
                     showComplete: "false"
                 }
                 checklistObj.settings = settings;
-                await storeChecklistIntoDB(checklistObj)
+                storeChecklistIntoDB(checklistObj, true)
                     .catch(e => {
                         console.log("Failed to store settings." + e.message);
                     });
+                return checklistObj;
             }
-            return checklistObj;
+            else {
+                let checklistObj = snapshot.data();
+                if (!("settings" in snapshot.data())) {
+                    let settings = {
+                        activeChecklists: await getActiveChecklists(),
+                        showHidden: "false",
+                        showComplete: "false"
+                    }
+                    checklistObj.settings = settings;
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store settings." + e.message);
+                        });
+                }
+                return checklistObj;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
         }
     }
-    catch (error) {
-        console.log(error);
-        return error.message;
-    }
-}
 
-// Returns the data contained in default checklist.
-// Returns error message if it failed.
-async function loadDefaultChecklist() {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-    try {
-        let snapshot = await db.collection('checklist').doc('defaultChecklist').get()
-        if (!snapshot.exists) {
-            console.log("Error storing default checklist." + e.message);
-            return e.message;
+    // Returns the data contained in default checklist.
+    // Returns error message if it failed.
+    async function loadDefaultChecklist() {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        try {
+            let snapshot = await db.collection('checklist').doc('defaultChecklist').get()
+            if (!snapshot.exists) {
+                console.log("Error storing default checklist." + e.message);
+                return e.message;
+            }
+            else {
+                return snapshot.data();
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
+        }
+    }
+
+    async function generateChecklist(checklistObj, settings) {
+        let checklist = document.getElementById('checklist');
+        var currentlyDisplayedTaskList = [];
+        let nextSectionIsAfterDaily = false;
+        let trimester = "";
+
+        for (i = 0; i < settings.activeChecklists.length; i++) {
+            if (settings.activeChecklists[i] === 0) {
+                trimester = "prePregnancy";
+                document.getElementById(trimester).classList.add("activePre");
+            }
+            else if (settings.activeChecklists[i] === 1) {
+                trimester = "firstTrimester";
+                document.getElementById(trimester).classList.add("activeFirst");
+            }
+            else if (settings.activeChecklists[i] === 2) {
+                trimester = "secondTrimester";
+                document.getElementById(trimester).classList.add("activeSecond");
+            }
+            else if (settings.activeChecklists[i] === 3) {
+                trimester = "thirdTrimester";
+                document.getElementById(trimester).classList.add("activeThird");
+            }
+            else if (settings.activeChecklists[i] === 4) {
+                trimester = "postPregnancy";
+                document.getElementById(trimester).classList.add("activePost");
+            }
+            else if (settings.activeChecklists[i] === 5) { trimester = "Tasks I Added" }
+            //TODO: Add toggle for medical button.
+
+            try {
+                Object.keys(checklistObj[trimester]).forEach(key => {
+                    if (typeof checklistObj[trimester][key] === "object") {
+                        // Iterating through sections
+                        // if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
+                        if (nextSectionIsAfterDaily) {
+                            // This is to mark the section after Daily in order to add additional Daily tasks.
+                            let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
+                                '<div class="list-item">\n' +
+                                '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
+                                '</div>\n' +
+                                '</div>\n';
+
+                            checklist.insertAdjacentHTML('beforeend', sectionHTML);
+                            nextSectionIsAfterDaily = false;
+                        }
+                        else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+                            // Do nothing if Daily section is already placed onto checklist.
+                        }
+                        else {
+                            let sectionHTML = '<div class="list-item-container">\n' +
+                                '<div class="list-item">\n' +
+                                '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
+                                '</div>\n' +
+                                '</div>\n';
+
+                            checklist.insertAdjacentHTML('beforeend', sectionHTML);
+                        }
+
+                        Object.keys(checklistObj[trimester][key]).forEach(subKey => {
+                            if (typeof checklistObj[trimester][key][subKey] === "object") {
+                                //Iterating through tasks
+                                let inDailySection = (checklistObj[trimester][key].title === "Daily");
+                                if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
+                                    let taskHTML = '<div class="list-item-container">\n' +
+                                        '<div class="list-item">\n' +
+                                        '<div class="button-div">\n'
+
+                                    // Marks checklist button as completed if the task is completed.
+                                    if (checklistObj[trimester][key][subKey].completed === "true") { taskHTML += '<button class="checkmark nohover completed"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
+                                    else if (checklistObj[trimester][key][subKey].completed === "false") { taskHTML += '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
+
+                                    taskHTML += '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                                        '</path >\n' +
+                                        '</svg >\n' +
+                                        '</button >\n' +
+                                        '</div >\n' +
+                                        '<div class="textarea-div">\n';
+                                    if (trimester === "Tasks I Added") {
+                                        taskHTML +=
+                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
+                                            + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
+                                            '</div >\n' +
+                                            '</div >\n' +
+                                            '</div >\n'
+                                    }
+                                    else {
+                                        taskHTML +=
+                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
+                                            '</div >\n' +
+                                            '</div >\n' +
+                                            '</div >\n'
+                                    }
+
+                                    if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+                                        // If we're in the daily section of a trimester and there is already a daily section displayed
+                                        document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
+                                    }
+                                    else {
+                                        checklist.insertAdjacentHTML('beforeend', taskHTML);
+                                    }
+                                    currentlyDisplayedTaskList.push(checklistObj[trimester][key][subKey].name);
+                                }
+                            }
+                        });
+                        // This is so Daily section isnt displayed multiple times.
+                        if (checklistObj[trimester][key].title === "Daily") {
+                            currentlyDisplayedTaskList.push("Daily");
+                            nextSectionIsAfterDaily = true;
+                        }
+                    }
+                    // }
+                });
+            }
+            catch {
+                // If a trimester is in activeChecklists but does not exist in the database, this removes the trimester from the activeChecklists.
+                // Mostly for "Tasks I Added" being empty and it being listed as an activeChecklist.
+                if (!checklistObj[trimester] && trimester === "Tasks I Added") {
+                    settings.activeChecklists = settings.activeChecklists.filter(function (item) {
+                        return item !== settings.activeChecklists[i];
+                    })
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
+                }
+                else if (!checklistObj[trimester]) {
+                    let defaultChecklist = await loadDefaultChecklist();
+                    checklistObj[trimester] = defaultChecklist[trimester];
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
+                }
+            }
+        }
+        let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
+            '<div class="list-item">\n' +
+            '<div class="button-div">\n' +
+            '<button class="checkmark nohover" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+            '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
+            '</svg>\n' +
+            '</button>\n' +
+            '</div>\n' +
+            '<div class="textarea-div">\n' +
+            //Remove the readonly on the next line for desktop version of the site.
+            '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off" readonly></textarea>\n' +
+            '</div>\n' +
+            '</div>\n' +
+            '</div>\n';
+        document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
+        removeEmptySections();
+    }
+
+    // Checks for sections next to each other and deletes the first section if found.
+    // Also checks for sections where the next task item is the "Add task" list item. If so, removes that section.
+    function removeEmptySections() {
+        let checklistItems = document.getElementById('checklist').children;
+        for (var i = 0; i < checklistItems.length - 1; i++) {
+            // Removing section from checklist.
+            if (checklistItems[i].children[0].children[0].nodeName === "H2" && checklistItems[i + 1].children[0].children[0].nodeName === "H2") {
+                document.getElementById('checklist').removeChild(checklistItems[i]);
+                removeEmptySections();
+            }
+            else if (checklistItems[i].children[0].children[0].nodeName === "H2" && checklistItems[i + 1].id === "add-task-list-item-container") {
+                document.getElementById('checklist').removeChild(checklistItems[i]);
+                removeEmptySections();
+            }
+        }
+    }
+
+    // Takes checklistObj containing all data. Optional boolean deleting value.
+    // Saves it into DB using set and merge. Merge is false if deleting.
+    // Returns promise from firestore.
+    function storeChecklistIntoDB(checklistObj, deleting) {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        if (deleting) {
+            return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj);
         }
         else {
-            return snapshot.data();
+            return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
         }
     }
-    catch (error) {
-        console.log(error);
-        return error.message;
-    }
-}
 
-async function generateChecklist(checklistObj, settings) {
-    let checklist = document.getElementById('checklist');
-    var currentlyDisplayedTaskList = [];
-    let nextSectionIsAfterDaily = false;
-    let trimester = "";
-
-    for (i = 0; i < settings.activeChecklists.length; i++) {
-        if (settings.activeChecklists[i] === 0) {
-            trimester = "prePregnancy";
-            document.getElementById(trimester).classList.add("activePre");
+    /* Takes the task obj, current displayed task list, settings obj, and boolean inDailySection
+        Returns true or false depending on whether the task should be displayed.
+    */
+    function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, checklistObj, inDailySection) {
+        let result = true;
+        if ("hidden" in task && settings.showHidden !== "true") {
+            result = false;
         }
-        else if (settings.activeChecklists[i] === 1) {
-            trimester = "firstTrimester";
-            document.getElementById(trimester).classList.add("activeFirst");
+        else if (task.completed === "true" && settings.showComplete !== "true") {
+            result = false;
         }
-        else if (settings.activeChecklists[i] === 2) {
-            trimester = "secondTrimester";
-            document.getElementById(trimester).classList.add("activeSecond");
-        }
-        else if (settings.activeChecklists[i] === 3) {
-            trimester = "thirdTrimester";
-            document.getElementById(trimester).classList.add("activeThird");
-        }
-        else if (settings.activeChecklists[i] === 4) {
-            trimester = "postPregnancy";
-            document.getElementById(trimester).classList.add("activePost");
-        }
-        else if (settings.activeChecklists[i] === 5) { trimester = "Tasks I Added" }
-        //TODO: Add toggle for medical button.
-
-        try {
-            Object.keys(checklistObj[trimester]).forEach(key => {
-                if (typeof checklistObj[trimester][key] === "object") {
-                    // Iterating through sections
-                    // if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
-                    if (nextSectionIsAfterDaily) {
-                        // This is to mark the section after Daily in order to add additional Daily tasks.
-                        let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
-                            '<div class="list-item">\n' +
-                            '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
-                            '</div>\n' +
-                            '</div>\n';
-
-                        checklist.insertAdjacentHTML('beforeend', sectionHTML);
-                        nextSectionIsAfterDaily = false;
-                    }
-                    else if (checklistObj[trimester][key].title === "Daily" && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-                        // Do nothing if Daily section is already placed onto checklist.
-                    }
-                    else {
-                        let sectionHTML = '<div class="list-item-container">\n' +
-                            '<div class="list-item">\n' +
-                            '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
-                            '</div>\n' +
-                            '</div>\n';
-
-                        checklist.insertAdjacentHTML('beforeend', sectionHTML);
-                    }
-
-                    Object.keys(checklistObj[trimester][key]).forEach(subKey => {
-                        if (typeof checklistObj[trimester][key][subKey] === "object") {
-                            //Iterating through tasks
-                            let inDailySection = (checklistObj[trimester][key].title === "Daily");
-                            if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
-                                let taskHTML = "";
-                                if (trimester === "Tasks I Added") {
-                                    taskHTML = '<div class="list-item-container">\n' +
-                                        '<div class="list-item">\n' +
-                                        '<div class="button-div">\n' +
-                                        '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                                        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                                        '</path >\n' +
-                                        '</svg >\n' +
-                                        '</button >\n' +
-                                        '</div >\n' +
-                                        '<div class="textarea-div">\n' +
-                                        '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
-                                        + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                        '</div >\n' +
-                                        '</div >\n' +
-                                        '</div >\n'
-                                }
-                                else {
-                                    taskHTML = '<div class="list-item-container">\n' +
-                                        '<div class="list-item">\n' +
-                                        '<div class="button-div">\n' +
-                                        '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                                        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                                        '</path >\n' +
-                                        '</svg >\n' +
-                                        '</button >\n' +
-                                        '</div >\n' +
-                                        '<div class="textarea-div">\n' +
-                                        '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                        '</div >\n' +
-                                        '</div >\n' +
-                                        '</div >\n'
-                                }
-
-                                if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-                                    // If we're in the daily section of a trimester and there is already a daily section displayed
-                                    document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
-                                }
-                                else {
-                                    checklist.insertAdjacentHTML('beforeend', taskHTML);
-                                }
-                                currentlyDisplayedTaskList.push(checklistObj[trimester][key][subKey].name);
-                            }
-                        }
-                    });
-                    // This is so Daily section isnt displayed multiple times.
-                    if (checklistObj[trimester][key].title === "Daily") {
-                        currentlyDisplayedTaskList.push("Daily");
-                        nextSectionIsAfterDaily = true;
-                    }
-                }
-                // }
-            });
-        }
-        catch {
-            // If a trimester is in activeChecklists but does not exist in the database, this removes the trimester from the activeChecklists.
-            // Mostly for "Tasks I Added" being empty and it being listed as an activeChecklist.
-            if (!checklistObj[trimester] && trimester === "Tasks I Added") {
-                settings.activeChecklists = settings.activeChecklists.filter(function (item) {
-                    return item !== settings.activeChecklists[i];
-                })
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
+        else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && ("repeat" in task)) {
+            if (inDailySection) {
+                result = false;
             }
-            else if (!checklistObj[trimester]) {
-                let defaultChecklist = await loadDefaultChecklist();
-                checklistObj[trimester] = defaultChecklist[trimester];
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
+            else {
+                result = true;
             }
         }
-    }
-    removeEmptySections();
-    let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
-        '<div class="list-item">\n' +
-        '<div class="button-div">\n' +
-        '<button class="checkmark" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-        '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
-        '</svg>\n' +
-        '</button>\n' +
-        '</div>\n' +
-        '<div class="textarea-div">\n' +
-        //Remove the readonly on the next line for desktop version of the site.
-        '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off" readonly></textarea>\n' +
-        '</div>\n' +
-        '</div>\n' +
-        '</div>\n';
-    document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
-}
-
-// Checks for sections next to each other and deletes the first section if found.
-function removeEmptySections() {
-    let checklistItems = document.getElementById('checklist').children;
-    for (var i = 0; i < checklistItems.length - 1; i++) {
-        // Removing section from checklist.
-        if (checklistItems[i].children[0].children[0].nodeName === "H2" && checklistItems[i + 1].children[0].children[0].nodeName === "H2") {
-            document.getElementById('checklist').removeChild(checklistItems[i]);
-            break;
-        }
-    }
-}
-
-// Takes checklistObj containing all data. Optional boolean deleting value.
-// Saves it into DB using set and merge. Merge is false if deleting.
-// Returns promise from firestore.
-function storeChecklistIntoDB(checklistObj, deleting) {
-    let uid = firebase.auth().currentUser.uid;
-    let db = firebase.firestore();
-    if (deleting) {
-        return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj);
-    }
-    else {
-        return db.collection('users').doc(uid).collection("checklist").doc("checklist").set(checklistObj, { merge: true })
-    }
-}
-
-/* Takes the task obj, current displayed task list, settings obj, and boolean inDailySection
-    Returns true or false depending on whether the task should be displayed.
-*/
-function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, checklistObj, inDailySection) {
-    let result = true;
-    if ("hidden" in task && settings.showHidden !== "true") {
-        result = false;
-    }
-    else if (task.completed === "true" && settings.showComplete !== "true") {
-        result = false;
-    }
-    else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && ("repeat" in task)) {
-        if (inDailySection) {
+        else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task)) {
             result = false;
         }
         else {
-            result = true;
+            result = checkForTaskInOtherTrimesters(task, checklistObj);
         }
-    }
-    else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task)) {
-        result = false;
-    }
-    else {
-        result = checkForTaskInOtherTrimesters(task, checklistObj);
-    }
-    return result;
-}
-
-// Takes a task object and the checklist object and checks for the same task in other trimesters. 
-// Returns whether task should be displayed as a boolean value.
-function checkForTaskInOtherTrimesters(taskObj, checklistObj) {
-    let result = true;
-    try {
-        for (let trimester in checklistObj) {
-            if (checklistObj[trimester] !== "Tasks I Added") {
-                for (let section in checklistObj[trimester]) {
-                    if (typeof checklistObj[trimester][section] === "object") {
-                        for (let task in checklistObj[trimester][section]) {
-                            if (typeof checklistObj[trimester][section][task] === "object" && checklistObj[trimester][section][task].name === taskObj.name) {
-                                if (checklistObj[trimester][section][task].completed === "true" || "hidden" in checklistObj[trimester][section][task]) {
-                                    result = false;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-    return result;
-}
-
-function addAllEventListeners(checklistObj, settings) {
-    const db = firebase.firestore();
-    const addTaskCloseBtn = document.getElementById('cancel');
-    const addTaskDoneBtn = document.getElementById('done');
-    const deleteBtn = document.getElementById('delete');
-    var addingNewTask = false;
-    var currentTaskInfo = {};
-    var taskTextArea;
-    //For checking if description was changed.
-    var unEditedDescription = "";
-    var unEditedTaskName = "";
-    var unEditedNotes = "";
-
-    // Event delegation for handling clicks on any particular task.
-    if (document.addEventListener) {
-        document.addEventListener("click", handleClick, false);
-    }
-    else if (document.attachEvent) {
-        document.attachEvent("onclick", handleClick);
+        return result;
     }
 
-    async function handleClick(event) {
-        event = event || window.event;
-        const target = event.target || event.srcElement;
-
-        var element = target;
-
-        // Climb up the document tree from the target of the event
-        while (element) {
-            if (/list-item-container/.test(element.className) && element.id !== "task-name") {
-                // If id is task-name, then user clicked inside the add-task container, not the main checklist.
-                handleListItemContainerClick(element);
-                break;
-            }
-            else if (element.nodeName === "BUTTON") {
-                if (element.childNodes[0].data) {
-                    await handleTrimesterButtonClick(element);
-                }
-                // TODO: Add else if for checklist buttons.
-                break;
-            }
-            element = element.parentNode;
-        }
-    }
-
-    async function handleTrimesterButtonClick(element) {
-        disableTrimesterButtons();
-        if (element.childNodes[0].data === "Pre") {
-            element.classList.toggle("activePre"); //Change
-            if (element.classList.contains("activePre")) { //Change
-                settings.activeChecklists.push(0); //Change
-                settings.activeChecklists.sort(function (a, b) { return a - b });
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
-            }
-            else {
-                if (settings.activeChecklists.indexOf(0) > -1) {
-                    settings.activeChecklists.splice(settings.activeChecklists.indexOf(0), 1);
-                }
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
-            }
-            var myNode = document.getElementById("checklist");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
-            }
-            await generateChecklist(checklistObj, settings);
-        }
-        else if (element.childNodes[0].data === "1st") {
-            element.classList.toggle("activeFirst"); //Change
-            if (element.classList.contains("activeFirst")) { //Change
-                settings["activeChecklists"].push(1); //Change
-                settings["activeChecklists"].sort(function (a, b) { return a - b });
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
-            }
-            else {
-                let index = settings.activeChecklists.indexOf(1);
-                if (index > -1) {
-                    settings.activeChecklists.splice(index, 1);
-                }
-                await storeChecklistIntoDB(checklistObj)
-                    .catch(e => {
-                        console.log("Failed to store new task." + e.message);
-                    });
-            }
-            var myNode = document.getElementById("checklist");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
-            }
-            await generateChecklist(checklistObj, settings);
-        }
-        else if (element.childNodes[0].data === "2nd") { element.classList.toggle("activeSecond") }
-        else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
-        else if (element.childNodes[0].data === "Post") { element.classList.toggle("activePost") }
-        else if (element.childNodes[0].data === "Medical") { element.classList.toggle("activeMedical") }
-        enableTrimesterButtons();
-    }
-
-    function disableTrimesterButtons() {
-        document.getElementById('prePregnancy').disabled = true;
-        document.getElementById('firstTrimester').disabled = true;
-        document.getElementById('secondTrimester').disabled = true;
-        document.getElementById('thirdTrimester').disabled = true;
-        document.getElementById('postPregnancy').disabled = true;
-        document.getElementById('medicalConditions').disabled = true;
-    }
-
-    function enableTrimesterButtons() {
-        document.getElementById('prePregnancy').disabled = false;
-        document.getElementById('firstTrimester').disabled = false;
-        document.getElementById('secondTrimester').disabled = false;
-        document.getElementById('thirdTrimester').disabled = false;
-        document.getElementById('postPregnancy').disabled = false;
-        document.getElementById('medicalConditions').disabled = false;
-    }
-
-    function handleListItemContainerClick(element) {
-        if (element.id === "add-task-list-item-container") {
-            // Clicked the "add task..." area.
-            autoSize(document.getElementById('add-description-area'));
-            document.getElementById('add-description-area').disabled = false;
-            document.getElementById('add-task-task-name').disabled = false;
-            document.getElementById('add-description-area').placeholder = "Add description...";
-            document.getElementById('add-task-container').classList.remove("slideOutDown");
-            document.getElementById('add-task-container').style.display = "";
-            document.getElementById('delete').style.display = "none";
-            addingNewTask = true;
-        }
-        else if (element.id === "add-task-task-name") {
-
-        }
-        else {
-            // Clicked on any task.
-            currentTaskInfo = getTaskInfo(element);
-            document.getElementById('delete').style.display = "";
-            if (currentTaskInfo.taskName) {
-                let description = getTaskData(checklistObj, currentTaskInfo);
-                document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
-                document.getElementById('add-description-area').value = description.data;
-                document.getElementById('add-description-area').disabled = !description.editable;
-                document.getElementById('add-task-task-name').disabled = !description.editable;
-                if ("notesData" in description) {
-                    document.getElementById('add-notes-area').value = description.notesData;
-                }
-                if (description.editable) {
-                    document.getElementById('add-description-area').placeholder = "Add description...";
-                    unEditedDescription = document.getElementById('add-description-area').value;
-                    unEditedTaskName = document.getElementById('add-task-task-name').value;
-                }
-                else {
-                    document.getElementById('add-description-area').placeholder = "";
-                }
-                unEditedNotes = document.getElementById('add-notes-area').value;
-                document.getElementById('add-task-container').classList.remove("slideOutDown");
-                document.getElementById('add-task-container').style.display = "";
-                autoSize(document.getElementById('add-task-task-name'));
-                autoSize(document.getElementById('add-description-area'));
-            }
-            addingNewTask = false;
-        }
-
-    }
-
-    // Takes any element and checks if it has a textarea child. 
-    // Returns an object containing taskName and data if it exists.
-    // Returns empty object if not found.
-    function getTaskInfo(element) {
-        var taskObj = {};
-        for (var i = 0; i < element.childNodes.length; i++) {
-            if (element.childNodes[i].nodeName === "TEXTAREA") {
-                taskTextArea = element.childNodes[i];
-                taskObj.taskName = element.childNodes[i].value;
-                if (element.childNodes[1].getAttribute("data") !== null) {
-                    taskObj.id = element.childNodes[1].getAttribute("data");
-                }
-                return taskObj;
-            }
-            else {
-                if (element.childNodes[i].hasChildNodes()) {
-                    taskObj = getTaskInfo(element.childNodes[i]);
-                }
-            }
-        }
-        return taskObj;
-    }
-
-    /* Takes object which contains all checklist data. 
-    Default tasks are return editable as false, custom tasks return editable as true.
-    Searches for the task name and returns an object containing description inside data key, editable key, and notes in notesData key.
-    Editable key is true if not found.
-    */
-    function getTaskData(checklistObj, taskInfo) {
-        var description = {};
-        description.editable = true;
-        Object.keys(checklistObj).forEach(trimester => {
-            Object.keys(checklistObj[trimester]).forEach(key => {
-                if (typeof checklistObj[trimester][key] === "object") {
-                    // Iterating through sections.
-                    Object.keys(checklistObj[trimester][key]).forEach(subKey => {
-                        if (typeof checklistObj[trimester][key][subKey] === "object") {
-                            // Iterating through tasks.
-                            if ("id" in taskInfo && checklistObj[trimester][key][subKey].id === taskInfo.id) {
-                                description.data = checklistObj[trimester][key][subKey].description;
-                                description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
-                                if ("notes" in checklistObj[trimester][key][subKey]) {
-                                    description.notesData = checklistObj[trimester][key][subKey].notes
-                                }
-                                return description;
-                            }
-                            else if (!("id" in taskInfo) && checklistObj[trimester][key][subKey].name === taskInfo.taskName) {
-                                description.data = checklistObj[trimester][key][subKey].description;
-                                description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
-                                if ("notes" in checklistObj[trimester][key][subKey]) {
-                                    description.notesData = checklistObj[trimester][key][subKey].notes
-                                }
-                                return description;
-                            }
-                        }
-                    });
-                }
-            });
-        });
-        return description;
-    }
-
-    // User clicked "delete" button. Deletes the task as well as any duplicate tasks in other trimesters.
-    deleteBtn.addEventListener('click', async () => {
+    // Takes a task object and the checklist object and checks for the same task in other trimesters. 
+    // Returns whether task should be displayed as a boolean value.
+    function checkForTaskInOtherTrimesters(taskObj, checklistObj) {
+        let result = true;
         try {
-            // Try block is to exit the function early when a trimester is deleted.
-            for (trimester in checklistObj) {
-                if (trimester !== "settings") {
-                    for (section in checklistObj[trimester]) {
+            for (let trimester in checklistObj) {
+                if (checklistObj[trimester] !== "Tasks I Added") {
+                    for (let section in checklistObj[trimester]) {
                         if (typeof checklistObj[trimester][section] === "object") {
-                            for (task in checklistObj[trimester][section]) {
-                                if (typeof checklistObj[trimester][section][task] === "object") {
-                                    // Iterating through tasks.
-                                    if ("id" in currentTaskInfo && checklistObj[trimester][section][task].id === currentTaskInfo.id) {
-                                        // Handling delete of user added tasks.
-                                        delete checklistObj[trimester][section][task];
-                                        checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
-                                        checklistObj[trimester].taskCount = (parseInt(checklistObj[trimester].taskCount) - 1).toString();
-                                        if (checklistObj[trimester].taskCount === "0") {
-                                            let checklistItems = document.getElementById('checklist').children;
-                                            for (var i = 0; i < checklistItems.length; i++) {
-                                                if (checklistItems[i].children[0].children[0].innerHTML === "Tasks I Added") {
-                                                    document.getElementById('checklist').removeChild(checklistItems[i]);
-                                                    break;
-                                                }
-                                            }
-                                            delete checklistObj[trimester];
-                                            return;
-                                        }
-                                    }
-                                    else if (!("id" in currentTaskInfo) && checklistObj[trimester][section][task].name === currentTaskInfo.taskName) {
-                                        // Handling delete of default given tasks.
-                                        delete checklistObj[trimester][section][task];
-                                        checklistObj[trimester][key].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                            for (let task in checklistObj[trimester][section]) {
+                                if (typeof checklistObj[trimester][section][task] === "object" && checklistObj[trimester][section][task].name === taskObj.name) {
+                                    if ((checklistObj[trimester][section][task].completed === "true" && checklistObj.settings.showComplete !== "true") || "hidden" in checklistObj[trimester][section][task]) {
+                                        result = false;
                                     }
                                 }
-                            };
+                            }
                         }
-                        if (checklistObj[trimester][section].taskCount === "0") {
-                            delete checklistObj[trimester][section];
-                        }
-                    };
-                    if (checklistObj[trimester].sectionCount === "0") {
-                        delete checklistObj[trimester];
                     }
-                };
+                }
             }
         }
         catch (err) {
-            console.log("Error inside try catch." + err.message);
+            console.log(err);
         }
-        taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
-        removeEmptySections();
-        closeAddTaskMenu();
-        await storeChecklistIntoDB(checklistObj, true)
-            .catch(e => {
-                console.log("Failed to delete task." + e.message);
-            });
-    });
-
-    // User clicked "cancel" button inside add task menu. Closes add task menu.
-    addTaskCloseBtn.addEventListener('click', () => {
-        closeAddTaskMenu();
-    });
-
-    function closeAddTaskMenu() {
-        document.getElementById('add-task-container').classList.add("slideOutDown");
-        document.getElementById('add-task-task-name').value = "";
-        document.getElementById('add-task-task-name').style.height = "40px";
-        document.getElementById('add-description-area').value = "";
-        document.getElementById('add-task-task-name').style = "";
-        document.getElementById('add-notes-area').value = "";
+        return result;
     }
 
-    // User clicked "Done" button inside add task menu. 
-    addTaskDoneBtn.addEventListener('click', async () => {
-        if (document.getElementById('add-task-task-name').value) {
-            // Task name is not empty
-            if (addingNewTask) {
-                taskObj = {
-                    name: document.getElementById('add-task-task-name').value,
-                    description: document.getElementById('add-description-area').value,
-                    references: "",
-                    completed: "false",
-                    id: "1"
+    function addAllEventListeners(checklistObj, settings) {
+        const db = firebase.firestore();
+        const addTaskCloseBtn = document.getElementById('cancel');
+        const addTaskDoneBtn = document.getElementById('done');
+        const deleteBtn = document.getElementById('delete');
+        var addingNewTask = false;
+        var currentTaskInfo = {};
+        var taskTextArea;
+        //For checking if description was changed.
+        var unEditedDescription = "";
+        var unEditedTaskName = "";
+        var unEditedNotes = "";
+
+        // Event delegation for handling clicks on any particular task.
+        if (document.addEventListener) {
+            document.addEventListener("click", handleClick, false);
+        }
+        else if (document.attachEvent) {
+            document.attachEvent("onclick", handleClick);
+        }
+
+        async function handleClick(event) {
+            event = event || window.event;
+            const target = event.target || event.srcElement;
+
+            var element = target;
+
+            // Climb up the document tree from the target of the event
+            while (element) {
+                if (/list-item-container/.test(element.className) && element.id !== "task-name") {
+                    // If id is task-name, then user clicked inside the add-task container, not the main checklist.
+                    handleListItemContainerClick(element);
+                    break;
                 }
-                if (document.getElementById('add-notes-area').value) {
-                    taskObj.notes = document.getElementById('add-notes-area').value;
+                else if (element.nodeName === "BUTTON") {
+                    if (element.childNodes[0].data) {
+                        await handleTrimesterButtonClick(element);
+                    }
+                    else if (element.className.indexOf("checkmark") !== -1) {
+                        element.classList.toggle("completed");
+                        if (element.classList.contains("completed")) {
+                            let taskNameID = getTaskNameID(element.parentNode.parentNode);
+                            taskNameID.completed = "true";
+                            updateCompletionStatusLocally(taskNameID);
+                            let myNode = document.getElementById("checklist");
+                            while (myNode.firstChild) {
+                                myNode.removeChild(myNode.firstChild);
+                            }
+                            await generateChecklist(checklistObj, checklistObj.settings);
+                            await storeChecklistIntoDB(checklistObj)
+                                .catch(e => {
+                                    console.log("Failed to store new completion status." + e.message);
+                                });
+                            // TODO: Add animation for marking task as complete. Then remove item from checklist (if showComplete is false);
+                        }
+                        else if (!element.classList.contains("completed")) {
+                            let taskNameID = getTaskNameID(element.parentNode.parentNode);
+                            taskNameID.completed = "false";
+                            updateCompletionStatusLocally(taskNameID);
+                            await storeChecklistIntoDB(checklistObj)
+                                .catch(e => {
+                                    console.log("Failed to store new completion status." + e.message);
+                                });
+                        }
+                    }
+                    break;
                 }
-                await addNewTaskToChecklist(taskObj);
-                closeAddTaskMenu();
+                element = element.parentNode;
             }
-            else if (currentTaskInfo.id) {
-                // Modifying a task in "Tasks I Added"
-                if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value || unEditedNotes !== document.getElementById('add-notes-area').value) {
-                    // Changes were made to the task.
-                    // TODO: Get complete value from whether button is complete.
-                    taskObj = {
-                        name: document.getElementById('add-task-task-name').value,
-                        description: document.getElementById('add-description-area').value,
-                        references: "",
-                        completed: "false",
-                        id: currentTaskInfo.id
+        }
+
+        // Takes object containing task name, completed or not, and possibly ID if it is a user added task. Iterates through entire checklist.
+        // If task is meant to be repeated, it is marked complete only in active trimesters.
+        // Otherwise all instances of that task are marked complete.
+        function updateCompletionStatusLocally(taskInfoObj) {
+            Object.keys(checklistObj).forEach(trimester => {
+                Object.keys(checklistObj[trimester]).forEach(section => {
+                    if (typeof checklistObj[trimester][section] === "object") {
+
+                        Object.keys(checklistObj[trimester][section]).forEach(task => {
+                            if (typeof checklistObj[trimester][section][task] === "object") {
+
+                                if ("id" in taskInfoObj && checklistObj[trimester][section][task].id === taskInfoObj.id) {
+                                    // User added tasks.
+                                    checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                }
+                                else if (!("id" in taskInfoObj) && checklistObj[trimester][section][task].name === taskInfoObj.taskName) {
+                                    // Default tasks.
+                                    if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(getCorrospondingTrimesterNum(trimester)) >= 0) {
+                                        // Task is repeating and task found is in activeChecklists. Marking this task as complete.
+                                        checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                    }
+                                    else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(getCorrospondingTrimesterNum(trimester)) < 0) {
+                                        // Task is repeating but task found is not in activeChecklists. Do nothing to this task.
+                                    }
+                                    else if (!("repeat" in checklistObj[trimester][section][task])) {
+                                        // Task is not repeating. Mark as complete.
+                                        checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                    }
+                                }
+                            }
+                        });
                     }
-                    if (document.getElementById('add-notes-area').value) {
-                        taskObj.notes = document.getElementById('add-notes-area').value;
-                    }
-                    updateChecklistObj(taskObj);
-                    taskTextArea.value = document.getElementById('add-task-task-name').value;
-                    closeAddTaskMenu();
+                });
+            });
+        }
+
+        // Takes trimester name as a string. Returns a Number 0-4 for pre-pregnancy, 1st, 2nd, 3rd, and after pregnancy trimesters.
+        function getCorrospondingTrimesterNum(trimesterName) {
+            if (trimesterName === "prePregnancy") { return 0; }
+            else if (trimesterName === "firstTrimester") { return 1; }
+            else if (trimesterName === "secondTrimester") { return 2; }
+            else if (trimesterName === "thirdTrimester") { return 3; }
+            else if (trimesterName === "postPregnancy") { return 4; }
+            else if (trimesterName === "Tasks I Added") { return 5; }
+        }
+
+        async function handleTrimesterButtonClick(element) {
+            disableTrimesterButtons();
+            if (element.childNodes[0].data === "Before") {
+                element.classList.toggle("activePre"); //Change
+                if (element.classList.contains("activePre")) { //Change
+                    settings.activeChecklists.push(0); //Change
+                    settings.activeChecklists.sort(function (a, b) { return a - b });
                     await storeChecklistIntoDB(checklistObj)
                         .catch(e => {
                             console.log("Failed to store new task." + e.message);
                         });
                 }
                 else {
-                    // No changes made to task.
-                    console.log("No changes made");
-                    closeAddTaskMenu();
+                    if (settings.activeChecklists.indexOf(0) > -1) {
+                        settings.activeChecklists.splice(settings.activeChecklists.indexOf(0), 1);
+                    }
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
                 }
+                var myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, settings);
+            }
+            else if (element.childNodes[0].data === "1st") {
+                element.classList.toggle("activeFirst");
+                if (element.classList.contains("activeFirst")) {
+                    settings["activeChecklists"].push(1);
+                    settings["activeChecklists"].sort(function (a, b) { return a - b });
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
+                }
+                else {
+                    let index = settings.activeChecklists.indexOf(1);
+                    if (index > -1) {
+                        settings.activeChecklists.splice(index, 1);
+                    }
+                    await storeChecklistIntoDB(checklistObj)
+                        .catch(e => {
+                            console.log("Failed to store new task." + e.message);
+                        });
+                }
+                var myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, settings);
+            }
+            else if (element.childNodes[0].data === "2nd") { element.classList.toggle("activeSecond") }
+            else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
+            else if (element.childNodes[0].data === "After") { element.classList.toggle("activePost") }
+            else if (element.childNodes[0].data === "Medical") { element.classList.toggle("activeMedical") }
+            enableTrimesterButtons();
+        }
+
+        function disableTrimesterButtons() {
+            document.getElementById('prePregnancy').disabled = true;
+            document.getElementById('firstTrimester').disabled = true;
+            document.getElementById('secondTrimester').disabled = true;
+            document.getElementById('thirdTrimester').disabled = true;
+            document.getElementById('postPregnancy').disabled = true;
+            document.getElementById('medicalConditions').disabled = true;
+        }
+
+        function enableTrimesterButtons() {
+            document.getElementById('prePregnancy').disabled = false;
+            document.getElementById('firstTrimester').disabled = false;
+            document.getElementById('secondTrimester').disabled = false;
+            document.getElementById('thirdTrimester').disabled = false;
+            document.getElementById('postPregnancy').disabled = false;
+            document.getElementById('medicalConditions').disabled = false;
+        }
+
+        function handleListItemContainerClick(element) {
+            if (element.id === "add-task-list-item-container") {
+                // Clicked the "add task..." area.
+                autoSize(document.getElementById('add-description-area'));
+                document.getElementById('add-description-area').disabled = false;
+                document.getElementById('add-task-task-name').disabled = false;
+                document.getElementById('add-description-area').placeholder = "Add description...";
+                document.getElementById('add-task-container').classList.remove("slideOutDown");
+                document.getElementById('add-task-container').style.display = "";
+                document.getElementById('delete').style.display = "none";
+                addingNewTask = true;
+            }
+            else if (element.id === "add-task-task-name") {
+
             }
             else {
-                if (unEditedNotes !== document.getElementById('add-notes-area').value) {
-                    console.log("Storing new notes");
+                // Clicked on any task.
+                currentTaskInfo = getTaskNameID(element);
+                document.getElementById('delete').style.display = "";
+                if (currentTaskInfo.taskName) {
+                    let description = getTaskData(checklistObj, currentTaskInfo);
+                    document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
+                    document.getElementById('add-description-area').value = description.data;
+                    document.getElementById('add-description-area').disabled = !description.editable;
+                    document.getElementById('add-task-task-name').disabled = !description.editable;
+                    if ("notesData" in description) {
+                        document.getElementById('add-notes-area').value = description.notesData;
+                    }
+                    if (description.editable) {
+                        document.getElementById('add-description-area').placeholder = "Add description...";
+                        unEditedDescription = document.getElementById('add-description-area').value;
+                        unEditedTaskName = document.getElementById('add-task-task-name').value;
+                    }
+                    else {
+                        document.getElementById('add-description-area').placeholder = "";
+                    }
+                    unEditedNotes = document.getElementById('add-notes-area').value;
+                    document.getElementById('add-task-container').classList.remove("slideOutDown");
+                    document.getElementById('add-task-container').style.display = "";
+                    autoSize(document.getElementById('add-task-task-name'));
+                    autoSize(document.getElementById('add-description-area'));
+                }
+                addingNewTask = false;
+            }
+
+        }
+
+        // Takes any element and checks if it has a textarea child. 
+        // Returns an object containing taskName and data if it exists.
+        // Returns empty object if not found.
+        function getTaskNameID(element) {
+            var taskObj = {};
+            for (var i = 0; i < element.childNodes.length; i++) {
+                if (element.childNodes[i].nodeName === "TEXTAREA") {
+                    taskTextArea = element.childNodes[i];
+                    taskObj.taskName = element.childNodes[i].value;
+                    if (element.childNodes[1].getAttribute("data") !== null) {
+                        taskObj.id = element.childNodes[1].getAttribute("data");
+                    }
+                    return taskObj;
+                }
+                else {
+                    if (element.childNodes[i].hasChildNodes()) {
+                        taskObj = getTaskNameID(element.childNodes[i]);
+                    }
+                }
+            }
+            return taskObj;
+        }
+
+        /* Takes object which contains all checklist data. 
+        Default tasks are return editable as false, custom tasks return editable as true.
+        Searches for the task name and returns an object containing description inside data key, editable key, and notes in notesData key.
+        Editable key is true if not found.
+        */
+        function getTaskData(checklistObj, taskInfo) {
+            var description = {};
+            description.editable = true;
+            Object.keys(checklistObj).forEach(trimester => {
+                Object.keys(checklistObj[trimester]).forEach(key => {
+                    if (typeof checklistObj[trimester][key] === "object") {
+                        // Iterating through sections.
+                        Object.keys(checklistObj[trimester][key]).forEach(subKey => {
+                            if (typeof checklistObj[trimester][key][subKey] === "object") {
+                                // Iterating through tasks.
+                                if ("id" in taskInfo && checklistObj[trimester][key][subKey].id === taskInfo.id) {
+                                    description.data = checklistObj[trimester][key][subKey].description;
+                                    description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                    if ("notes" in checklistObj[trimester][key][subKey]) {
+                                        description.notesData = checklistObj[trimester][key][subKey].notes
+                                    }
+                                    return description;
+                                }
+                                else if (!("id" in taskInfo) && checklistObj[trimester][key][subKey].name === taskInfo.taskName) {
+                                    description.data = checklistObj[trimester][key][subKey].description;
+                                    description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                    if ("notes" in checklistObj[trimester][key][subKey]) {
+                                        description.notesData = checklistObj[trimester][key][subKey].notes
+                                    }
+                                    return description;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            return description;
+        }
+
+        // User clicked "delete" button. Deletes the task as well as any duplicate tasks in other trimesters.
+        deleteBtn.addEventListener('click', async () => {
+            try {
+                // Try block is to exit the function early when a trimester is deleted.
+                for (trimester in checklistObj) {
+                    if (trimester !== "settings") {
+                        for (section in checklistObj[trimester]) {
+                            if (typeof checklistObj[trimester][section] === "object") {
+                                for (task in checklistObj[trimester][section]) {
+                                    if (typeof checklistObj[trimester][section][task] === "object") {
+                                        // Iterating through tasks.
+                                        if ("id" in currentTaskInfo && checklistObj[trimester][section][task].id === currentTaskInfo.id) {
+                                            // Handling delete of user added tasks.
+                                            delete checklistObj[trimester][section][task];
+                                            checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                            checklistObj[trimester].taskCount = (parseInt(checklistObj[trimester].taskCount) - 1).toString();
+                                            if (checklistObj[trimester].taskCount === "0") {
+                                                let checklistItems = document.getElementById('checklist').children;
+                                                for (var i = 0; i < checklistItems.length; i++) {
+                                                    if (checklistItems[i].children[0].children[0].innerHTML === "Tasks I Added") {
+                                                        document.getElementById('checklist').removeChild(checklistItems[i]);
+                                                        break;
+                                                    }
+                                                }
+                                                delete checklistObj[trimester];
+                                                return;
+                                            }
+                                        }
+                                        else if (!("id" in currentTaskInfo) && checklistObj[trimester][section][task].name === currentTaskInfo.taskName) {
+                                            // Handling delete of default given tasks.
+                                            delete checklistObj[trimester][section][task];
+                                            checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                        }
+                                    }
+                                };
+                            }
+                            if (checklistObj[trimester][section].taskCount === "0") {
+                                delete checklistObj[trimester][section];
+                            }
+                        };
+                        if (checklistObj[trimester].sectionCount === "0") {
+                            delete checklistObj[trimester];
+                        }
+                    };
+                }
+            }
+            catch (err) {
+                console.log("Error inside try catch." + err.message);
+            }
+            taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
+            removeEmptySections();
+            closeAddTaskMenu();
+            await storeChecklistIntoDB(checklistObj, true)
+                .catch(e => {
+                    console.log("Failed to delete task." + e.message);
+                });
+        });
+
+        // User clicked "cancel" button inside add task menu. Closes add task menu.
+        addTaskCloseBtn.addEventListener('click', () => {
+            closeAddTaskMenu();
+        });
+
+        function closeAddTaskMenu() {
+            document.getElementById('add-task-container').classList.add("slideOutDown");
+            document.getElementById('add-task-task-name').value = "";
+            document.getElementById('add-task-task-name').style.height = "40px";
+            document.getElementById('add-description-area').value = "";
+            document.getElementById('add-task-task-name').style = "";
+            document.getElementById('add-notes-area').value = "";
+        }
+
+        // User clicked "Done" button inside add task menu. 
+        addTaskDoneBtn.addEventListener('click', async () => {
+            if (document.getElementById('add-task-task-name').value) {
+                // Task name is not empty
+                if (addingNewTask) {
                     taskObj = {
                         name: document.getElementById('add-task-task-name').value,
                         description: document.getElementById('add-description-area').value,
                         references: "",
                         completed: "false",
-                        notes: document.getElementById('add-notes-area').value
+                        id: "1"
                     }
-                    updateChecklistObj(taskObj);
-                    await storeChecklistIntoDB(checklistObj, true)
-                        .catch(e => {
-                            console.log("Failed to store new task." + e.message);
-                        });
+                    if (document.getElementById('add-notes-area').value) {
+                        taskObj.notes = document.getElementById('add-notes-area').value;
+                    }
+                    await addNewTaskToChecklist(taskObj);
+                    closeAddTaskMenu();
                 }
-                closeAddTaskMenu();
-            }
-        }
-        else {
-            document.getElementById('add-task-task-name').style.borderBottom = "2px solid red";
-        }
-    });
-
-    // Takes a taskObj that already exists in checklistObj and updates it.
-    // Does nothing if task isn't found.
-    function updateChecklistObj(taskObj) {
-        Object.keys(checklistObj).forEach(trimester => {
-            Object.keys(checklistObj[trimester]).forEach(key => {
-                if (typeof checklistObj[trimester][key] === "object") {
-                    // Iterating through sections.
-                    Object.keys(checklistObj[trimester][key]).forEach(subKey => {
-                        if (typeof checklistObj[trimester][key][subKey] === "object") {
-                            // Iterating through tasks.
-                            if ("id" in taskObj && checklistObj[trimester][key][subKey].id === taskObj.id) {
-                                checklistObj[trimester][key][subKey] = taskObj;
-                            }
-                            else if (!("id" in taskObj) && checklistObj[trimester][key][subKey].name === taskObj.name) {
-                                checklistObj[trimester][key][subKey] = taskObj;
-                            }
+                else if (currentTaskInfo.id) {
+                    // Modifying a task in "Tasks I Added"
+                    if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value || unEditedNotes !== document.getElementById('add-notes-area').value) {
+                        // Changes were made to the task.
+                        taskObj = {
+                            name: document.getElementById('add-task-task-name').value,
+                            description: document.getElementById('add-description-area').value,
+                            references: "",
+                            completed: taskTextArea.parentNode.parentNode.childNodes[1].childNodes[1].classList.contains("completed").toString(),
+                            id: currentTaskInfo.id
                         }
-                    });
-                }
-            });
-        });
-    }
-
-    /* Takes a task object and adds the necessary HTML to display the new task.
-    Also stores this new task in firestore.
-    */
-    async function addNewTaskToChecklist(taskObj) {
-        let sectionList = document.getElementById('checklist').getElementsByClassName('section');
-        var found = false;
-
-        for (var i = 0; i < sectionList.length; i++) {
-            if (sectionList[i].textContent === "Tasks I Added") {
-                found = true;
-                break;
-            }
-        }
-
-        if (found) {
-            addNewTaskToChecklistObj(checklistObj["Tasks I Added"], taskObj);
-            let taskHTML = '<div class="list-item-container">\n' +
-                '<div class="list-item">\n' +
-                '<div class="button-div">\n' +
-                '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                '</path >\n' +
-                '</svg >\n' +
-                '</button >\n' +
-                '</div >\n' +
-                '<div class="textarea-div">\n' +
-                '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + taskObj.id + '">'
-                + taskObj.name + '</textarea>\n' +
-                '</div >\n' +
-                '</div >\n' +
-                '</div >\n'
-            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
-            closeAddTaskMenu();
-            await storeChecklistIntoDB(checklistObj)
-                .catch(e => {
-                    console.log("Failed to store new task." + e.message);
-                });
-        }
-        else {
-            let sectionHTML = '<div class="list-item-container">\n' +
-                '<div class="list-item">\n' +
-                '<h2 class="section">' + "Tasks I Added" + '</h2>\n' +
-                '</div>\n' +
-                '</div>\n';
-
-            let taskHTML = '<div class="list-item-container">\n' +
-                '<div class="list-item">\n' +
-                '<div class="button-div">\n' +
-                '<button class="checkmark"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                '</path >\n' +
-                '</svg >\n' +
-                '</button >\n' +
-                '</div >\n' +
-                '<div class="textarea-div">\n' +
-                '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
-                + taskObj.name + '</textarea>\n' +
-                '</div >\n' +
-                '</div >\n' +
-                '</div >\n'
-
-            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
-            document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
-            checklistObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj, true);
-            closeAddTaskMenu();
-            await storeChecklistIntoDB(checklistObj)
-                .catch(e => {
-                    console.log("Failed to store new task." + e.message);
-                });
-            settings.activeChecklists.push(5);
-            await storeChecklistIntoDB(checklistObj)
-                .catch(e => {
-                    console.log("Failed to store new task." + e.message);
-                });
-        }
-    }
-
-    /* Takes a task object and creates a checklist object containing that task obj. Takes optional isTasksIAdded parameter.
-    Returns the new checklist obj.
-    */
-    function createNewUserAddedChecklist(taskObj, isTasksIAdded) {
-        let section = {
-            taskCount: "1",
-            title: "Tasks I Added",
-            task1: taskObj
-        }
-        let userAddedChecklist = {
-            sectionCount: "1",
-            section1: section
-        }
-        try {
-            if (isTasksIAdded) {
-                userAddedChecklist.taskCount = "1";
-            }
-        }
-        catch
-        {
-            // Try catch block is just to handle a missing value. No need to handle it if it fails.
-        }
-        return userAddedChecklist;
-    }
-
-    /* Takes a trimester obj, section title (optional), and task obj and appends the task to the checklist obj. 
-    */
-    function addNewTaskToChecklistObj(trimesterObj, taskObj, sectionTitle) {
-        taskCount = "";
-        if (typeof sectionTitle === 'string') {
-            Object.keys(trimesterObj).forEach(key => {
-                if (typeof trimesterObj[key] === "object" && trimesterObj[key].title === sectionTitle) {
-                    let newTaskCount = parseInt(trimesterObj[key].taskCount) + 1;
-                    trimesterObj["task" + newTaskCount.toString()] = taskObj;
-                    trimesterObj["task" + newTaskCount.toString()].id = newTaskCount.toString();
-                    trimesterObj[key].taskCount = newTaskCount.toString();
-                    taskCount = newTaskCount.toString();
-                }
-            });
-        }
-        else {
-            Object.keys(trimesterObj).forEach(key => {
-                if (typeof trimesterObj[key] === "object" && trimesterObj[key].title === "Tasks I Added") {
-                    let newTaskCount = parseInt(trimesterObj[key].taskCount) + 1;
-                    trimesterObj[key].taskCount = newTaskCount.toString();
-                    trimesterObj[key]["task" + newTaskCount.toString()] = taskObj;
-                    trimesterObj[key]["task" + newTaskCount.toString()].id = newTaskCount.toString();
-                    trimesterObj.taskCount = newTaskCount.toString();
-                    taskCount = newTaskCount.toString();
-                }
-            });
-        }
-        return taskCount;
-    }
-
-    // Autosizing add-task-task-name and add-description-area.
-    const taskName = document.getElementById('add-task-task-name');
-    taskName.setAttribute('style', 'height:' + (taskName.scrollHeight) + 'px;');
-    taskName.addEventListener("input", autoSize, false);
-    const description = document.getElementById('add-description-area');
-    description.setAttribute('style', 'height:' + (description.scrollHeight) + 'px;');
-    description.addEventListener("input", autoSize, false);
-
-    function autoSize(element) {
-        try {
-            // For when called by event listeners for input
-            this.style.height = 'auto';
-            let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.6;
-            if (this.scrollHeight < maxHeight) {
-                this.style.height = (this.scrollHeight) + 'px';
-            }
-            else {
-                this.style.height = (maxHeight) + 'px';
-            }
-        }
-        catch {
-            try {
-                // For when called by clicking open a task.
-                element.style.height = 'auto';
-                let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.6;
-                if (element.scrollHeight < maxHeight) {
-                    element.style.height = (element.scrollHeight) + 'px';
+                        if (document.getElementById('add-notes-area').value) {
+                            taskObj.notes = document.getElementById('add-notes-area').value;
+                        }
+                        updateChecklistObj(taskObj);
+                        taskTextArea.value = document.getElementById('add-task-task-name').value;
+                        closeAddTaskMenu();
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to store new task." + e.message);
+                            });
+                    }
+                    else {
+                        // No changes made to task.
+                        closeAddTaskMenu();
+                    }
                 }
                 else {
-                    element.style.height = (maxHeight) + 'px';
+                    if (unEditedNotes !== document.getElementById('add-notes-area').value) {
+                        taskObj = {
+                            name: document.getElementById('add-task-task-name').value,
+                            description: document.getElementById('add-description-area').value,
+                            references: "",
+                            completed: taskTextArea.parentNode.parentNode.childNodes[1].childNodes[1].classList.contains("completed").toString(),
+                            notes: document.getElementById('add-notes-area').value
+                        }
+                        updateChecklistObj(taskObj);
+                        await storeChecklistIntoDB(checklistObj, true)
+                            .catch(e => {
+                                console.log("Failed to store new task." + e.message);
+                            });
+                    }
+                    closeAddTaskMenu();
+                }
+            }
+            else {
+                document.getElementById('add-task-task-name').style.borderBottom = "2px solid red";
+            }
+        });
+
+        // Takes a taskObj that already exists in checklistObj and updates it.
+        // Searches for that taskObj by id (for user added tasks) or by task name.
+        // Does nothing if task isn't found.
+        function updateChecklistObj(taskObj) {
+            Object.keys(checklistObj).forEach(trimester => {
+                Object.keys(checklistObj[trimester]).forEach(key => {
+                    if (typeof checklistObj[trimester][key] === "object") {
+                        // Iterating through sections.
+                        Object.keys(checklistObj[trimester][key]).forEach(subKey => {
+                            if (typeof checklistObj[trimester][key][subKey] === "object") {
+                                // Iterating through tasks.
+                                if ("id" in taskObj && checklistObj[trimester][key][subKey].id === taskObj.id) {
+                                    checklistObj[trimester][key][subKey] = taskObj;
+                                }
+                                else if (!("id" in taskObj) && checklistObj[trimester][key][subKey].name === taskObj.name) {
+                                    checklistObj[trimester][key][subKey] = taskObj;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        /* Takes a task object and adds the necessary HTML to display the new task.
+        Also stores this new task in firestore.
+        */
+        async function addNewTaskToChecklist(taskObj) {
+            let sectionList = document.getElementById('checklist').getElementsByClassName('section');
+            var found = false;
+
+            for (var i = 0; i < sectionList.length; i++) {
+                if (sectionList[i].textContent === "Tasks I Added") {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                addNewTaskToChecklistObj(checklistObj["Tasks I Added"], taskObj);
+                let taskHTML = '<div class="list-item-container">\n' +
+                    '<div class="list-item">\n' +
+                    '<div class="button-div">\n' +
+                    '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                    '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                    '</path >\n' +
+                    '</svg >\n' +
+                    '</button >\n' +
+                    '</div >\n' +
+                    '<div class="textarea-div">\n' +
+                    '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + taskObj.id + '">'
+                    + taskObj.name + '</textarea>\n' +
+                    '</div >\n' +
+                    '</div >\n' +
+                    '</div >\n'
+                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+                closeAddTaskMenu();
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
+            }
+            else {
+                let sectionHTML = '<div class="list-item-container">\n' +
+                    '<div class="list-item">\n' +
+                    '<h2 class="section">' + "Tasks I Added" + '</h2>\n' +
+                    '</div>\n' +
+                    '</div>\n';
+
+                let taskHTML = '<div class="list-item-container">\n' +
+                    '<div class="list-item">\n' +
+                    '<div class="button-div">\n' +
+                    '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                    '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                    '</path >\n' +
+                    '</svg >\n' +
+                    '</button >\n' +
+                    '</div >\n' +
+                    '<div class="textarea-div">\n' +
+                    '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
+                    + taskObj.name + '</textarea>\n' +
+                    '</div >\n' +
+                    '</div >\n' +
+                    '</div >\n'
+
+                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
+                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+                checklistObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj, true);
+                closeAddTaskMenu();
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
+                settings.activeChecklists.push(5);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
+            }
+        }
+
+        /* Takes a task object and creates a checklist object containing that task obj. Takes optional isTasksIAdded parameter.
+        Returns the new checklist obj.
+        */
+        function createNewUserAddedChecklist(taskObj, isTasksIAdded) {
+            let section = {
+                taskCount: "1",
+                title: "Tasks I Added",
+                task1: taskObj
+            }
+            let userAddedChecklist = {
+                sectionCount: "1",
+                section1: section
+            }
+            try {
+                if (isTasksIAdded) {
+                    userAddedChecklist.taskCount = "1";
+                }
+            }
+            catch
+            {
+                // Try catch block is just to handle a missing value. No need to handle it if it fails.
+            }
+            return userAddedChecklist;
+        }
+
+        /* Takes a trimester obj, section title (optional), and task obj and appends the task to the checklist obj. 
+        */
+        function addNewTaskToChecklistObj(trimesterObj, taskObj, sectionTitle) {
+            taskCount = "";
+            if (typeof sectionTitle === 'string') {
+                Object.keys(trimesterObj).forEach(key => {
+                    if (typeof trimesterObj[key] === "object" && trimesterObj[key].title === sectionTitle) {
+                        let newTaskCount = parseInt(trimesterObj[key].taskCount) + 1;
+                        trimesterObj["task" + newTaskCount.toString()] = taskObj;
+                        trimesterObj["task" + newTaskCount.toString()].id = newTaskCount.toString();
+                        trimesterObj[key].taskCount = newTaskCount.toString();
+                        taskCount = newTaskCount.toString();
+                    }
+                });
+            }
+            else {
+                Object.keys(trimesterObj).forEach(key => {
+                    if (typeof trimesterObj[key] === "object" && trimesterObj[key].title === "Tasks I Added") {
+                        let newTaskCount = parseInt(trimesterObj[key].taskCount) + 1;
+                        trimesterObj[key].taskCount = newTaskCount.toString();
+                        trimesterObj[key]["task" + newTaskCount.toString()] = taskObj;
+                        trimesterObj[key]["task" + newTaskCount.toString()].id = newTaskCount.toString();
+                        trimesterObj.taskCount = newTaskCount.toString();
+                        taskCount = newTaskCount.toString();
+                    }
+                });
+            }
+            return taskCount;
+        }
+
+        // Autosizing add-task-task-name and add-description-area.
+        const taskName = document.getElementById('add-task-task-name');
+        taskName.setAttribute('style', 'height:' + (taskName.scrollHeight) + 'px;');
+        taskName.addEventListener("input", autoSize, false);
+        const description = document.getElementById('add-description-area');
+        description.setAttribute('style', 'height:' + (description.scrollHeight) + 'px;');
+        description.addEventListener("input", autoSize, false);
+
+        function autoSize(element) {
+            try {
+                // For when called by event listeners for input
+                this.style.height = 'auto';
+                let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.4;
+                if (this.scrollHeight < maxHeight) {
+                    this.style.height = (this.scrollHeight) + 'px';
+                }
+                else {
+                    this.style.height = (maxHeight) + 'px';
                 }
             }
             catch {
+                try {
+                    // For when called by clicking open a task.
+                    element.style.height = 'auto';
+                    let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.4;
+                    if (element.scrollHeight < maxHeight) {
+                        element.style.height = (element.scrollHeight) + 'px';
+                    }
+                    else {
+                        element.style.height = (maxHeight) + 'px';
+                    }
+                }
+                catch {
 
+                }
             }
         }
     }
-}
+
+    function optionsClicked() {
+        let buttonWidth = document.getElementById('additional-options-button').offsetWidth - 201;
+        document.getElementById('options-dropdown').style.transform = "translate(" + buttonWidth + "px, 10px)";
+        document.getElementById("options-dropdown").classList.toggle("show");
+    }
+
+    async function toggleShowComplete() {
+        if (checklistObj.settings.showComplete === "false") {
+            checklistObj.settings.showComplete = "true";
+            document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
+            let myNode = document.getElementById("checklist");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
+            await generateChecklist(checklistObj, checklistObj.settings);
+            await storeChecklistIntoDB(checklistObj)
+                .catch(e => {
+                    console.log("Failed to store showComplete." + e.message);
+                });
+            updateDropdownMenu();
+
+        }
+        else if (checklistObj.settings.showComplete === "true") {
+            checklistObj.settings.showComplete = "false";
+            let myNode = document.getElementById("checklist");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.firstChild);
+            }
+            await generateChecklist(checklistObj, checklistObj.settings);
+            await storeChecklistIntoDB(checklistObj)
+                .catch(e => {
+                    console.log("Failed to store showComplete." + e.message);
+                });
+            updateDropdownMenu();
+        }
+    }
+
+    /* Changes dropdown menu option based on if checklistObj.settings.showComplete is true or false.*/
+    function updateDropdownMenu() {
+        if (checklistObj.settings.showComplete === "false") {
+            document.getElementById('toggleCompleteSpan').innerText = "Show completed tasks";
+        }
+        else if (checklistObj.settings.showComplete === "true") {
+            document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
+        }
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+        if (event.target.parentNode.id !== "additional-options-button") {
+            let dropdown = document.getElementById("options-dropdown");
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    }
+
+    return {
+        optionsClicked: optionsClicked,
+        toggleShowComplete: toggleShowComplete
+    }
+
+}();

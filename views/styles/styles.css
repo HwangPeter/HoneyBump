@@ -96,7 +96,7 @@ button:focus {
     outline: none;
 }
 
-button:hover {
+button:not(.nohover):hover {
     background-color: #FAF6F1;
     color: #6B5875;
 }
