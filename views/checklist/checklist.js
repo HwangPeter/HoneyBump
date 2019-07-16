@@ -431,6 +431,11 @@ checklistNameSpace = function () {
 
             var element = target;
 
+            //Dismisses dropdown menu if user clicks anything
+            if (event.target.parentNode.id !== "additional-options-button") {
+                document.getElementById("options-dropdown").classList.remove('show');
+            }
+
             // Climb up the document tree from the target of the event
             while (element) {
                 if (/list-item-container/.test(element.className) && element.id !== "task-name") {
@@ -1041,45 +1046,55 @@ checklistNameSpace = function () {
                 }
             }
         }
-    }
 
-    function optionsClicked() {
-        let buttonWidth = document.getElementById('additional-options-button').offsetWidth - 201;
-        document.getElementById('options-dropdown').style.transform = "translate(" + buttonWidth + "px, 10px)";
-        document.getElementById("options-dropdown").classList.toggle("show");
-    }
+        document.getElementById('additional-options-button').addEventListener('click', async () => {
+            optionsClicked();
+        });
 
-    async function toggleShowComplete() {
-        if (checklistObj.settings.showComplete === "false") {
-            checklistObj.settings.showComplete = "true";
-            document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
-            let myNode = document.getElementById("checklist");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
+        document.getElementById('toggleCompleteSpan').addEventListener('click', async () => {
+            toggleShowComplete();
+        });
+
+        async function toggleShowComplete() {
+            if (checklistObj.settings.showComplete === "false") {
+                checklistObj.settings.showComplete = "true";
+                document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
+                let myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, checklistObj.settings);
+                document.getElementById("options-dropdown").classList.remove("show");
+                updateDropdownMenu();
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store showComplete." + e.message);
+                    });
+
             }
-            await generateChecklist(checklistObj, checklistObj.settings);
-            await storeChecklistIntoDB(checklistObj)
-                .catch(e => {
-                    console.log("Failed to store showComplete." + e.message);
-                });
-            updateDropdownMenu();
-
-        }
-        else if (checklistObj.settings.showComplete === "true") {
-            checklistObj.settings.showComplete = "false";
-            let myNode = document.getElementById("checklist");
-            while (myNode.firstChild) {
-                myNode.removeChild(myNode.firstChild);
+            else if (checklistObj.settings.showComplete === "true") {
+                checklistObj.settings.showComplete = "false";
+                let myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, checklistObj.settings);
+                document.getElementById("options-dropdown").classList.toggle("show");
+                updateDropdownMenu();
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store showComplete." + e.message);
+                    });
             }
-            await generateChecklist(checklistObj, checklistObj.settings);
-            await storeChecklistIntoDB(checklistObj)
-                .catch(e => {
-                    console.log("Failed to store showComplete." + e.message);
-                });
-            updateDropdownMenu();
+        }
+
+        /* User clicked on the additional options button*/
+        function optionsClicked() {
+            let buttonWidth = document.getElementById('additional-options-button').offsetWidth - 201;
+            document.getElementById('options-dropdown').style.transform = "translate(" + buttonWidth + "px, 10px)";
+            document.getElementById("options-dropdown").classList.toggle("show");
         }
     }
-
     /* Changes dropdown menu option based on if checklistObj.settings.showComplete is true or false.*/
     function updateDropdownMenu() {
         if (checklistObj.settings.showComplete === "false") {
@@ -1089,20 +1104,4 @@ checklistNameSpace = function () {
             document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
         }
     }
-
-    // Close the dropdown menu if the user clicks outside of it
-    window.onclick = function (event) {
-        if (event.target.parentNode.id !== "additional-options-button") {
-            let dropdown = document.getElementById("options-dropdown");
-            if (dropdown.classList.contains('show')) {
-                dropdown.classList.remove('show');
-            }
-        }
-    }
-
-    return {
-        optionsClicked: optionsClicked,
-        toggleShowComplete: toggleShowComplete
-    }
-
 }();
