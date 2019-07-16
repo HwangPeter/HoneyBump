@@ -21,25 +21,36 @@
       <header><img class="logopic" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
       myHoneyBump</header>
     </div>
-    <div>
-      <div style="float:right;">
+
+    <div class="topnav" id="myTopnav">
+      <a href="#thebuzz">The Buzz</a>
+      <a href="#musthaves">Must-Haves</a>
+      <a href="#website">My (free!) baby website</a>
+      <a href="checklist/checklist.html">pregnancy checklist</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776</a>
+    </div>
+
+      <!-- <div style="float:right;">
         <button id="btnLoginSignUp">Sign Up/Login</button>
         <button id="btnLogout">Logout</button>
       </div>
-      <ul class="navigation-ul">
+      <div>
+        <ul class="navigation-ul">
         <li class="navigation-li"><a href="">The Buzz</a></li>
         <li class="navigation-li"><a href="">Must-Haves</a></li>
         <li class="navigation-li"><a href="">My (free!) baby website</a></li>
         <li class="navigation-li"><a href="checklist/checklist.html">pregnancy checklist</a></li>
         <li class="navigation-li"><a href="index.html">home</a></li>
-      </ul>
-    </div>
+        </ul>
+      </div> -->
   </div>
-  
+
+  <div id="main">
   <div class="textinpiccontainer">
     <img class="landingpic" alt="Hand on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FHand_on_Stomach.png?alt=media&token=ebfea8df-7dd5-4849-865b-4747761994b2">
     <div class="centered">
-      <p style="font-size: 80px;line-height:1;font-weight:700;letter-spacing:4px;">Pregnancy Planning made easy</p>
+      <p style="font-size: 40px;line-height:1;font-weight:700;letter-spacing:4px;">Pregnancy Planning made easy</p>
       <button>create</button>
     </div>
   </div>
@@ -103,9 +114,20 @@
 <br>
 <br>
 <br>
-
+  </div>
 
   <script type="module" src="index.js"></script>
+  
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+    </script>
 
 </body>
 
