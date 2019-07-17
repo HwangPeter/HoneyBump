@@ -60,7 +60,8 @@ footer {
     /* box shadow opacity at 0.05 initially */
     border: 2px solid #6B5875;
     position: relative;
-    height: calc(100%);
+    height: calc(100% - 4px);
+    overflow-y: hidden;
 }
 
 .shifted-left {
@@ -194,7 +195,7 @@ footer {
     height: 100%;
     width: 100%;
     background: white;
-    padding: 0;
+    padding: 0px;
     margin: auto;
     position:relative;
 }
@@ -204,7 +205,7 @@ footer {
     height: 40%;
     width: 100%;
     display: inline-block;
-    padding: 0;
+    padding: 0px;
     position: relative;
     border: none;
 }
@@ -227,35 +228,37 @@ footer {
     fill: #5c6369;
 }
 
-/* Dropdown Button */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
+.dropdown {
+  position: relative;
+  display: inline-block;
+  background-color: transparent;
+}
   
-  /* Dropdown Content (Hidden by Default) */
-  .dropdown-content {
-    display: none;
-    position: relative;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 4px;
-  }
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: white;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+  transform: translateY(10px);
+}
   
   /* Links inside the dropdown */
-  .dropdown-content span {
-    color: black;
-    font-size: 14px;
-    padding: 10px 12px;
-    display: block;
-  }
+.dropdown-content span {
+  color: black;
+  font-size: 14px;
+  padding: 10px 12px;
+  display: block;
+}
   
   /* Change color of dropdown links on hover */
-  .dropdown-content span:hover {background-color: #f6f8f9}
+.dropdown-content span:hover {background-color: #f6f8f9}
   
-  .show {display:block;}
+.show {
+  display: block;
+}
 
 #checklist {
     padding-top: 5px;
@@ -263,7 +266,7 @@ footer {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 201px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100vh - 205px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow-y: scroll;
 }
 
@@ -319,7 +322,7 @@ footer {
     line-height: 40px;
     position: absolute;
     padding-left: 6px;
-    color: #d1d8fb;
+    color: black;
 }
 
 .button-div {
@@ -361,6 +364,10 @@ footer {
     border: 2px solid #d5dce0;
 }
 
+#add-description-area.hover:hover {
+    border: 2px solid #d5dce0;
+}
+
 textarea {
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -392,13 +399,17 @@ textarea:focus {
     min-height: 80px;
     overflow-y: auto;
     border: 2px solid transparent;
-    border-bottom: 2x solid #d5dce0;
+    border-bottom: 2px solid #d5dce0;
     border-radius: 4px;
     width: calc(100% - 20px);
     padding: 0px 10px;
 }
 
 #add-notes-area:focus {
+    border: 2px solid #d5dce0;
+}
+
+#add-notes-area:hover {
     border: 2px solid #d5dce0;
 }
 
@@ -426,7 +437,6 @@ button.checkmark{
     height: 20px;
     width: 20px;
     padding: 5px;
-    float: left;
 }
 
 .completed {
@@ -457,38 +467,77 @@ button.checkmark{
 }
 
 #add-task-button-container {
-    margin: 10px 0px 10px 0px;
+    margin: 8px auto;
     display: inline-flex;
-    position: relative;
     width: 100%;
     height: 35px;
     padding-bottom: 5px;
     border-bottom: 2px solid #e0e6e8;
+    justify-content: flex-end;
 }
 
-.option-button-div {
-    margin: 0px 6px 0px 6px;
-    display: inline-block;
+.save-button-div {
+    margin: auto 5px;
     height: 100%;
-    width: calc(33% - 12px);
+    width: 80px;
     position: relative;
 }
 
-#deleteSVG {
+.option-button-icon-div {
+    width: 28px;
+    height: 28px;
+    margin: auto 5px;
+}
+
+.option-button-cancel-div {
+    width: 28px;
+    height: 28px;
+    margin: auto;
+    margin-left: 8px;
+}
+
+button.icon-button {
+    position: relative;
+    border: 2px solid;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    font-size: 12px;
+    background-color: transparent;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}
+
+.icon-SVG {
     max-height: 90%;
     max-width: 90%;
-    color: white;
-    fill: white;
+    color: #6B5875;
+    fill: #6B5875;
     display: block;
+    position: relative;
     margin: auto;
 }
 
-button#delete {
+.icon-SVG:hover {
+    color: black;
+    fill: black;
+}
+
+button#save {
     position: relative;
     padding: 0px;
     height: 100%;
     width: 100%;
-    font-size: 12px;
+    border: 2px solid;
+    background: none;
+    color: #6B5875;
+    font-size: 13px;
+    font-weight: 500;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -498,34 +547,8 @@ button#delete {
                           supported by Chrome and Opera */
 }
 
-button#cancel {
-    position: relative;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
-    font-size: 12px;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                          supported by Chrome and Opera */
-}
-
-button#done {
-    position: relative;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
-    font-size: 12px;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                          supported by Chrome and Opera */
+button#save:hover {
+    color: black;
 }
 
 .animated {
@@ -616,4 +639,5 @@ button#done {
         width: 25%;
         margin: auto;
     }
+
   } 

@@ -29,27 +29,28 @@
                     <div id="checklist-header">
                         <div class="trimester-button-container">
                             <div class="trimester-button-div">
-                                <button id="prePregnancy" class="trimester-button">Before</button>
+                                <button id="prePregnancy" class="trimester-button" focusable="false">Before</button>
                             </div>
                             <div class="trimester-button-div">
-                                <button id="firstTrimester" class="trimester-button">1st</button>
+                                <button id="firstTrimester" class="trimester-button" focusable="false">1st</button>
                             </div>
                             <div class="trimester-button-div">
-                                <button id="secondTrimester" class="trimester-button">2nd</button>
+                                <button id="secondTrimester" class="trimester-button" focusable="false">2nd</button>
                             </div>
                             <div class="trimester-button-div">
-                                <button id="thirdTrimester" class="trimester-button">3rd</button>
+                                <button id="thirdTrimester" class="trimester-button" focusable="false">3rd</button>
                             </div>
                             <div class="trimester-button-div">
-                                <button id="postPregnancy" class="trimester-button">After</button>
+                                <button id="postPregnancy" class="trimester-button" focusable="false">After</button>
                             </div>
                             <div class="trimester-button-div">
-                                <button id="medicalConditions" class="trimester-button">Medical</button>
+                                <button id="medicalConditions" class="trimester-button"
+                                    focusable="false">Medical</button>
                             </div>
                         </div>
                         <div class="right-options-button-container">
                             <div class="additional-options-button-container" id="button-container">
-                                <button id="additional-options-button">
+                                <button id="additional-options-button" title="More actions">
                                     <svg id="optionsSVG" focusable="false" viewBox="0 0 32 32">
                                         <path
                                             d="M16,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S14.3,13,16,13z M3,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S1.3,13,3,13z M29,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S27.3,13,29,13z">
@@ -70,22 +71,37 @@
                 </div>
                 <div id="add-task-container" style="display: none;" class="animated slideInUp">
                     <div id="add-task-button-container">
-                        <div class="option-button-div">
-                            <button id="cancel" class="nohover">Cancel</button>
+                        <div class="option-button-cancel-div">
+                            <button id="cancel" class="icon-button nohover">
+                                <svg id="x-svg" class="icon-SVG" focusable="false" viewBox="0 0 32 32">
+                                    <path
+                                        d="M18.1,16L27,7.1c0.6-0.6,0.6-1.5,0-2.1s-1.5-0.6-2.1,0L16,13.9l-8.9-9C6.5,4.3,5.6,4.3,5,4.9S4.4,6.4,5,7l8.9,8.9L5,24.8c-0.6,0.6-0.6,1.5,0,2.1c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4l8.9-8.9l8.9,8.9c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4c0.6-0.6,0.6-1.5,0-2.1L18.1,16z">
+                                    </path>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="option-button-div">
-                            <button id="delete" class="nohover">
-                                <svg id="deleteSVG" focusable="false" viewBox="0 -256 1792 1792">
+                        <div class="option-button-icon-div">
+                            <button id="markAsComplete" class="icon-button nohover" title="Mark as complete">
+                                <svg id="markAsCompleteSVG" class="icon-SVG" focusable="false" viewBox="-3 -5 40 40">
+                                    <path
+                                        d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="option-button-icon-div">
+                            <button id="delete" class="icon-button nohover" title="Delete task">
+                                <svg id="deleteSVG" class="icon-SVG" focusable="false" viewBox="0 -256 1792 1792">
                                     <path
                                         d="M 512,800 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z m 256,0 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z m 256,0 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z M 1152,76 v 948 H 256 V 76 Q 256,54 263,35.5 270,17 277.5,8.5 285,0 288,0 h 832 q 3,0 10.5,8.5 7.5,8.5 14.5,27 7,18.5 7,40.5 z M 480,1152 h 448 l -48,117 q -7,9 -17,11 H 546 q -10,-2 -17,-11 z m 928,-32 v -64 q 0,-14 -9,-23 -9,-9 -23,-9 h -96 V 76 q 0,-83 -47,-143.5 -47,-60.5 -113,-60.5 H 288 q -66,0 -113,58.5 Q 128,-11 128,72 v 952 H 32 q -14,0 -23,9 -9,9 -9,23 v 64 q 0,14 9,23 9,9 23,9 h 309 l 70,167 q 15,37 54,63 39,26 79,26 h 320 q 40,0 79,-26 39,-26 54,-63 l 70,-167 h 309 q 14,0 23,-9 9,-9 9,-23 z"
-                                        id="path3745" inkscape:connector-curvature="0" style="fill:currentColor"
+                                        id="path3745" inkscape:connector-curvature="0"
                                         transform="matrix(1,0,0,-1,197.42373,1255.0508)">
                                     </path>
                                 </svg>
                             </button>
                         </div>
-                        <div class="option-button-div">
-                            <button id="done" class="nohover">Done</button>
+                        <div class="save-button-div">
+                            <button id="save" class="nohover">Save</button>
                         </div>
                     </div>
                     <div id="add-task-bottom-container">

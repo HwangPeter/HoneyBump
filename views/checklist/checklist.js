@@ -254,7 +254,7 @@
                                     taskHTML += '</div >\n';
 
                                     if (getWidthOfText(checklistObj[trimester][key][subKey].name, "MontSerrat", "13px") >= (document.getElementsByClassName("list-item")[0].offsetWidth - 40)) {
-                                        taskHTML += '<div id="textTooLong">></div>';
+                                        taskHTML += '<div id="textTooLong">...</div>';
                                     }
                                     taskHTML +=
                                         '</div >\n' +
@@ -409,7 +409,7 @@
     function addAllEventListeners(checklistObj, settings) {
         const db = firebase.firestore();
         const addTaskCloseBtn = document.getElementById('cancel');
-        const addTaskDoneBtn = document.getElementById('done');
+        const addTaskDoneBtn = document.getElementById('save');
         const deleteBtn = document.getElementById('delete');
         var addingNewTask = false;
         var currentTaskInfo = {};
@@ -612,6 +612,9 @@
                 autoSize(document.getElementById('add-description-area'));
                 document.getElementById('add-description-area').disabled = false;
                 document.getElementById('add-task-task-name').disabled = false;
+                document.getElementById('add-description-area').value = "";
+                document.getElementById('add-task-task-name').value = "";
+                document.getElementById('add-notes-area').value = "";
                 document.getElementById('add-description-area').placeholder = "Add description...";
                 document.getElementById('add-task-container').classList.remove("slideOutDown");
                 document.getElementById('add-task-container').style.display = "";
@@ -619,7 +622,7 @@
                 addingNewTask = true;
             }
             else if (element.id === "add-task-task-name") {
-
+                console.log("hm");
             }
             else {
                 // Clicked on any task.
@@ -641,9 +644,11 @@
                         document.getElementById('add-description-area').placeholder = "Add description...";
                         unEditedDescription = document.getElementById('add-description-area').value;
                         unEditedTaskName = document.getElementById('add-task-task-name').value;
+                        document.getElementById('add-description-area').classList.add('hover');
                     }
                     else {
                         document.getElementById('add-description-area').placeholder = "";
+                        document.getElementById('add-description-area').classList.remove('hover');
                     }
                     unEditedNotes = document.getElementById('add-notes-area').value;
                     document.getElementById('add-task-container').classList.remove("slideOutDown");
@@ -661,16 +666,21 @@
         // Returns empty object if not found.
         function getTaskNameID(element) {
             var taskObj = {};
-            if (element.parentNode.classList.contains("list-item-container")) {
-                // For if user clicks checkmark button instead of task item.
-                element = element.parentNode;
-            }
-            if (element.childNodes[1].childNodes[3].childNodes[1].nodeName === "TEXTAREA") {
-                taskTextArea = element.childNodes[1].childNodes[3].childNodes[1];
-                taskObj.taskName = element.childNodes[1].childNodes[3].childNodes[1].value;
-                if (element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data") !== null) {
-                    taskObj.id = element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data");
+            try {
+                if (element.parentNode.classList.contains("list-item-container")) {
+                    // For if user clicks checkmark button instead of task item.
+                    element = element.parentNode;
                 }
+                if (element.childNodes[1].childNodes[3].childNodes[1].nodeName === "TEXTAREA") {
+                    taskTextArea = element.childNodes[1].childNodes[3].childNodes[1];
+                    taskObj.taskName = element.childNodes[1].childNodes[3].childNodes[1].value;
+                    if (element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data") !== null) {
+                        taskObj.id = element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data");
+                    }
+                }
+            }
+            catch {
+                // Try-catch is just to prevent an uncaught error when user clicks on header task items of checklist.
             }
             return taskObj;
         }
