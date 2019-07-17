@@ -59,7 +59,6 @@ footer {
     width: calc(100% - 4px);
     /* box shadow opacity at 0.05 initially */
     border: 2px solid #6B5875;
-    box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
     position: relative;
     height: calc(100%);
 }
@@ -71,7 +70,7 @@ footer {
 #checklist-header {
     display: flex;
     background: white;
-    border-bottom: 1px solid #e0e6e8;
+    border-bottom: 2px solid #e0e6e8;
     border-radius: 4px 4px 0 0;
     align-items: center;
     height: 70px;
@@ -311,6 +310,18 @@ footer {
     width: calc(100% - 40px);
 }
 
+#textTooLong {
+    display: inline-flex;
+    font-weight: 500;
+    width: 1%;
+    height: 100%;
+    margin: auto;
+    line-height: 40px;
+    position: absolute;
+    padding-left: 6px;
+    color: #d1d8fb;
+}
+
 .button-div {
     padding-right: 30px; 
     display: inline-block;
@@ -325,7 +336,7 @@ footer {
 .textarea-div {
     margin: auto;
     display: inline-block; 
-    width: calc(100% - 34px);
+    width: calc(100% - 40px);
     height: 100%;
 }
 
@@ -591,12 +602,14 @@ button#done {
     #checklist-container {
         width: 60%;
         margin: auto;
+        box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
     }
 
     #add-task-container {
         width: 35%;
         margin: auto;
         margin-left: 63%;
+        box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
     }
 
     #additional-options-button {

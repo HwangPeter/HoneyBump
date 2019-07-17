@@ -245,18 +245,20 @@
                                     if (trimester === "Tasks I Added") {
                                         taskHTML +=
                                             '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
-                                            + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                            '</div >\n' +
-                                            '</div >\n' +
-                                            '</div >\n'
+                                            + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n'
                                     }
                                     else {
                                         taskHTML +=
-                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n' +
-                                            '</div >\n' +
-                                            '</div >\n' +
-                                            '</div >\n'
+                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n'
                                     }
+                                    taskHTML += '</div >\n';
+
+                                    if (getWidthOfText(checklistObj[trimester][key][subKey].name, "MontSerrat", "13px") >= (document.getElementsByClassName("list-item")[0].offsetWidth - 40)) {
+                                        taskHTML += '<div id="textTooLong">></div>';
+                                    }
+                                    taskHTML +=
+                                        '</div >\n' +
+                                        '</div >\n'
 
                                     if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
                                         // If we're in the daily section of a trimester and there is already a daily section displayed
@@ -621,7 +623,7 @@
             }
             else {
                 // Clicked on any task.
-                if (element.childNodes[1].childNodes[1].nodeName !== "H2"){
+                if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
                     document.getElementById('checklist-container').classList.add("shifted-left");
                 }
                 currentTaskInfo = getTaskNameID(element);
@@ -654,24 +656,20 @@
 
         }
 
-        // Takes any element and checks if it has a textarea child. 
+        // Takes list-item-container element and checks if it has a textarea child. 
         // Returns an object containing taskName and data if it exists.
         // Returns empty object if not found.
         function getTaskNameID(element) {
             var taskObj = {};
-            for (var i = 0; i < element.childNodes.length; i++) {
-                if (element.childNodes[i].nodeName === "TEXTAREA") {
-                    taskTextArea = element.childNodes[i];
-                    taskObj.taskName = element.childNodes[i].value;
-                    if (element.childNodes[1].getAttribute("data") !== null) {
-                        taskObj.id = element.childNodes[1].getAttribute("data");
-                    }
-                    return taskObj;
-                }
-                else {
-                    if (element.childNodes[i].hasChildNodes()) {
-                        taskObj = getTaskNameID(element.childNodes[i]);
-                    }
+            if (element.parentNode.classList.contains("list-item-container")) {
+                // For if user clicks checkmark button instead of task item.
+                element = element.parentNode;
+            }
+            if (element.childNodes[1].childNodes[3].childNodes[1].nodeName === "TEXTAREA") {
+                taskTextArea = element.childNodes[1].childNodes[3].childNodes[1];
+                taskObj.taskName = element.childNodes[1].childNodes[3].childNodes[1].value;
+                if (element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data") !== null) {
+                    taskObj.id = element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data");
                 }
             }
             return taskObj;
@@ -1109,5 +1107,15 @@
         else if (checklistObj.settings.showComplete === "true") {
             document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
         }
+    }
+
+    /* Returns width of some text.*/
+    function getWidthOfText(txt, fontname, fontsize) {
+        if (getWidthOfText.c === undefined) {
+            getWidthOfText.c = document.createElement('canvas');
+            getWidthOfText.ctx = getWidthOfText.c.getContext('2d');
+        }
+        getWidthOfText.ctx.font = fontsize + ' ' + fontname;
+        return getWidthOfText.ctx.measureText(txt).width;
     }
 })();
