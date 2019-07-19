@@ -522,6 +522,7 @@
                                 });
                             element.disabled = false;
                         }
+                        break;
                     }
                 }
                 element = element.parentNode;
@@ -540,6 +541,10 @@
                 element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "2px solid #e0e6e8";
                 if (checklistObj.settings.showComplete === "false") {
                     element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode);
+                    removeEmptySections();
+                    if (currentTaskInfo.taskName === element.parentNode.parentNode.childNodes[3].childNodes[1].value) {
+                        closeAddTaskMenu();
+                    }
                 }
             }, 1200);
         }
