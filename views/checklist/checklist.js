@@ -201,7 +201,7 @@
                         // if (checklistObj[trimester][key].title !== "Daily" || currentlyDisplayedTaskList.indexOf("Daily") < 0) {
                         if (nextSectionIsAfterDaily) {
                             // This is to mark the section after Daily in order to add additional Daily tasks.
-                            let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container">\n' +
+                            let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container hoverable">\n' +
                                 '<div class="list-item">\n' +
                                 '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
                                 '</div>\n' +
@@ -214,7 +214,7 @@
                             // Do nothing if Daily section is already placed onto checklist.
                         }
                         else {
-                            let sectionHTML = '<div class="list-item-container">\n' +
+                            let sectionHTML = '<div class="list-item-container hoverable">\n' +
                                 '<div class="list-item">\n' +
                                 '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
                                 '</div>\n' +
@@ -228,7 +228,7 @@
                                 //Iterating through tasks
                                 let inDailySection = (checklistObj[trimester][key].title === "Daily");
                                 if (taskShouldBeDisplayed(checklistObj[trimester][key][subKey], currentlyDisplayedTaskList, settings, checklistObj, inDailySection)) {
-                                    let taskHTML = '<div class="list-item-container">\n' +
+                                    let taskHTML = '<div class="list-item-container hoverable">\n' +
                                         '<div class="list-item">\n' +
                                         '<div class="button-div">\n'
 
@@ -302,7 +302,7 @@
                 }
             }
         }
-        let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container">\n' +
+        let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container hoverable">\n' +
             '<div class="list-item">\n' +
             '<div class="button-div">\n' +
             '<button class="checkmark nohover" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
@@ -423,9 +423,9 @@
         if (document.addEventListener) {
             document.addEventListener("click", handleClick, false);
         }
-        else if (document.attachEvent) {
-            document.attachEvent("onclick", handleClick);
-        }
+        // else if (document.attachEvent) {
+        //     document.attachEvent("onclick", handleClick);
+        // }
 
         async function handleClick(event) {
             event = event || window.event;
@@ -446,28 +446,37 @@
                     break;
                 }
                 else if (element.nodeName === "BUTTON") {
-                    if (element.childNodes[0].data) {
+                    if (element.disabled === true) {
+                        break;
+                    }
+                    if (element.childNodes[0].data && /\S/.test(element.childNodes[0].data)) {
                         await handleTrimesterButtonClick(element);
                     }
                     else if (element.className.indexOf("checkmark") !== -1) {
                         element.classList.toggle("completed");
                         if (element.classList.contains("completed")) {
+                            element.disabled = true;
+                            element.parentNode.parentNode.parentNode.classList.remove("hoverable");
+
+                            //TODO: Add animation if setting task complete from add task window.
                             let taskNameID = getTaskNameID(element.parentNode.parentNode);
+                            if (document.getElementById('add-task-task-name').value === taskNameID.taskName) {
+                                updateCheckmarkIcon(element.classList.contains("completed"));
+                            }
                             taskNameID.completed = "true";
                             updateCompletionStatusLocally(taskNameID);
-                            let myNode = document.getElementById("checklist");
-                            while (myNode.firstChild) {
-                                myNode.removeChild(myNode.firstChild);
-                            }
-                            await generateChecklist(checklistObj, checklistObj.settings);
+                            animateListItemContainer(element);
                             await storeChecklistIntoDB(checklistObj)
                                 .catch(e => {
                                     console.log("Failed to store new completion status." + e.message);
                                 });
-                            // TODO: Add animation for marking task as complete. Then remove item from checklist (if showComplete is false);
                         }
+
                         else if (!element.classList.contains("completed")) {
                             let taskNameID = getTaskNameID(element.parentNode.parentNode);
+                            if (document.getElementById('add-task-task-name').value === taskNameID.taskName) {
+                                updateCheckmarkIcon(element.classList.contains("completed"));
+                            }
                             taskNameID.completed = "false";
                             updateCompletionStatusLocally(taskNameID);
                             await storeChecklistIntoDB(checklistObj)
@@ -475,10 +484,92 @@
                                     console.log("Failed to store new completion status." + e.message);
                                 });
                         }
+                        break;
                     }
-                    break;
+                    else if (element.id === "markAsComplete") {
+                        if (element.childNodes[1].classList.contains("completed")) {
+                            currentTaskInfo.completed = "false";
+                            updateCompletionStatusLocally(currentTaskInfo);
+                            updateCheckmarkIcon(false);
+                            await storeChecklistIntoDB(checklistObj)
+                                .catch(e => {
+                                    console.log("Failed to store new completion status." + e.message);
+                                });
+                        }
+                        else {
+                            // console.log(currentTaskInfo);
+                            let checklist = document.getElementById('checklist');
+                            for (var i = 0; i < checklist.childNodes.length; i++) {
+                                try {
+                                    if (checklist.childNodes[i].childNodes[1].childNodes[3].childNodes[1].value === currentTaskInfo.taskName) {
+                                        animateListItemContainer(checklist.childNodes[i].childNodes[1].childNodes[1].childNodes[1]);
+                                        break;
+                                    }
+                                }
+                                catch { }
+                            }
+                            currentTaskInfo.completed = "true";
+                            updateCompletionStatusLocally(currentTaskInfo);
+                            updateCheckmarkIcon(true);
+                            await storeChecklistIntoDB(checklistObj)
+                                .catch(e => {
+                                    console.log("Failed to store new completion status." + e.message);
+                                });
+                        }
+                    }
                 }
                 element = element.parentNode;
+            }
+        }
+
+        /* Takes button element and animates the list item container parent */
+        function animateListItemContainer(element) {
+            element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "none";
+            element.parentNode.parentNode.parentNode.classList.add("animate-complete");
+            setTimeout(function () {
+                element.parentNode.parentNode.parentNode.classList.remove("animate-complete"); if (checklistObj.settings.showComplete === "false") {
+                    element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode);
+                }
+            }, 800);
+            setTimeout(function () {
+                element.parentNode.parentNode.parentNode.classList.add("hoverable");
+                element.disabled = false;
+                element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "2px solid #e0e6e8";
+            }, 1200);
+        }
+
+        function updateCheckmarkIcon(completed) {
+            if (completed) {
+                let checklist = document.getElementById('checklist');
+                for (var i = 0; i < checklist.childNodes.length; i++) {
+                    try {
+                        if (checklist.childNodes[i].childNodes[1].childNodes[3].childNodes[1].value === currentTaskInfo.taskName) {
+                            checklist.childNodes[i].childNodes[1].childNodes[1].childNodes[1].classList.add("completed");
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+                document.getElementById('markAsCompleteSVG').classList.remove("icon-SVG");
+                document.getElementById('markAsCompleteSVG').classList.add("checkmark");
+                document.getElementById('markAsCompleteSVG').classList.add("completed");
+                document.getElementById('markAsCompleteSVG').style.padding = "1px";
+            }
+            else {
+                let checklist = document.getElementById('checklist');
+                for (var i = 0; i < checklist.childNodes.length; i++) {
+                    try {
+                        if (checklist.childNodes[i].childNodes[1].childNodes[3].childNodes[1].value === currentTaskInfo.taskName) {
+                            checklist.childNodes[i].childNodes[1].childNodes[1].childNodes[1].classList.remove("completed");
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+                document.getElementById('markAsCompleteSVG').classList.add("icon-SVG");
+                document.getElementById('markAsCompleteSVG').classList.remove("checkmark");
+                document.getElementById('markAsCompleteSVG').classList.remove("completed");
+                document.getElementById('markAsCompleteSVG').style.padding = "0px";
             }
         }
 
@@ -616,49 +707,61 @@
                 document.getElementById('add-task-task-name').value = "";
                 document.getElementById('add-notes-area').value = "";
                 document.getElementById('add-description-area').placeholder = "Add description...";
+                document.getElementById('add-description-area').classList.add('hover');
                 document.getElementById('add-task-container').classList.remove("slideOutDown");
                 document.getElementById('add-task-container').style.display = "";
                 document.getElementById('delete').style.display = "none";
+                document.getElementById('checklist-container').classList.add("shifted-left");
                 addingNewTask = true;
             }
             else if (element.id === "add-task-task-name") {
-                console.log("hm");
             }
             else {
                 // Clicked on any task.
-                if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
-                    document.getElementById('checklist-container').classList.add("shifted-left");
-                }
-                currentTaskInfo = getTaskNameID(element);
-                document.getElementById('delete').style.display = "";
-                if (currentTaskInfo.taskName) {
-                    let description = getTaskData(checklistObj, currentTaskInfo);
-                    document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
-                    document.getElementById('add-description-area').value = description.data;
-                    document.getElementById('add-description-area').disabled = !description.editable;
-                    document.getElementById('add-task-task-name').disabled = !description.editable;
-                    if ("notesData" in description) {
-                        document.getElementById('add-notes-area').value = description.notesData;
-                    }
-                    if (description.editable) {
-                        document.getElementById('add-description-area').placeholder = "Add description...";
-                        unEditedDescription = document.getElementById('add-description-area').value;
-                        unEditedTaskName = document.getElementById('add-task-task-name').value;
-                        document.getElementById('add-description-area').classList.add('hover');
-                    }
-                    else {
-                        document.getElementById('add-description-area').placeholder = "";
-                        document.getElementById('add-description-area').classList.remove('hover');
-                    }
-                    unEditedNotes = document.getElementById('add-notes-area').value;
-                    document.getElementById('add-task-container').classList.remove("slideOutDown");
-                    document.getElementById('add-task-container').style.display = "";
-                    autoSize(document.getElementById('add-task-task-name'));
-                    autoSize(document.getElementById('add-description-area'));
-                }
-                addingNewTask = false;
+                handleClickedOnTask(element);
             }
 
+        }
+
+        /* Takes an list-item-container element.
+        Updates the side window information and displays it. */
+        function handleClickedOnTask(element) {
+            if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
+                document.getElementById('checklist-container').classList.add("shifted-left");
+            }
+            currentTaskInfo = getTaskNameID(element);
+            document.getElementById('delete').style.display = "";
+            updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
+
+            if (currentTaskInfo.taskName) {
+                let description = getTaskData(checklistObj, currentTaskInfo);
+                document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
+                document.getElementById('add-description-area').value = description.data;
+                document.getElementById('add-description-area').disabled = !description.editable;
+                document.getElementById('add-task-task-name').disabled = !description.editable;
+                if ("notesData" in description) {
+                    document.getElementById('add-notes-area').value = description.notesData;
+                }
+                else {
+                    document.getElementById('add-notes-area').value = "";
+                }
+                if (description.editable) {
+                    document.getElementById('add-description-area').placeholder = "Add description...";
+                    unEditedDescription = document.getElementById('add-description-area').value;
+                    unEditedTaskName = document.getElementById('add-task-task-name').value;
+                    document.getElementById('add-description-area').classList.add('hover');
+                }
+                else {
+                    document.getElementById('add-description-area').placeholder = "";
+                    document.getElementById('add-description-area').classList.remove('hover');
+                }
+                unEditedNotes = document.getElementById('add-notes-area').value;
+                document.getElementById('add-task-container').classList.remove("slideOutDown");
+                document.getElementById('add-task-container').style.display = "";
+                autoSize(document.getElementById('add-task-task-name'));
+                autoSize(document.getElementById('add-description-area'));
+            }
+            addingNewTask = false;
         }
 
         // Takes list-item-container element and checks if it has a textarea child. 
@@ -907,7 +1010,7 @@
 
             if (found) {
                 addNewTaskToChecklistObj(checklistObj["Tasks I Added"], taskObj);
-                let taskHTML = '<div class="list-item-container">\n' +
+                let taskHTML = '<div class="list-item-container hoverable">\n' +
                     '<div class="list-item">\n' +
                     '<div class="button-div">\n' +
                     '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
@@ -930,13 +1033,13 @@
                     });
             }
             else {
-                let sectionHTML = '<div class="list-item-container">\n' +
+                let sectionHTML = '<div class="list-item-container hoverable">\n' +
                     '<div class="list-item">\n' +
                     '<h2 class="section">' + "Tasks I Added" + '</h2>\n' +
                     '</div>\n' +
                     '</div>\n';
 
-                let taskHTML = '<div class="list-item-container">\n' +
+                let taskHTML = '<div class="list-item-container hoverable">\n' +
                     '<div class="list-item">\n' +
                     '<div class="button-div">\n' +
                     '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +

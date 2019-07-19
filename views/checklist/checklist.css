@@ -9,7 +9,7 @@ body {
     text-align: center;
     margin: 0;
     height: 100%;
-    overflow-y: hidden;
+    overflow: hidden;
     max-height: 100vh;
 }
 
@@ -21,11 +21,11 @@ body {
     grid-auto-rows: minmax(100px, auto);
     max-width: 100%;
     margin: 0 auto;
-    /**/
     background-color: #6B5875;
     position: relative;
     padding: 0;
     grid-template-areas:
+      /* "main main main main main main main main main main main main" */
       "header header header header header header header header header header header header"
       "main main main main main main main main main main main main"
 }
@@ -47,7 +47,8 @@ main {
 .centerX {
     margin: auto;
     position: relative;
-    height: calc(100% - 4px);
+    height: 100%;
+    overflow: hidden;
 }
 
 footer { 
@@ -56,11 +57,9 @@ footer {
 }
 
 #checklist-container {
-    width: calc(100% - 4px);
-    /* box shadow opacity at 0.05 initially */
-    border: 2px solid #6B5875;
+    width: 100%;
     position: relative;
-    height: calc(100% - 4px);
+    height: 100%;
     overflow-y: hidden;
 }
 
@@ -81,7 +80,6 @@ footer {
 
 .trimester-button-container {
     display: block;
-    /* margin: 2px; */
     height: 95%;
     width: 85%;
 }
@@ -92,7 +90,6 @@ footer {
     height: 44%;
     margin-top: 2px;
     margin-bottom: 2px;
-    /* background-color: red; */
 }
 
 .trimester-button {
@@ -266,7 +263,7 @@ footer {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 205px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100vh - 197px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow-y: scroll;
 }
 
@@ -283,6 +280,10 @@ footer {
     resize: none;
     max-height: 90%;
     width: 100%;
+    background: linear-gradient(to right, #6B5875, white 50%);
+    background-size: 200% 100%;
+    background-position:right bottom;
+    transition:all 0.8s ease;
 }
 
 .list-item-container#task-name {
@@ -294,9 +295,18 @@ footer {
     background-image: none;
 }
 
-.list-item-container:hover {
+.list-item-container.hoverable:hover {
     background-color: #f6f8f9;
     background-image: linear-gradient(to right, #f6f8f9 80%, white);
+}
+
+.animate-complete {
+    background-position: left bottom;
+}
+
+.animate-complete:hover {
+    background: linear-gradient(to right, #6B5875, white 50%);
+    background-size: 200% 100%;
 }
 
 
@@ -398,8 +408,7 @@ textarea:focus {
 #add-notes-area {
     min-height: 80px;
     overflow-y: auto;
-    border: 2px solid transparent;
-    border-bottom: 2px solid #d5dce0;
+    border: 2px solid #d5dce0;
     border-radius: 4px;
     width: calc(100% - 20px);
     padding: 0px 10px;
@@ -440,19 +449,18 @@ button.checkmark{
 }
 
 .completed {
-    background-color: #6B5875;
-    color: white;
-    fill: white;
+    background-color: #6B5875 !important;
+    color: white !important;
+    fill: white !important;
 }
 
 #add-task-container {
-    border: 2px solid #6B5875;
     display: block;
     position: absolute;
     border-radius: 4px;
     background-color: white;
-    height: calc(100%);
-    width: calc(100% - 4px);
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
     overflow: auto;
@@ -622,22 +630,25 @@ button#save:hover {
 
 @media only screen and (min-width: 992px) {
 
-    #checklist-container {
-        width: 60%;
-        margin: auto;
-        box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
-    }
+  #checklist-container {
+      width: 60%;
+      margin: auto;
+      box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
+      /* border: 2px solid #e0e6e8; */
+  }
 
-    #add-task-container {
-        width: 35%;
-        margin: auto;
-        margin-left: 63%;
-        box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
-    }
+   #add-task-container {
+      width: 35%;
+      margin: auto;
+      margin-left: 63%;
+      box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, 0.35);
+      /* border: 2px solid #e0e6e8; */
+      height: calc(100% - 4px);
+  }
 
-    #additional-options-button {
-        width: 25%;
-        margin: auto;
-    }
+  #additional-options-button {
+      width: 25%;
+      margin: auto;
+  }
 
-  } 
+}
