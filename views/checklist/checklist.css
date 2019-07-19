@@ -283,7 +283,7 @@ footer {
     background: linear-gradient(to right, #6B5875, white 50%);
     background-size: 200% 100%;
     background-position:right bottom;
-    transition:all 0.8s ease;
+    transition:all 0.6s ease;
 }
 
 .list-item-container#task-name {
@@ -486,6 +486,7 @@ button.checkmark{
 
 .save-button-div {
     margin: auto 5px;
+    margin-right: 7px;
     height: 100%;
     width: 80px;
     position: relative;
@@ -501,7 +502,7 @@ button.checkmark{
     width: 28px;
     height: 28px;
     margin: auto;
-    margin-left: 8px;
+    margin-left: 5px;
 }
 
 button.icon-button {
@@ -519,6 +520,19 @@ button.icon-button {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                           supported by Chrome and Opera */
+}
+
+button#references {
+    height: 26px;
+    width: 26px;
+    border: 2px solid #6B5875;
+    border-radius: 50%;
+    padding-left: 1px;
+    color: #6B5875;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: none;
 }
 
 .icon-SVG {

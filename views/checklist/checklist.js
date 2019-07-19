@@ -449,9 +449,12 @@
                     if (element.disabled === true) {
                         break;
                     }
-                    if (element.childNodes[0].data && /\S/.test(element.childNodes[0].data)) {
+
+                    if (element.classList.contains("trimester-button")) {
                         await handleTrimesterButtonClick(element);
+                        break;
                     }
+
                     else if (element.className.indexOf("checkmark") !== -1) {
                         element.classList.toggle("completed");
                         if (element.classList.contains("completed")) {
@@ -489,6 +492,7 @@
                         }
                         break;
                     }
+
                     else if (element.id === "markAsComplete") {
                         if (element.childNodes[1].classList.contains("completed")) {
                             element.disabled = true;
@@ -524,6 +528,14 @@
                         }
                         break;
                     }
+
+                    else if (element.id === "references") {
+                        let scrollHeight = document.getElementById("add-description-area").scrollHeight + 40;
+                        // 40 to offset the 2 newlines before "References:"
+                        taskData = getTaskData(checklistObj, currentTaskInfo);
+                        document.getElementById("add-description-area").value += "\n\nReferences:\n" + taskData.references + "\n";
+                        document.getElementById("add-description-area").scrollTop = scrollHeight;
+                    }
                 }
                 element = element.parentNode;
             }
@@ -535,7 +547,7 @@
             element.parentNode.parentNode.parentNode.classList.add("animate-complete");
             setTimeout(function () {
                 element.parentNode.parentNode.parentNode.classList.remove("animate-complete");
-            }, 800);
+            }, 600);
             setTimeout(function () {
                 element.parentNode.parentNode.parentNode.classList.add("hoverable");
                 element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "2px solid #e0e6e8";
@@ -546,7 +558,7 @@
                         closeAddTaskMenu();
                     }
                 }
-            }, 1200);
+            }, 900);
         }
 
         function updateCheckmarkIcon(completed) {
@@ -723,56 +735,63 @@
                 document.getElementById('add-task-container').style.display = "";
                 document.getElementById('delete').style.display = "none";
                 document.getElementById('checklist-container').classList.add("shifted-left");
+                //Updating checkmark icon
+                document.getElementById('markAsCompleteSVG').classList.add("icon-SVG");
+                document.getElementById('markAsCompleteSVG').classList.remove("checkmark");
+                document.getElementById('markAsCompleteSVG').classList.remove("completed");
+                document.getElementById('markAsCompleteSVG').style.padding = "0px";
+                // Hiding references icon
+                document.getElementById("references").style.display = "none";
                 addingNewTask = true;
             }
             else if (element.id === "add-task-task-name") {
             }
             else {
                 // Clicked on any task.
-                handleClickedOnTask(element);
+                currentTaskInfo = getTaskNameID(element);
+                if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
+                    document.getElementById('checklist-container').classList.add("shifted-left");
+                    updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
+                }
+                document.getElementById('delete').style.display = "";
+
+                if (currentTaskInfo.taskName) {
+                    let taskData = getTaskData(checklistObj, currentTaskInfo);
+                    document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
+                    document.getElementById('add-description-area').value = taskData.data;
+                    document.getElementById('add-description-area').disabled = !taskData.editable;
+                    document.getElementById('add-task-task-name').disabled = !taskData.editable;
+                    if ("notesData" in taskData) {
+                        document.getElementById('add-notes-area').value = taskData.notesData;
+                    }
+                    else {
+                        document.getElementById('add-notes-area').value = "";
+                    }
+                    if (taskData.editable) {
+                        document.getElementById('add-description-area').placeholder = "Add description...";
+                        unEditedDescription = document.getElementById('add-description-area').value;
+                        unEditedTaskName = document.getElementById('add-task-task-name').value;
+                        document.getElementById('add-description-area').classList.add('hover');
+                    }
+                    else {
+                        document.getElementById('add-description-area').placeholder = "";
+                        document.getElementById('add-description-area').classList.remove('hover');
+                    }
+                    if ("references" in taskData && taskData.references) {
+                        document.getElementById("references").style.display = "";
+                    }
+                    else {
+                        document.getElementById("references").style.display = "none";
+                    }
+                    unEditedNotes = document.getElementById('add-notes-area').value;
+                    document.getElementById('add-task-container').classList.remove("slideOutDown");
+                    document.getElementById('add-task-container').style.display = "";
+                    autoSize(document.getElementById('add-task-task-name'));
+                    autoSize(document.getElementById('add-description-area'));
+                }
+                addingNewTask = false;
             }
 
-        }
-
-        /* Takes an list-item-container element.
-        Updates the side window information and displays it. */
-        function handleClickedOnTask(element) {
-            if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
-                document.getElementById('checklist-container').classList.add("shifted-left");
-                updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
-            }
-            currentTaskInfo = getTaskNameID(element);
-            document.getElementById('delete').style.display = "";
-
-            if (currentTaskInfo.taskName) {
-                let description = getTaskData(checklistObj, currentTaskInfo);
-                document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
-                document.getElementById('add-description-area').value = description.data;
-                document.getElementById('add-description-area').disabled = !description.editable;
-                document.getElementById('add-task-task-name').disabled = !description.editable;
-                if ("notesData" in description) {
-                    document.getElementById('add-notes-area').value = description.notesData;
-                }
-                else {
-                    document.getElementById('add-notes-area').value = "";
-                }
-                if (description.editable) {
-                    document.getElementById('add-description-area').placeholder = "Add description...";
-                    unEditedDescription = document.getElementById('add-description-area').value;
-                    unEditedTaskName = document.getElementById('add-task-task-name').value;
-                    document.getElementById('add-description-area').classList.add('hover');
-                }
-                else {
-                    document.getElementById('add-description-area').placeholder = "";
-                    document.getElementById('add-description-area').classList.remove('hover');
-                }
-                unEditedNotes = document.getElementById('add-notes-area').value;
-                document.getElementById('add-task-container').classList.remove("slideOutDown");
-                document.getElementById('add-task-container').style.display = "";
-                autoSize(document.getElementById('add-task-task-name'));
-                autoSize(document.getElementById('add-description-area'));
-            }
-            addingNewTask = false;
         }
 
         // Takes list-item-container element and checks if it has a textarea child. 
@@ -805,8 +824,8 @@
         Editable key is true if not found.
         */
         function getTaskData(checklistObj, taskInfo) {
-            var description = {};
-            description.editable = true;
+            var taskData = {};
+            taskData.editable = true;
             Object.keys(checklistObj).forEach(trimester => {
                 Object.keys(checklistObj[trimester]).forEach(key => {
                     if (typeof checklistObj[trimester][key] === "object") {
@@ -815,27 +834,28 @@
                             if (typeof checklistObj[trimester][key][subKey] === "object") {
                                 // Iterating through tasks.
                                 if ("id" in taskInfo && checklistObj[trimester][key][subKey].id === taskInfo.id) {
-                                    description.data = checklistObj[trimester][key][subKey].description;
-                                    description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                    taskData.data = checklistObj[trimester][key][subKey].description;
+                                    taskData.editable = (checklistObj[trimester][key].title === "Tasks I Added");
                                     if ("notes" in checklistObj[trimester][key][subKey]) {
-                                        description.notesData = checklistObj[trimester][key][subKey].notes
+                                        taskData.notesData = checklistObj[trimester][key][subKey].notes
                                     }
-                                    return description;
+                                    return taskData;
                                 }
                                 else if (!("id" in taskInfo) && checklistObj[trimester][key][subKey].name === taskInfo.taskName) {
-                                    description.data = checklistObj[trimester][key][subKey].description;
-                                    description.editable = (checklistObj[trimester][key].title === "Tasks I Added");
+                                    taskData.data = checklistObj[trimester][key][subKey].description;
+                                    taskData.editable = (checklistObj[trimester][key].title === "Tasks I Added");
                                     if ("notes" in checklistObj[trimester][key][subKey]) {
-                                        description.notesData = checklistObj[trimester][key][subKey].notes
+                                        taskData.notesData = checklistObj[trimester][key][subKey].notes;
                                     }
-                                    return description;
+                                    taskData.references = checklistObj[trimester][key][subKey].references;
+                                    return taskData;
                                 }
                             }
                         });
                     }
                 });
             });
-            return description;
+            return taskData;
         }
 
         // User clicked "delete" button. Deletes the task as well as any duplicate tasks in other trimesters.
