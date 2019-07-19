@@ -470,9 +470,11 @@
                                 .catch(e => {
                                     console.log("Failed to store new completion status." + e.message);
                                 });
+                            element.disabled = false;
                         }
 
                         else if (!element.classList.contains("completed")) {
+                            element.disabled = true;
                             let taskNameID = getTaskNameID(element.parentNode.parentNode);
                             if (document.getElementById('add-task-task-name').value === taskNameID.taskName) {
                                 updateCheckmarkIcon(element.classList.contains("completed"));
@@ -483,11 +485,13 @@
                                 .catch(e => {
                                     console.log("Failed to store new completion status." + e.message);
                                 });
+                            element.disabled = false;
                         }
                         break;
                     }
                     else if (element.id === "markAsComplete") {
                         if (element.childNodes[1].classList.contains("completed")) {
+                            element.disabled = true;
                             currentTaskInfo.completed = "false";
                             updateCompletionStatusLocally(currentTaskInfo);
                             updateCheckmarkIcon(false);
@@ -495,9 +499,10 @@
                                 .catch(e => {
                                     console.log("Failed to store new completion status." + e.message);
                                 });
+                            element.disabled = false;
                         }
                         else {
-                            // console.log(currentTaskInfo);
+                            element.disabled = true;
                             let checklist = document.getElementById('checklist');
                             for (var i = 0; i < checklist.childNodes.length; i++) {
                                 try {
@@ -515,6 +520,7 @@
                                 .catch(e => {
                                     console.log("Failed to store new completion status." + e.message);
                                 });
+                            element.disabled = false;
                         }
                     }
                 }
@@ -527,14 +533,14 @@
             element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "none";
             element.parentNode.parentNode.parentNode.classList.add("animate-complete");
             setTimeout(function () {
-                element.parentNode.parentNode.parentNode.classList.remove("animate-complete"); if (checklistObj.settings.showComplete === "false") {
-                    element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode);
-                }
+                element.parentNode.parentNode.parentNode.classList.remove("animate-complete");
             }, 800);
             setTimeout(function () {
                 element.parentNode.parentNode.parentNode.classList.add("hoverable");
-                element.disabled = false;
                 element.parentNode.parentNode.childNodes[3].childNodes[1].style.borderBottom = "2px solid #e0e6e8";
+                if (checklistObj.settings.showComplete === "false") {
+                    element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode);
+                }
             }, 1200);
         }
 
@@ -728,10 +734,10 @@
         function handleClickedOnTask(element) {
             if (element.childNodes[1].childNodes[1].nodeName !== "H2") {
                 document.getElementById('checklist-container').classList.add("shifted-left");
+                updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
             }
             currentTaskInfo = getTaskNameID(element);
             document.getElementById('delete').style.display = "";
-            updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
 
             if (currentTaskInfo.taskName) {
                 let description = getTaskData(checklistObj, currentTaskInfo);

@@ -560,16 +560,16 @@ button#save:hover {
 }
 
 .animated {
-    -webkit-animation-duration: 250ms;
-    animation-duration: 250ms;
+    -webkit-animation-duration: 300ms;
+    animation-duration: 300ms;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
   }
 
 @-webkit-keyframes slideInUp {
   from {
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
     visibility: visible;
   }
 
@@ -581,7 +581,7 @@ button#save:hover {
   
 @keyframes slideInUp {
   from {
-    -webkit-transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(120%, 0, 0);
     transform: translate3d(100%, 0, 0);
     visibility: visible;
   }
@@ -605,8 +605,8 @@ button#save:hover {
 
   to {
     visibility: hidden;
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
   }
 }
   
@@ -618,8 +618,8 @@ button#save:hover {
 
   to {
     visibility: hidden;
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(120%, 0, 0);
+    transform: translate3d(120%, 0, 0);
   }
 }
 
