@@ -82,7 +82,7 @@
                         </div>
                         <div class="option-button-icon-div">
                             <button id="references" class="icon-button nohover" title="Display references">
-                            i</button>
+                                i</button>
                         </div>
                         <div class="option-button-icon-div">
                             <button id="markAsComplete" class="icon-button nohover" title="Mark as complete">
@@ -121,9 +121,24 @@
                             <textarea id="add-notes-area" placeholder="Add a note..."></textarea>
                         </div>
                     </div>
+                    <!-- Modal test -->
+                    <div id="delete-verification" class="modal">
+                        <div class="modal-content animate-bottom-up" onclick="return false;">
+                            <div>
+                                <br>
+                                <p>Are you sure you want to delete this task?</p>
+                                <span id="confirm-delete" focusable="false">Yes
+                                </span>
+                                <span onclick="document.getElementById('delete-verification').style.display='none'" focusable="false">No
+                                </span>
+                                <br><br>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
+    </div>
+    </main>
     </div>
 </body>
 
