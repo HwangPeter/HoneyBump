@@ -18,10 +18,10 @@ body {
 #content {
     display: -ms-grid;
     display: grid;
-    grid-row-gap: 20px;
     grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: minmax(100px, auto);
+    grid-auto-rows: minmax(40px, auto);
     max-width: 100%;
+    height: 100vh;
     margin: 0 auto;
     background-color: #6B5875;
     position: relative;
@@ -33,17 +33,24 @@ body {
 }
 
 header {
-    text-align: center;
-    background: white;
+    background: #6B5875;
     grid-area: header;
-    margin: auto;
-    height: 100px;
+    height: 40px;
     width: 100vw;
+}
+
+header p {
+    font-family: "Montserrat";
+    font-weight: 500;
+    font-size: 20px;
+    color: white;
+    margin: 0px;
+    padding: 10px 0px;
 }
 
 main {
     grid-area: main;
-    height: calc(100vh - 120px);
+    height: 100%;
 }
 
 .centerX {
@@ -264,7 +271,7 @@ main {
     background: white;
     position: relative;
     flex: auto;
-    height: calc(100vh - 197px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100% - 77px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow-y: scroll;
 }
 
@@ -524,10 +531,6 @@ button.checkmark{
     background-color: #6B5875 !important;
     color: white !important;
     fill: white !important;
-}
-
-#markAsCompleteSVG:hover {
-    border: 2px solid black;
 }
 
 #add-task-container {
