@@ -22,32 +22,22 @@
     <div id="content">
         <header>
             <!-- <div class="header-div"> -->
-                <p>myHoneyBump</p>
+            <p>myHoneyBump</p>
             <!-- </div> -->
         </header>
         <main>
-            <div class="centerX">
+            <div class="content-div">
                 <div id="checklist-container">
                     <div id="checklist-header">
-                        <div class="trimester-button-container">
-                            <div class="trimester-button-div">
-                                <button id="prePregnancy" class="trimester-button" focusable="false">Before</button>
+                        <div class="header-button-container">
+                            <div class="header-button-div">
+                                <button id="select-trimester" class="header-button unselectable"
+                                    focusable="false">Select
+                                    Trimester</button>
                             </div>
-                            <div class="trimester-button-div">
-                                <button id="firstTrimester" class="trimester-button" focusable="false">1st</button>
-                            </div>
-                            <div class="trimester-button-div">
-                                <button id="secondTrimester" class="trimester-button" focusable="false">2nd</button>
-                            </div>
-                            <div class="trimester-button-div">
-                                <button id="thirdTrimester" class="trimester-button" focusable="false">3rd</button>
-                            </div>
-                            <div class="trimester-button-div">
-                                <button id="postPregnancy" class="trimester-button" focusable="false">After</button>
-                            </div>
-                            <div class="trimester-button-div">
-                                <button id="medicalConditions" class="trimester-button"
-                                    focusable="false">Medical</button>
+                            <div class="header-button-div">
+                                <button id="task-packages" class="header-button unselectable" focusable="false">Task
+                                    Packages</button>
                             </div>
                         </div>
                         <div class="right-options-button-container">
@@ -71,7 +61,9 @@
                     <div id="checklist">
                     </div>
                 </div>
-                <div id="add-task-container" style="display: none;" class="animated slideInUp">
+
+                <!-- Expanded task container -->
+                <div id="add-task-container" style="display: none;" class="animated slideInLeft">
                     <div id="add-task-button-container">
                         <div class="option-button-cancel-div">
                             <button id="cancel" class="icon-button nohover">
@@ -113,17 +105,17 @@
                     <div id="add-task-bottom-container">
                         <div id="task-name" class="list-item-container">
                             <div class="textarea-div">
-                                <textarea id="add-task-task-name" placeholder="Add task..." rows="1"></textarea>
+                                <textarea id="add-task-task-name" placeholder="Add task..." rows="1"
+                                    tabindex="1"></textarea>
                             </div>
                         </div>
                         <div id="description-div" class="textarea-description-div">
-                            <textarea id="add-description-area"></textarea>
+                            <textarea id="add-description-area" tabindex="2"></textarea>
                         </div>
                         <div id="notes-div" class="textarea-description-div">
-                            <textarea id="add-notes-area" placeholder="Add a note..."></textarea>
+                            <textarea id="add-notes-area" placeholder="Add a note..." tabindex="3"></textarea>
                         </div>
                     </div>
-                    <!-- Modal test -->
                     <div id="delete-verification" class="modal">
                         <div class="modal-content animate-bottom-up" onclick="return false;">
                             <div>
@@ -140,8 +132,46 @@
                     </div>
                 </div>
             </div>
-    </div>
-    </main>
+        </main>
+        <sidebar>
+            <!-- Filter sidebar -->
+            <div id="faded-container" onclick='document.getElementById("filter-sidebar").classList.add("slideOutLeft");
+                            document.getElementById("faded-container").style.display="none";
+                            document.getElementById("content").style.gridTemplateColumns="0px 1fr 1fr";'>
+            </div>
+            <div id="filter-sidebar" style="display: none;" class="filter-sidebar-container animated slideInRight">
+                <div id="dismiss-sidebar-button" onclick='document.getElementById("filter-sidebar").classList.add("slideOutLeft");
+                document.getElementById("faded-container").style.display="none";
+                document.getElementById("content").style.gridTemplateColumns="0px 1fr 1fr";'>
+                    << </div> <br>
+                        <div id="filter-container-id" class="filter-container">
+                            <div class="filter-header-container">
+                                <span class="filter-header">Trimesters</span>
+                            </div>
+                            <form id="trimester-filter">
+                                <input type="checkbox" id="prePregnancy">
+                                <label for="prePregnancy" class="unselectable">Before Pregnancy</label>
+                                <input type="checkbox" id="firstTrimester">
+                                <label for="firstTrimester" class="unselectable">1st Trimester</label>
+                                <input type="checkbox" id="secondTrimester">
+                                <label for="secondTrimester" class="unselectable">2nd Trimester</label>
+                                <input type="checkbox" id="thirdTrimester">
+                                <label for="thirdTrimester" class="unselectable">3rd Trimester</label>
+                                <input type="checkbox" id="postPregnancy">
+                                <label for="postPregnancy" class="unselectable">After Pregnancy</label>
+                            </form>
+                        </div>
+                        <div class=filter-container>
+                            <div class="filter-header-container">
+                                <span class="filter-header">Task Packages</span>
+                            </div>
+                            <form id="task-packages-filter">
+                                <span class="empty">No task packages added</span>
+                            </form>
+                            <span id="add-task-package-span" class="unselectable">+ Add task packages</span>
+                        </div>
+                </div>
+        </sidebar>
     </div>
 </body>
 

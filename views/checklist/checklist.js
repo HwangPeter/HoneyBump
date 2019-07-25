@@ -15,9 +15,28 @@
         if (user) {
             checklistObj = await loadChecklist();
 
+            // Adds another section to filter is user has added their own tasks.
+            if ("Tasks I Added" in checklistObj) {
+                let userAddedTasksHTML = '<div class="filter-header-container">' +
+                    '<span class="filter-header">My Tasks</span>' +
+                    '</div>' +
+                    '<form id="trimester-filter">' +
+                    '<input type="checkbox" id="Tasks I Added">' +
+                    '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
+                    '</form>'
+                document.getElementById("filter-container-id").insertAdjacentHTML("beforeend", userAddedTasksHTML);
+            }
+
             await generateChecklist(checklistObj, checklistObj.settings);
             addAllEventListeners(checklistObj, checklistObj.settings);
             updateDropdownMenu();
+
+            // Make buttons untabbable
+            var buttons = document.getElementsByTagName('button');
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons[i];
+                button.setAttribute("tabindex", "-1");
+            }
         }
         else {
             console.log("User is logged out. Access denied.");
@@ -173,25 +192,28 @@
         for (i = 0; i < settings.activeChecklists.length; i++) {
             if (settings.activeChecklists[i] === 0) {
                 trimester = "prePregnancy";
-                document.getElementById(trimester).classList.add("activePre");
+                document.getElementById(trimester).checked = true;
             }
             else if (settings.activeChecklists[i] === 1) {
                 trimester = "firstTrimester";
-                document.getElementById(trimester).classList.add("activeFirst");
+                document.getElementById(trimester).checked = true;
             }
             else if (settings.activeChecklists[i] === 2) {
                 trimester = "secondTrimester";
-                document.getElementById(trimester).classList.add("activeSecond");
+                document.getElementById(trimester).checked = true;
             }
             else if (settings.activeChecklists[i] === 3) {
                 trimester = "thirdTrimester";
-                document.getElementById(trimester).classList.add("activeThird");
+                document.getElementById(trimester).checked = true;
             }
             else if (settings.activeChecklists[i] === 4) {
                 trimester = "postPregnancy";
-                document.getElementById(trimester).classList.add("activePost");
+                document.getElementById(trimester).checked = true;
             }
-            else if (settings.activeChecklists[i] === 5) { trimester = "Tasks I Added" }
+            else if (settings.activeChecklists[i] === 5) {
+                trimester = "Tasks I Added";
+                document.getElementById(trimester).checked = true;
+            }
             //TODO: Add toggle for medical button.
 
             try {
@@ -243,13 +265,13 @@
                                         '<div class="textarea-div">\n';
                                     if (trimester === "Tasks I Added") {
                                         taskHTML +=
-                                        // TODO: Remove readonly here for desktop.
-                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
+                                            // TODO: Remove readonly here for desktop.
+                                            '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][key][subKey].id
                                             + '">' + checklistObj[trimester][key][subKey].name + '</textarea>\n'
                                     }
                                     else {
                                         taskHTML +=
-                                            '<textarea readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n'
+                                            '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][key][subKey].name + '</textarea>\n'
                                     }
                                     taskHTML += '</div >\n';
 
@@ -312,10 +334,10 @@
             '</div>\n' +
             '<div class="textarea-div">\n';
         if (screen.width >= 992) {
-            addTaskHTML += '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off"></textarea>\n'
+            addTaskHTML += '<textarea tabindex="-1" id="add-task-area" placeholder="Add task..." rows="1" wrap="off"></textarea>\n'
         }
         else {
-            addTaskHTML += '<textarea id="add-task-area" placeholder="Add task..." rows="1" wrap="off" readonly></textarea>\n';
+            addTaskHTML += '<textarea tabindex="-1" id="add-task-area" placeholder="Add task..." rows="1" wrap="off" readonly></textarea>\n';
         }
 
         addTaskHTML += '</div>\n' +
@@ -413,7 +435,6 @@
 
     function addAllEventListeners(checklistObj, settings) {
         const db = firebase.firestore();
-        const addTaskCloseBtn = document.getElementById('cancel');
         var addingNewTask = false;
         var currentTaskInfo = {};
         var taskTextArea;
@@ -454,14 +475,20 @@
                     handleListItemContainerClick(element);
                     break;
                 }
+
                 else if (element.nodeName === "BUTTON") {
                     // Many button handled here.
                     if (element.disabled === true) {
                         break;
                     }
 
-                    if (element.classList.contains("trimester-button")) {
-                        await handleTrimesterButtonClick(element);
+                    if (element.id === "select-trimester") {
+                        if (screen.width > 992) {
+                            document.getElementById("content").style.gridTemplateColumns = "250px 1fr 1fr";
+                        }
+                        document.getElementById("faded-container").style.display = "block";
+                        document.getElementById("filter-sidebar").style.display = "";
+                        document.getElementById("filter-sidebar").classList.remove("slideOutLeft");
                         break;
                     }
 
@@ -555,6 +582,34 @@
                         document.getElementById('delete-verification').style.display = "block";
                     }
                 }
+
+                else if (element.nodeName === "LABEL") {
+                    if (!document.getElementById(element.getAttribute("for")).checked) {
+                        settings.activeChecklists.push(getCorrospondingTrimesterNum(element.getAttribute("for")));
+                        settings.activeChecklists.sort(function (a, b) { return a - b });
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to store new task." + e.message);
+                            });
+                    }
+                    else {
+                        let trimesterNum = getCorrospondingTrimesterNum(element.getAttribute("for"));
+                        if (settings.activeChecklists.indexOf(trimesterNum) > -1) {
+                            settings.activeChecklists.splice(settings.activeChecklists.indexOf(trimesterNum), 1);
+                        }
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to store new task." + e.message);
+                            });
+                    }
+                    var myNode = document.getElementById("checklist");
+                    while (myNode.firstChild) {
+                        myNode.removeChild(myNode.firstChild);
+                    }
+                    await generateChecklist(checklistObj, settings);
+
+                }
+
                 element = element.parentNode;
             }
         }
@@ -660,10 +715,9 @@
             else if (trimesterName === "Tasks I Added") { return 5; }
         }
 
-        async function handleTrimesterButtonClick(element) {
-            disableTrimesterButtons();
-            if (element.childNodes[0].data === "Before") {
-                element.classList.toggle("activePre"); //Change
+        async function handleTrimesterLabelClick(element) {
+            // TODO: Rewrite this to work with form labels instead of buttons.
+            if (element.getAttribute("for") === "prePregnancy") {
                 if (element.classList.contains("activePre")) { //Change
                     settings.activeChecklists.push(0); //Change
                     settings.activeChecklists.sort(function (a, b) { return a - b });
@@ -717,25 +771,6 @@
             else if (element.childNodes[0].data === "3rd") { element.classList.toggle("activeThird") }
             else if (element.childNodes[0].data === "After") { element.classList.toggle("activePost") }
             else if (element.childNodes[0].data === "Medical") { element.classList.toggle("activeMedical") }
-            enableTrimesterButtons();
-        }
-
-        function disableTrimesterButtons() {
-            document.getElementById('prePregnancy').disabled = true;
-            document.getElementById('firstTrimester').disabled = true;
-            document.getElementById('secondTrimester').disabled = true;
-            document.getElementById('thirdTrimester').disabled = true;
-            document.getElementById('postPregnancy').disabled = true;
-            document.getElementById('medicalConditions').disabled = true;
-        }
-
-        function enableTrimesterButtons() {
-            document.getElementById('prePregnancy').disabled = false;
-            document.getElementById('firstTrimester').disabled = false;
-            document.getElementById('secondTrimester').disabled = false;
-            document.getElementById('thirdTrimester').disabled = false;
-            document.getElementById('postPregnancy').disabled = false;
-            document.getElementById('medicalConditions').disabled = false;
         }
 
         function handleListItemContainerClick(element) {
@@ -901,6 +936,10 @@
                                                         break;
                                                     }
                                                 }
+                                                let trimesterNum = getCorrospondingTrimesterNum(trimester);
+                                                if (checklistObj.settings.activeChecklists.indexOf(trimesterNum) > -1) {
+                                                    checklistObj.settings.activeChecklists.splice(checklistObj.settings.activeChecklists.indexOf(trimesterNum), 1);
+                                                }
                                                 delete checklistObj[trimester];
                                                 return;
                                             }
@@ -937,7 +976,7 @@
         });
 
         // User clicked "cancel" button inside add task menu. Closes add task menu.
-        addTaskCloseBtn.addEventListener('click', () => {
+        document.getElementById('cancel').addEventListener('click', () => {
             closeAddTaskMenu();
         });
 
@@ -950,10 +989,11 @@
                 document.getElementById('add-task-task-name').style = "";
                 document.getElementById('add-notes-area').value = "";
                 document.getElementById('checklist-container').classList.remove("shifted-left");
+                document.getElementById('add-task-area').value = "";
             }, 220);
         }
 
-        // User clicked "Done" button inside add task menu. 
+        // User clicked "save" button inside add task menu. 
         document.getElementById("save").addEventListener('click', async () => {
             await saveTask();
         });
@@ -1078,7 +1118,7 @@
                     '</button >\n' +
                     '</div >\n' +
                     '<div class="textarea-div">\n' +
-                    '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + taskObj.id + '">'
+                    '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + taskObj.id + '">'
                     + taskObj.name + '</textarea>\n' +
                     '</div >\n' +
                     '</div >\n' +
@@ -1090,6 +1130,22 @@
                         console.log("Failed to store new task." + e.message);
                     });
             }
+
+            else if (!found && "Tasks I Added" in checklistObj) {
+                // User is not displaying their tasks. Set display user tasks to true and add their task.
+                addNewTaskToChecklistObj(checklistObj["Tasks I Added"], taskObj);
+                checklistObj.settings.activeChecklists.push(5);
+                let myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, checklistObj.settings);
+                await storeChecklistIntoDB(checklistObj)
+                    .catch(e => {
+                        console.log("Failed to store new task." + e.message);
+                    });
+            }
+
             else {
                 let sectionHTML = '<div class="list-item-container hoverable">\n' +
                     '<div class="list-item">\n' +
@@ -1107,7 +1163,7 @@
                     '</button >\n' +
                     '</div >\n' +
                     '<div class="textarea-div">\n' +
-                    '<textarea readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
+                    '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
                     + taskObj.name + '</textarea>\n' +
                     '</div >\n' +
                     '</div >\n' +
@@ -1151,6 +1207,15 @@
             {
                 // Try catch block is just to handle a missing value. No need to handle it if it fails.
             }
+            let userAddedTasksHTML = '<div class="filter-header-container">' +
+                '<span class="filter-header">My Tasks</span>' +
+                '</div>' +
+                '<form id="trimester-filter">' +
+                '<input type="checkbox" id="Tasks I Added">' +
+                '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
+                '</form>'
+            document.getElementById("filter-container-id").insertAdjacentHTML("beforeend", userAddedTasksHTML);
+            document.getElementById("Tasks I Added").checked = true;
             return userAddedChecklist;
         }
 
@@ -1259,6 +1324,36 @@
             setTimeout(function () {
                 document.getElementById("add-task-task-name").value = document.getElementById("add-task-area").value;
                 autoSize(document.getElementById("add-task-task-name"));
+            }, 1);
+        });
+
+        // Event listener for add-task-task-name
+        document.getElementById("add-task-task-name").addEventListener('keydown', async (event) => {
+            document.getElementById("add-task-container").classList.remove("slideOutDown");
+            document.getElementById("checklist-container").classList.add("shifted-left");
+            if (event.key === "Enter") {
+                event.preventDefault();
+                event.stopPropagation();
+                await saveTask();
+                return;
+            }
+            if (event.key === "v" && event.metaKey || event.key === "v" && event.ctrlKey) {
+                return;
+            }
+            setTimeout(function () {
+                document.getElementById("add-task-area").value = document.getElementById("add-task-task-name").value;
+            }, 1);
+        });
+
+        document.getElementById("add-task-task-name").addEventListener('paste', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            let addTaskArea = document.getElementById("add-task-task-name");
+            clipboardData = event.clipboardData || window.clipboardData;
+            pastedData = clipboardData.getData('Text');
+            addTaskArea.value = addTaskArea.value + pastedData.replace(/(\r\n|\n|\r)/gm, " ");
+            setTimeout(function () {
+                document.getElementById("add-task-area").value = document.getElementById("add-task-task-name").value;
             }, 1);
         });
 
