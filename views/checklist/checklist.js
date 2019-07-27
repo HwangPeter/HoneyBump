@@ -396,7 +396,7 @@
                 result = true;
             }
         }
-        else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task)) {
+        else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && !("repeat" in task) && !("id" in task)) {
             result = false;
         }
         else {
