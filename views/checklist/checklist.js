@@ -1154,6 +1154,7 @@
                 document.getElementById('add-task-task-name').style.borderBottom = "2px solid red";
             }
         }
+
         // Takes a taskObj that already exists in checklistObj and updates it.
         // Searches for that taskObj by id (for user added tasks) or by task name.
         // Does nothing if task isn't found.
@@ -1183,11 +1184,18 @@
         */
         async function addNewTaskToChecklist(taskObj) {
             let sectionList = document.getElementById('checklist').getElementsByClassName('section');
+            let nextSection;
             var found = false;
 
             for (var i = 0; i < sectionList.length; i++) {
                 if (sectionList[i].textContent === "Tasks I Added") {
                     found = true;
+                    if (i + 1 < sectionList.length) {
+                        nextSection = sectionList[i + 1].parentNode.parentNode;
+                    }
+                    else {
+                        nextSection = false;
+                    }
                     break;
                 }
             }
@@ -1209,7 +1217,8 @@
                     '</div >\n' +
                     '</div >\n' +
                     '</div >\n'
-                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+                if (nextSection) { nextSection.insertAdjacentHTML('beforebegin', taskHTML); }
+                else { document.getElementById("checklist").insertAdjacentHTML("beforeend", taskHTML); }
                 closeAddTaskMenu();
                 await storeChecklistIntoDB(checklistObj)
                     .catch(e => {
@@ -1426,8 +1435,15 @@
             if (event.key === "v" && event.metaKey || event.key === "v" && event.ctrlKey) {
                 return;
             }
+            let element;
+            if (addingNewTask) {
+                element = document.getElementById("add-task-area");
+            }
+            else {
+                element = taskTextArea;
+            }
             setTimeout(function () {
-                document.getElementById("add-task-area").value = document.getElementById("add-task-task-name").value;
+                element.value = document.getElementById("add-task-task-name").value;
             }, 1);
         });
 
