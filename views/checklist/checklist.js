@@ -17,10 +17,10 @@
 
             // Adds another section to filter is user has added their own tasks.
             if ("Tasks I Added" in checklistObj) {
-                let userAddedTasksHTML = '<div class="filter-header-container">' +
+                let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-header-container">' +
                     '<span class="filter-header">My Tasks</span>' +
                     '</div>' +
-                    '<form id="trimester-filter">' +
+                    '<form id="user-tasks-filter">' +
                     '<input type="checkbox" id="Tasks I Added">' +
                     '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
                     '</form>'
@@ -179,10 +179,17 @@
     async function generateChecklist(checklistObj, settings) {
         let checklist = document.getElementById('checklist');
         var currentlyDisplayedTaskList = [];
+        let userAddedTasksComplete = false;
         let nextSectionIsAfterDaily = false;
         let trimester = "";
 
         for (i = 0; i < settings.activeChecklists.length; i++) {
+            if ((settings.activeChecklists.indexOf(5) > -1) && !userAddedTasksComplete) {
+                trimester = "Tasks I Added";
+                document.getElementById(trimester).checked = true;
+                userAddedTasksComplete = true;
+                i--;
+            }
             if (settings.activeChecklists[i] === 0) {
                 trimester = "prePregnancy";
                 document.getElementById(trimester).checked = true;
@@ -203,10 +210,7 @@
                 trimester = "postPregnancy";
                 document.getElementById(trimester).checked = true;
             }
-            else if (settings.activeChecklists[i] === 5) {
-                trimester = "Tasks I Added";
-                document.getElementById(trimester).checked = true;
-            }
+            else if (settings.activeChecklists[i] === 5) { continue }
 
             try {
                 Object.keys(checklistObj[trimester]).forEach(key => {
@@ -335,7 +339,7 @@
         addTaskHTML += '</div>\n' +
             '</div>\n' +
             '</div>\n';
-        document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
+        document.getElementById('checklist').insertAdjacentHTML('afterbegin', addTaskHTML);
         removeEmptySections();
 
         // Make buttons untabbable
@@ -972,6 +976,17 @@
                                                     checklistObj.settings.activeChecklists.splice(checklistObj.settings.activeChecklists.indexOf(trimesterNum), 1);
                                                 }
                                                 delete checklistObj[trimester];
+                                                taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
+                                                removeEmptySections();
+                                                closeAddTaskMenu();
+                                                organizeChecklist();
+                                                document.getElementById("user-tasks-filter-header").remove();
+                                                document.getElementById("user-tasks-filter").remove();
+                                                await storeChecklistIntoDB(checklistObj, true)
+                                                    .catch(e => {
+                                                        console.log("Failed to delete task." + e.message);
+                                                    });
+                                                document.getElementById("delete-verification").style.display = "none";
                                                 return;
                                             }
                                         }
@@ -1278,10 +1293,10 @@
             {
                 // Try catch block is just to handle a missing value. No need to handle it if it fails.
             }
-            let userAddedTasksHTML = '<div class="filter-header-container">' +
+            let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-header-container">' +
                 '<span class="filter-header">My Tasks</span>' +
                 '</div>' +
-                '<form id="trimester-filter">' +
+                '<form id="user-tasks-filter">' +
                 '<input type="checkbox" id="Tasks I Added">' +
                 '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
                 '</form>'
