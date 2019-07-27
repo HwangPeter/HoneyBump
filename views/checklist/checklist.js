@@ -30,13 +30,6 @@
             await generateChecklist(checklistObj, checklistObj.settings);
             addAllEventListeners(checklistObj, checklistObj.settings);
             updateDropdownMenu();
-
-            // Make buttons untabbable
-            var buttons = document.getElementsByTagName('button');
-            for (var i = 0; i < buttons.length; i++) {
-                var button = buttons[i];
-                button.setAttribute("tabindex", "-1");
-            }
         }
         else {
             console.log("User is logged out. Access denied.");
@@ -214,7 +207,6 @@
                 trimester = "Tasks I Added";
                 document.getElementById(trimester).checked = true;
             }
-            //TODO: Add toggle for medical button.
 
             try {
                 Object.keys(checklistObj[trimester]).forEach(key => {
@@ -345,6 +337,13 @@
             '</div>\n';
         document.getElementById('checklist').insertAdjacentHTML('beforeend', addTaskHTML);
         removeEmptySections();
+
+        // Make buttons untabbable
+        var buttons = document.getElementsByTagName('button');
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i];
+            button.setAttribute("tabindex", "-1");
+        }
     }
 
     // Checks for sections next to each other and deletes the first section if found.
@@ -479,7 +478,7 @@
                 else if (element.nodeName === "BUTTON") {
                     // Many button handled here.
                     if (element.disabled === true) {
-                        break;
+                        return;
                     }
 
                     if (element.id === "select-trimester") {
@@ -489,7 +488,7 @@
                         document.getElementById("faded-container").style.display = "block";
                         document.getElementById("filter-sidebar").style.display = "";
                         document.getElementById("filter-sidebar").classList.remove("slideOutLeft");
-                        break;
+                        return;
                     }
 
                     else if (element.className.indexOf("checkmark") !== -1) {
@@ -527,7 +526,7 @@
                                 });
                             element.disabled = false;
                         }
-                        break;
+                        return;
                     }
 
                     else if (element.id === "markAsComplete") {
@@ -563,7 +562,7 @@
                                 });
                             element.disabled = false;
                         }
-                        break;
+                        return;
                     }
 
                     else if (element.id === "references") {
@@ -585,6 +584,7 @@
 
                 else if (element.nodeName === "LABEL") {
                     if (!document.getElementById(element.getAttribute("for")).checked) {
+                        document.getElementById(element.getAttribute("for")).checked = true;
                         settings.activeChecklists.push(getCorrospondingTrimesterNum(element.getAttribute("for")));
                         settings.activeChecklists.sort(function (a, b) { return a - b });
                         await storeChecklistIntoDB(checklistObj)
@@ -607,7 +607,38 @@
                         myNode.removeChild(myNode.firstChild);
                     }
                     await generateChecklist(checklistObj, settings);
+                    // Event listener for add task area. Need to readd it after generate checklist removes all tasks and adds them back.
+                    document.getElementById("add-task-area").addEventListener('keydown', async (event) => {
+                        document.getElementById("add-task-container").classList.remove("slideOutDown");
+                        document.getElementById("checklist-container").classList.add("shifted-left");
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            await saveTask();
+                            return;
+                        }
+                        if (event.key === "v" && event.metaKey || event.key === "v" && event.ctrlKey) {
+                            return;
+                        }
+                        setTimeout(function () {
+                            document.getElementById("add-task-task-name").value = document.getElementById("add-task-area").value;
+                            autoSize(document.getElementById("add-task-task-name"));
+                        }, 1);
+                    });
 
+                    document.getElementById("add-task-area").addEventListener('paste', (event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        let addTaskArea = document.getElementById("add-task-area");
+                        clipboardData = event.clipboardData || window.clipboardData;
+                        pastedData = clipboardData.getData('Text');
+                        addTaskArea.value = addTaskArea.value + pastedData.replace(/(\r\n|\n|\r)/gm, " ");
+                        setTimeout(function () {
+                            document.getElementById("add-task-task-name").value = document.getElementById("add-task-area").value;
+                            autoSize(document.getElementById("add-task-task-name"));
+                        }, 1);
+                    });
+                    return;
                 }
 
                 element = element.parentNode;
@@ -968,12 +999,52 @@
             taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
             removeEmptySections();
             closeAddTaskMenu();
+            organizeChecklist();
             await storeChecklistIntoDB(checklistObj, true)
                 .catch(e => {
                     console.log("Failed to delete task." + e.message);
                 });
             document.getElementById("delete-verification").style.display = "none";
         });
+
+        function organizeChecklist() {
+            let totalTaskCount = 0;
+            let taskCount = 0;
+            let sectionCount = 0;
+            Object.keys(checklistObj).forEach(trimester => {
+                if (trimester !== "settings") {
+                    sectionCount = 0;
+                    Object.keys(checklistObj[trimester]).forEach(section => {
+                        if (typeof checklistObj[trimester][section] === "object") {
+                            taskCount = 0;
+                            Object.keys(checklistObj[trimester][section]).forEach(task => {
+                                if (typeof checklistObj[trimester][section][task] === "object") {
+                                    let taskObj = checklistObj[trimester][section][task];
+                                    delete checklistObj[trimester][section][task];
+                                    let taskName = "task" + (taskCount + 1).toString();
+                                    if (trimester === "Tasks I Added") {
+                                        taskObj["id"] = (taskCount + 1).toString();
+                                    }
+                                    checklistObj[trimester][section][taskName] = taskObj;
+                                    taskCount++;
+                                    totalTaskCount++;
+                                }
+                            });
+                            let sectionObj = checklistObj[trimester][section];
+                            delete checklistObj[trimester][section];
+                            let sectionName = "section" + (sectionCount + 1).toString();
+                            checklistObj[trimester][sectionName] = sectionObj;
+                            checklistObj[trimester][sectionName]["taskCount"] = taskCount.toString();
+                            sectionCount++;
+                        }
+                    });
+                    checklistObj[trimester].sectionCount = sectionCount.toString();
+                }
+                if (trimester === "Tasks I Added") {
+                    checklistObj[trimester]["taskCount"] = totalTaskCount.toString();
+                }
+            });
+        }
 
         // User clicked "cancel" button inside add task menu. Closes add task menu.
         document.getElementById('cancel').addEventListener('click', () => {
