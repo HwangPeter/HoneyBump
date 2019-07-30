@@ -181,35 +181,35 @@ form {
 }
 
 .footer:before {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .footer {
-    background-color: #EAE6E1;
-    line-height: 3;
+  background-color: #EAE6E1;
+  line-height: 3;
 }
 
 .footer a {
-    color: #6B686D;
-    text-decoration: none;
-    text-transform: uppercase;
+  color: #6B686D;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .footer a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
-    background: #fff;
-    border: 1px solid #6B686D;
-    border-radius: 50%;
-    color: #6B686D;
-    fill: #6B686D;
-    height: 20px;
-    width: 20px;
-    padding: 5px;
+  background: #fff;
+  border: 1px solid #6B686D;
+  border-radius: 50%;
+  color: #6B686D;
+  fill: #6B686D;
+  height: 20px;
+  width: 20px;
+  padding: 5px;
 	outline: 2px solid #333;
 }
 
