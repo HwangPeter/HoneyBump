@@ -23,12 +23,13 @@
     </div>
 
     <div class="topnav" id="myTopnav">
+      <a href="javascript:void(0)" class="closebtn" id="x" onclick="closeNav()">&times;</a>
       <a href="#thebuzz">The Buzz</a>
       <a href="#musthaves">Must-Haves</a>
       <a href="#website">My (free!) baby website</a>
       <a href="checklist/checklist.html">pregnancy checklist</a>
       <a href="index.html" class="active">Home</a>
-      <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776</a>
+      <a href="javascript:void(0)" class="icon" id="hamburger" onclick="openNav()">&#9776</a>
     </div>
 
       <!-- <div style="float:right;">
@@ -116,18 +117,9 @@
 <br>
   </div>
 
-  <script type="module" src="index.js"></script>
-  
-  <script>
-    function myFunction() {
-      var x = document.getElementById("myTopnav");
-      if (x.className === "topnav") {
-        x.className += " responsive";
-      } else {
-        x.className = "topnav";
-      }
-    }
-    </script>
+<script>
+
+</script>
 
 </body>
 
