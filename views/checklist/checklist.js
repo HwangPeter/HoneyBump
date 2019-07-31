@@ -488,7 +488,7 @@
 
                     if (element.id === "select-trimester") {
                         if (screen.width > 992) {
-                            document.getElementById("content").style.gridTemplateColumns = "250px 1fr 1fr";
+                            document.getElementById("content").style.gridTemplateColumns = "250px 1fr";
                         }
                         document.getElementById("faded-container").style.display = "block";
                         document.getElementById("filter-sidebar").style.display = "";
