@@ -104,7 +104,7 @@ button:focus {
     outline: none;
 }
 
-button:hover {
+button:not(.nohover):hover {
     background-color: #FAF6F1;
     color: #6B5875;
 }
@@ -131,6 +131,19 @@ form {
     background-color: #6B5875;
 }
 
+*.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+ 
+    /*
+      Introduced in IE 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+ }
+ 
 .navigation-container {
     padding-top: 23px;
     padding-bottom: 23px;
