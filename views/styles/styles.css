@@ -10,6 +10,7 @@ header {
     font-size: 45px;
     font-weight: 400;
     color: #6B5875;
+    vertical-align: middle;
 }
 
 body {
@@ -21,33 +22,40 @@ body {
 
 h1 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 50px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h2 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 40px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h3 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 35px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h4 {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 30px;
     line-height: 18px;
     color: #6B686D;
 }
 
 h5 {
+    font-family: "Montserrat";
+    font-size: 20px;
+    line-height: 18px;
+    color: #6B686D;
+}
+
+h6 {
     font-family: "Montserrat";
     font-size: 14px;
     line-height: 18px;
@@ -135,6 +143,70 @@ form {
     -ms-user-select: none;
     user-select: none;
  }
+ 
+.navigation-container {
+    padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: white;
+}
+
+.navigation-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+.navigation-li {
+    float: right;
+}
+
+.navigation-li a {
+    display: block;
+    color: #6B686D;
+    text-align: center;
+    padding: 14px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navigation-li a:hover {
+    text-decoration: underline;
+}
+
+.footer:before {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer {
+    background-color: #EAE6E1;
+    line-height: 3;
+}
+
+.footer a {
+    color: #6B686D;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
+    background: #fff;
+    border: 1px solid #6B686D;
+    border-radius: 50%;
+    color: #6B686D;
+    fill: #6B686D;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+	outline: 2px solid #333;
+}
 
 /*Sizing for phones*/
 @media only screen and (max-width: 600px) {

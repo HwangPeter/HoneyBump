@@ -20,10 +20,28 @@ const btnSignUp = document.getElementById('btnLoginSignUp');
 const userEmail = document.getElementById('emailField');
 const userPassword = document.getElementById('passwordField');
 
+
 btnSignUp.addEventListener('click', e => {
     window.location.href = "/signUpLogin";
 });
 
+firebase.auth().onAuthStateChanged(firebaseUser => {
+    if (firebaseUser) {
+        if(!firebase.auth().currentUser.emailVerified) {
+            window.location.href = "/emailNotVerified";
+        }
+        btnLogout.style.display = 'block';
+        btnSignUp.style.display = 'none';
+        document.getElementById('loginStatusDiv').style.display = 'inline';
+    }
+    else {
+        btnLogout.style.display = 'none';
+        btnSignUp.style.display = 'block';
+        document.getElementById('loginStatusDiv').style.display = 'none';
+    }
+});
+
+/*Before I started to modify the javascript, saved prior version just in case
 firebase.auth().onAuthStateChanged(firebaseUser => {
     if (firebaseUser) {
         if(!firebase.auth().currentUser.emailVerified) {
@@ -38,7 +56,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
         btnSignUp.style.visibility = 'visible';
         document.getElementById('loginStatusDiv').style.visibility = 'hidden';
     }
-});
+*/
 
 btnLogout.addEventListener('click', e => {
     let auth = firebase.auth();
