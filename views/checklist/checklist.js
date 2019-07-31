@@ -442,6 +442,7 @@
         var currentTaskInfo = {};
         var taskTextArea;
         var referencesDisplayed = false;
+        var referencesScrollHeight = 0;
         //For checking if description was changed.
         var unEditedDescription = "";
         var unEditedTaskName = "";
@@ -571,14 +572,14 @@
 
                     else if (element.id === "references") {
                         if (!referencesDisplayed) {
-                            let scrollHeight = document.getElementById("add-description-area").scrollHeight + 40;
+                            referencesScrollHeight = document.getElementById("add-description-area").scrollHeight + 40;
                             // 40 to offset the 2 newlines before "References:"
                             taskData = getTaskData(checklistObj, currentTaskInfo);
                             document.getElementById("add-description-area").value += "\n\nReferences:\n" + taskData.references + "\n";
                             autoSize(document.getElementById('add-description-area'));
-                            document.getElementById("add-description-area").scrollTop = scrollHeight;
                             referencesDisplayed = true;
                         }
+                        document.getElementById("add-description-area").scrollTop = referencesScrollHeight;
                     }
 
                     else if (element.id === "delete") {
@@ -978,6 +979,7 @@
                                                 delete checklistObj[trimester];
                                                 taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
                                                 removeEmptySections();
+                                                document.getElementById('delete-verification').style.display = 'none';
                                                 closeAddTaskMenu();
                                                 organizeChecklist();
                                                 document.getElementById("user-tasks-filter-header").remove();
@@ -986,7 +988,6 @@
                                                     .catch(e => {
                                                         console.log("Failed to delete task." + e.message);
                                                     });
-                                                document.getElementById("delete-verification").style.display = "none";
                                                 return;
                                             }
                                         }
@@ -1013,13 +1014,13 @@
             }
             taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
             removeEmptySections();
+            document.getElementById('delete-verification').style.display = 'none';
             closeAddTaskMenu();
             organizeChecklist();
             await storeChecklistIntoDB(checklistObj, true)
                 .catch(e => {
                     console.log("Failed to delete task." + e.message);
                 });
-            document.getElementById("delete-verification").style.display = "none";
         });
 
         function organizeChecklist() {
@@ -1081,7 +1082,9 @@
 
         // User clicked "save" button inside add task menu. 
         document.getElementById("save").addEventListener('click', async () => {
+            document.getElementById("save").disabled = true;
             await saveTask();
+            document.getElementById("save").disabled = false;
         });
 
         async function saveTask() {
