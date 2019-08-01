@@ -39,12 +39,12 @@
         "destination": "/test.html"
       },
       {
-        "source": "/favicon.ico",
-        "destination": "/img/favicon.ico"
-      },
-      {
         "source": "/verification/**",
         "destination": "/verification/verification.html"
+      },
+      {
+        "source": "/checklist",
+        "destination": "/checklist/checklist.html"
       }
     ],
     "ignore": [

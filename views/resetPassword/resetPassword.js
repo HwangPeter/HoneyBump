@@ -16,7 +16,12 @@ const emailInput = document.getElementById('email');
 const errorText = document.getElementById('error');
 
 resetPassButton.addEventListener('click', () => {
+    resetPassButton.disabled = true;
+    resetPassButton.style.opacity = "0.5";
+
     if (!highlightEmptyFields()) {
+        resetPassButton.disabled = false;
+        resetPassButton.style.opacity = "1";
         return 0;
     }
 

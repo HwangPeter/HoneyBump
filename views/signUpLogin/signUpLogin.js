@@ -12,6 +12,8 @@
     firebase.initializeApp(firebaseConfig);
 }());
 
+// TODO: Check for user being logged in already. If so, direct to homepage.
+
 const ghostSignUpButton = document.getElementById('ghostSignUp');
 const ghostLoginButton = document.getElementById('ghostLogin');
 const container = document.getElementById('container');
