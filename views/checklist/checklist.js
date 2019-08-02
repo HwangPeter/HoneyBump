@@ -238,7 +238,7 @@
                 Object.keys(checklistObj[trimester]).forEach(key => {
                     if (typeof checklistObj[trimester][key] === "object") {
                         // Iterating through sections
-                        if (!userAddedTasksComplete && checklistObj[trimester][key].title !== "Tasks I Added (All)") {
+                        if (!userAddedTasksComplete && checklistObj[trimester][key].title !== "Tasks I Added (All)" && trimester === "Tasks I Added") {
                             let sectionHTML = '<div class="list-item-container hoverable">\n' +
                                 '<div class="list-item">\n' +
                                 '<h2 class="section">' + checklistObj[trimester][key].title + '</h2>\n' +
@@ -312,7 +312,7 @@
                                         '</div >\n' +
                                         '</div >\n'
 
-                                    if (!userAddedTasksComplete && checklistObj[trimester][key].title !== "Tasks I Added (All)") {
+                                    if (!userAddedTasksComplete && checklistObj[trimester][key].title !== "Tasks I Added (All)" && trimester === "Tasks I Added") {
                                         if (checklistObj[trimester][key].title.indexOf("Before") !== -1) { addedPreTaskHTML += taskHTML; }
                                         else if (checklistObj[trimester][key].title.indexOf("1st") !== -1) { addedFirstTaskHTML += taskHTML; }
                                         else if (checklistObj[trimester][key].title.indexOf("2nd") !== -1) { addedSecondTaskHTML += taskHTML; }
@@ -340,6 +340,7 @@
                 });
             }
             catch (e) {
+                console.log(e);
                 // If a trimester is in activeChecklists but does not exist in the database, this removes the trimester from the activeChecklists.
                 // Mostly for "Tasks I Added" being empty and it being listed as an activeChecklist.
                 if (!checklistObj[trimester] && trimester === "Tasks I Added") {
@@ -974,6 +975,10 @@
 
         // User clicked "Yes" button, confirming task deletion. Deletes the task as well as any duplicate tasks in other trimesters.
         document.getElementById("confirm-delete").addEventListener('click', async () => {
+            await handleDelete();
+        });
+
+        async function handleDelete() {
             try {
                 // Try block is to exit the function early when a trimester is deleted.
                 for (trimester in checklistObj) {
@@ -1045,7 +1050,7 @@
                 .catch(e => {
                     console.log("Failed to delete task." + e.message);
                 });
-        });
+        }
 
         function organizeChecklist() {
             let totalTaskCount = 0;
@@ -1134,9 +1139,9 @@
                 }
                 else if (currentTaskInfo.id) {
                     // Modifying a task in "Tasks I Added"
-                    if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value || unEditedNotes !== document.getElementById('add-notes-area').value) {
-                        // Changes were made to the task.
-                        //|| document.getElementById("trimester-select").selectedIndex !== 
+                    let taskData = getTaskData(checklistObj, currentTaskInfo);
+                    if (unEditedDescription !== document.getElementById('add-description-area').value || unEditedTaskName !== document.getElementById('add-task-task-name').value || unEditedNotes !== document.getElementById('add-notes-area').value || document.getElementById("trimester-select").selectedIndex !== getCorrospondingTrimesterNum(taskData.section)) {
+                        // If statement above checks if changes were made to the task.
                         taskObj = {
                             name: document.getElementById('add-task-task-name').value,
                             description: document.getElementById('add-description-area').value,
@@ -1144,17 +1149,26 @@
                             completed: taskTextArea.parentNode.parentNode.childNodes[1].childNodes[1].classList.contains("completed").toString(),
                             id: currentTaskInfo.id
                         }
+
                         if (document.getElementById('add-notes-area').value) {
                             taskObj.notes = document.getElementById('add-notes-area').value;
                         }
-                        updateChecklistObj(taskObj);
+
                         taskTextArea.value = document.getElementById('add-task-task-name').value;
                         document.getElementById("add-task-area").value = "";
                         closeAddTaskMenu();
-                        await storeChecklistIntoDB(checklistObj)
-                            .catch(e => {
-                                console.log("Failed to store new task." + e.message);
-                            });
+                        if (document.getElementById("trimester-select").selectedIndex !== getCorrospondingTrimesterNum(taskData.section)) {
+                            // User changed trimester their task belongs to.
+                            handleDelete();
+                            await addNewTaskToChecklist(taskObj, document.getElementById("trimester-select").selectedIndex);
+                        }
+                        else {
+                            updateChecklistObj(taskObj);
+                            await storeChecklistIntoDB(checklistObj)
+                                .catch(e => {
+                                    console.log("Failed to store new task." + e.message);
+                                });
+                        }
                     }
                     else {
                         // No changes made to task.
@@ -1277,33 +1291,39 @@
             }
 
             else {
-                let sectionHTML = '<div class="list-item-container hoverable">\n' +
-                    '<div class="list-item">\n' +
-                    '<h2 class="section">' + sectionName + '</h2>\n' +
-                    '</div>\n' +
-                    '</div>\n';
+                // Code below adds "Add task..." area to below new task.
+                // let sectionHTML = '<div class="list-item-container hoverable">\n' +
+                //     '<div class="list-item">\n' +
+                //     '<h2 class="section">' + sectionName + '</h2>\n' +
+                //     '</div>\n' +
+                //     '</div>\n';
 
-                let taskHTML = '<div class="list-item-container hoverable">\n' +
-                    '<div class="list-item">\n' +
-                    '<div class="button-div">\n' +
-                    '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-                    '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                    '</path >\n' +
-                    '</svg >\n' +
-                    '</button >\n' +
-                    '</div >\n' +
-                    '<div class="textarea-div">\n' +
-                    '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
-                    + taskObj.name + '</textarea>\n' +
-                    '</div >\n' +
-                    '</div >\n' +
-                    '</div >\n'
+                // let taskHTML = '<div class="list-item-container hoverable">\n' +
+                //     '<div class="list-item">\n' +
+                //     '<div class="button-div">\n' +
+                //     '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
+                //     '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                //     '</path >\n' +
+                //     '</svg >\n' +
+                //     '</button >\n' +
+                //     '</div >\n' +
+                //     '<div class="textarea-div">\n' +
+                //     '<textarea tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + 1 + '">'
+                //     + taskObj.name + '</textarea>\n' +
+                //     '</div >\n' +
+                //     '</div >\n' +
+                //     '</div >\n'
 
-                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
-                document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
+                // document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', sectionHTML);
+                // document.getElementById('add-task-list-item-container').insertAdjacentHTML('beforebegin', taskHTML);
                 checklistObj["Tasks I Added"] = createNewUserAddedChecklist(taskObj, sectionName);
-                closeAddTaskMenu();
                 settings.activeChecklists.push(5);
+                let myNode = document.getElementById("checklist");
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+                await generateChecklist(checklistObj, checklistObj.settings);
+                closeAddTaskMenu();
                 await storeChecklistIntoDB(checklistObj)
                     .catch(e => {
                         console.log("Failed to store new task." + e.message);
