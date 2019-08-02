@@ -112,15 +112,32 @@
                         <div id="description-div" class="textarea-description-div">
                             <textarea id="add-description-area" tabindex="2"></textarea>
                         </div>
+                        <div id="trimester-select-container" style="display: none;">
+                            <span id="trimester-select-span">
+                                Select a trimester:
+                            </span>
+                            <form action="#" class="customSelect">
+                                <div class="select">
+                                    <select id="trimester-select">
+                                        <option>Before Pregnancy</option>
+                                        <option>1st Trimester</option>
+                                        <option>2nd Trimester</option>
+                                        <option>3rd Trimester</option>
+                                        <option>After Pregnancy</option>
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
                         <div id="notes-div" class="textarea-description-div">
-                            <textarea id="add-notes-area" placeholder="Add a note..." tabindex="3"></textarea>
+                            <textarea id="add-notes-area" placeholder="Add an update..." tabindex="3"></textarea>
                         </div>
                     </div>
                     <div id="delete-verification" class="modal">
                         <div class="modal-content animate-bottom-up" onclick="return false;">
                             <div>
                                 <br>
-                                <p>Are you sure you want to delete this task?</p>
+                                <p>Are you sure you want to permanently delete this task?</p>
                                 <span id="confirm-delete" focusable="false">Yes
                                 </span>
                                 <span onclick="document.getElementById('delete-verification').style.display='none'"
