@@ -153,49 +153,57 @@ form {
     -ms-user-select: none;
     user-select: none;
  }
- 
-.navigation-container {
-  padding-top: 23px;
-  padding-bottom: 23px;
-  background-color: white;
-}
 
-/* Add a black background color to the top navigation */
 .topnav {
 	background-color: white;
 	overflow: hidden;
-  }
+}
   
-  /* Style the links inside the navigation bar */
 .topnav a {
-	float: right;
-	display: block;
-	color: #6B686D;
-  text-align: center;
-  padding: 5px 15px;
-	text-decoration: none;
-	font-size: 17px;
-  }
+  display: none;
+}
 
-  /* Change the color of links on hover */
-.topnav a:hover {
-  color: black;
-  text-decoration: underline;
-  }
-  
-  /* Add an active class to highlight the current page */
-.topnav a.active {
-	background-color: #6B5875;
-	color: white;
-  }
-  
-  /* Hide the link that should open and close the topnav on small screens */
-.topnav .icon {
-	display: none;
-  }
+.topnav a.icon {
+    float: right;
+    display: block;
+}
 
 .topnav .closebtn {
   display: none;
+}
+
+.topnav.responsive {
+  height: 100%; 
+  width: 250px;
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  left: 0;
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 60px; 
+  transition: 0.5s; 
+}
+
+.topnav.responsive a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.topnav.responsive a.icon {
+  display: none;
+}
+
+.topnav.responsive .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
 .footer:before {
@@ -231,52 +239,9 @@ form {
 	outline: 2px solid #333;
 }
 
-/*Sizing for phones*/
-@media only screen and (max-width: 600px) {
-  [class*="col-"] {
-    width: 100%;
-  }
-
-/*display the icon and hide rest of links when the screen hits 600px or less*/
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-
-  .topnav.responsive {
-    height: 100%; 
-    width: 250px;
-    position: fixed; 
-    z-index: 1; 
-    top: 0; 
-    left: 0;
-    background-color: #111; 
-    overflow-x: hidden; 
-    padding-top: 60px; 
-    transition: 0.5s; 
-  }
-
-  .topnav.responsive a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  }
-
-  .topnav.responsive a.icon {
-    display: none;
-  }
-
-  .topnav.responsive .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
+[class*="col-"] {
+  width: 100%;
+}
 
 /*sizing for tablets in landscape*/
 @media only screen and (min-width: 600px) {
@@ -319,7 +284,82 @@ form {
 
   button {
     padding: 12px 45px;
+    font-size: 20px;
   }
+
+  body {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  h1 {
+    font-size: 50px;
+    line-height: 18px;
+  }
+
+  h2 {
+    font-size: 40px;
+    line-height: 18px;
+  }
+
+  h3 {
+    font-size: 35px;
+    line-height: 18px;
+  }
+
+  h4 {
+    font-size: 30px;
+    line-height: 18px;
+  }
+
+  h5 {
+    font-size: 20px;
+    line-height: 18px;
+  }
+
+  h6 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .navigation-container {
+    padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: white;
+  }
+
+  .topnav {
+    background-color: white;
+    overflow: hidden;
+  }
+    
+    /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    display: block;
+    color: #6B686D;
+    text-align: center;
+    padding: 5px 15px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+    /* Change the color of links on hover */
+  .topnav a:hover {
+    color: black;
+    text-decoration: underline;
+  }
+    
+    /* Add an active class to highlight the current page */
+  .topnav a.active {
+    background-color: #6B5875;
+    color: white;
+  }
+
+  .topnav a.icon {
+    display: none;
+  }
+    
 }
 
 /*This was the original code for navigation links
