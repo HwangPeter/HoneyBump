@@ -287,7 +287,6 @@ function jsonifySignUpData() {
 function jsonifyLoginData() {
     let email = loginEmail.value;
     let pass = loginPass.value;
-    //TODO: Remove uid lines
     let uid = firebase.auth().currentUser.uid;
 
     var data = {
