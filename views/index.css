@@ -11,6 +11,8 @@
 .textinpiccontainer{
     position: relative;
     text-align: center;
+    width: 100%;
+    height: auto;
 }
 
 .centered {
@@ -20,33 +22,45 @@
     transform: translate(-50%, -50%)
 }
 
+#landingtext {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 1;
+}
+
 .textcontainer {
     position: relative;
     text-align: center;
 }
 
-.gallerycontainer {
-    position: relative;
-    text-align: center;
-    width: 100%;
+.grid-container {
+    display: grid;
+    grid-column-gap: 25px;
+    grid-template-columns: 40px;
 }
 
-.gallerycontent {
-    display: inline-block;
-    width: 400px;
-    height: 400px;
-    margin: 30px;
-    text-align: center;
+.grid-container > div {
+    width: 200px;
+    height: 200px;
 }
 
-.gallerytext {
-    font-size:16px;
-    font-weight: 500;
-}
+.item1 {grid-row: 1 / 2}
+.item2 {grid-row: 2 / 2}
+.item3 {grid-row: 4 / 2}
+.item4 {grid-row: 3 / 2}
+.item5 {grid-row: 5 / 2}
+.item6 {grid-row: 6 / 2}
 
 @media only screen and (min-width: 992px) {
-    .gallerytext {
-        font-size: 20px;
-        font-weight: 500;
+    .grid-container {
+        grid-column-gap: 50px;
+        grid-template-columns: 55px 55px;
     }
+
+    .grid-container > div {
+        width: 300px;
+        height: 300px;
+    }
+
 }

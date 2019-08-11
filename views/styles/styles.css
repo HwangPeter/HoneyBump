@@ -20,60 +20,49 @@ header {
 
 body {
     font-family: "Montserrat";
-    font-size: 14px;
-    line-height: 18px;
     background: white;
 }
 
 h1 {
     font-family: "Montserrat";
-    font-size: 50px;
-    line-height: 18px;
+    font-size: 30px;
     color: #6B686D;
 }
 
 h2 {
     font-family: "Montserrat";
-    font-size: 40px;
-    line-height: 18px;
+    font-size: 25px;
     color: #6B686D;
 }
 
 h3 {
     font-family: "Montserrat";
-    font-size: 35px;
-    line-height: 18px;
+    font-size: 20px;
     color: #6B686D;
 }
 
 h4 {
     font-family: "Montserrat";
-    font-size: 30px;
-    line-height: 18px;
+    font-size: 15px;
     color: #6B686D;
 }
 
 h5 {
     font-family: "Montserrat";
-    font-size: 20px;
-    line-height: 18px;
+    font-size: 10px;
     color: #6B686D;
 }
 
 h6 {
     font-family: "Montserrat";
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 5px;
     color: #6B686D;
 }
 
 p {
 	font-family: "Montserrat";
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 100;
-	line-height: 18px;
-	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
 	color: #6B686D;
 }
 
@@ -320,6 +309,13 @@ form {
   h6 {
     font-size: 14px;
     line-height: 18px;
+  }
+
+  p {
+    font-family: "Montserrat";
+    font-size: 14px;
+    font-weight: 100;
+    color: #6B686D;
   }
 
   .navigation-container {
