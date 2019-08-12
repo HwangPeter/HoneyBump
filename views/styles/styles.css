@@ -278,42 +278,35 @@ form {
 
   body {
     font-size: 14px;
-    line-height: 18px;
   }
 
   h1 {
     font-size: 50px;
-    line-height: 18px;
   }
 
   h2 {
     font-size: 40px;
-    line-height: 18px;
   }
 
   h3 {
     font-size: 35px;
-    line-height: 18px;
   }
 
   h4 {
     font-size: 30px;
-    line-height: 18px;
   }
 
   h5 {
     font-size: 20px;
-    line-height: 18px;
   }
 
   h6 {
     font-size: 14px;
-    line-height: 18px;
   }
 
   p {
     font-family: "Montserrat";
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 100;
     color: #6B686D;
   }
