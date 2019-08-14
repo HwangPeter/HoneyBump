@@ -78,7 +78,7 @@ a {
 
 button {
 	font-family: "Montserrat";
-	font-size:14px;
+	font-size:10px;
 	font-weight: bold;
 	border-radius: 4px;
 	border: 1px solid #6B5875;
@@ -143,9 +143,16 @@ form {
     user-select: none;
  }
 
+ .logo-container {
+    margin-left: 25%;
+    display: inline-block;
+ }
+
 .topnav {
 	background-color: white;
-	overflow: hidden;
+  overflow: hidden;
+  display: inline-block;
+  float: left;
 }
   
 .topnav a {
@@ -153,8 +160,7 @@ form {
 }
 
 .topnav a.icon {
-    float: right;
-    display: block;
+  display: block;
 }
 
 .topnav .closebtn {
@@ -177,6 +183,7 @@ form {
 .topnav.responsive a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
+  text-transform: uppercase;
   font-size: 25px;
   color: #818181;
   display: block;
@@ -311,15 +318,25 @@ form {
     color: #6B686D;
   }
 
+  button {
+    font-size: 16px;
+  }
+
   .navigation-container {
     padding-top: 23px;
     padding-bottom: 23px;
     background-color: white;
   }
 
+  .logo-container {
+    float: left;
+    margin-left: auto;
+  }
+
   .topnav {
     background-color: white;
     overflow: hidden;
+    float: right;
   }
     
     /* Style the links inside the navigation bar */
@@ -330,6 +347,7 @@ form {
     text-align: center;
     padding: 5px 15px;
     text-decoration: none;
+    text-transform: uppercase;
     font-size: 17px;
   }
   
@@ -350,36 +368,3 @@ form {
   }
     
 }
-
-/*This was the original code for navigation links
-	.navigation-container {
-    padding-top: 23px;
-    padding-bottom: 23px;
-    background-color: white;
-}
-
-  .navigation-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: white;
-}
-
-  .navigation-li {
-    float: right;
-}
-
-	.navigation-li a {
-    display: block;
-    color: #6B686D;
-    text-align: center;
-    padding: 14px 15px;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-
-	.navigation-li a:hover {
-    text-decoration: underline;
-}
-*/
