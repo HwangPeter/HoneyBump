@@ -39,10 +39,14 @@ const loginPass = document.getElementById('loginPass');
 
 ghostSignUpButton.addEventListener('click', () => {
     container.classList.add("right-panel-active");
+    container.classList.add("redraw");
 });
 
 ghostLoginButton.addEventListener('click', () => {
     container.classList.remove("right-panel-active");
+    window.setTimeout(function () {
+        container.classList.remove("redraw");
+    }, 200);
 });
 
 

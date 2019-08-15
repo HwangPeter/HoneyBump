@@ -2,7 +2,7 @@
 Document contains an object containing all tasks across all trimesters.
 Each trimester as well as "Tasks I Added" are contained within their own objects.
 Users -> UserID -> checklist -> checklist ->
-prePregnancy: {
+Before Pregnancy: {
     sectionCount: string (To easily append sections, we need to keep track of them.)
     section1: {
         title: string (Name of the section. e.g. Daily, ASAP, etc.)
@@ -28,10 +28,10 @@ prePregnancy: {
         ...
     }
 }
-firstTrimester: {...}
-secondTrimester: {...}
-thirdTrimester: {...}
-postPregnancy: {...}
+"1st Trimester": {...}
+"2nd Trimester": {...}
+"3rd Trimester": {...}
+"After Pregnancy": {...}
 Tasks I Added: {...}
 settings: {
     activeChecklists: list containing Numbers showing the active trimesters.
@@ -47,7 +47,7 @@ await db.collection("checklist").doc("defaultChecklist").set(checklistObj);
 
 
 const checklistObj = {
-    prePregnancy: {
+    "Before Pregnancy": {
         sectionCount: "2",
         section1: {
             title: "Daily",
@@ -79,7 +79,7 @@ const checklistObj = {
             task2: {
                 name: "Make a preconception appointment",
                 description: "It is important to make a preconception appointment with your health care provider to learn things about your body that might complicate your pregnancy (or learn how to prevent these complications).  At this appointment, you can expect to discuss your overall health, medications you are taking that might affect a growing fetus (be sure to bring a list of all medications and supplements you are taking!), and how to manage health conditions (for example, diabetes or hypertension) that might impact your pregnancy.  You may also receive vaccines for which you are not already immune, and receive a Pap test as well as sexually transmitted infection (STI) screening.  Your provider might also suggest genetic carrier screening which is a lab test that can help determine the risk of having a baby with certain genetic conditions.  The Office on Women’s Health provides a worksheet to bring with you, to help remember what to talk about and to take notes on: https://www.womenshealth.gov/files/documents/preconception-visit.pdf ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2018. Good health before pregnancy: Prepregnancy care. American College of Obstetricians and Gynecologists. Retrieved from \n\nhttps://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Prepregnancy-Care ",
+                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2018. Good health before pregnancy: Before Pregnancy care. American College of Obstetricians and Gynecologists. Retrieved from \n\nhttps://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Before Pregnancy-Care ",
                 completed: "false"
             },
             task3: {
@@ -127,7 +127,7 @@ const checklistObj = {
             }
         }
     },
-    firstTrimester: {
+    "1st Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
@@ -269,7 +269,7 @@ const checklistObj = {
             }
         }
     },
-    secondTrimester: {
+    "2nd Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
@@ -388,7 +388,7 @@ const checklistObj = {
             }
         }
     },
-    thirdTrimester: {
+    "3rd Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
@@ -549,7 +549,7 @@ const checklistObj = {
             }
         }
     },
-    postPregnancy: {
+    "After Pregnancy": {
         sectionCount: "3",
         section1: {
             title: "Daily",
@@ -601,6 +601,72 @@ const checklistObj = {
             taskCount: "1",
             task1: {
                 name: "Baby proof your home",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+        }
+    }
+}
+
+const taskBundleObj = {
+    "Baby Shower": {
+        sectionCount: "1",
+        description: "When a baby is on the way, you aren’t the only one that gets excited. Celebrate with your loved ones and let us help you create an unforgettable day!",
+        section1: {
+            title: "By 26-28 Weeks",
+            trimester: "2nd Trimester",
+            taskCount: "9",
+            task1: {
+                name: "Baby Shower: Pick a date",
+                description: "Baby showers are typically held between the end of second trimester and the middle of third trimester.",
+                references: "",
+                completed: "false",
+            },
+            task2: {
+                name: "Baby Shower: Select a venue",
+                description: "",
+                references: "",
+                completed: "false",
+            },
+            task3: {
+                name: "Baby Shower: Finalize gift registry",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task4: {
+                name: "Baby Shower: Finalize your personal baby shower website",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task5: {
+                name: "Baby Shower: Create guest list",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task6: {
+                name: "Baby Shower: Send invitations",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task7: {
+                name: "Baby Shower: Decide on baby shower games",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task8: {
+                name: "Baby Shower: Select caterer",
+                description: "",
+                references: "",
+                completed: "false"
+            },
+            task9: {
+                name: "Baby Shower: If young children are attending, consider adding a fun activity for them: games, face painting, bounce house, etc.",
                 description: "",
                 references: "",
                 completed: "false"

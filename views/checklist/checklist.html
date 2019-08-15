@@ -1,9 +1,10 @@
-<!DOCTYPE html>
 <html lang="en-US">
 
 <head>
     <title>Checklist</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="initial-scale=1.0" > -->
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <meta charset="utf-8">
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="checklist/checklist.css">
@@ -21,24 +22,21 @@
 <body>
     <div id="content">
         <header>
-            <!-- <div class="header-div"> -->
             <p>myHoneyBump</p>
-            <!-- </div> -->
         </header>
         <main>
             <div class="content-div">
                 <div id="checklist-container">
                     <div id="checklist-header">
-                        <div class="header-button-container">
+                        <div class="checklist-header-button-container">
                             <div class="header-button-div">
                                 <button id="select-trimester" class="header-button unselectable"
-                                    focusable="false">Select
-                                    Trimester</button>
+                                    focusable="false">Filters</button>
                             </div>
-                            <!-- TODO: Remove display none -->
-                            <div class="header-button-div" style="display: none;">
-                                <button id="task-packages" class="header-button unselectable" focusable="false">Task
-                                    Packages</button>
+                            <div class="header-button-div">
+                                <button id="task-bundles-button" class="header-button unselectable" focusable="false">Task
+                                    <br>
+                                    Bundles</button>
                             </div>
                         </div>
                         <div class="right-options-button-container">
@@ -53,7 +51,6 @@
                                 <div class="dropdown">
                                     <div id="options-dropdown" class="dropdown-content unselectable">
                                         <span id="toggleCompleteSpan">Show completed tasks</span>
-                                        <span>Dismiss menu</span>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +62,7 @@
 
                 <!-- Expanded task container -->
                 <div id="add-task-container" style="display: none;" class="animated slideInLeft">
-                    <div id="add-task-button-container">
+                    <div class="header-button-container">
                         <div class="option-button-cancel-div">
                             <button id="cancel" class="icon-button nohover">
                                 <svg id="x-svg" class="icon-SVG" focusable="false" viewBox="0 0 32 32">
@@ -115,7 +112,7 @@
                         </div>
                         <div id="trimester-select-container" style="display: none;">
                             <span id="trimester-select-span">
-                                Select a trimester:
+                                Select trimester:
                             </span>
                             <form action="#" class="customSelect">
                                 <div class="select">
@@ -149,45 +146,93 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Task Bundles -->
+                <div id="task-bundles-container" style="display: none;" class="animated slideInUp">
+                    <div class="header-button-container">
+                        <div class="option-button-cancel-div">
+                            <button id="cancel-task-bundles" class="icon-button nohover">
+                                <svg id="x-svg" class="icon-SVG" focusable="false" viewBox="0 0 32 32">
+                                    <path
+                                        d="M18.1,16L27,7.1c0.6-0.6,0.6-1.5,0-2.1s-1.5-0.6-2.1,0L16,13.9l-8.9-9C6.5,4.3,5.6,4.3,5,4.9S4.4,6.4,5,7l8.9,8.9L5,24.8c-0.6,0.6-0.6,1.5,0,2.1c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4l8.9-8.9l8.9,8.9c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4c0.6-0.6,0.6-1.5,0-2.1L18.1,16z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <span>Task Bundles</span>
+                    </div>
+                    <div class="task-bundles-header-container">
+                        <ul>
+                            <li id="medical" class="selected"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                                document.getElementById('medical').classList.add('selected');
+                                document.getElementById('underline').style.marginLeft = '0';">Medical</span></li><!--
+                                --><li id="other"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                            document.getElementById('other').classList.add('selected');
+                            document.getElementById('underline').style.marginLeft = '50%';">Other</span></li>
+                            <hr id="underline" />
+                        </ul>
+                    </div>
+                    <div class="task-bundles">
+                        <div class="expandable-task-bundle">
+                            <p class="chevron"><i class="down"></i></p>
+                            <div class="task-bundle-title">
+                                Baby Shower
+                            </div>
+                            <div class="task-bundle-description">
+                                When a baby is on the way, you aren’t the only one that gets excited. Celebrate with
+                                your loved ones and let us help you create an unforgettable day!
+                            </div>
+                            <div class="task-bundle-tasks">
+                                <span>Package includes:</span>
+                                <br>
+                                Pick a date (typically between end of second trimester and middle of third trimester)
+                                <br>
+                                <br>
+                                Select a venue
+                                <br>
+                                <br>
+                                Finalize gift registry
+                                <br>
+                                <br>
+                            </div>
+                            <div class="task-bundle-button-container added unselectable" id="Baby Shower">ADD TO CHECKLIST</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
+        <!-- Filter sidebar -->
         <sidebar>
-            <!-- Filter sidebar -->
-            <div id="faded-container" onclick='document.getElementById("filter-sidebar").classList.add("slideOutLeft");
-                            document.getElementById("faded-container").style.display="none";
-                            document.getElementById("content").style.gridTemplateColumns="0px 1fr";'>
+            <div id="faded-container">
             </div>
             <div id="filter-sidebar" style="display: none;" class="filter-sidebar-container animated slideInRight">
-                <div id="dismiss-sidebar-button" onclick='document.getElementById("filter-sidebar").classList.add("slideOutLeft");
-                document.getElementById("faded-container").style.display="none";
-                document.getElementById("content").style.gridTemplateColumns="0px 1fr";'>
+                <div id="dismiss-sidebar-button">
                     << </div> <br>
                         <div id="filter-container-id" class="filter-container">
                             <div class="filter-header-container">
                                 <span class="filter-header">Trimesters</span>
                             </div>
                             <form id="trimester-filter">
-                                <input type="checkbox" id="prePregnancy">
-                                <label for="prePregnancy" class="unselectable">Before Pregnancy</label>
-                                <input type="checkbox" id="firstTrimester">
-                                <label for="firstTrimester" class="unselectable">1st Trimester</label>
-                                <input type="checkbox" id="secondTrimester">
-                                <label for="secondTrimester" class="unselectable">2nd Trimester</label>
-                                <input type="checkbox" id="thirdTrimester">
-                                <label for="thirdTrimester" class="unselectable">3rd Trimester</label>
-                                <input type="checkbox" id="postPregnancy">
-                                <label for="postPregnancy" class="unselectable">After Pregnancy</label>
+                                <input type="checkbox" id="Before Pregnancy">
+                                <label for="Before Pregnancy" class="unselectable">Before Pregnancy</label>
+                                <input type="checkbox" id="1st Trimester">
+                                <label for="1st Trimester" class="unselectable">1st Trimester</label>
+                                <input type="checkbox" id="2nd Trimester">
+                                <label for="2nd Trimester" class="unselectable">2nd Trimester</label>
+                                <input type="checkbox" id="3rd Trimester">
+                                <label for="3rd Trimester" class="unselectable">3rd Trimester</label>
+                                <input type="checkbox" id="After Pregnancy">
+                                <label for="After Pregnancy" class="unselectable">After Pregnancy</label>
                             </form>
                         </div>
-                        <!-- TODO: Remove display none -->
-                        <div class=filter-container style="display: none;">
+                        <div class=filter-container>
                             <div class="filter-header-container">
-                                <span class="filter-header">Task Packages</span>
+                                <span class="filter-header">Task Bundles</span>
                             </div>
-                            <form id="task-packages-filter">
-                                <span class="empty">No task packages added</span>
+                            <form id="task-bundles-filter">
+                                <span class="empty">No task bundles added</span>
                             </form>
-                            <span id="add-task-package-span" class="unselectable">+ Add task packages</span>
+                            <span id="add-task-bundle-span" class="unselectable">ADD TASK BUNDLES</span>
                         </div>
                 </div>
         </sidebar>
