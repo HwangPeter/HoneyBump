@@ -41,24 +41,34 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     }
 });
 
-/*Before I started to modify the javascript, saved prior version just in case
-firebase.auth().onAuthStateChanged(firebaseUser => {
-    if (firebaseUser) {
-        if(!firebase.auth().currentUser.emailVerified) {
-            window.location.href = "/emailNotVerified";
-        }
-        btnLogout.style.visibility = 'visible';
-        btnSignUp.style.visibility = 'hidden';
-        document.getElementById('loginStatusDiv').style.visibility = 'visible';
-    }
-    else {
-        btnLogout.style.visibility = 'hidden';
-        btnSignUp.style.visibility = 'visible';
-        document.getElementById('loginStatusDiv').style.visibility = 'hidden';
-    }
-*/
-
 btnLogout.addEventListener('click', e => {
     let auth = firebase.auth();
     auth.signOut();
 });
+
+
+/*possible need addEventListener instead of onclick myFunction
+document.getElementById("revealTopNav").addEventListener("click", e => {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+}
+*/
+
+/*onclick version, was working on index.html replacing it with sidenav
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+    */
+
+/*
+document.getElementById('myId').classlist.toggle("myStyle");
+*/

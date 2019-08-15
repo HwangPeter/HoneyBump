@@ -7,90 +7,84 @@
 /* Charcoal: #6B686D */
 header {
     font-family: "Josefin Sans";
-    font-size: 45px;
+    font-size: 20px;
     font-weight: 400;
     color: #6B5875;
+}
+
+.logopic {
+    width: 30px;
+    height: 30px;
     vertical-align: middle;
 }
 
 body {
     font-family: "Montserrat";
-    font-size: 14px;
-    line-height: 18px;
     background: white;
 }
 
 h1 {
     font-family: "Montserrat";
-    font-size: 50px;
-    line-height: 18px;
+    font-size: 30px;
     color: #6B686D;
 }
 
 h2 {
     font-family: "Montserrat";
-    font-size: 40px;
-    line-height: 18px;
+    font-size: 25px;
     color: #6B686D;
 }
 
 h3 {
     font-family: "Montserrat";
-    font-size: 35px;
-    line-height: 18px;
+    font-size: 20px;
     color: #6B686D;
 }
 
 h4 {
     font-family: "Montserrat";
-    font-size: 30px;
-    line-height: 18px;
+    font-size: 15px;
     color: #6B686D;
 }
 
 h5 {
     font-family: "Montserrat";
-    font-size: 20px;
-    line-height: 18px;
+    font-size: 10px;
     color: #6B686D;
 }
 
 h6 {
     font-family: "Montserrat";
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 5px;
     color: #6B686D;
 }
 
 p {
-    font-family: "Montserrat";
-    font-size: 14px;
+	font-family: "Montserrat";
+	font-size: 12px;
 	font-weight: 100;
-	line-height: 18px;
-	letter-spacing: 0.5px;
-    margin: 20px 0 30px;
-    color: #6B686D;
+	color: #6B686D;
 }
 
 span {
-    font-family: "Montserrat";
-    font-size: 14px;
-    color: #6B686D;
+	font-family: "Montserrat";
+	font-size: 14px;
+	color: #6B686D;
 }
 
 a {
-    color: #6B686D;
+	color: #6B686D;
 }
 
 button {
-    font-family: "Montserrat";
-    font-size:14px;
-    font-weight: bold;
-    border-radius: 4px;
+	font-family: "Montserrat";
+	font-size:14px;
+	font-weight: bold;
+	border-radius: 4px;
 	border: 1px solid #6B5875;
 	background-color: #6B5875;
 	color: #FFFFFF;
-	padding: 12px 45px;
+	padding: 7px 12px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
@@ -104,19 +98,24 @@ button:focus {
     outline: none;
 }
 
+button:hover {
+  background-color: #FAF6F1;
+  color: #6B5875;
+}
+
 button:not(.nohover):hover {
     background-color: #FAF6F1;
     color: #6B5875;
 }
 
 input {
-    font-family: "Montserrat";
-    font-size: 14px;
-    background-color: #FFFFFF;
-    border: 2px transparent;
-    padding: 12px 15px;
-    margin: 8px 0;
-    width: 100%;
+  font-family: "Montserrat";
+  font-size: 14px;
+  background-color: #FFFFFF;
+  border: 2px transparent;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
 }
 
 input:focus {
@@ -124,11 +123,11 @@ input:focus {
 }
 
 form {
-    background-color: #FAF6F1;
+  background-color: #FAF6F1;
 }
 
 .overlay {
-    background-color: #6B5875;
+  background-color: #6B5875;
 }
 
 *.unselectable {
@@ -143,76 +142,94 @@ form {
     -ms-user-select: none;
     user-select: none;
  }
- 
-.navigation-container {
-    padding-top: 23px;
-    padding-bottom: 23px;
-    background-color: white;
+
+.topnav {
+	background-color: white;
+	overflow: hidden;
+}
+  
+.topnav a {
+  display: none;
 }
 
-.navigation-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: white;
-}
-
-.navigation-li {
+.topnav a.icon {
     float: right;
-}
-
-.navigation-li a {
     display: block;
-    color: #6B686D;
-    text-align: center;
-    padding: 14px 15px;
-    text-decoration: none;
-    text-transform: uppercase;
 }
 
-.navigation-li a:hover {
-    text-decoration: underline;
+.topnav .closebtn {
+  display: none;
+}
+
+.topnav.responsive {
+  height: 100%; 
+  width: 250px;
+  position: fixed; 
+  z-index: 1; 
+  top: 0; 
+  left: 0;
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 60px; 
+  transition: 0.5s; 
+}
+
+.topnav.responsive a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.topnav.responsive a.icon {
+  display: none;
+}
+
+.topnav.responsive .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
 .footer:before {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .footer {
-    background-color: #EAE6E1;
-    line-height: 3;
+  background-color: #EAE6E1;
+  line-height: 3;
 }
 
 .footer a {
-    color: #6B686D;
-    text-decoration: none;
-    text-transform: uppercase;
+  color: #6B686D;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 .footer a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .TaskRowCompletionStatus-checkbox--withoutEmptyCheckCircleExperiment {
-    background: #fff;
-    border: 1px solid #6B686D;
-    border-radius: 50%;
-    color: #6B686D;
-    fill: #6B686D;
-    height: 20px;
-    width: 20px;
-    padding: 5px;
+  background: #fff;
+  border: 1px solid #6B686D;
+  border-radius: 50%;
+  color: #6B686D;
+  fill: #6B686D;
+  height: 20px;
+  width: 20px;
+  padding: 5px;
 	outline: 2px solid #333;
 }
 
-/*Sizing for phones*/
-@media only screen and (max-width: 600px) {
-  [class*="col-"] {
-    width: 100%;
-  }
+[class*="col-"] {
+  width: 100%;
 }
 
 /*sizing for tablets in landscape*/
@@ -245,4 +262,124 @@ form {
   .col-10 {width: 83.33%;}
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
+  header {
+    font-size: 45px;
+  }
+
+  .logopic {
+    width: 50px;
+    height: 50px;
+  }
+
+  button {
+    padding: 12px 45px;
+    font-size: 20px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 50px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  h3 {
+    font-size: 35px;
+  }
+
+  h4 {
+    font-size: 30px;
+  }
+
+  h5 {
+    font-size: 20px;
+  }
+
+  h6 {
+    font-size: 14px;
+  }
+
+  p {
+    font-family: "Montserrat";
+    font-size: 20px;
+    font-weight: 100;
+    color: #6B686D;
+  }
+
+  .navigation-container {
+    padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: white;
+  }
+
+  .topnav {
+    background-color: white;
+    overflow: hidden;
+  }
+    
+    /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    display: block;
+    color: #6B686D;
+    text-align: center;
+    padding: 5px 15px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+    /* Change the color of links on hover */
+  .topnav a:hover {
+    color: black;
+    text-decoration: underline;
+  }
+    
+    /* Add an active class to highlight the current page */
+  .topnav a.active {
+    background-color: #6B5875;
+    color: white;
+  }
+
+  .topnav a.icon {
+    display: none;
+  }
+    
 }
+
+/*This was the original code for navigation links
+	.navigation-container {
+    padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: white;
+}
+
+  .navigation-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+  .navigation-li {
+    float: right;
+}
+
+	.navigation-li a {
+    display: block;
+    color: #6B686D;
+    text-align: center;
+    padding: 14px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+	.navigation-li a:hover {
+    text-decoration: underline;
+}
+*/

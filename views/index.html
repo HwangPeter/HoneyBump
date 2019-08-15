@@ -18,28 +18,40 @@
 <body style="min-height: 100%; top: 0px;">
   <div class="navigation-container">
     <div style="float:left;">
-      <header><img style="vertical-align:middle;width:50px;height:50pxfloat:left;" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
+      <header><img class="logopic" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
       myHoneyBump</header>
     </div>
-    <div>
-      <div style="float:right;">
+
+    <div class="topnav" id="myTopnav">
+      <a href="javascript:void(0)" class="closebtn" id="x" onclick="closeNav()">&times;</a>
+      <a href="#thebuzz">The Buzz</a>
+      <a href="#musthaves">Must-Haves</a>
+      <a href="#website">My (free!) baby website</a>
+      <a href="checklist/checklist.html">pregnancy checklist</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="javascript:void(0)" class="icon" id="hamburger" onclick="openNav()">&#9776</a>
+    </div>
+
+      <!-- <div style="float:right;">
         <button id="btnLoginSignUp">Sign Up/Login</button>
         <button id="btnLogout">Logout</button>
       </div>
-      <ul class="navigation-ul">
+      <div>
+        <ul class="navigation-ul">
         <li class="navigation-li"><a href="">The Buzz</a></li>
         <li class="navigation-li"><a href="">Must-Haves</a></li>
         <li class="navigation-li"><a href="">My (free!) baby website</a></li>
         <li class="navigation-li"><a href="checklist/checklist.html">pregnancy checklist</a></li>
         <li class="navigation-li"><a href="index.html">home</a></li>
-      </ul>
-    </div>
+        </ul>
+      </div> -->
   </div>
-  
+
+  <div id="main">
   <div class="textinpiccontainer">
     <img class="landingpic" alt="Hand on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FHand_on_Stomach.png?alt=media&token=ebfea8df-7dd5-4849-865b-4747761994b2">
     <div class="centered">
-      <p style="font-size: 80px;line-height:1;font-weight:700;letter-spacing:4px;">Pregnancy Planning made easy</p>
+      <p id="landingtext">Pregnancy Planning made easy</p>
       <button>create</button>
     </div>
   </div>
@@ -52,40 +64,30 @@
     </div>
   </div>
   
-  <!--align the text in the container vertically somehow-->
-  <div class="gallerycontainer" style="margin-top:100px;">
-    <div class="gallerycontent">
-      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
+  <div class="grid-container">
+    <div class="item1">
+      <img class="grid-picture" alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a">
     </div>
-    <div class="gallerycontent">
-      <h4>Pregnancy Checklist</h4>
-      <p class="gallerytext">Explore things like what tests to expect, when to announce pregnancy, and when to start sleeping on your left side.</p>
-      <button>Learn</button>
+    <div class="item2">
+      <h2>Pregnancy Checklist</h2>
+      <p>Explore things like what tests to expect, when to announce pregnancy, and when to start sleeping on your left side.</p>
     </div>
-  </div>
-
-  <div class="gallerycontainer">
-    <div class="gallerycontent">
-      <h4>Baby Shower Website</h4>
-      <p class="gallerytext">Customize a FREE website for your baby shower! Send email invitations, collect RSVPs, and share your registry all in one place.</p>
-      <button>Learn</button>
+    <div class="item3">
+      <h2>Baby Shower Website</h2>
+      <p>Customize a FREE website for your baby shower! Send email invitations, collect RSVPs, and share your registry all in one place.</p>
     </div>
-    <div class="gallerycontent">
-      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
+    <div class="item4">
+      <img class="grid-picture" alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a">
     </div>
-  </div>
-
-  <div class="gallerycontainer">
-    <div class="gallerycontent">
-      <img alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a" style="width:300px;height:300px;">
+    <div class="item5">
+      <img class="grid-picture" alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a">
     </div>
-    <div class="gallerycontent">
-      <h4>The "Buzz"</h4>
-      <p class="gallerytext">Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
-      <button>Learn</button>
+    <div class="item6">
+      <h2>The "Buzz"</h2>
+      <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
     </div>
   </div>
-
+  
   <div class="footer">
     <a href="">About myHoneyBump</a><br>
     <a href="">Contact us</a><br>
@@ -102,9 +104,29 @@
 <br>
 <br>
 <br>
+  </div>
 
+<script>
+function openNav() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+  document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+}
 
-  <script type="module" src="index.js"></script>
+function closeNav() {
+  var y = document.getElementById("myTopnav");
+  if (y.className === "topnav") {
+    y.className += " responsive";
+  } else {
+    y.className = "topnav";
+  }
+  document.body.style.backgroundColor = "white";
+}
+</script>
 
 </body>
 
