@@ -1162,10 +1162,12 @@ span.task-bundle-title {
     background-color: #6B5875;
 }
 
-.added {
-    background-color: darkred !important;
-    color: white !important;
-    width: 140px;
+.task-bundle-button-container.added {
+    background-color: #ab97b5;
+}
+
+.task-bundle-button-container.added:hover {
+    background-color: #ab97b5;
 }
 
 p.chevron {

@@ -197,26 +197,29 @@
         let orderedTrimesterList = ["Tasks I Added", "Before Pregnancy", "1st Trimester", "2nd Trimester", "3rd Trimester", "After Pregnancy"];
 
         if ("taskBundles" in settings) {
-            let addedNewBundle = false;
             for (let taskBundle in settings.taskBundles) {
-                if (settings.taskBundles[taskBundle].isActive && !settings.taskBundles[taskBundle].isStored) {
-                    // Task bundle is meant to be displayed but not loaded into user's checklist.
-                    // TODO: Add code to add relevant trimester to activeChecklists.
-                    // TODO: Add checkmark to task bundle in sidebar.
-                    if (isEmpty(allTaskBundles)) {
-                        allTaskBundles = await loadTaskBundles();
-                    }
-                    settings.taskBundles[taskBundle].isStored = true;
-                    checklistObj[taskBundle] = allTaskBundles[taskBundle];
-                    addedNewBundle = true;
-                }
-                else if (settings.taskBundles[taskBundle].isActive && settings.taskBundles[taskBundle].isStored) {
+                if (taskBundle in checklistObj) {
                     activeTaskBundles[taskBundle] = checklistObj[taskBundle];
+
+                    if (document.getElementsByClassName("empty").length > 0) {
+                        document.getElementsByClassName("empty")[0].parentNode.removeChild(document.getElementsByClassName("empty")[0]);
+                    }
+                    if (!document.getElementById(taskBundle + ' filter')) {
+                        let taskBundleFilter = '<input type="checkbox" id="' +
+                            taskBundle + ' filter' +
+                            '">' +
+                            '<label for="' +
+                            taskBundle + ' filter' +
+                            '" class="unselectable">' +
+                            taskBundle +
+                            '</label>';
+                        document.getElementById("task-bundles-filter").insertAdjacentHTML("beforeend", taskBundleFilter);
+                        if (settings.taskBundles[taskBundle].filterOn) {
+                            document.getElementById(taskBundle).checked = true;
+                        }
+                    }
                 }
             };
-            if (addedNewBundle) {
-                await storeChecklistIntoDB(checklistObj);
-            }
         }
 
         for (i = 0; i < settings.activeChecklists.length; i++) {
@@ -389,69 +392,70 @@
                                 }
                                 nextSectionIsAfterDaily = true;
                             }
-
                             // Code to add in task bundles.
                             Object.keys(activeTaskBundles).forEach(taskBundle => {
-                                Object.keys(activeTaskBundles[taskBundle]).forEach(section => {
-                                    if (checklistObj[trimester][section].title === activeTaskBundles[taskBundle][section].title) {
-                                        Object.keys(activeTaskBundles[taskBundle][section]).forEach(task => {
-                                            if (typeof activeTaskBundles[taskBundle][section][task] === "object") {
-                                                //Iterating through tasks
-                                                let inDailySection = (activeTaskBundles[taskBundle][section].title === "Daily");
-                                                if (taskShouldBeDisplayed(activeTaskBundles[taskBundle][section][task], currentlyDisplayedTaskList, settings, trimester, inDailySection, checklistObj[trimester][section].title)) {
-                                                    let taskHTML = '<div class="list-item-container hoverable">\n' +
-                                                        '<div class="list-item">\n' +
-                                                        '<div class="button-div">\n'
+                                Object.keys(activeTaskBundles[taskBundle]).forEach(bundleSection => {
+                                    if (typeof activeTaskBundles[taskBundle][bundleSection] === "object") {
+                                        if (checklistObj[trimester][section].title === activeTaskBundles[taskBundle][bundleSection].title) {
+                                            Object.keys(activeTaskBundles[taskBundle][bundleSection]).forEach(task => {
+                                                if (typeof activeTaskBundles[taskBundle][bundleSection][task] === "object") {
+                                                    //Iterating through tasks
+                                                    let inDailySection = (activeTaskBundles[taskBundle][bundleSection].title === "Daily");
+                                                    if (taskShouldBeDisplayed(activeTaskBundles[taskBundle][bundleSection][task], currentlyDisplayedTaskList, settings, trimester, inDailySection, checklistObj[trimester][section].title, taskBundle)) {
+                                                        let taskHTML = '<div class="list-item-container hoverable">\n' +
+                                                            '<div class="list-item">\n' +
+                                                            '<div class="button-div">\n'
 
-                                                    // Marks checklist button as completed if the task is completed.
-                                                    if (activeTaskBundles[taskBundle][section][task].completed === "true") { taskHTML += '<button class="checkmark nohover completed"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
-                                                    else if (activeTaskBundles[taskBundle][section][task].completed === "false") { taskHTML += '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
+                                                        // Marks checklist button as completed if the task is completed.
+                                                        if (activeTaskBundles[taskBundle][bundleSection][task].completed === "true") { taskHTML += '<button class="checkmark nohover completed"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
+                                                        else if (activeTaskBundles[taskBundle][bundleSection][task].completed === "false") { taskHTML += '<button class="checkmark nohover"><svg focusable="false" viewBox="-3 -5 40 40">\n' }
 
-                                                    taskHTML += '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
-                                                        '</path >\n' +
-                                                        '</svg >\n' +
-                                                        '</button >\n' +
-                                                        '</div >\n' +
-                                                        '<div class="list-item-textarea-div">\n';
+                                                        taskHTML += '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">\n' +
+                                                            '</path >\n' +
+                                                            '</svg >\n' +
+                                                            '</button >\n' +
+                                                            '</div >\n' +
+                                                            '<div class="list-item-textarea-div">\n';
 
-                                                    if (activeTaskBundles[taskBundle][section][task].completed === "true") {
-                                                        taskHTML += '<textarea class="list-item-textarea complete"';
+                                                        if (activeTaskBundles[taskBundle][bundleSection][task].completed === "true") {
+                                                            taskHTML += '<textarea class="list-item-textarea complete"';
+                                                        }
+                                                        else {
+                                                            taskHTML += '<textarea class="list-item-textarea"';
+                                                        }
+
+                                                        taskHTML +=
+                                                            ' tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off">' + activeTaskBundles[taskBundle][bundleSection][task].name + '</textarea>\n'
+
+                                                        taskHTML += '</div >\n';
+
+                                                        if (getWidthOfText(activeTaskBundles[taskBundle][bundleSection][task].name, "MontSerrat", "13px") >= (document.getElementById("checklist").offsetWidth - 78)) {
+                                                            taskHTML += '<div id="textTooLong">...</div>';
+                                                        }
+                                                        taskHTML +=
+                                                            '</div >\n' +
+                                                            '</div >\n'
+
+                                                        if (!userAddedTasksComplete && checklistObj[trimester][section].title !== "Tasks I Added (All)" && trimester === "Tasks I Added") {
+                                                            if (checklistObj[trimester][section].title.indexOf("Before") !== -1) { addedPreTaskHTML += taskHTML; }
+                                                            else if (checklistObj[trimester][section].title.indexOf("1st") !== -1) { addedFirstTaskHTML += taskHTML; }
+                                                            else if (checklistObj[trimester][section].title.indexOf("2nd") !== -1) { addedSecondTaskHTML += taskHTML; }
+                                                            else if (checklistObj[trimester][section].title.indexOf("3rd") !== -1) { addedThirdTaskHTML += taskHTML; }
+                                                            else if (checklistObj[trimester][section].title.indexOf("After") !== -1) { addedPostTaskHTML += taskHTML; }
+                                                        }
+
+                                                        else if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
+                                                            // If we're in the daily section of a trimester and there is already a daily section displayed
+                                                            document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
+                                                        }
+                                                        else {
+                                                            checklist.insertAdjacentHTML('beforeend', taskHTML);
+                                                        }
+                                                        currentlyDisplayedTaskList.push(activeTaskBundles[taskBundle][bundleSection][task].name);
                                                     }
-                                                    else {
-                                                        taskHTML += '<textarea class="list-item-textarea"';
-                                                    }
-
-                                                    taskHTML +=
-                                                        ' tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off">' + activeTaskBundles[taskBundle][section][task].name + '</textarea>\n'
-
-                                                    taskHTML += '</div >\n';
-
-                                                    if (getWidthOfText(activeTaskBundles[taskBundle][section][task].name, "MontSerrat", "13px") >= (document.getElementById("checklist").offsetWidth - 78)) {
-                                                        taskHTML += '<div id="textTooLong">...</div>';
-                                                    }
-                                                    taskHTML +=
-                                                        '</div >\n' +
-                                                        '</div >\n'
-
-                                                    if (!userAddedTasksComplete && checklistObj[trimester][section].title !== "Tasks I Added (All)" && trimester === "Tasks I Added") {
-                                                        if (checklistObj[trimester][section].title.indexOf("Before") !== -1) { addedPreTaskHTML += taskHTML; }
-                                                        else if (checklistObj[trimester][section].title.indexOf("1st") !== -1) { addedFirstTaskHTML += taskHTML; }
-                                                        else if (checklistObj[trimester][section].title.indexOf("2nd") !== -1) { addedSecondTaskHTML += taskHTML; }
-                                                        else if (checklistObj[trimester][section].title.indexOf("3rd") !== -1) { addedThirdTaskHTML += taskHTML; }
-                                                        else if (checklistObj[trimester][section].title.indexOf("After") !== -1) { addedPostTaskHTML += taskHTML; }
-                                                    }
-
-                                                    else if (inDailySection && currentlyDisplayedTaskList.indexOf("Daily") >= 0) {
-                                                        // If we're in the daily section of a trimester and there is already a daily section displayed
-                                                        document.getElementById("sectionAfterDaily").insertAdjacentHTML('beforebegin', taskHTML);
-                                                    }
-                                                    else {
-                                                        checklist.insertAdjacentHTML('beforeend', taskHTML);
-                                                    }
-                                                    currentlyDisplayedTaskList.push(activeTaskBundles[taskBundle][section][task].name);
                                                 }
-                                            }
-                                        });
+                                            });
+                                        }
                                     }
                                 });
                             });
@@ -512,6 +516,13 @@
         for (var i = 0; i < buttons.length; i++) {
             var button = buttons[i];
             button.setAttribute("tabindex", "-1");
+        }
+    }
+
+    function clearChecklist() {
+        var checklist = document.getElementById("checklist");
+        while (checklist.firstChild) {
+            checklist.removeChild(checklist.firstChild);
         }
     }
 
@@ -592,9 +603,9 @@
     /* Takes the task obj, current displayed task list, settings obj, and boolean inDailySection
         Returns true or false depending on whether the task should be displayed.
     */
-    function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, trimester, inDailySection, section) {
+    function taskShouldBeDisplayed(task, currentlyDisplayedTaskList, settings, trimester, inDailySection, section, taskBundle) {
         let result = true;
-        if (!passesAllFilters(settings, trimester, section)) {
+        if (!passesAllFilters(settings, trimester, section, taskBundle)) {
             result = false;
         }
         else if ("hidden" in task && settings.showHidden !== "true") {
@@ -650,9 +661,11 @@
         return result;
     }
 
-    function passesAllFilters(settings, trimester, sectionTitle) {
+    function passesAllFilters(settings, trimester, sectionTitle, taskBundleName) {
         let inActiveTrimester = false;
         let tasksIAddedFilter = true;
+        let taskBundleFilter = true;
+
         if (settings.activeChecklists.indexOf(trimester) >= 0 && trimester !== "Tasks I Added") {
             inActiveTrimester = true;
         }
@@ -665,15 +678,15 @@
             if (settings.activeChecklists.indexOf("Tasks I Added") !== -1 && trimester !== "Tasks I Added") {
                 tasksIAddedFilter = false;
             }
-            // if (trimester === "Tasks I Added" && sectionTitle.indexOf(settings.activeChecklists[i]) === -1 && sectionTitle !== "Tasks I Added (All)") {
-            //     return false;
-            // }
-            // else if (settings.activeChecklists[i] !== trimester && sectionTitle !== "Tasks I Added (All)" && trimester !== "Tasks I Added") {
-            //     return false;
-            // }
-            // TODO: Add ability to handle task bundles.
         }
-        return (inActiveTrimester && tasksIAddedFilter);
+        if (settings.taskBundles) {
+            Object.keys(settings.taskBundles).forEach(taskBundle => {
+                if (settings.taskBundles[taskBundle].filterOn && taskBundleName !== taskBundle) {
+                    taskBundleFilter = false;
+                }
+            });
+        }
+        return (inActiveTrimester && tasksIAddedFilter && taskBundleFilter);
     }
 
     function addAllEventListeners(checklistObj, settings) {
@@ -875,27 +888,35 @@
 
                 else if (element.nodeName === "LABEL") {
                     if (!document.getElementById(element.getAttribute("for")).checked) {
-                        document.getElementById(element.getAttribute("for")).checked = true;
-                        settings.activeChecklists.push(element.getAttribute("for"));
-                        await storeChecklistIntoDB(checklistObj)
-                            .catch(e => {
-                                console.log("Failed to store new task." + e.message);
-                            });
-                    }
-                    else {
-                        let trimester = element.getAttribute("for");
-                        if (settings.activeChecklists.indexOf(trimester) > -1) {
-                            settings.activeChecklists.splice(settings.activeChecklists.indexOf(trimester), 1);
+                        if (getCorrospondingTrimesterNum(element.getAttribute("for")) === null) {
+                            settings.taskBundles[element.getAttribute("for")].filterOn = true;
+                        }
+                        else {
+                            if (settings.activeChecklists.indexOf(element.getAttribute("for")) === -1) {
+                                settings.activeChecklists.push(element.getAttribute("for"));
+                            }
                         }
                         await storeChecklistIntoDB(checklistObj)
                             .catch(e => {
-                                console.log("Failed to store new task." + e.message);
+                                console.log("Failed to store new filter." + e.message);
                             });
                     }
-                    var myNode = document.getElementById("checklist");
-                    while (myNode.firstChild) {
-                        myNode.removeChild(myNode.firstChild);
+                    else {
+                        if (getCorrospondingTrimesterNum(element.getAttribute("for")) === null) {
+                            settings.taskBundles[element.getAttribute("for")].filterOn = false;
+                        }
+                        else {
+                            let trimester = element.getAttribute("for");
+                            if (settings.activeChecklists.indexOf(trimester) > -1) {
+                                settings.activeChecklists.splice(settings.activeChecklists.indexOf(trimester), 1);
+                            }
+                        }
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to store new filter." + e.message);
+                            });
                     }
+                    clearChecklist();
                     await generateChecklist(checklistObj, settings);
                     addAddTaskAreaEventListener();
                     return;
@@ -903,11 +924,49 @@
 
                 else if (element.classList && element.classList.contains("task-bundle-button-container")) {
                     // User clicked to add/remove task package.
-                    if (element.classList.contains("added")) {
-                        console.log("Item is added");
-                    }
-                    else {
-                        //TODO: Add this shit to user's checklist.
+
+                    // TODO: Add task bundle to "My Bundles" tab.
+                    if (!element.classList.contains("added")) {
+                        element.innerText = "ADDED";
+                        element.classList.add("added");
+                        let tabName = document.getElementsByClassName("selected")[0].id;
+                        checklistObj[element.id] = allTaskBundles[tabName][element.id];
+                        if ("taskBundles" in checklistObj.settings) {
+                            let taskBundle = {
+                                filterOn: false
+                            }
+                            checklistObj.settings.taskBundles[element.id] = taskBundle;
+                            // Adding all trimesters for this task bundle into activeChecklists
+                            Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
+                                if (typeof allTaskBundles[tabName][element.id][section] === "object") {
+                                    if (checklistObj.settings.activeChecklists.indexOf(allTaskBundles[tabName][element.id][section].trimester) === -1) {
+                                        checklistObj.settings.activeChecklists.push(allTaskBundles[tabName][element.id][section].trimester);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            let taskBundle = {
+                                filterOn: false
+                            }
+                            checklistObj.settings["taskBundles"] = {};
+                            checklistObj.settings.taskBundles[element.id] = taskBundle;
+                        }
+                        // Adding all trimesters for this task bundle into activeChecklists
+                        Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
+                            if (typeof allTaskBundles[tabName][element.id][section] === "object") {
+                                if (checklistObj.settings.activeChecklists.indexOf(allTaskBundles[tabName][element.id][section].trimester) === -1) {
+                                    checklistObj.settings.activeChecklists.push(allTaskBundles[tabName][element.id][section].trimester);
+                                }
+                            }
+                        });
+                        clearChecklist();
+                        await generateChecklist(checklistObj, checklistObj.settings);
+                        addAddTaskAreaEventListener();
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to store new task bundle." + e.message);
+                            });
                     }
                     return;
                 }
@@ -949,7 +1008,7 @@
                 allTaskBundles = await loadTaskBundles();
                 Object.keys(allTaskBundles).forEach(tab => {
                     Object.keys(allTaskBundles[tab]).forEach(taskBundle => {
-                        // TODO: Add a check to see if this task has already been added.
+                        // TODO: Add a check to see if this task has already been added. If so, put into My Bundles header.
                         let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
                             '<p class="chevron"><i class="down"></i></p>\n' +
                             '<div class="task-bundle-title">\n' +
@@ -979,8 +1038,8 @@
                             taskBundle +
                             '">ADD TO CHECKLIST</div>\n' +
                             '</div>\n';
-                        if (tab === "other") {document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);}
-                        else if (tab === "medical") {document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);}
+                        if (tab === "other") { document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML); }
+                        else if (tab === "medical") { document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML); }
                     });
                 });
             }
@@ -1160,6 +1219,7 @@
             else if (trimesterName === "Tasks I Added (3rd Trimester)") { return 3; }
             else if (trimesterName === "Tasks I Added (After Pregnancy)") { return 4; }
             else if (trimesterName === "Tasks I Added (All)") { return 5; }
+            else { return null; }
         }
 
         function handleListItemContainerClick(element) {
@@ -1322,6 +1382,7 @@
         });
 
         async function handleDelete() {
+            // TODO: Fix such that you don't delete entire trimesters or sections. (Interferes with tasks I added and task bundles)
             try {
                 // Try block is to exit the function early when a trimester is deleted.
                 for (trimester in checklistObj) {
@@ -1477,7 +1538,6 @@
 
         // User clicked "save" button inside add task menu. 
         document.getElementById("save").addEventListener('click', async () => {
-            // TODO: Set filters such that task added is visible.
             document.getElementById("save").disabled = true;
             await saveTask();
             document.getElementById("save").disabled = false;
@@ -1650,10 +1710,7 @@
                 if (checklistObj.settings.activeChecklists.indexOf(5) >= 0) {
                     settings.activeChecklists.splice(settings.activeChecklists.indexOf(5), 1);
                 }
-                let myNode = document.getElementById("checklist");
-                while (myNode.firstChild) {
-                    myNode.removeChild(myNode.firstChild);
-                }
+                clearChecklist();
                 await generateChecklist(checklistObj, checklistObj.settings);
                 addAddTaskAreaEventListener();
                 await storeChecklistIntoDB(checklistObj)
@@ -1692,10 +1749,7 @@
                 if (checklistObj.settings.activeChecklists.indexOf(5) >= 0) {
                     settings.activeChecklists.splice(settings.activeChecklists.indexOf(5), 1);
                 }
-                let myNode = document.getElementById("checklist");
-                while (myNode.firstChild) {
-                    myNode.removeChild(myNode.firstChild);
-                }
+                clearChecklist();
                 await generateChecklist(checklistObj, checklistObj.settings);
                 addAddTaskAreaEventListener();
                 closeAddTaskMenu();
@@ -1892,10 +1946,7 @@
             if (checklistObj.settings.showComplete === "false") {
                 checklistObj.settings.showComplete = "true";
                 document.getElementById('toggleCompleteSpan').innerText = "Hide completed tasks";
-                let myNode = document.getElementById("checklist");
-                while (myNode.firstChild) {
-                    myNode.removeChild(myNode.firstChild);
-                }
+                clearChecklist();
                 await generateChecklist(checklistObj, checklistObj.settings);
                 addAddTaskAreaEventListener();
                 document.getElementById("options-dropdown").classList.remove("show");
@@ -1908,10 +1959,7 @@
             }
             else if (checklistObj.settings.showComplete === "true") {
                 checklistObj.settings.showComplete = "false";
-                let myNode = document.getElementById("checklist");
-                while (myNode.firstChild) {
-                    myNode.removeChild(myNode.firstChild);
-                }
+                clearChecklist();
                 await generateChecklist(checklistObj, checklistObj.settings);
                 addAddTaskAreaEventListener();
                 document.getElementById("options-dropdown").classList.toggle("show");
