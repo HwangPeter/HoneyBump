@@ -30,9 +30,17 @@
     letter-spacing: 1;
 }
 
+#goaltext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    text-align: justify;
+}
+
 .textcontainer {
     position: relative;
-    text-align: center;
 }
 
 .grid-container {
@@ -69,15 +77,23 @@
 
 @media only screen and (min-width: 992px) {
     #landingtext {
-        font-size: 30px;
+        font-size: 55px;
+    }
+
+    #goaltext {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
     }
 
     .grid-container {
         display: grid;
         grid-template-areas:
-            '. ChecklistPicture ChecklistText .'
-            '. BabyShowerWebsiteText BabyShowerWebsitePicture .'
-            '. ArticlesPicture ArticlesText .';
+            '. . ChecklistPicture ChecklistText . .'
+            '. . BabyShowerWebsiteText BabyShowerWebsitePicture . .'
+            '. . ArticlesPicture ArticlesText . .';
         height: 100vh;
         width: 100vw;s
         margin-top: 150px;

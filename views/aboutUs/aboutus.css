@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+}
+
+.landingpic {
+    width: 100%;
+    height: auto;
+    z-index: -1;
+}
+
+.textinpiccontainer{
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    top: 10px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+#landingtext {
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1;
+    color: #6B5875;
+}
