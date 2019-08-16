@@ -165,39 +165,32 @@
                         <ul>
                             <li id="medical" class="selected"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
                                 document.getElementById('medical').classList.add('selected');
-                                document.getElementById('underline').style.marginLeft = '0';">Medical</span></li><!--
+                                document.getElementById('underline').style.marginLeft = '0';
+                                document.getElementById('inner-task-bundles-container').classList.remove('other');
+                                document.getElementById('inner-task-bundles-container').classList.remove('my-bundles');
+                                document.getElementById('inner-task-bundles-container').classList.add('medical');">Medical</span></li><!--
                                 --><li id="other"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
                             document.getElementById('other').classList.add('selected');
-                            document.getElementById('underline').style.marginLeft = '50%';">Other</span></li>
+                            document.getElementById('underline').style.marginLeft = '33.333%';
+                            document.getElementById('inner-task-bundles-container').classList.remove('medical');
+                            document.getElementById('inner-task-bundles-container').classList.remove('my-bundles');
+                            document.getElementById('inner-task-bundles-container').classList.add('other');">Other</span></li><!--
+                                --><li id="myBundles"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                            document.getElementById('myBundles').classList.add('selected');
+                            document.getElementById('underline').style.marginLeft = '66.666%';
+                            document.getElementById('inner-task-bundles-container').classList.remove('other');
+                            document.getElementById('inner-task-bundles-container').classList.remove('medical');
+                            document.getElementById('inner-task-bundles-container').classList.add('my-bundles');">My Bundles</span></li>
                             <hr id="underline" />
                         </ul>
                     </div>
-                    <div class="task-bundles">
-                        <div class="expandable-task-bundle">
-                            <p class="chevron"><i class="down"></i></p>
-                            <div class="task-bundle-title">
-                                Baby Shower
-                            </div>
-                            <div class="task-bundle-description">
-                                When a baby is on the way, you aren’t the only one that gets excited. Celebrate with
-                                your loved ones and let us help you create an unforgettable day!
-                            </div>
-                            <div class="task-bundle-tasks">
-                                <span>Package includes:</span>
-                                <br>
-                                Pick a date (typically between end of second trimester and middle of third trimester)
-                                <br>
-                                <br>
-                                Select a venue
-                                <br>
-                                <br>
-                                Finalize gift registry
-                                <br>
-                                <br>
-                            </div>
-                            <div class="task-bundle-button-container added unselectable" id="Baby Shower">ADD TO CHECKLIST</div>
-                        </div>
-                    </div>
+                    <!-- Has to be on one line to avoid inputting spacing. -->
+                    <div class="task-bundles medical" id="inner-task-bundles-container"><div class="task-bundle" id="medical-task-bundles">
+                        <br>
+                        No medical task bundles available
+                    </div><div class="task-bundle" id="other-task-bundles"></div><div class="task-bundle" id="my-bundles-task-bundles">
+                        <br>No task bundles added
+                    </div></div>
                 </div>
             </div>
         </main>

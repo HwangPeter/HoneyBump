@@ -503,7 +503,7 @@ span#add-task-bundle-span:hover {
     position: absolute;
     color: black;
     cursor: pointer;
-    right: 3px;
+    right: 10px;
 }
 
 .button-div {
@@ -914,6 +914,10 @@ button.icon-button {
                           supported by Chrome and Opera */
 }
 
+button.icon-button:hover {
+    border: none;
+}
+
 button#references {
     height: 26px;
     width: 26px;
@@ -1008,7 +1012,8 @@ li.selected span {
 
 li span {
     display: inline-block;
-    width: 50%;
+    width: 33.333333%;
+    width: calc(100% / 3);
     padding: .75rem 0;
     margin: 0;
     text-decoration: none;
@@ -1024,25 +1029,51 @@ li span:hover {
 
 hr {
     height: 3px;
-    width: 50%;
+    width: 33.333333%;
+    width: calc(100% / 3);
     margin: 0;
     background-color: #6B5875;
     border: none;
-    transition: 250ms ease-in-out;
+    transition: 400ms ease-in-out;
 }
 
 .task-bundles {
     margin-top: 5px;
-    display: block;
-    background: white;
+    background-color: #f6f8f9;
     position: relative;
-    -webkit-box-flex: 1;
-        -ms-flex: auto;
-            flex: auto;
     height: calc(100% - 96px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    overflow: hidden;
+    text-align: left;
+    width: 300%;
+    transition: all 400ms ease-in-out;
+}
+
+.task-bundle {
+    margin-top: 5px;
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    width: 33.33333%;
+    width: calc(100% / 3);
     overflow: auto;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    text-align: left;
+    margin: 0;
+    border: none;
+    text-align: center;
+}
+
+.task-bundles.medical {
+    left: 0;
+}
+
+.task-bundles.other {
+    left: -100%;
+}
+
+.task-bundles.my-bundles {
+    left: -200%;
 }
 
 .expandable-task-bundle {
@@ -1062,20 +1093,35 @@ hr {
     padding: 0 16px 0 16px;
 }
 
-.task-bundle-title {
-    height: 35px;
+div.task-bundle-title {
+    min-height: 35px;
     font-weight: 500;
     font-size: 15px;
     position: relative;
     font-weight: 500;
     line-height: 35px;
+    margin-bottom: 5px;
+}
+
+span.task-bundle-title {
+    top: 5px;
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    color: black;
+    min-height: 35px;
+    font-weight: 500;
+    font-size: 15px;
+    position: relative;
+    font-weight: 500;
+    line-height: 25px;
     margin: auto 0;
 }
 
 .task-bundle-description {
     font-size: 14px;
     font-weight: 400;
-    line-height: 16px;
+    line-height: 19px;
     color: rgba(0,0,0,0.8);
     margin-bottom: 10px;
     padding-bottom: 20px;
@@ -1085,7 +1131,7 @@ hr {
 .task-bundle-tasks {
     font-size: 14px;
     font-weight: 400;
-    line-height: 16px;
+    line-height: 19px;
     color: black;
 }
 
@@ -1098,6 +1144,7 @@ hr {
 
 .task-bundle-button-container {
     position: relative;
+    font-size: 14px;
     height: 19px;
     line-height: 19px;
     width: 160px;

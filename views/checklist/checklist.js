@@ -52,7 +52,7 @@
     async function getActiveChecklists() {
         let uid = firebase.auth().currentUser.uid;
         let db = firebase.firestore();
-        var activeChecklists = [];
+        var activeChecklists = ["Before Pregnancy", "1st Trimester", "2nd Trimester", "3rd Trimester", "After Pregnancy"];
         // try {
         //     let snapshot = await db.collection('users').doc(uid).get()
         //     if (!snapshot.exists) {
@@ -96,7 +96,6 @@
         //     console.log(error);
         //     return error.message;
         // }
-        activeChecklists.sort(function (a, b) { return a - b });
         return activeChecklists;
     }
 
@@ -259,7 +258,7 @@
                     if (trimester !== "Tasks I Added" && trimester !== "settings") {
                         let sectionHTML = '<div class="list-item-container hoverable">\n' +
                             '<div class="list-item" style="margin: auto; float: initial;">\n' +
-                            '<h1 class="section">' + trimester + '</h2>\n' +
+                            '<h1 class="section">' + trimester.toUpperCase() + '</h2>\n' +
                             '</div>\n' +
                             '</div>\n';
 
@@ -652,16 +651,29 @@
     }
 
     function passesAllFilters(settings, trimester, sectionTitle) {
+        let inActiveTrimester = false;
+        let tasksIAddedFilter = true;
+        if (settings.activeChecklists.indexOf(trimester) >= 0 && trimester !== "Tasks I Added") {
+            inActiveTrimester = true;
+        }
         for (var i = 0; i < settings.activeChecklists.length; i++) {
-            if (trimester === "Tasks I Added" && sectionTitle.indexOf(settings.activeChecklists[i]) === -1 && sectionTitle !== "Tasks I Added (All)") {
-                return false;
+            if (trimester === "Tasks I Added" && settings.activeChecklists[i] !== "Tasks I Added") {
+                if ((sectionTitle.indexOf("All") !== -1 || sectionTitle.indexOf(settings.activeChecklists[i]) !== -1)) {
+                    inActiveTrimester = true;
+                }
             }
-            else if (settings.activeChecklists[i] !== trimester && sectionTitle !== "Tasks I Added (All)" && trimester !== "Tasks I Added") {
-                return false;
+            if (settings.activeChecklists.indexOf("Tasks I Added") !== -1 && trimester !== "Tasks I Added") {
+                tasksIAddedFilter = false;
             }
+            // if (trimester === "Tasks I Added" && sectionTitle.indexOf(settings.activeChecklists[i]) === -1 && sectionTitle !== "Tasks I Added (All)") {
+            //     return false;
+            // }
+            // else if (settings.activeChecklists[i] !== trimester && sectionTitle !== "Tasks I Added (All)" && trimester !== "Tasks I Added") {
+            //     return false;
+            // }
             // TODO: Add ability to handle task bundles.
         }
-        return true;
+        return (inActiveTrimester && tasksIAddedFilter);
     }
 
     function addAllEventListeners(checklistObj, settings) {
@@ -935,6 +947,42 @@
 
             if (isEmpty(allTaskBundles)) {
                 allTaskBundles = await loadTaskBundles();
+                Object.keys(allTaskBundles).forEach(tab => {
+                    Object.keys(allTaskBundles[tab]).forEach(taskBundle => {
+                        // TODO: Add a check to see if this task has already been added.
+                        let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
+                            '<p class="chevron"><i class="down"></i></p>\n' +
+                            '<div class="task-bundle-title">\n' +
+                            '<span class="task-bundle-title">' +
+                            taskBundle +
+                            '</span>' +
+                            '</div>\n' +
+                            '<div class="task-bundle-description">\n' +
+                            allTaskBundles[tab][taskBundle].description +
+                            '</div>\n' +
+                            '<div class="task-bundle-tasks">\n' +
+                            '<span>Package includes:</span>\n' +
+                            '<br>\n';
+                        Object.keys(allTaskBundles[tab][taskBundle]).forEach(section => {
+                            if (typeof allTaskBundles[tab][taskBundle][section] === "object") {
+                                Object.keys(allTaskBundles[tab][taskBundle][section]).forEach(task => {
+                                    if (typeof allTaskBundles[tab][taskBundle][section][task] === "object") {
+                                        taskBundleHTML += allTaskBundles[tab][taskBundle][section][task].name +
+                                            '<br>\n' +
+                                            '<br>\n';
+                                    }
+                                });
+                            }
+                        });
+                        taskBundleHTML += '</div>\n' +
+                            '<div class="task-bundle-button-container unselectable" id="' +
+                            taskBundle +
+                            '">ADD TO CHECKLIST</div>\n' +
+                            '</div>\n';
+                        if (tab === "other") {document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);}
+                        else if (tab === "medical") {document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);}
+                    });
+                });
             }
         }
 
@@ -1429,6 +1477,7 @@
 
         // User clicked "save" button inside add task menu. 
         document.getElementById("save").addEventListener('click', async () => {
+            // TODO: Set filters such that task added is visible.
             document.getElementById("save").disabled = true;
             await saveTask();
             document.getElementById("save").disabled = false;
@@ -1450,6 +1499,10 @@
                     }
                     if (document.getElementById('add-notes-area').value) {
                         taskObj.notes = document.getElementById('add-notes-area').value;
+                    }
+                    let trimesterName = getCorrospondingTrimesterName(document.getElementById("trimester-select").selectedIndex);
+                    if (checklistObj.settings.activeChecklists.indexOf(trimesterName) === -1 && trimesterName !== "Tasks I Added") {
+                        checklistObj.settings.activeChecklists.push(trimesterName);
                     }
                     await addNewTaskToChecklist(taskObj, document.getElementById("trimester-select").selectedIndex);
                     document.getElementById("add-task-area").value = "";
@@ -1686,7 +1739,6 @@
                 '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
                 '</form>'
             document.getElementById("filter-container-id").insertAdjacentHTML("beforeend", userAddedTasksHTML);
-            document.getElementById("Tasks I Added").checked = true;
             return userAddedChecklist;
         }
 
