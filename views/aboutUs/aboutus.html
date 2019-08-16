@@ -1,0 +1,98 @@
+<!Doctype html>
+<html lang="en-US">
+
+<head>
+  <title>About Us - myHoneyBump</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="aboutUs.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+  <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
+  <link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203" sizes="16x16" />
+</head>
+
+<body style="min-height: 100%; top: 0px;">
+  <div class="navigation-container">
+    <div class="logo-container">
+      <header><img class="logopic" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
+      myHoneyBump</header>
+    </div>
+
+    <div class="topnav" id="myTopnav">
+      <a href="javascript:void(0)" class="closebtn" id="x" onclick="closeNav()">&times;</a>
+      <a href="#" class="button" id="btnLoginSignUp">Sign Up/Login</a>
+      <a href="#" class="button" id="btnLogout">Logout</a>
+      <a href="#thebuzz">The Buzz</a>
+      <a href="#musthaves">Must-Haves</a>
+      <a href="#website">My (free!) baby website</a>
+      <a href="/checklist">pregnancy checklist</a>
+      <a href="javascript:void(0)" class="icon" id="hamburger" onclick="openNav()">&#9776</a>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class="textinpiccontainer">
+      <img class="landingpic" alt="Background Photo" src="">
+      <div class="centered">
+        <p id="landingtext">About Us</p>
+      </div>
+    </div>
+
+    <div>
+      <h2>What is myHoneyBump?</h2><br>
+      <p>myHoneyBump is a website that offers free pregnancy planning tools to women going through pregnancy.
+      </p><br>
+      <h2>Why do we do it?</h2><br>
+      <p>Pregnancy is an exciting time in a couple's life but can also become overwhelming with how much there is to know and do.
+        Being an advocate for women's health, we see an opportunity to improve the pregnancy experience.
+        Our goal at myHoneyBump is to collect information from credible sources to make simple, unbiased, pregnancy planning tools for 
+        women of all backgrounds.
+      </p><br>
+      <h2>Values</h2><br>
+      <p>Transparent</p><br>
+      <h2>Mission Statement</h2><br>
+      <p>myHoneyBump improves the perinatum experience for women of all backgrounds by simplifying pregnancy health and utilizing technology
+        to prove personalized, credible Pregnancy Planning Tools.
+      </p><br>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="/aboutus">About myHoneyBump</a><br>
+    <a href="">Contact us</a><br>
+    <a href="">Advertise with us</a><br>
+    <a href="">Privacy Policy</a><br>
+    <a href="">Terms & Conditions</a><br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+
+
+
+  <script>
+    function openNav() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+    
+    function closeNav() {
+      var y = document.getElementById("myTopnav");
+      if (y.className === "topnav") {
+        y.className += " responsive";
+      } else {
+        y.className = "topnav";
+      }
+      document.body.style.backgroundColor = "white";
+    }
+    </script>

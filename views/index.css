@@ -13,6 +13,7 @@
     text-align: center;
     width: 100%;
     height: auto;
+    top: 10px;
 }
 
 .centered {
@@ -23,19 +24,40 @@
 }
 
 #landingtext {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 900;
     line-height: 1;
     letter-spacing: 1;
 }
 
+#goaltext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    text-align: justify;
+}
+
 .textcontainer {
     position: relative;
-    text-align: center;
 }
 
 .grid-container {
     display: grid;
+    grid-template-areas:
+        'ChecklistPicture'
+        'ChecklistText'
+        'BabyShowerWebsitePicture'
+        'BabyShowerWebsiteText'
+        'ArticlesPicture'
+        'ArticlesText';
+    margin-top: 100px;
+    margin-bottom: 25px;
+}
+
+.grid-container > div {
+    text-align: center;
 }
 
 .grid-picture {
@@ -43,25 +65,44 @@
     height: 150px;
 }
 
-.item1 {grid-area: 1 / 1 / span 1 / span 1}
-.item2 {grid-area: 2 / 1 / span 1 / span 1}
-.item3 {grid-area: 4 / 1 / span 1 / span 1}
-.item4 {grid-area: 3 / 1 / span 1 / span 1}
-.item5 {grid-area: 5 / 1 / span 1 / span 1}
-.item6 {grid-area: 6 / 1 / span 1 / span 1}
+.item1 {grid-area: ChecklistPicture;}
+.item2 {grid-area: ChecklistText;
+        padding-bottom: 75px;}
+.item3 {grid-area: BabyShowerWebsiteText;
+        padding-bottom: 75px;}
+.item4 {grid-area: BabyShowerWebsitePicture;}
+.item5 {grid-area: ArticlesPicture;}
+.item6 {grid-area: ArticlesText;
+        padding-bottom: 75px;}
 
 @media only screen and (min-width: 992px) {
+    #landingtext {
+        font-size: 55px;
+    }
+
+    #goaltext {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
     .grid-container {
         display: grid;
-        grid-template-columns: auto auto auto auto auto auto auto;
-        padding: 100px 0px 50px 0px;
-        align-content: space-evenly;
-        height: 1800px;
+        grid-template-areas:
+            '. . ChecklistPicture ChecklistText . .'
+            '. . BabyShowerWebsiteText BabyShowerWebsitePicture . .'
+            '. . ArticlesPicture ArticlesText . .';
+        height: 100vh;
+        width: 100vw;s
+        margin-top: 150px;
+        margin-bottom: 550px;
     }
 
     .grid-container > div {
-        width: 300px;
         text-align: center;
+        padding-bottom: 150px;
     }
 
     .grid-picture {
@@ -69,11 +110,14 @@
         height: 380px;
     }
 
-    .item1 {grid-area: 1 / 3 / span 1 / span 1}
-    .item2 {grid-area: 1 / 5 / span 1 / span 1}
-    .item3 {grid-area: 2 / 3 / span 1 / span 1}
-    .item4 {grid-area: 2 / 5 / span 1 / span 1}
-    .item5 {grid-area: 3 / 3 / span 1 / span 1}
-    .item6 {grid-area: 3 / 5 / span 1 / span 1}
+    .item1 {grid-area: ChecklistPicture;}
+    .item2 {grid-area: ChecklistText;
+            width: 30vw;}
+    .item3 {grid-area: BabyShowerWebsiteText;
+            width: 30vw;}
+    .item4 {grid-area: BabyShowerWebsitePicture;}
+    .item5 {grid-area: ArticlesPicture;}
+    .item6 {grid-area: ArticlesText;
+            width: 30vw;}
 
 }

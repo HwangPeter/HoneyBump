@@ -45,30 +45,3 @@ btnLogout.addEventListener('click', e => {
     let auth = firebase.auth();
     auth.signOut();
 });
-
-
-/*possible need addEventListener instead of onclick myFunction
-document.getElementById("revealTopNav").addEventListener("click", e => {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-      x.className += " responsive";
-    } else {
-      x.className = "topnav";
-    }
-}
-*/
-
-/*onclick version, was working on index.html replacing it with sidenav
-    function myFunction() {
-      var x = document.getElementById("myTopnav");
-      if (x.className === "topnav") {
-        x.className += " responsive";
-      } else {
-        x.className = "topnav";
-      }
-    }
-    */
-
-/*
-document.getElementById('myId').classlist.toggle("myStyle");
-*/
