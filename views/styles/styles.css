@@ -144,7 +144,7 @@ form {
  }
 
  .logo-container {
-    margin-left: 25%;
+    margin-left: 22%;
     display: inline-block;
  }
 
@@ -269,6 +269,10 @@ form {
   .col-t-10 {width: 83.33%;}
   .col-t-11 {width: 91.66%;}
   .col-t-12 {width: 100%;}
+
+  .logo-container {
+    margin-left: 35%;
+  }
 }
 
 /*sizing for desktop*/
