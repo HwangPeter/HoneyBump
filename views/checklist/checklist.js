@@ -204,18 +204,18 @@
                     if (document.getElementsByClassName("empty").length > 0) {
                         document.getElementsByClassName("empty")[0].parentNode.removeChild(document.getElementsByClassName("empty")[0]);
                     }
-                    if (!document.getElementById(taskBundle + ' filter')) {
+                    if (!document.getElementById(taskBundle + 'filter')) {
                         let taskBundleFilter = '<input type="checkbox" id="' +
-                            taskBundle + ' filter' +
+                            taskBundle + 'filter' +
                             '">' +
                             '<label for="' +
-                            taskBundle + ' filter' +
+                            taskBundle + 'filter' +
                             '" class="unselectable">' +
                             taskBundle +
                             '</label>';
                         document.getElementById("task-bundles-filter").insertAdjacentHTML("beforeend", taskBundleFilter);
                         if (settings.taskBundles[taskBundle].filterOn) {
-                            document.getElementById(taskBundle).checked = true;
+                            document.getElementById(taskBundle + 'filter').checked = true;
                         }
                     }
                 }
@@ -722,7 +722,6 @@
             const target = event.target || event.srcElement;
 
             var element = target;
-
             //Dismisses dropdown menu if user clicks anything
             if (event.target.parentNode.id !== "additional-options-button" && document.getElementById("options-dropdown").classList.contains("show")) {
                 document.getElementById("options-dropdown").classList.remove('show');
@@ -773,7 +772,7 @@
 
                     if (element.id === "select-trimester") {
                         if (screen.width >= 992) {
-                            document.getElementById("content").style.gridTemplateColumns = "250px 1fr";
+                            document.getElementById("content").style.gridTemplateColumns = "270px 1fr";
                         }
                         document.getElementById("faded-container").style.display = "block";
                         document.getElementById("filter-sidebar").style.display = "";
@@ -889,7 +888,7 @@
                 else if (element.nodeName === "LABEL") {
                     if (!document.getElementById(element.getAttribute("for")).checked) {
                         if (getCorrospondingTrimesterNum(element.getAttribute("for")) === null) {
-                            settings.taskBundles[element.getAttribute("for")].filterOn = true;
+                            settings.taskBundles[element.getAttribute("for").replace("filter", "")].filterOn = true;
                         }
                         else {
                             if (settings.activeChecklists.indexOf(element.getAttribute("for")) === -1) {
@@ -903,7 +902,7 @@
                     }
                     else {
                         if (getCorrospondingTrimesterNum(element.getAttribute("for")) === null) {
-                            settings.taskBundles[element.getAttribute("for")].filterOn = false;
+                            settings.taskBundles[element.getAttribute("for").replace("filter", "")].filterOn = false;
                         }
                         else {
                             let trimester = element.getAttribute("for");
@@ -925,7 +924,6 @@
                 else if (element.classList && element.classList.contains("task-bundle-button-container")) {
                     // User clicked to add/remove task package.
 
-                    // TODO: Add task bundle to "My Bundles" tab.
                     if (!element.classList.contains("added")) {
                         element.innerText = "ADDED";
                         element.classList.add("added");
@@ -960,6 +958,44 @@
                                 }
                             }
                         });
+                        let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
+                            '<p class="chevron"><i class="down"></i></p>\n' +
+                            '<div class="task-bundle-title">\n' +
+                            '<span class="task-bundle-title">' +
+                            element.id +
+                            '</span>' +
+                            '</div>\n' +
+                            '<div class="task-bundle-description">\n' +
+                            allTaskBundles[tabName][element.id].description +
+                            '</div>\n' +
+                            '<div class="task-bundle-tasks">\n' +
+                            '<span>Package includes:</span>\n' +
+                            '<br>\n';
+                        Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
+                            if (typeof allTaskBundles[tabName][element.id][section] === "object") {
+                                Object.keys(allTaskBundles[tabName][element.id][section]).forEach(task => {
+                                    if (typeof allTaskBundles[tabName][element.id][section][task] === "object") {
+                                        let taskName = allTaskBundles[tabName][element.id][section][task].name;
+                                        taskName = taskName.substring(taskName.indexOf(":") + 1);
+                                        taskBundleHTML += taskName +
+                                            '<br>\n' +
+                                            '<br>\n';
+                                    }
+                                });
+                            }
+                        });
+                        taskBundleHTML += '</div>\n' +
+                            '<div class="task-bundle-button-container unselectable" id="' +
+                            element.id +
+                            '">REMOVE</div>\n' +
+                            '</div>\n';
+
+                        if ("taskBundles" in checklistObj.settings && element.id in checklistObj.settings.taskBundles) {
+                            if (document.getElementById("my-bundles-task-bundles").innerText === '<br>No task bundles added') {
+                                document.getElementById("my-bundles-task-bundles").innerText = "";
+                            }
+                            document.getElementById("my-bundles-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
+                        }
                         clearChecklist();
                         await generateChecklist(checklistObj, checklistObj.settings);
                         addAddTaskAreaEventListener();
@@ -1006,43 +1042,72 @@
 
             if (isEmpty(allTaskBundles)) {
                 allTaskBundles = await loadTaskBundles();
-                Object.keys(allTaskBundles).forEach(tab => {
-                    Object.keys(allTaskBundles[tab]).forEach(taskBundle => {
-                        // TODO: Add a check to see if this task has already been added. If so, put into My Bundles header.
-                        let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
-                            '<p class="chevron"><i class="down"></i></p>\n' +
-                            '<div class="task-bundle-title">\n' +
-                            '<span class="task-bundle-title">' +
-                            taskBundle +
-                            '</span>' +
-                            '</div>\n' +
-                            '<div class="task-bundle-description">\n' +
-                            allTaskBundles[tab][taskBundle].description +
-                            '</div>\n' +
-                            '<div class="task-bundle-tasks">\n' +
-                            '<span>Package includes:</span>\n' +
-                            '<br>\n';
-                        Object.keys(allTaskBundles[tab][taskBundle]).forEach(section => {
-                            if (typeof allTaskBundles[tab][taskBundle][section] === "object") {
-                                Object.keys(allTaskBundles[tab][taskBundle][section]).forEach(task => {
-                                    if (typeof allTaskBundles[tab][taskBundle][section][task] === "object") {
-                                        taskBundleHTML += allTaskBundles[tab][taskBundle][section][task].name +
-                                            '<br>\n' +
-                                            '<br>\n';
-                                    }
-                                });
-                            }
-                        });
-                        taskBundleHTML += '</div>\n' +
-                            '<div class="task-bundle-button-container unselectable" id="' +
-                            taskBundle +
-                            '">ADD TO CHECKLIST</div>\n' +
-                            '</div>\n';
-                        if (tab === "other") { document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML); }
-                        else if (tab === "medical") { document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML); }
-                    });
-                });
             }
+            let medicalBundlesEmpty = true;
+            let otherBundlesEmpty = true;
+            let myBundlesEmpty = true;
+
+            Object.keys(allTaskBundles).forEach(tab => {
+                Object.keys(allTaskBundles[tab]).forEach(taskBundle => {
+                    let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
+                        '<p class="chevron"><i class="down"></i></p>\n' +
+                        '<div class="task-bundle-title">\n' +
+                        '<span class="task-bundle-title">' +
+                        taskBundle +
+                        '</span>' +
+                        '</div>\n' +
+                        '<div class="task-bundle-description">\n' +
+                        allTaskBundles[tab][taskBundle].description +
+                        '</div>\n' +
+                        '<div class="task-bundle-tasks">\n' +
+                        '<span>Package includes:</span>\n' +
+                        '<br>\n';
+                    Object.keys(allTaskBundles[tab][taskBundle]).forEach(section => {
+                        if (typeof allTaskBundles[tab][taskBundle][section] === "object") {
+                            Object.keys(allTaskBundles[tab][taskBundle][section]).forEach(task => {
+                                if (typeof allTaskBundles[tab][taskBundle][section][task] === "object") {
+                                    let taskName = allTaskBundles[tab][taskBundle][section][task].name;
+                                    taskName = taskName.substring(taskName.indexOf(":") + 1);
+                                    taskBundleHTML += taskName +
+                                        '<br>\n' +
+                                        '<br>\n';
+                                }
+                            });
+                        }
+                    });
+                    taskBundleHTML += '</div>\n' +
+                        '<div class="task-bundle-button-container unselectable" id="' +
+                        taskBundle;
+
+                    if ("taskBundles" in checklistObj.settings && taskBundle in checklistObj.settings.taskBundles) {
+                        if (myBundlesEmpty) {
+                            document.getElementById("my-bundles-task-bundles").innerText = "";
+                            myBundlesEmpty = false;
+                        }
+                        taskBundleHTML += '">REMOVE</div>\n' +
+                            '</div>\n';
+                        document.getElementById("my-bundles-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
+                    }
+                    else if (tab === "other") {
+                        if (otherBundlesEmpty) {
+                            document.getElementById("other-task-bundles").innerText = "";
+                            otherBundlesEmpty = false;
+                        }
+                        taskBundleHTML += '">ADD TO CHECKLIST</div>\n' +
+                            '</div>\n';
+                        document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
+                    }
+                    else if (tab === "medical") {
+                        if (medicalBundlesEmpty) {
+                            document.getElementById("medical-task-bundles").innerText = "";
+                            medicalBundlesEmpty = false;
+                        }
+                        taskBundleHTML += '">ADD TO CHECKLIST</div>\n' +
+                            '</div>\n';
+                        document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
+                    }
+                });
+            });
         }
 
         // Event listeners for add task area. Need to readd it after generate checklist removes all tasks and adds them back.
