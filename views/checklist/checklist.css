@@ -1180,11 +1180,11 @@ span.task-bundle-title {
     background-color: #6B5875;
 }
 
-.task-bundle-button-container.added {
+.task-bundle-button-container.clicked {
     background-color: #ab97b5;
 }
 
-.task-bundle-button-container.added:hover {
+.task-bundle-button-container.clicked:hover {
     background-color: #ab97b5;
 }
 

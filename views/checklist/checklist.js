@@ -18,14 +18,16 @@
 
             // Adds another section to filter is user has added their own tasks.
             if ("Tasks I Added" in checklistObj) {
-                let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-header-container">' +
+                let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-container">' +
+                    '<div class="filter-header-container">' +
                     '<span class="filter-header">My Tasks</span>' +
                     '</div>' +
                     '<form id="user-tasks-filter">' +
                     '<input type="checkbox" id="Tasks I Added">' +
                     '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
-                    '</form>'
-                document.getElementById("filter-container-id").insertAdjacentHTML("beforeend", userAddedTasksHTML);
+                    '</form>' +
+                    '</div>';
+                document.getElementById("filter-sidebar").insertAdjacentHTML("beforeend", userAddedTasksHTML);
             }
 
             await generateChecklist(checklistObj, checklistObj.settings);
@@ -923,10 +925,9 @@
 
                 else if (element.classList && element.classList.contains("task-bundle-button-container")) {
                     // User clicked to add/remove task package.
-
-                    if (!element.classList.contains("added")) {
+                    if (!element.classList.contains("clicked") && !element.classList.contains("my-bundle")) {
                         element.innerText = "ADDED";
-                        element.classList.add("added");
+                        element.classList.add("clicked");
                         let tabName = document.getElementsByClassName("selected")[0].id;
                         checklistObj[element.id] = allTaskBundles[tabName][element.id];
                         if ("taskBundles" in checklistObj.settings) {
@@ -934,14 +935,6 @@
                                 filterOn: false
                             }
                             checklistObj.settings.taskBundles[element.id] = taskBundle;
-                            // Adding all trimesters for this task bundle into activeChecklists
-                            Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
-                                if (typeof allTaskBundles[tabName][element.id][section] === "object") {
-                                    if (checklistObj.settings.activeChecklists.indexOf(allTaskBundles[tabName][element.id][section].trimester) === -1) {
-                                        checklistObj.settings.activeChecklists.push(allTaskBundles[tabName][element.id][section].trimester);
-                                    }
-                                }
-                            });
                         }
                         else {
                             let taskBundle = {
@@ -950,6 +943,7 @@
                             checklistObj.settings["taskBundles"] = {};
                             checklistObj.settings.taskBundles[element.id] = taskBundle;
                         }
+
                         // Adding all trimesters for this task bundle into activeChecklists
                         Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
                             if (typeof allTaskBundles[tabName][element.id][section] === "object") {
@@ -985,13 +979,13 @@
                             }
                         });
                         taskBundleHTML += '</div>\n' +
-                            '<div class="task-bundle-button-container unselectable" id="' +
+                            '<div class="task-bundle-button-container unselectable my-bundle" id="' +
                             element.id +
                             '">REMOVE</div>\n' +
                             '</div>\n';
 
                         if ("taskBundles" in checklistObj.settings && element.id in checklistObj.settings.taskBundles) {
-                            if (document.getElementById("my-bundles-task-bundles").innerText === '<br>No task bundles added') {
+                            if (document.getElementById("my-bundles-task-bundles").innerHTML === '<br>No task bundles added') {
                                 document.getElementById("my-bundles-task-bundles").innerText = "";
                             }
                             document.getElementById("my-bundles-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
@@ -1002,6 +996,37 @@
                         await storeChecklistIntoDB(checklistObj)
                             .catch(e => {
                                 console.log("Failed to store new task bundle." + e.message);
+                            });
+                    }
+
+                    else if (element.classList.contains("my-bundle")) {
+                        // Remove bundle from user's checklist
+                        Object.keys(checklistObj.settings.taskBundles).forEach(async taskBundle => {
+                            if (taskBundle === element.id) {
+                                delete checklistObj.settings.taskBundles[taskBundle];
+                            }
+                        });
+                        element.innerText = "BUNDLE REMOVED";
+                        element.classList.add("clicked");
+
+                        let taskBundleFilterArray = document.getElementById("task-bundles-filter").childNodes;
+                        for (var i = 0; i < taskBundleFilterArray.length; i++) {
+                            if (taskBundleFilterArray[i].nodeName === "INPUT" && taskBundleFilterArray[i].id.slice(0, -6) === element.id) {
+                                taskBundleFilterArray[i + 1].remove();
+                                taskBundleFilterArray[i].remove();
+                                if (taskBundleFilterArray.length === 2) {
+                                    document.getElementById("task-bundles-filter").innerHTML = '<span class="empty">No task bundles added</span>';
+                                }
+                                break;
+                            }
+                        }
+
+                        clearChecklist();
+                        await generateChecklist(checklistObj, checklistObj.settings);
+                        addAddTaskAreaEventListener();
+                        await storeChecklistIntoDB(checklistObj)
+                            .catch(e => {
+                                console.log("Failed to delete task bundle." + e.message);
                             });
                     }
                     return;
@@ -1040,6 +1065,23 @@
             }, animationDelay);
             closeAddTaskMenu();
 
+            emptyTaskBundles();
+            await generateTaskBundles();
+        }
+
+        function emptyTaskBundles() {
+            let taskBundleTabs = document.getElementById("inner-task-bundles-container").childNodes;
+            for (var i = 0; i < taskBundleTabs.length; i++) {
+                let taskBundleTab = taskBundleTabs[i];
+                for (var j = 0; j < taskBundleTab.childNodes.length; j++) {
+                    if (taskBundleTab.childNodes[j].classList && taskBundleTab.childNodes[j].classList.contains("expandable-task-bundle")) {
+                        taskBundleTab.childNodes[j].remove();
+                    }
+                }
+            }
+        }
+
+        async function generateTaskBundles() {
             if (isEmpty(allTaskBundles)) {
                 allTaskBundles = await loadTaskBundles();
             }
@@ -1075,16 +1117,16 @@
                             });
                         }
                     });
-                    taskBundleHTML += '</div>\n' +
-                        '<div class="task-bundle-button-container unselectable" id="' +
-                        taskBundle;
+                    taskBundleHTML += '</div>\n';
 
                     if ("taskBundles" in checklistObj.settings && taskBundle in checklistObj.settings.taskBundles) {
                         if (myBundlesEmpty) {
                             document.getElementById("my-bundles-task-bundles").innerText = "";
                             myBundlesEmpty = false;
                         }
-                        taskBundleHTML += '">REMOVE</div>\n' +
+                        taskBundleHTML += '<div class="task-bundle-button-container unselectable my-bundle" id="' +
+                            taskBundle +
+                            '">REMOVE</div>\n' +
                             '</div>\n';
                         document.getElementById("my-bundles-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
                     }
@@ -1093,7 +1135,9 @@
                             document.getElementById("other-task-bundles").innerText = "";
                             otherBundlesEmpty = false;
                         }
-                        taskBundleHTML += '">ADD TO CHECKLIST</div>\n' +
+                        taskBundleHTML += '<div class="task-bundle-button-container unselectable" id="' +
+                            taskBundle +
+                            '">ADD TO CHECKLIST</div>\n' +
                             '</div>\n';
                         document.getElementById("other-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
                     }
@@ -1102,12 +1146,19 @@
                             document.getElementById("medical-task-bundles").innerText = "";
                             medicalBundlesEmpty = false;
                         }
-                        taskBundleHTML += '">ADD TO CHECKLIST</div>\n' +
+                        taskBundleHTML += '<div class="task-bundle-button-container unselectable" id="' +
+                            taskBundle +
+                            '">ADD TO CHECKLIST</div>\n' +
                             '</div>\n';
                         document.getElementById("medical-task-bundles").insertAdjacentHTML("beforeend", taskBundleHTML);
                     }
                 });
             });
+
+            if (medicalBundlesEmpty) { document.getElementById("medical-task-bundles").innerHTML = '<br>No medical task bundles available'; }
+            if (otherBundlesEmpty) { document.getElementById("other-task-bundles").innerHTML = '<br>No other task bundles available'; }
+            if (myBundlesEmpty) { document.getElementById("my-bundles-task-bundles").innerHTML = '<br>No task bundles added'; }
+
         }
 
         // Event listeners for add task area. Need to readd it after generate checklist removes all tasks and adds them back.
@@ -1447,81 +1498,59 @@
         });
 
         async function handleDelete() {
-            // TODO: Fix such that you don't delete entire trimesters or sections. (Interferes with tasks I added and task bundles)
-            try {
-                // Try block is to exit the function early when a trimester is deleted.
-                for (trimester in checklistObj) {
-                    if (trimester !== "settings") {
-                        for (section in checklistObj[trimester]) {
-                            if (typeof checklistObj[trimester][section] === "object") {
-                                for (task in checklistObj[trimester][section]) {
-                                    if (typeof checklistObj[trimester][section][task] === "object") {
-                                        // Iterating through tasks.
-                                        if ("id" in currentTaskInfo && checklistObj[trimester][section][task].id === currentTaskInfo.id) {
-                                            // Handling delete of user added tasks.
-                                            delete checklistObj[trimester][section][task];
-                                            checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
-                                            checklistObj[trimester].taskCount = (parseInt(checklistObj[trimester].taskCount) - 1).toString();
-                                            if (checklistObj[trimester].taskCount === "0") {
-                                                let checklistItems = document.getElementById('checklist').children;
-                                                for (var i = 0; i < checklistItems.length; i++) {
-                                                    if (checklistItems[i].children[0].children[0].innerHTML === "Tasks I Added") {
-                                                        document.getElementById('checklist').removeChild(checklistItems[i]);
-                                                        break;
-                                                    }
-                                                }
-                                                if (checklistObj.settings.activeChecklists.indexOf(trimester) > -1) {
-                                                    checklistObj.settings.activeChecklists.splice(checklistObj.settings.activeChecklists.indexOf(trimester), 1);
-                                                }
-                                                delete checklistObj[trimester];
-                                                settings.activeChecklists.splice(settings.activeChecklists.indexOf(trimester), 1);
+            let breakcheck = false;
 
-                                                if (screen.width < 992) {
-                                                    // Closes expanded task screen immediately on mobile.
-                                                    setTimeout(function () {
-                                                        closeAddTaskMenu();
-                                                    }, 60);
+            for (trimester in checklistObj) {
+                if (trimester !== "settings") {
+                    for (section in checklistObj[trimester]) {
+                        if (typeof checklistObj[trimester][section] === "object") {
+                            for (task in checklistObj[trimester][section]) {
+                                if (typeof checklistObj[trimester][section][task] === "object") {
+                                    // Iterating through tasks.
+                                    if ("id" in currentTaskInfo && checklistObj[trimester][section][task].id === currentTaskInfo.id) {
+                                        // Handling delete of user added tasks.
+                                        delete checklistObj[trimester][section][task];
+                                        checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                        checklistObj[trimester].taskCount = (parseInt(checklistObj[trimester].taskCount) - 1).toString();
+                                        if (checklistObj[trimester].taskCount === "0") {
+                                            let checklistItems = document.getElementById('checklist').children;
+                                            for (var i = 0; i < checklistItems.length; i++) {
+                                                if (checklistItems[i].children[0].children[0].innerHTML === "Tasks I Added") {
+                                                    document.getElementById('checklist').removeChild(checklistItems[i]);
+                                                    break;
                                                 }
-                                                setTimeout(function () {
-                                                    taskTextArea.parentNode.parentNode.parentNode.style.height = "1px";
-                                                }, 300);
-                                                setTimeout(function () {
-                                                    taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
-                                                    removeEmptySections();
-                                                    closeAddTaskMenu();
-                                                }, 600);
-                                                document.getElementById('delete-verification').style.display = 'none';
-                                                organizeChecklist();
-                                                document.getElementById("user-tasks-filter-header").remove();
-                                                document.getElementById("user-tasks-filter").remove();
-                                                await storeChecklistIntoDB(checklistObj, true)
-                                                    .catch(e => {
-                                                        console.log("Failed to delete task." + e.message);
-                                                    });
-                                                return;
                                             }
-                                        }
-                                        else if (!("id" in currentTaskInfo) && checklistObj[trimester][section][task].name === currentTaskInfo.taskName) {
-                                            // Handling delete of default given tasks.
-                                            delete checklistObj[trimester][section][task];
-                                            checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                            if (checklistObj.settings.activeChecklists.indexOf(trimester) > -1) {
+                                                checklistObj.settings.activeChecklists.splice(checklistObj.settings.activeChecklists.indexOf(trimester), 1);
+                                            }
+
+                                            document.getElementById("user-tasks-filter-header").remove();
+                                            delete checklistObj[trimester];
+                                            breakcheck = true;
+                                            break;
                                         }
                                     }
-                                };
-                            }
-                            if (checklistObj[trimester][section].taskCount === "0") {
-                                delete checklistObj[trimester][section];
-                            }
-                        };
-                        if (checklistObj[trimester].sectionCount === "0") {
-                            delete checklistObj[trimester];
+                                    else if (!("id" in currentTaskInfo) && checklistObj[trimester][section][task].name === currentTaskInfo.taskName) {
+                                        // Handling delete of default given tasks.
+                                        delete checklistObj[trimester][section][task];
+                                        checklistObj[trimester][section].taskCount = (parseInt(checklistObj[trimester][section].taskCount) - 1).toString();
+                                    }
+                                }
+                                if (breakcheck) { break; }
+                            };
                         }
+                        // if (checklistObj[trimester][section].taskCount === "0") {
+                        //     delete checklistObj[trimester][section];
+                        // }
+                        if (breakcheck) { break; }
                     };
-                }
+                    // if (checklistObj[trimester].sectionCount === "0") {
+                    //     delete checklistObj[trimester];
+                    // }
+                    if (breakcheck) { break; }
+                };
             }
-            catch (err) {
-                console.log("Error inside try catch." + err.message);
-            }
+
             if (screen.width < 992) {
                 // Closes expanded task screen immediately on mobile.
                 setTimeout(function () {
@@ -1850,14 +1879,16 @@
                 section1: section
             }
 
-            let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-header-container">' +
+            let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-container">' +
+                '<div class="filter-header-container">' +
                 '<span class="filter-header">My Tasks</span>' +
                 '</div>' +
                 '<form id="user-tasks-filter">' +
                 '<input type="checkbox" id="Tasks I Added">' +
                 '<label for="Tasks I Added" class="unselectable">Tasks I Added</label>' +
-                '</form>'
-            document.getElementById("filter-container-id").insertAdjacentHTML("beforeend", userAddedTasksHTML);
+                '</form>' +
+                '</div>';
+            document.getElementById("filter-sidebar").insertAdjacentHTML("beforeend", userAddedTasksHTML);
             return userAddedChecklist;
         }
 
