@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    padding-left: 10px;
+    width: 100%;
+    border: 2px solid gray;
+    height: 70px;
+    display: inline-block;
+    position: relative;
+    grid-area: header;
+}
+
+body {
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 70px calc(100% - 140px) 70px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main";
+    grid-template-areas: 
+    "header header header header header header"
+    "sidebar main main main main aside"
+    "footer footer footer footer footer footer";
+}
+
+main {
+    border: 2px solid red;
+    grid-area: main;
+}
+
+sidebar {
+    border: 2px solid red;
+    grid-area: sidebar;
+}
+
+aside {
+    border: 2px solid red;
+    grid-area: aside;
+}
+
+footer {
+    border: 2px solid red;
+    grid-area: footer;
+}

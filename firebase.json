@@ -49,6 +49,10 @@
       {
         "source": "/aboutUs",
         "destination": "/aboutus/aboutus.html"
+      },
+      {
+        "source": "/articles",
+        "destination": "/articles/articles.html"
       }
     ],
     "ignore": [

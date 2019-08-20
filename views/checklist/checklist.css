@@ -60,7 +60,7 @@ background: linear-gradient(-45deg, #C4E0E5, #6B5875); W3C, IE 10+/ Edge, Firefo
 
     position: absolute;
     padding: 0;
-                    grid-template-areas:
+    grid-template-areas:
       "sidebar header"
       "sidebar main";
     overflow: hidden;
