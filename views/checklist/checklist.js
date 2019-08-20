@@ -52,53 +52,53 @@
     If that is also missing, returns [0] for Before Pregnancy.
     Always returns a list of numbers. */
     async function getActiveChecklists() {
+        var activeChecklists = ["Before Pregnancy", "1st Trimester", "2nd Trimester", "3rd Trimester", "After Pregnancy"];
+        return activeChecklists;
+    }
+
+    async function getCurrentTrimester() {
         let uid = firebase.auth().currentUser.uid;
         let db = firebase.firestore();
-        var activeChecklists = ["Before Pregnancy", "1st Trimester", "2nd Trimester", "3rd Trimester", "After Pregnancy"];
-        // try {
-        //     let snapshot = await db.collection('users').doc(uid).get()
-        //     if (!snapshot.exists) {
-        //         return (new Error("Something went wrong grabbing user info"));
-        //     }
-        //     else {
-        //         let data = snapshot.data();
-        //         if ("activeChecklists" in data) {
-        //             activeChecklists = data.activeChecklists;
-        //         }
-        //         else if ("babyDay" in data) {
-        //             let babyBirthdate = toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay) + ", " + toDoubleDigit(data.babyYear);
-        //             let today = new Date();
-        //             let daysLeft = dayDiff(today, babyBirthdate);
-        //             let weeksPregnant = Math.floor((40 - (daysLeft / 7)));
-        //             if (weeksPregnant < 0) {
-        //                 activeChecklists.push(0);
-        //             }
-        //             else if (weeksPregnant >= 0 && weeksPregnant <= 12) {
-        //                 activeChecklists.push(1);
-        //             }
-        //             else if (weeksPregnant > 12 && weeksPregnant <= 26) {
-        //                 activeChecklists.push(2);
-        //             }
-        //             else if (weeksPregnant > 26 && weeksPregnant <= 40) {
-        //                 activeChecklists.push(3);
-        //             }
-        //             else if (weeksPregnant > 40) {
-        //                 activeChecklists.push(4);
-        //             }
-        //             else {
-        //                 activeChecklists.push(0);
-        //             }
-        //         }
-        //         else {
-        //             activeChecklists.push(0);
-        //         }
-        //     }
-        // }
-        // catch (error) {
-        //     console.log(error);
-        //     return error.message;
-        // }
-        return activeChecklists;
+        try {
+            let snapshot = await db.collection('users').doc(uid).get()
+            if (!snapshot.exists) {
+                return (new Error("Something went wrong grabbing user info"));
+            }
+            else {
+                let data = snapshot.data();
+                if ("babyDay" in data) {
+                    let babyBirthdate = toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay) + ", " + toDoubleDigit(data.babyYear);
+                    let today = new Date();
+                    let daysLeft = dayDiff(today, babyBirthdate);
+                    let weeksPregnant = Math.floor((40 - (daysLeft / 7)));
+                    if (weeksPregnant < 0) {
+                        return "Before Pregnancy";
+                    }
+                    else if (weeksPregnant >= 0 && weeksPregnant <= 12) {
+                        return "1st Trimester";
+                    }
+                    else if (weeksPregnant > 12 && weeksPregnant <= 26) {
+                        return "2nd Trimester";
+                    }
+                    else if (weeksPregnant > 26 && weeksPregnant <= 40) {
+                        return "3rd Trimester";
+                    }
+                    else if (weeksPregnant > 40) {
+                        return "After Pregnancy";
+                    }
+                    else {
+                        return "1st Trimester";
+                    }
+                }
+                else {
+                    return "1st Trimester";
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return error.message;
+        }
     }
 
     /* Turns single digit numbers into double digit numbers. e.g. 9 returns "09". Takes number and returns string. */
@@ -225,7 +225,9 @@
         }
 
         for (i = 0; i < settings.activeChecklists.length; i++) {
-            document.getElementById(settings.activeChecklists[i]).checked = true;
+            if (settings.activeChecklists.length > 0) {
+                document.getElementById(settings.activeChecklists[i]).checked = true;
+            }
         }
 
         // for (i = 0; i < settings.activeChecklists.length; i++) {
@@ -618,7 +620,7 @@
         }
         else if (currentlyDisplayedTaskList.indexOf(task.name) >= 0 && ("repeat" in task)) {
             if (inDailySection) {
-                result = false;
+                result = true;
             }
             else {
                 result = true;
@@ -730,7 +732,7 @@
             }
 
             if (event.target.classList.contains("modal")) {
-                document.getElementById("delete-verification").style.display = "none";
+                document.getElementById("delete-verification").style.opacity = 0;
                 return;
             }
 
@@ -777,7 +779,7 @@
                             document.getElementById("content").style.gridTemplateColumns = "270px 1fr";
                         }
                         document.getElementById("faded-container").style.display = "block";
-                        document.getElementById("filter-sidebar").style.display = "";
+                        document.getElementById("filter-sidebar").style.opacity = 1;
                         document.getElementById("filter-sidebar").classList.remove("slideOutLeft");
                         return;
                     }
@@ -926,9 +928,36 @@
                 else if (element.classList && element.classList.contains("task-bundle-button-container")) {
                     // User clicked to add/remove task package.
                     if (!element.classList.contains("clicked") && !element.classList.contains("my-bundle")) {
+                        // Add bundle to user's checklist
                         element.innerText = "ADDED";
                         element.classList.add("clicked");
                         let tabName = document.getElementsByClassName("selected")[0].id;
+
+                        // Adding all trimesters for this task bundle into activeChecklists
+                        let currentTrimester = "";
+                        for (let section in allTaskBundles[tabName][element.id]) {
+                            if (typeof allTaskBundles[tabName][element.id][section] === "object") {
+                                if (allTaskBundles[tabName][element.id][section].trimester === "Current Trimester") {
+                                    if (!currentTrimester) {
+                                        currentTrimester = await getCurrentTrimester();
+                                    }
+                                    allTaskBundles[tabName][element.id][section].trimester = currentTrimester;
+                                    allTaskBundles[tabName][element.id][section].title = getCorrospondingEndOfSection(currentTrimester);
+
+                                    if (currentTrimester) {
+                                        if (checklistObj.settings.activeChecklists.indexOf(currentTrimester) === -1) {
+                                            checklistObj.settings.activeChecklists.push(currentTrimester);
+                                        }
+                                    }
+                                    else {
+                                        if (checklistObj.settings.activeChecklists.indexOf(allTaskBundles[tabName][element.id][section].trimester) === -1) {
+                                            checklistObj.settings.activeChecklists.push(allTaskBundles[tabName][element.id][section].trimester);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         checklistObj[element.id] = allTaskBundles[tabName][element.id];
                         if ("taskBundles" in checklistObj.settings) {
                             let taskBundle = {
@@ -944,14 +973,7 @@
                             checklistObj.settings.taskBundles[element.id] = taskBundle;
                         }
 
-                        // Adding all trimesters for this task bundle into activeChecklists
-                        Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
-                            if (typeof allTaskBundles[tabName][element.id][section] === "object") {
-                                if (checklistObj.settings.activeChecklists.indexOf(allTaskBundles[tabName][element.id][section].trimester) === -1) {
-                                    checklistObj.settings.activeChecklists.push(allTaskBundles[tabName][element.id][section].trimester);
-                                }
-                            }
-                        });
+
                         let taskBundleHTML = '<div class="expandable-task-bundle">\n' +
                             '<p class="chevron"><i class="down"></i></p>\n' +
                             '<div class="task-bundle-title">\n' +
@@ -1004,6 +1026,7 @@
                         Object.keys(checklistObj.settings.taskBundles).forEach(async taskBundle => {
                             if (taskBundle === element.id) {
                                 delete checklistObj.settings.taskBundles[taskBundle];
+                                delete checklistObj[taskBundle];
                             }
                         });
                         element.innerText = "BUNDLE REMOVED";
@@ -1024,7 +1047,7 @@
                         clearChecklist();
                         await generateChecklist(checklistObj, checklistObj.settings);
                         addAddTaskAreaEventListener();
-                        await storeChecklistIntoDB(checklistObj)
+                        await storeChecklistIntoDB(checklistObj, true)
                             .catch(e => {
                                 console.log("Failed to delete task bundle." + e.message);
                             });
@@ -1060,7 +1083,7 @@
                 animationDelay = 300;
             }
             setTimeout(function () {
-                document.getElementById("task-bundles-container").style.display = "";
+                document.getElementById("task-bundles-container").style.opacity = 1;
                 document.getElementById("task-bundles-container").classList.remove("slideOutDown");
             }, animationDelay);
             closeAddTaskMenu();
@@ -1220,7 +1243,7 @@
                             closeAddTaskMenu();
                         }, 600);
                     }
-                    element.parentNode.parentNode.parentNode.style.height = "1px";
+                    element.parentNode.parentNode.parentNode.style.height = "0px";
                     setTimeout(function () {
                         element.parentNode.parentNode.parentNode.parentNode.removeChild(element.parentNode.parentNode.parentNode);
                         removeEmptySections();
@@ -1306,7 +1329,8 @@
                                         checklistObj[trimester][section][task].completed = taskInfoObj.completed;
                                     }
                                     else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) < 0) {
-                                        // Task is repeating but task found is not in activeChecklists. Do nothing to this task.
+                                        // Task is repeating but task found is not in activeChecklists. 
+                                        checklistObj[trimester][section][task].completed = taskInfoObj.completed;
                                     }
                                     else if (!("repeat" in checklistObj[trimester][section][task])) {
                                         // Task is not repeating. Mark as complete.
@@ -1351,13 +1375,13 @@
                 document.getElementById('add-description-area').placeholder = "Add description...";
                 document.getElementById('add-description-area').classList.add('hover');
                 document.getElementById('add-task-container').classList.remove("slideOutRight");
-                document.getElementById('add-task-container').style.display = "";
-                document.getElementById('delete').style.display = "none";
+                document.getElementById('add-task-container').style.opacity = 1;
+                document.getElementById('delete').style.opacity = 0;
                 document.getElementById('checklist-container').classList.add("shifted-left");
                 //Updating checkmark icon
-                document.getElementById('markAsComplete').style.display = "none";
+                document.getElementById('markAsComplete').style.opacity = 0;
                 // Hiding references icon
-                document.getElementById("references").style.display = "none";
+                document.getElementById("references").style.opacity = 0;
                 // Showing trimester-select
                 document.getElementById("trimester-select-container").style.display = "block";
                 document.getElementById("trimester-select").selectedIndex = 5;
@@ -1372,13 +1396,13 @@
 
                 if (element.childNodes[1].childNodes[1].nodeName !== "H2" && element.childNodes[1].childNodes[1].nodeName !== "H1") {
                     document.getElementById('checklist-container').classList.add("shifted-left");
-                    document.getElementById("markAsComplete").style.display = "";
+                    document.getElementById("markAsComplete").style.opacity = 1;
                     updateCheckmarkIcon(element.childNodes[1].childNodes[1].childNodes[1].classList.contains("completed"));
                 }
-                document.getElementById('delete').style.display = "";
+                document.getElementById('delete').style.opacity = 1;
 
                 if (currentTaskInfo.taskName) {
-                    document.getElementById('add-task-container').style.display = "";
+                    document.getElementById('add-task-container').style.opacity = 1;
                     let taskData = getTaskData(checklistObj, currentTaskInfo);
                     document.getElementById('add-task-task-name').value = currentTaskInfo.taskName;
                     autoSize(document.getElementById('add-task-task-name'));
@@ -1402,14 +1426,14 @@
                         document.getElementById('add-description-area').classList.remove('hover');
                     }
 
-                    if ("references" in taskData && taskData.references) { document.getElementById("references").style.display = ""; }
-                    else { document.getElementById("references").style.display = "none"; }
+                    if ("references" in taskData && taskData.references) { document.getElementById("references").style.opacity = 1; }
+                    else { document.getElementById("references").style.opacity = 0; }
 
                     if (currentTaskInfo.id) {
-                        document.getElementById("trimester-select-container").style.display = "";
+                        document.getElementById("trimester-select-container").style.opacity = 1;
                         document.getElementById("trimester-select").selectedIndex = getCorrospondingTrimesterNum(taskData.section);
                     }
-                    else { document.getElementById("trimester-select-container").style.display = "none"; }
+                    else { document.getElementById("trimester-select-container").style.opacity = 0; }
 
                     unEditedNotes = document.getElementById('add-notes-area').value;
                     document.getElementById('add-task-container').classList.remove("slideOutRight");
@@ -1558,7 +1582,7 @@
                 }, 60);
             }
             setTimeout(function () {
-                taskTextArea.parentNode.parentNode.parentNode.style.height = "1px";
+                taskTextArea.parentNode.parentNode.parentNode.style.height = "0px";
             }, 300);
             setTimeout(function () {
                 taskTextArea.parentNode.parentNode.parentNode.parentNode.removeChild(taskTextArea.parentNode.parentNode.parentNode);
@@ -1861,6 +1885,14 @@
             else if (sectionIndex === 3) { return "Tasks I Added (3rd Trimester)"; }
             else if (sectionIndex === 4) { return "Tasks I Added (After Pregnancy)"; }
             else if (sectionIndex === 5) { return "Tasks I Added (All)"; }
+        }
+
+        function getCorrospondingEndOfSection(trimester) {
+            if (trimester === "Before Pregnancy") { return "Before Getting Pregnant" }
+            else if (trimester === "1st Trimester") { return "By End of 1st Trimester" }
+            else if (trimester === "2nd Trimester") { return "By End of 2nd Trimester" }
+            else if (trimester === "3rd Trimester") { return "By End of 3rd Trimester" }
+            else if (trimester === "After Pregnancy") { return "ASAP (After Pregnancy)" }
         }
 
         /* Takes a task object and creates a checklist object containing that task obj. Takes optional isTasksIAdded parameter.

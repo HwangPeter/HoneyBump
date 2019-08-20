@@ -68,7 +68,7 @@ const checklistObj = {
             }
         },
         section2: {
-            title: "Before getting pregnant",
+            title: "Before Getting Pregnant",
             taskCount: "9",
             task1: {
                 name: "Pick an OB-GYN",
@@ -850,38 +850,41 @@ const taskBundleObj = {
                     completed: "false",
                 },
             }
+        },
+        "Doula": {
+            sectionCount: "1",
+            description: "To doula or not to doula?",
+            section1: {
+                title: "",
+                trimester: "Current Trimester",
+                taskCount: "1",
+                task1: {
+                    name: "Doula: Decide whether a doula is right for you",
+                    description: "To doula or not to doula?\nTo make this decision, let’s first talk about what a doula is: during labor, a doula is your number one cheerleader. She will stay by your side to help with pain techniques, position changes, massage, and breathing. A doula is NOT a medical professional and cannot substitute as one. A doula typically meets with you before delivery and remains with you throughout the entirety of the labor and delivery process. She will typically follow up during your postpartum period as well. The most common type of doula is one who supports you through labor. Here are some pros and cons to further help you decide if a doula might be right for you:\n\nPros:\nContinuous 1:1 support during labor\n- Can make labor more enjoyable\n- Can help you follow your birth plan more closely\n- Is associated with fewer interventions during labor (including cesarean sections, episiotomies, and pain medications)\n\nCons: \n- Cost: typically between $800 - $2,500, but varies greatly by region (this may or may not be covered by your insurance)\n- She might get in your partner’s way if s/he wants to take the lead cheerleader role\n- Your doula’s opinion may clash with the opinion of your healthcare provider",
+                    references: "ACOG. 2017. ACOG committee opinion: Approaches to limit intervention during labor and birth. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Approaches-to-Limit-Intervention-During-Labor-and-Birth?IsMobileSet=false\n\nAPA. 2017. Having a doula: Is a doula for me? American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/having-a-doula/\n\nWTE. 2018. What is a doula and should you hire one for your baby’s birth? What to Expect. Retrieved from https://www.whattoexpect.com/pregnancy/hiring-doula ",
+                    completed: "false",
+                }
+            }
+        },
+        "Low-income Assistance": {
+            sectionCount: "1",
+            description: "There are several assistance programs to help you and your baby throughout pregnancy and for several years after.",
+            section1: {
+                title: "",
+                trimester: "Current Trimester",
+                taskCount: "1",
+                task1: {
+                    name: "Look up low-income assistance programs near me",
+                    description: "Low-income Assistance Programs\nThere are several assistance programs to help you and your baby throughout pregnancy and for several years after.  One of these examples is the Women, Infants, and Children (WIC) program which serves about half of all infants born in the United States.  To be connected with your local health department for resources on free or reduced prenatal care, call: \n- 800-311-BABY (800-311-2229) \n- (Spanish: 800-504-7081) \nTo see if you are eligible for the WIC program, please visit their website: https://www.fns.usda.gov/wic/women-infants-and-children ",
+                    references: "",
+                    completed: "false",
+                }
+            }
         }
-        // "Low-income Assistance": {
-        //     sectionCount: "1",
-        //     description: "When a baby is on the way, you aren’t the only one that gets excited. Celebrate with your loved ones and let us help you create an unforgettable day!",
-        //     section1: {
-        //         title: "By 26-28 Weeks",
-        //         trimester: "2nd Trimester",
-        //         taskCount: "1",
-        //         task1: {
-        //             name: "Baby Shower: Pick a date",
-        //             description: "Baby showers are typically held between the end of second trimester and the middle of third trimester.",
-        //             references: "",
-        //             completed: "false",
-        //         },
-        //     }
-        // }
-        //     Doula: {
-        //         sectionCount: "1",
-        //         description: "During labor, a doula is your number one cheerleader. Learn about doulas and how they typically help through the delivery process.",
-        //         section1: {
-        //             title: "By End of Trimester",
-        //             trimester: "1st Trimester",
-        //             taskCount: "1",
-        //             task1: {
-        //                 name: "Doula",
-        //                 description: "Baby showers are typically held between the end of second trimester and the middle of third trimester.",
-        //                 references: "",
-        //                 completed: "false",
-        //             },
-        //     }
-        // },
     },
     medical: {
     }
 }
+// Code to store taskBundleObj.
+// let db = firebase.firestore();
+// await db.collection("checklist").doc("taskBundles").set(taskBundleObj);

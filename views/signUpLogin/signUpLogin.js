@@ -365,24 +365,25 @@ function handleSignUp() {
         let data = jsonifySignUpData();
 
         firebase.functions().httpsCallable('storeNewUserData')(data).then(() => {
-            firebase.functions().httpsCallable('sendVerification').call()
-                .then(() => {
-                    window.location.href = "/emailNotVerified"
-                })
-                .catch((error) => {
-                    // Failed to send email verification
-                    let data = jsonifySignUpData();
-                    data["error"] = error;
+            window.location.href = "/";
+            // firebase.functions().httpsCallable('sendVerification').call()
+            //     .then(() => {
+            //         window.location.href = "/emailNotVerified";
+            //     })
+            //     .catch((error) => {
+            //         // Failed to send email verification
+            //         let data = jsonifySignUpData();
+            //         data["error"] = error;
 
-                    let logData = {
-                        event: "error",
-                        context: JSON.stringify(data),
-                        message: "Failed to send email verification"
-                    };
+            //         let logData = {
+            //             event: "error",
+            //             context: JSON.stringify(data),
+            //             message: "Failed to send email verification"
+            //         };
 
-                    firebase.functions().httpsCallable('logUserAuthError')(logData);
-                    window.location.href = "/emailNotVerified";
-                });
+            //         firebase.functions().httpsCallable('logUserAuthError')(logData);
+            //         window.location.href = "/emailNotVerified";
+            //     });
 
         }).catch((error) => {
             // Failed to call storeNewUserData Cloud Function

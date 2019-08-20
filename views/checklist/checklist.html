@@ -20,6 +20,8 @@
 </head>
 
 <body>
+    <div class="background">
+    </div>
     <div id="content">
         <header>
             <p>myHoneyBump</p>
@@ -61,7 +63,7 @@
                 </div>
 
                 <!-- Expanded task container -->
-                <div id="add-task-container" style="display: none;" class="animated slideInLeft">
+                <div id="add-task-container" style="opacity: 0;" class="animated slideInLeft slideOutRight">
                     <div class="header-button-container">
                         <div class="option-button-cancel-div">
                             <button id="cancel" class="icon-button nohover">
@@ -110,7 +112,7 @@
                         <div id="description-div" class="textarea-description-div">
                             <textarea id="add-description-area" tabindex="2"></textarea>
                         </div>
-                        <div id="trimester-select-container" style="display: none;">
+                        <div id="trimester-select-container" style="opacity: 0;">
                             <span id="trimester-select-span">
                                 Select trimester:
                             </span>
@@ -138,7 +140,7 @@
                                 <p>Are you sure you want to permanently delete this task?</p>
                                 <span id="confirm-delete" focusable="false">Yes
                                 </span>
-                                <span onclick="document.getElementById('delete-verification').style.display='none'"
+                                <span onclick="document.getElementById('delete-verification').style.opacity='0'"
                                     focusable="false">No
                                 </span>
                                 <br><br>
@@ -148,7 +150,7 @@
                 </div>
 
                 <!-- Task Bundles -->
-                <div id="task-bundles-container" style="display: none;" class="animated slideInUp">
+                <div id="task-bundles-container" style="opacity: 0;" class="animated slideInUp slideOutDown">
                     <div class="header-button-container">
                         <div class="option-button-cancel-div">
                             <button id="cancel-task-bundles" class="icon-button nohover">
@@ -193,7 +195,7 @@
         <sidebar>
             <div id="faded-container">
             </div>
-            <div id="filter-sidebar" style="display: none;" class="filter-sidebar-container animated slideInRight">
+            <div id="filter-sidebar" style="opacity: 0;" class="filter-sidebar-container animated slideInRight slideOutLeft">
                 <div id="dismiss-sidebar-button">
                     << </div> <br>
                         <div class="filter-container">
