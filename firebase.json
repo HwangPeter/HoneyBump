@@ -45,6 +45,10 @@
       {
         "source": "/checklist",
         "destination": "/checklist/checklist.html"
+      },
+      {
+        "source": "/aboutUs",
+        "destination": "/aboutus/aboutus.html"
       }
     ],
     "ignore": [
