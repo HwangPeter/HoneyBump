@@ -30,3 +30,8 @@
     letter-spacing: 1;
     color: #6B5875;
 }
+
+.header-text {
+    text-transform: uppercase;
+    font-weight: 700;
+}
