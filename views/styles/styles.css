@@ -12,10 +12,110 @@ header {
     color: #6B5875;
 }
 
+.topNav {
+  position: absolute;
+  border: 2px solid red;
+  height: calc(70px - 5px);
+  min-width: 450px;
+  display: inline-block;
+  right: 0;
+  top: 0;
+  padding: 0;
+}
+
 .logopic {
     width: 30px;
     height: 30px;
     vertical-align: middle;
+}
+
+header span {
+    font-family: "Josefin Sans";
+    font-size: 30px;
+    line-height: 70px;
+    font-weight: 400;
+    color: #6B5875;
+    position: relative;
+}
+
+header ul {
+  right: 10px;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  
+}
+
+header ul li {
+  font-family: "Montserrat";
+  text-align: center;
+  display: inline-block;
+  padding: .75rem 0 0 0;
+  margin: 0;
+  text-decoration: none;
+  color: #6B5875;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+header ul li a:hover {
+  color: black;
+}
+
+header ul li a {
+  text-decoration: none;
+  padding: 10px;
+}
+
+hr {
+  top: 0;
+  position: relative;
+  opacity: 0;
+  height: 3px;
+  width: 185px;
+  margin: 0;
+  background-color: #6B5875;
+  border: none;
+  -webkit-transition: 200ms ease-in-out;
+  -o-transition: 200ms ease-in-out;
+  transition: 200ms ease-in-out;
+}
+
+.checklist:hover ~ hr {
+  opacity: 1.0;
+  margin-left: 0;
+  width: 185px;
+}
+
+.website:hover ~ hr {
+  opacity: 1.0;
+  margin-left: 185px;
+  width: 210px;
+}
+
+.must-haves:hover ~ hr {
+  opacity: 1.0;
+  margin-left: 395px;
+  width: 113px;
+}
+
+.articles:hover ~ hr {
+  opacity: 1.0;
+  margin-left: 507px;
+  width: 93px;
+}
+
+#logout > a {
+  color: white;
+  border-radius: 4px;
+  background-color: #8B7895;
+  width: 135px;
+  margin-left: 5px;
+}
+
+#logout > a:hover {
+  background-color: #6B5875;
 }
 
 body {
