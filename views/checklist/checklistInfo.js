@@ -2,7 +2,7 @@
 Document contains an object containing all tasks across all trimesters.
 Each trimester as well as "Tasks I Added" are contained within their own objects.
 Users -> UserID -> checklist -> checklist ->
-prePregnancy: {
+Before Pregnancy: {
     sectionCount: string (To easily append sections, we need to keep track of them.)
     section1: {
         title: string (Name of the section. e.g. Daily, ASAP, etc.)
@@ -28,10 +28,10 @@ prePregnancy: {
         ...
     }
 }
-firstTrimester: {...}
-secondTrimester: {...}
-thirdTrimester: {...}
-postPregnancy: {...}
+"1st Trimester": {...}
+"2nd Trimester": {...}
+"3rd Trimester": {...}
+"After Pregnancy": {...}
 Tasks I Added: {...}
 settings: {
     activeChecklists: list containing Numbers showing the active trimesters.
@@ -47,14 +47,14 @@ await db.collection("checklist").doc("defaultChecklist").set(checklistObj);
 
 
 const checklistObj = {
-    prePregnancy: {
+    "Before Pregnancy": {
         sectionCount: "2",
         section1: {
             title: "Daily",
             taskCount: "2",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
+                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n- folic acid (folate): 600-800 mcg/day\n- iron: 27 mg /day\n- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n- vitamin D: 600 international units/day\n- DHA: minimum of 300mg/day',
                 references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
                 completed: "false",
                 repeat: "true",
@@ -68,7 +68,7 @@ const checklistObj = {
             }
         },
         section2: {
-            title: "Before getting pregnant",
+            title: "Before Getting Pregnant",
             taskCount: "9",
             task1: {
                 name: "Pick an OB-GYN",
@@ -79,7 +79,7 @@ const checklistObj = {
             task2: {
                 name: "Make a preconception appointment",
                 description: "It is important to make a preconception appointment with your health care provider to learn things about your body that might complicate your pregnancy (or learn how to prevent these complications).  At this appointment, you can expect to discuss your overall health, medications you are taking that might affect a growing fetus (be sure to bring a list of all medications and supplements you are taking!), and how to manage health conditions (for example, diabetes or hypertension) that might impact your pregnancy.  You may also receive vaccines for which you are not already immune, and receive a Pap test as well as sexually transmitted infection (STI) screening.  Your provider might also suggest genetic carrier screening which is a lab test that can help determine the risk of having a baby with certain genetic conditions.  The Office on Women’s Health provides a worksheet to bring with you, to help remember what to talk about and to take notes on: https://www.womenshealth.gov/files/documents/preconception-visit.pdf ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2018. Good health before pregnancy: Prepregnancy care. American College of Obstetricians and Gynecologists. Retrieved from \n\nhttps://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Prepregnancy-Care ",
+                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health \n\nACOG. 2018. Good health before pregnancy: Before Pregnancy care. American College of Obstetricians and Gynecologists. Retrieved from \n\nhttps://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Before Pregnancy-Care ",
                 completed: "false"
             },
             task3: {
@@ -127,14 +127,14 @@ const checklistObj = {
             }
         }
     },
-    firstTrimester: {
+    "1st Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
+                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n- folic acid (folate): 600-800 mcg/day\n- iron: 27 mg /day\n- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n- vitamin D: 600 international units/day\n- DHA: minimum of 300mg/day',
                 references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
                 completed: "false",
                 repeat: "true",
@@ -200,8 +200,8 @@ const checklistObj = {
             title: "By 7-8 Weeks",
             taskCount: "4",
             task1: {
-                name: "Make list of questions to bring to your first prenatal appointment",
-                description: "What should I ask?\nHere are a few suggestions of things to ask at your first prenatal appointment:\nIs it safe to continue taking all of my current medications, creams, and herbal supplements?\nWhat insect repellent is safe to use?\nWhat should I do if I experience cramping or bleeding?  What about a fever?  Who should I call if it’s after hours?\nIs there anything (food, activities, exercise, environmental hazards, etc.) I should avoid while pregnant?\nWhat during pregnancy is normal and not cause for concern, and what is an emergency?\nWhat parts of my beauty routine are safe/unsafe?  Are there hair or skincare products I should avoid?\nHow often should I expect prenatal appointments each trimester?\nWhat should I be eating, and what kinds of exercise are safe?\nDoes what I do for work pose a threat to my pregnancy? ",
+                name: "Make a list of questions to bring to your first prenatal appointment",
+                description: "What should I ask?\nHere are a few suggestions of things to ask at your first prenatal appointment:\n- Is it safe to continue taking all of my current medications, creams, and herbal supplements?\n- What insect repellent is safe to use?\n- What should I do if I experience cramping or bleeding?  What about a fever?  Who should I call if it’s after hours?\n- Is there anything (food, activities, exercise, environmental hazards, etc.) I should avoid while pregnant?\n- What during pregnancy is normal and not cause for concern, and what is an emergency?\n- What parts of my beauty routine are safe/unsafe?  Are there hair or skincare products I should avoid?\n- How often should I expect prenatal appointments each trimester?\n- What should I be eating, and what kinds of exercise are safe?\n- Does what I do for work pose a threat to my pregnancy? ",
                 references: "APA. 2016. Your first prenatal visit. American Pregnancy Association. Retrieved from https://americanpregnancy.org/planning/first-prenatal-visit/\nMartin, Eva. 21 questions for your first prenatal visit. Bloomlife. Retrieved from https://bloomlife.com/preg-u/first-prenatal-visit/ ",
                 completed: "false"
             },
@@ -239,7 +239,7 @@ const checklistObj = {
             taskCount: "5",
             task1: {
                 name: "Plan a babymoon for your second trimester",
-                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.\n\nZika Virus \nZika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika\n\nHow to reduce risk of insect bites:\nIt is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:\nWear long sleeved shirts and pants when outside, especially when hiking or in wilderness\nUse permethrin on clothing\nWear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)\nStay in areas with air conditioning and screens on windows/doors to keep insects out\nControl mosquitos inside and outside of home\nSleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
+                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.\n\nZika Virus \nZika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika\n\nHow to reduce risk of insect bites:\nIt is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:\n- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness\n- Use permethrin on clothing\n- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)\n- Stay in areas with air conditioning and screens on windows/doors to keep insects out\n- Control mosquitos inside and outside of home\n- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
                 references: "CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/about/overview.html\nCDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/geo/index.html\nMother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from https://mothertobaby.org/fact-sheets/insect-repellents/ ",
                 completed: "false"
             },
@@ -269,14 +269,14 @@ const checklistObj = {
             }
         }
     },
-    secondTrimester: {
+    "2nd Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
+                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n- folic acid (folate): 600-800 mcg/day\n- iron: 27 mg /day\n- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n- vitamin D: 600 international units/day\n- DHA: minimum of 300mg/day',
                 references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
                 completed: "false",
                 repeat: "true",
@@ -363,7 +363,7 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Go on a babymoon",
-                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.\n\nZika Virus \nZika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika\n\nHow to reduce risk of insect bites:\nIt is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:\nWear long sleeved shirts and pants when outside, especially when hiking or in wilderness\nUse permethrin on clothing\nWear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)\nStay in areas with air conditioning and screens on windows/doors to keep insects out\nControl mosquitos inside and outside of home\nSleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
+                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.\n\nZika Virus \nZika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika\n\nHow to reduce risk of insect bites:\nIt is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:\n- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness\n- Use permethrin on clothing\n- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)\n- Stay in areas with air conditioning and screens on windows/doors to keep insects out\n- Control mosquitos inside and outside of home\n- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
                 references: "CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/about/overview.html\nCDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/geo/index.html\nMother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from https://mothertobaby.org/fact-sheets/insect-repellents/ ",
                 completed: "false"
             },
@@ -388,14 +388,14 @@ const checklistObj = {
             }
         }
     },
-    thirdTrimester: {
+    "3rd Trimester": {
         sectionCount: "5",
         section1: {
             title: "Daily",
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
+                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n- folic acid (folate): 600-800 mcg/day\n- iron: 27 mg /day\n- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n- vitamin D: 600 international units/day\n- DHA: minimum of 300mg/day',
                 references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
                 completed: "false",
                 repeat: "true",
@@ -549,14 +549,14 @@ const checklistObj = {
             }
         }
     },
-    postPregnancy: {
+    "After Pregnancy": {
         sectionCount: "3",
         section1: {
             title: "Daily",
             taskCount: "3",
             task1: {
                 name: "Continue taking prenatal or postnatal vitamin daily, especially if you are breastfeeding or planning to have another baby",
-                description: 'What should be in my prenatal vitamin?\nWhile eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  \n\n-folic acid (folate): 600-800 mcg/day\n-iron: 27 mg /day\n-calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)\n-vitamin D: 600 international units/day\n-DHA: minimum of 300mg/day',
+                description: "",
                 references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false \n\nAPA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ \n\nAPA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ \n\nAPA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ \n\nAPA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ \n\nAPA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ \n\nMayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
                 completed: "false",
             },
@@ -608,3 +608,283 @@ const checklistObj = {
         }
     }
 }
+
+const taskBundleObj = {
+    other: {
+        "Baby Shower": {
+            sectionCount: "1",
+            description: "When a baby is on the way, you aren’t the only one that gets excited. Celebrate with your loved ones and let us help you create an unforgettable day!",
+            section1: {
+                title: "By 26-28 Weeks",
+                trimester: "2nd Trimester",
+                taskCount: "9",
+                task1: {
+                    name: "Baby Shower: Pick a date",
+                    description: "Baby showers are typically held between the end of second trimester and the middle of third trimester.",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Baby Shower: Select a venue",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task3: {
+                    name: "Baby Shower: Finalize gift registry",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task4: {
+                    name: "Baby Shower: Finalize your personal baby shower website",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task5: {
+                    name: "Baby Shower: Create guest list",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task6: {
+                    name: "Baby Shower: Send invitations",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task7: {
+                    name: "Baby Shower: Decide on baby shower games",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task8: {
+                    name: "Baby Shower: Select caterer",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task9: {
+                    name: "Baby Shower: If young children are attending, consider adding a fun activity for them: games, face painting, bounce house, etc.",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+            }
+        },
+        "Gender Reveal Party": {
+            sectionCount: "1",
+            description: "Gender reveals can be great occasions to share moments of joy. You can even get others involved and have fun getting creative making your announcement.",
+            section1: {
+                title: "By 15-22 Weeks",
+                trimester: "2nd Trimester",
+                taskCount: "7",
+                task1: {
+                    name: "Gender Reveal Party: Select a venue",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Gender Reveal Party: Create guest list",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task3: {
+                    name: "Gender Reveal Party: Send invitations",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task4: {
+                    name: "Gender Reveal Party: Decide how the reveal will take place",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task5: {
+                    name: "Gender Reveal Party: Purchase supplies for the reveal",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task6: {
+                    name: "Gender Reveal Party: Decide which person will know the secret of the gender",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task7: {
+                    name: "Gender Reveal Party: Ask someone to take photos",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                }
+            }
+        },
+        "Pregnancy Announcement Photography": {
+            sectionCount: "1",
+            description: "Professional photographs are a great way to tell family and friends about the great news.",
+            section1: {
+                title: "By End of 1st Trimester",
+                trimester: "1st Trimester",
+                taskCount: "4",
+                task1: {
+                    name: "Pregnancy Announcement: Schedule photographer",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Pregnancy Announcement: Schedule hair stylist",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task3: {
+                    name: "Pregnancy Announcement: Schedule makeup artist",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task4: {
+                    name: "Pregnancy Announcement: Select outfits to wear",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                }
+            }
+        },
+        "Birth Photography": {
+            sectionCount: "1",
+            description: "It's an incredibly intimate moment, one you might just want to capture forever.",
+            section1: {
+                title: "By 36 Weeks",
+                trimester: "3rd Trimester",
+                taskCount: "3",
+                task1: {
+                    name: "Birthing Photos: Select photographer from the International Association of Professional Birth Photographers (IAPBP)",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Birthing Photos: Schedule hair stylist",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                },
+                task3: {
+                    name: "Birthing Photos: Schedule makeup artist",
+                    description: "",
+                    references: "",
+                    completed: "false"
+                }
+            }
+        },
+        "Maternity Photography": {
+            sectionCount: "1",
+            description: "Remember the awesome moments from your pregnancy!",
+            section1: {
+                title: "By End of 2nd Trimester",
+                trimester: "2nd Trimester",
+                taskCount: "4",
+                task1: {
+                    name: "Maternity Photos: Schedule photographer",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Maternity Photos: Schedule hair stylist",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task3: {
+                    name: "Maternity Photos: Schedule makeup artist",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task4: {
+                    name: "Maternity Photos: Select outfits to wear",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                }
+            }
+        },
+        "Newborn Photography": {
+            sectionCount: "1",
+            description: "Kids grow up fast and you may want to capture their first moments forever.",
+            section1: {
+                title: "By End of 3rd Trimester",
+                trimester: "3rd Trimester",
+                taskCount: "4",
+                task1: {
+                    name: "Newborn Photos: Schedule photographer",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task2: {
+                    name: "Newborn Photos: Schedule hair stylist",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task3: {
+                    name: "Newborn Photos: Schedule makeup artist",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+                task4: {
+                    name: "Newborn Photos: Select outfits to wear",
+                    description: "",
+                    references: "",
+                    completed: "false",
+                },
+            }
+        },
+        "Doula": {
+            sectionCount: "1",
+            description: "To doula or not to doula?",
+            section1: {
+                title: "",
+                trimester: "Current Trimester",
+                taskCount: "1",
+                task1: {
+                    name: "Doula: Decide whether a doula is right for you",
+                    description: "To doula or not to doula?\nTo make this decision, let’s first talk about what a doula is: during labor, a doula is your number one cheerleader. She will stay by your side to help with pain techniques, position changes, massage, and breathing. A doula is NOT a medical professional and cannot substitute as one. A doula typically meets with you before delivery and remains with you throughout the entirety of the labor and delivery process. She will typically follow up during your postpartum period as well. The most common type of doula is one who supports you through labor. Here are some pros and cons to further help you decide if a doula might be right for you:\n\nPros:\nContinuous 1:1 support during labor\n- Can make labor more enjoyable\n- Can help you follow your birth plan more closely\n- Is associated with fewer interventions during labor (including cesarean sections, episiotomies, and pain medications)\n\nCons: \n- Cost: typically between $800 - $2,500, but varies greatly by region (this may or may not be covered by your insurance)\n- She might get in your partner’s way if s/he wants to take the lead cheerleader role\n- Your doula’s opinion may clash with the opinion of your healthcare provider",
+                    references: "ACOG. 2017. ACOG committee opinion: Approaches to limit intervention during labor and birth. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Approaches-to-Limit-Intervention-During-Labor-and-Birth?IsMobileSet=false\n\nAPA. 2017. Having a doula: Is a doula for me? American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/having-a-doula/\n\nWTE. 2018. What is a doula and should you hire one for your baby’s birth? What to Expect. Retrieved from https://www.whattoexpect.com/pregnancy/hiring-doula ",
+                    completed: "false",
+                }
+            }
+        },
+        "Low-income Assistance": {
+            sectionCount: "1",
+            description: "There are several assistance programs to help you and your baby throughout pregnancy and for several years after.",
+            section1: {
+                title: "",
+                trimester: "Current Trimester",
+                taskCount: "1",
+                task1: {
+                    name: "Look up low-income assistance programs near me",
+                    description: "Low-income Assistance Programs\nThere are several assistance programs to help you and your baby throughout pregnancy and for several years after.  One of these examples is the Women, Infants, and Children (WIC) program which serves about half of all infants born in the United States.  To be connected with your local health department for resources on free or reduced prenatal care, call: \n- 800-311-BABY (800-311-2229) \n- (Spanish: 800-504-7081) \nTo see if you are eligible for the WIC program, please visit their website: https://www.fns.usda.gov/wic/women-infants-and-children ",
+                    references: "",
+                    completed: "false",
+                }
+            }
+        }
+    },
+    medical: {
+    }
+}
+// Code to store taskBundleObj.
+// let db = firebase.firestore();
+// await db.collection("checklist").doc("taskBundles").set(taskBundleObj);
