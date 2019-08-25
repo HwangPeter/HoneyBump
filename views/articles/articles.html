@@ -5,9 +5,9 @@
     <title>Pregnancy Planning - myHoneyBump</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="articles/articles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/articles/articles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
@@ -19,29 +19,85 @@
 
 <body>
     <header>
-        <img class="logopic"
-            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
-            alt="myHoneyBumpLogo">
-        <span>myHoneyBump</span>
+        <div id="hamburger">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+        <a href="/">
+            <img class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
         <div class="topNav">
             <ul>
-                <li class="checklist"><a href="/checklist">Pregnancy Checklist</a></li><li class="website"><a href="/website">My (Free!) Baby Website</a></li><li class="must-haves"><a href="/mustHaves">Must Haves</a></li><li class="articles"><a href="/articles">The Buzz</a></li><li id="logout"><a href="">Logout</a></li>
-                <hr id="underline"/>
+                <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+                <!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>-->
+                <li class="articles"><a href="/articles">ARTICLES</a></li>
+                <li id="logout">LOG IN/SIGN UP</li>
             </ul>
         </div>
     </header>
+
     <main>
-        main
+        <div class="featured">
+            <div class="featured-notice">FEATURED ARTICLE</div>
+            <a href="/articles/what_should_i_include_in_my_birth_plan">
+                <img id="featured-image"
+                    src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=9bd95402-3e83-408f-884c-6546d3e02ef5"
+                    alt="Birth Plan">
+            </a>
+            <div class="featured-article-text-container">
+                <a href="/articles/what_should_i_include_in_my_birth_plan">
+                    <div id="featured-title">What Should I Include In My Birth Plan?</div>
+                </a>
+                <a href="/articles/what_should_i_include_in_my_birth_plan">
+                <div id="featured-description">Bring this list with you to your next prenatal appointment to show your
+                    health care provider.</div>
+                </a>
+            </div>
+        </div>
+        <h3 class="underlined">Articles by Title</h3>
+        <div class="article-list">
+            <div class="article">
+                <div class="article-image-container">
+                    <img
+                        src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FavoidWhilePregnantThumb.jpg?alt=media&token=5e295a70-a8c9-466a-9525-f98a8454dcc7">
+                </div>
+                <div class="article-list-text-container">
+                    <div class="article-title">What Should I Avoid While Pregnant?</div>
+                    <div class="article-description">The do's and don'ts of pregnancy to keep you and baby safe.</div>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
     </main>
+
     <sidebar>
-        sidebar
     </sidebar>
+
     <aside>
-        aside
     </aside>
+
     <footer>
-        footer
+        <br>
     </footer>
+    <div id="sideNav" class="animated slideInRight slideOutLeft">
+        <a href="/">
+            <img class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
+        <ul>
+            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+            <li class="articles"><a href="/articles">ARTICLES</a></li>
+            <li id="sideNav-logout">LOG IN/SIGN UP</li>
+        </ul>
+    </div>
+    <div id="faded-container"></div>
 </body>
+
+
+<script type="text/javascript" src="/articles/articles.js"></script>
 
 </html>

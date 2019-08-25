@@ -13,6 +13,19 @@
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             updateLogoutButton();
+            let articleName = window.location.href.substring(window.location.href.indexOf("/articles/") + 10);
+
+            let db = firebase.firestore();
+            let snapshot = await db.collection('articles').doc(articleName).get()
+            if (!snapshot.exists) {
+                window.location.href = "/404";
+            }
+            else {
+                document.getElementById("title").innerText = snapshot.data().title;
+                document.getElementById("hero-image").src = snapshot.data().heroImage;
+                document.getElementById("hero-image").alt = snapshot.data().heroImageAlt;
+                document.getElementById("article-text").innerHTML = snapshot.data().articleTextHTML;
+            }
         }
     });
 
@@ -55,4 +68,6 @@
             window.location.href = "/signUpLogin";
         }
     });
+
+
 })();

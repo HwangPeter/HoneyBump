@@ -1,3 +1,8 @@
+/* ImageMagick terminal command to convert image dimensions
+ convert "input.jpg" -resize 500x500 -quality 100 "output.png"
+ */
+
+
 /* Checklist document structure
 Document contains an object containing all tasks across all trimesters.
 Each trimester as well as "Tasks I Added" are contained within their own objects.
@@ -888,3 +893,399 @@ const taskBundleObj = {
 // Code to store taskBundleObj.
 // let db = firebase.firestore();
 // await db.collection("checklist").doc("taskBundles").set(taskBundleObj);
+
+// ARTICLE INFO
+// Plan is to have a document for the article lists containing thumbnail image links and the title and desc.
+// Then a separate document for each full article.
+
+
+"what_should_i_include_in_my_birth_plan" = {
+    title: "What Should I Include In My Birth Plan?",
+    heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=9bd95402-3e83-408f-884c-6546d3e02ef5",
+    articleTextHTML: `There is an endless list of things you can write on your birth plan! In order to
+        have the greatest chance of sticking to it though, we suggest picking a small handful of the most
+        important items for you. Bring this list with you to your next prenatal appointment to show your
+        health care provider. She can inform you of the policies at the hospital you plan to deliver at and
+        help you stick to your birth plan as closely as possible. After finalizing with your health care
+        provider, print several copies with you to bring in your hospital bag so that you can share them
+        with the nurses and physicians on staff that day. Keep in mind, this is a birth plan. Unfortunately,
+        things don’t always go according to plan! Childbirth is unique and different for every woman. If
+        there is a change of plans on your delivery date, don’t feel like you failed because you didn’t
+        stick to the plan. The most important thing is that you and your baby have a safe, healthy delivery!
+        Here’s a few ideas you might consider adding to your plan:
+        <br>
+        <h4>Who will be present in the delivery room?</h4>
+        Talk with your health care provider or ask your hospital’s Labor and Delivery Unit if they
+        have
+        restrictions on the number of people who may be present. Confirm your hospital’s policy
+        regarding
+        children in the delivery room (if that is something you wish to have).
+        <h4>Delayed umbilical cord clamping
+        </h4>
+        This is typically defined as waiting at least 60 seconds after
+        birth to clamp your baby’s cord. This means that your baby will continue to receive blood from
+        your placenta after s/he is delivered.
+        <ul class="article-list">
+            <li>
+                Pros: Emerging research is showing that delayed clamping can help to improve outcomes for
+                both term
+                and preterm babies. In term babies, benefits include better iron levels in the baby’s first
+                few
+                months of life, as well as increased levels of hemoglobin. Hemoglobin is a protein found in
+                our
+                blood that helps carry oxygen to our cells. In preterm babies, delayed clamping can improve
+                the
+                transition of circulation from fetal to newborn circulation, better red blood cell volume,
+                and decreased risks for necrotizing enterocolitis (infection of the intestine),
+                intraventricular
+                hemorrhage (brain bleed), and need for blood transfusion. Many organizations, including the
+                World Health Organization, American College of Obstetricians and Gynecologists, and American
+                Pregnancy
+                Association recommend the practice of delayed cord clamping.
+            </li>
+            <li>
+                Cons: This might cause a small increase in the risk that your baby might develop jaundice
+                (when
+                there is too much bilirubin in the blood). Because of this, your medical center will screen
+                your
+                newborn baby for jaundice before your baby s/he is discharged. If your baby does develop
+                jaundice,
+                it is often treated in the medical center with something called phototherapy (sometimes
+                called
+                the
+                “bili lights”).
+            </li>
+        </ul>
+        <h4>
+            Kangaroo care (“skin-to-skin”)
+        </h4>
+        Kangaroo care is the practice of holding your baby, dressed only
+        in a diaper and hat, to your bare chest (or your partner’s bare chest) while covering the
+        exposed side
+        of your baby’s body with a blanket to keep him/her warm. This practice looks somewhat like a
+        kangaroo pouch, hence the name. Kangaroo care has been proven to help stabilize and regulate
+        a
+        newborn’s vital signs (heart rate, temperature, and respiratory rate), as well as promote
+        bonding, improve breastmilk supply, and decrease crying. This is especially true if your
+        baby is
+        born
+        prematurely. Even if your baby is hooked up to machines in the NICU, often times kangaroo
+        care
+        is
+        still possible and encouraged. Be sure to not fall asleep, however, while holding your baby.
+        <h4>
+            Delayed bathing
+        </h4>
+        The World Health Organization (and many others) recommend that babies do not
+        receive a bath until at least 24 hours after birth. According to the Association of Women’s
+        Health,
+        Obstetric and Neonatal Nurses, delayed bathing helps to keep your baby warm, stabilize
+        his/her
+        blood
+        sugar, improve breastfeeding success, prevent infections, and improve bonding. There are a
+        few
+        situations where it is recommended for baths to take place sooner, typically right after the
+        first
+        breastfeeding. This happens when mom has a virus such as HIV or hepatitis that can be passed
+        easily
+        to family members or hospital staff.
+        <h4>
+            Do you want to breastfeed right after delivery?
+        </h4>
+        <h4>
+            Pain control
+        </h4>
+        <h6 class="small-indent">
+            Non-medicated approach
+        </h6>
+        <p class="indented">If you are planning to have a “natural delivery,” below are a few
+            techniques
+            that might help you through the labor process. Be sure to rehearse your top picks many times
+            before
+            delivering in order to have a greater chance of sticking to your birth plan.
+        </p>
+        <ul class="article-list">
+            <li>
+                Massage
+            </li>
+            <li>
+                Effleurage
+            </li>
+            <li>
+                Music: Make a playlist and add it to your phone before D-day
+            </li>
+            <li>
+                Imagery
+            </li>
+            <li>
+                Concentrating on a focal point
+            </li>
+            <li>
+                Cold packs
+            </li>
+            <li>
+                Hot packs
+            </li>
+            <li>
+                Meditation
+            </li>
+            <li>
+                Position changes: There are many positions you can use to help relive labor pains. You don’t
+                have to
+                stay in bed! Consider side-lying, squatting, bouncing on an exercise ball (some medical
+                centers
+                will
+                provide one for you to borrow), kneeling, walking, swaying/“slow dancing” with your partner,
+                standing while leaning with both arms on the bed, etc.
+            </li>
+            <li>
+                Diffuse essential oils (or for a more compact method: bring some cotton balls that you have
+                put
+                several drops of the oils on instead of packing your whole diffuser!)
+            </li>
+            <li>
+                Breathing techniques
+            </li>
+            <li>
+                Water therapy (shower/bathtub): This may not be an option at all medical facilities
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Opiates
+        </h6>
+        <p class="indented">
+            These medications are typically given to the mother intravenously (through an “IV”) to
+            reduce the labor pains by changing the way the mother perceives pain. The opiates most commonly
+            used
+            in childbirth include morphine, Stadol, fentanyl, Nubain, and Demerol.
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: These medications typically begin working quickly, within about 5 minutes. Opiates do
+                not
+                alter a woman’s ability to push when the time comes (she will still feel contractions).
+            </li>
+            <li>
+                Cons: Opiates do not completely numb all pain, but rather, reduce the sensation of intensity
+                of
+                a
+                contraction. There are side effects for opiates that can affect both mother and baby,
+                including
+                sedation, nausea, and respiratory depression to name a few. Because of this, opiates are
+                typically
+                only given in the early stages of labor. If too much of the opiate is still in the baby’s
+                body
+                after
+                delivery, a reversal agent called Narcan might need to be given to the newborn to combat the
+                opiate’s side effects.
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Epidural
+        </h6>
+        <p class="indented">
+            An epidural is the most commonly requested form of pain relief for women delivering in
+            a
+            hospital. It is a procedure wherein medications are given through a catheter that has been
+            placed in
+            the epidural space (the area surrounding the spinal cord) to block pain in the lower half of the
+            body. A local anesthetic (bupivacaine, chloroprocaine, or lidocaine) is mixed with an opioid
+            (fentanyl, sufentanil, or morphine) to prolong the effects of the epidural. An epidural is
+            considered a local anesthetic, meaning that there is a loss of sensation in only part of the
+            body.
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: Receiving an epidural can take away almost all of the pain associated with labor,
+                leaving
+                only
+                the sensation of pressure or stretching during delivery. The mother will be able to stay
+                awake
+                and
+                clearly remember her birthing process. If the delivery turns into a c-section, the epidural
+                will
+                serve as the method of pain control during surgery. If labor is prolonged, it allows the
+                mother
+                to
+                rest and actively participate in her labor process.
+            </li>
+            <li>
+                Cons: Patients are typically not allowed to get out of bed or eat after receiving an
+                epidural.
+                Although uncommon, it is possible to have a failed or inadequate epidural. Some women say
+                the
+                epidural works more effectively on one side of their body than the other. Some of the other
+                risks
+                include infection, bleeding, severe headache, itching, postpartum back pain at the insertion
+                site,
+                nausea, difficulty urinating, permanent nerve damage (rare), or a drop in blood pressure
+                which
+                can
+                cause the baby’s heart rate to slow down.
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Spinal block
+        </h6>
+        <p class="indented">This technique is typically only used when the mother is undergoing a c-section.
+            It is
+            similar to an epidural. Medication is delivered through a needle and the needle is then removed,
+            whereas a catheter is left in place to infuse pain medication for an epidural.
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: This typically provides pain relief for 1-2 hours. Mothers remain awake and alert.
+            </li>
+            <li>
+                Cons: Same as epidural anesthesia.
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Walking epidural/Combined Spinal-Epidural (CSE)
+        </h6>
+        <p class="indented">A CSE is when both a spinal block and epidural
+            are
+            performed at the same time. Pain medication is injected, and the catheter is left in place
+            (although
+            typically without any medication infusing in it).
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: CSEs are easily turned into an epidural if pain control is inadequate. Sometimes it is
+                slightly easier for mothers to move independently than if she receives an epidural.
+            </li>
+            <li>
+                Cons: Same as epidural anesthesia.
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Nitrous oxide, aka “laughing gas”
+        </h6>
+        <p class="indented">
+            While this pain method is uncommonly offered by hospitals in
+            the
+            United States, it has started to make a comeback in recent years. Other countries use nitrous
+            oxide
+            as the primary method of pain control during labor. During the procedure, the mother will be
+            given a
+            mask with a combination of oxygen and nitrous oxide to inhale before a contraction starts.
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: This inhaled medication helps the mother to reduce her perception of labor pain and
+                relax.
+                Because it is self-administered, it is easy to stop therapy at any time. Effects are
+                short-acting
+                and will stop within five minutes of discontinuation. Nitrous oxide does not affect the
+                newborn.
+            </li>
+            <li>
+                Cons: Nitrous oxide shares side effects of anesthetics, including nausea, vomiting,
+                dizziness,
+                and
+                sedation. If a mother has recently had ear surgery or has vitamin B12 deficiency, she should
+                not
+                use
+                nitrous oxide.
+            </li>
+        </ul>
+        <h6 class="small-indent">
+            Pudendal block
+        </h6>
+        <p class="indented">Localized numbing medication is injected near the pudendal nerve (in the
+            vagina).
+            This can be used right before the baby’s head exists the vagina, or before stitches are made
+            when
+            repairing tears or lacerations from delivery.
+        </p>
+        <ul class="article-list">
+            <li>
+                Pros: Mothers can remain awake and alert while receiving this pain medicine. It can provide
+                momentary relief for some of the most painful parts of the delivery process.
+            </li>
+            <li>
+                Cons: There are very few cons with this pain treatment. It is unlikely to have any effect on
+                your
+                baby.
+            </li>
+        </ul>
+        <h4>What birthing positions would you prefer to use?</h4>
+        Keep in mind you may have limited mobility
+        after
+        some pain treatments like epidurals.
+
+        <h4>
+            Staying hydrated
+        </h4>
+        Will you bring a water bottle with a straw with you? Or maybe plan to chew on
+        ice
+        chips?
+
+
+        <h4>
+            References:
+        </h4>
+
+
+        ACOG. 2017. Delayed umbilical cord clamping after birth. American College of Obstetricians and
+        Gynecologists. Retrieved from
+        https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Delayed-Umbilical-Cord-Clamping-After-Birth?IsMobileSet=false
+        <br>
+        <br>
+        APA. 2015. Nitrous oxide during labor. American Pregnancy Association. Retrieved from
+        https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/
+        <br>
+        <br>
+        APA. 2015. Using narcotics for pain relief during childbirth. American Pregnancy Association.
+        Retrieved from https://americanpregnancy.org/labor-and-birth/narcotics/
+        <br>
+        <br>
+        APA. 2017. Creating your birth plan. American Pregnancy Association. Retrieved from
+        https://americanpregnancy.org/labor-and-birth/birth-plan/
+        <br>
+        <br>
+        APA. 2017. Delayed cord clamping: What are the risks and benefits? American Pregnancy Association.
+        Retrieved from https://americanpregnancy.org/labor-and-birth/delayed-cord-clamping-risks-benefits/
+        <br>
+        <br>
+        APA. 2017. Epidural Anesthesia. American Pregnancy Association. Retrieved from
+        https://americanpregnancy.org/labor-and-birth/epidural/
+        <br>
+        <br>
+        Cleveland Clinic. 2015. Kangaroo care. Retrieved from
+        https://my.clevelandclinic.org/health/treatments/12578-kangaroo-care
+        <br>
+        <br>
+        Familydoctor.org. 2017. Dealing with pain during childbirth. American Academy of Family Physicians.
+        Retrieved from https://familydoctor.org/dealing-pain-childbirth/
+        <br>
+        <br>
+        Johns Hopkins Medicine. Kangaroo Care. Retrieved from
+        https://www.hopkinsallchildrens.org/Services/Maternal-Fetal-Neonatal-Institute/Neonatology/Programs-and-Services/Kangaroo-Care
+        <br>
+        <br>
+        Labor positions and movement. Lamaze International. Retrieved from
+        https://www.lamaze.org/labor-positions
+        <br>
+        <br>
+        March of Dimes. 2014. Kangaroo care. Retrieved from
+        https://www.marchofdimes.org/baby/kangaroo-care.aspx
+        <br>
+        <br>
+        Mayo Clinic. 2017. Labor and delivery, postpartum care. Retrieved from
+        https://www.mayoclinic.org/healthy-lifestyle/labor-and-delivery/in-depth/labor-and-delivery/art-20049326
+        <br>
+        <br>
+        OWH. 2018. Labor and birth. Office on Women’s Health. Retrieved from
+        https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth
+        <br>
+        <br>
+        WHO. 2018. WHO recommendation on bathing and other immediate postnatal care of the newborn. World
+        Health Organization. Retrieved from
+        https://extranet.who.int/rhl/topics/newborn-health/care-newborn-infant/who-recommendation-bathing-and-other-immediate-postnatal-care-newborn
+        <br>
+        <br>
+        WHO. 2019. Optimal timing of cord clamping for the prevention of iron deficiency anemia in infants.
+        World Health Organization. Retrieved from https://www.who.int/elena/titles/cord_clamping/en/
+    `
+}

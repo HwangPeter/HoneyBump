@@ -45,101 +45,47 @@ main {
     text-align: center;
 }
 
-.featured-notice {
-    font-size: 16px;
-    color: gray;
-}
-
-.featured {
+.article {
     margin: auto;
     width: 90%;
     position: relative;
     background-size: contain;
 }
 
-#featured-image {
+#hero-image {
     max-width: 100%;
+    margin-bottom: 15px;
 }
 
-#featured-title {
+#title {
     text-align: left;
     padding: 5px;
     font-size: 20px;
     font-weight: 500;
+    margin-bottom: 20px;
+    color: #6B5875;
 }
 
-#featured-description {
+#article-text {
     font-size: 14px;
     padding: 5px;
     line-height: 21px;
     font-weight: 300;
     text-align: left;
+    display: inline-block;
     max-width: 100%;
 }
 
-h3.underlined {
-    width: 95%;
-    border-bottom: 2px solid #6B5875;
-    margin: 15px auto 35px auto;
+.small-indent {
+    padding-left: 15px;
 }
 
-.article-list {
-    width: 90%;
-    margin: auto;
-    display: table;
-}
-
-.article {
-    background-size: contain;
-    border-radius: 4px;
-    width: 100%;
-    min-height: 100px;
-    margin-bottom: 20px;
-    display: table;
-    vertical-align: middle;
-    text-align: left;
-    position: relative;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-.article-image-container {
-    position: relative;
-    margin: 5px;
-    height: 90px;
-    width: 90px;
-    float: left;
-    background-color: rgba(0,0,0,.85);
-    border-radius: 4px;
-}
-
-.article img {
-    position: absolute;
-    padding: 0;
-    border-radius: 4px;
-    max-height: 100%;
-    max-width: 100%;
-    margin: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.article-list-text-container {
-    position: relative;
-    margin: 8px 5px;
-    width: calc(100% - 110px);
-    float: left;
-}
-
-.article-title {
+.indented {
+    padding-left: 25px;
     font-size: 14px;
-    font-weight: 500;
-}
-
-.article-description {
-    font-size: 12px;
     line-height: 21px;
     font-weight: 300;
-    word-break: break-word;
+    color: black;
 }
 
 sidebar {
@@ -161,22 +107,27 @@ footer {
 
 @media only screen and (min-width: 768px) {
 
-    #featured-title {
-        font-size: 24px;
+    #title {
+        font-size: 28px;
     }
 
-    #featured-description {
+    #article-text {
         font-size: 16px;
         line-height: 25px;
     }
 
-    .article-title {
-        font-size: 24px;
+    .small-indent {
+        padding-left: 25px;
     }
 
-    .article-description {
+    .indented {
+        padding-left: 60px;
         font-size: 16px;
         line-height: 25px;
+    }
+
+    ul.article-list {
+        padding-inline-start: 80px;
     }
 
     body {
@@ -193,27 +144,6 @@ footer {
         "header header header header header header"
         "main main main main main aside"
         "footer footer footer footer footer footer";
-    }
-
-    .article {
-        height: 160px;
-    }
-
-    .article-image-container {
-        height: 160px;
-        width: 160px;
-    }
-
-    /* .article img {
-        height: 100%;
-        width: 100%;
-        max-height: 100%;
-        max-width: 100%;
-    } */
-
-    .article-list-text-container {
-        width: calc(100% - 180px);
-        float: left;
     }
 
     aside {
@@ -261,33 +191,25 @@ footer {
         "footer footer footer footer footer footer";
     }
 
-    .article {
-        height: 160px;
-    }
-
-    #featured-image {
+    #hero-image {
         width: 80%;
     }
 
-    .featured-article-text-container {
+    .article-text-container {
         margin: auto;
         width: 80%;
     }
 
-    #featured-title {
-        font-size: 26px;
+    #title {
+        font-size: 34px;
     }
 
-    #featured-description {
+    #article-text {
         font-size: 18x;
         line-height: 28px;
     }
 
-    .article-title {
-        font-size: 26px;
-    }
-
-    .article-description {
+    .indented {
         font-size: 18x;
         line-height: 28px;
     }
@@ -322,36 +244,32 @@ footer {
 
 @media only screen and (min-width: 1440px) {
     
-    #featured-image {
+    #hero-image {
         width: 70%;
     }
     
-    .featured-article-text-container {
+    .article-text-container {
         margin: auto;
         width: 70%;
     }
 
-    #featured-title {
-        font-size: 26px;
+    #title {
+        font-size: 38px;
     }
 
-    #featured-description {
+    #article-text {
         font-size: 20x;
         line-height: 29px;
     }
 
-    .article-title {
-        font-size: 26px;
-    }
-
-    .article-description {
+    .indented {
         font-size: 20x;
         line-height: 29px;
     }
 }
 
 @media only screen and (min-width: 2000px) {
-    #featured-image {
+    #hero-image {
         width: 50%;
     }
 }
