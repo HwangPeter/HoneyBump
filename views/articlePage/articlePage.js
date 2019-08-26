@@ -13,18 +13,50 @@
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             updateLogoutButton();
-            let articleName = window.location.href.substring(window.location.href.indexOf("/articles/") + 10);
+        }
+        let articleName = window.location.href.substring(window.location.href.indexOf("/articles/") + 10);
+        let db = firebase.firestore();
+        let snapshot = await db.collection('articles').doc(articleName).get()
+        if (!snapshot.exists) {
+            window.location.href = "/404";
+        }
+        else {
+            document.getElementById("title").innerText = snapshot.data().title;
+            document.getElementById("hero-image").src = snapshot.data().heroImage;
+            document.getElementById("hero-image").alt = snapshot.data().heroImageAlt;
+            document.getElementById("article-text").innerHTML = snapshot.data().articleTextHTML;
 
-            let db = firebase.firestore();
-            let snapshot = await db.collection('articles').doc(articleName).get()
-            if (!snapshot.exists) {
-                window.location.href = "/404";
+
+            let snapshot2 = await db.collection('articles').doc("articleList").get()
+            if (!snapshot2.exists) {
             }
             else {
-                document.getElementById("title").innerText = snapshot.data().title;
-                document.getElementById("hero-image").src = snapshot.data().heroImage;
-                document.getElementById("hero-image").alt = snapshot.data().heroImageAlt;
-                document.getElementById("article-text").innerHTML = snapshot.data().articleTextHTML;
+
+                let additionalReadingsHTML = '<h3 class="underlined">Additional Readings</h3>\n' +
+                    '<div id="article-list">\n' +
+                    '</div>';
+                document.getElementsByTagName("main")[0].insertAdjacentHTML('beforeend', additionalReadingsHTML);
+
+                let articles = snapshot2.data();
+
+                Object.keys(articles).forEach(article => {
+                    if (article !== "featured_article" && articles[article]["title"] !== snapshot.data().title) {
+                        let articleListItemHTML = '<a href="/articles/' + article +
+                            '">\n' +
+                            '<div class="article-list-item">\n' +
+                            '<div class="article-image-container">\n' +
+                            '<img src="' + articles[article]["thumbnail"] + '">\n' +
+                            '</div>\n' +
+                            '<div class="article-list-text-container">\n' +
+                            '<div class="article-title">' + articles[article]["title"] + '</div>\n' +
+                            '<div class="article-description">' + articles[article]["description"] + '</div>\n' +
+                            '</div>\n' +
+                            '<div style="clear: both;"></div>\n' +
+                            '</div>\n' +
+                            '</a>';
+                        document.getElementById("article-list").insertAdjacentHTML('beforeend', articleListItemHTML);
+                    }
+                });
             }
         }
     });

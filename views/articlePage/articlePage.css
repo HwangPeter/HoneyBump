@@ -74,9 +74,10 @@ main {
     text-align: left;
     display: inline-block;
     max-width: 100%;
+    overflow-wrap: break-word;
 }
 
-.small-indent {
+h6 {
     padding-left: 15px;
 }
 
@@ -86,6 +87,65 @@ main {
     line-height: 21px;
     font-weight: 300;
     color: black;
+}
+
+#article-list {
+    width: 90%;
+    margin: auto;
+    display: table;
+}
+
+.article-list-item {
+    background-size: contain;
+    border-radius: 4px;
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 20px;
+    display: table;
+    vertical-align: middle;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.article-image-container {
+    position: relative;
+    margin: 5px;
+    height: 90px;
+    width: 90px;
+    float: left;
+    background-color: rgba(0,0,0,.85);
+    border-radius: 4px;
+}
+
+.article-list-item img {
+    position: absolute;
+    padding: 0;
+    border-radius: 4px;
+    max-height: 100%;
+    max-width: 100%;
+    margin: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.article-list-text-container {
+    position: relative;
+    margin: 8px 5px;
+    width: calc(100% - 110px);
+    float: left;
+}
+
+.article-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.article-description {
+    font-size: 12px;
+    line-height: 21px;
+    font-weight: 300;
+    word-break: break-word;
 }
 
 sidebar {
@@ -116,7 +176,7 @@ footer {
         line-height: 25px;
     }
 
-    .small-indent {
+    h6 {
         padding-left: 25px;
     }
 
@@ -126,7 +186,7 @@ footer {
         line-height: 25px;
     }
 
-    ul.article-list {
+    ul {
         padding-inline-start: 80px;
     }
 
@@ -144,6 +204,29 @@ footer {
         "header header header header header header"
         "main main main main main aside"
         "footer footer footer footer footer footer";
+    }
+
+    .article-title {
+        font-size: 24px;
+    }
+
+    .article-description {
+        font-size: 16px;
+        line-height: 25px;
+    }
+
+    .article-list-item {
+        height: 160px;
+    }
+
+    .article-image-container {
+        height: 160px;
+        width: 160px;
+    }
+
+    .article-list-text-container {
+        width: calc(100% - 180px);
+        float: left;
     }
 
     aside {
@@ -214,6 +297,15 @@ footer {
         line-height: 28px;
     }
 
+    .article-title {
+        font-size: 26px;
+    }
+
+    .article-description {
+        font-size: 18x;
+        line-height: 28px;
+    }
+
     sidebar {
         display: block;
     }
@@ -263,6 +355,15 @@ footer {
     }
 
     .indented {
+        font-size: 20x;
+        line-height: 29px;
+    }
+
+    .article-title {
+        font-size: 26px;
+    }
+
+    .article-description {
         font-size: 20x;
         line-height: 29px;
     }
