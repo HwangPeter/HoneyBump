@@ -12,10 +12,13 @@ header {
     box-sizing: border-box;
     line-height: 45px;
     padding: 0 7px;
+    z-index: 2;
 }
 
 header a {
   text-decoration: none;
+  z-index: 2;
+  position: relative;
 }
 
 #hamburger {
@@ -23,6 +26,8 @@ header a {
   vertical-align: middle;
   margin-right: 10px;
   cursor: pointer;
+  z-index: 2;
+  position: relative;
 }
 
 .hamburger-line {
@@ -646,7 +651,6 @@ form {
     text-decoration: none;
     color: #6B5875;
     font-size: 16px;
-    cursor: pointer;
   }
   
   header ul li a:hover {

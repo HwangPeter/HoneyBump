@@ -30,7 +30,7 @@
         document.getElementById("sideNav").style.opacity = "1";
         document.getElementById("faded-container").style.display = "block";
     });
-
+    
     document.getElementById("faded-container").addEventListener('click', () => {
         document.getElementById("sideNav").classList.add("slideOutLeft");
         document.getElementById("faded-container").style.display = "none";
