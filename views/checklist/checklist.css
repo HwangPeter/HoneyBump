@@ -5,7 +5,6 @@ body {
     bottom: 0;
     right: 0;
     left: 0;
-    text-align: center;
     margin: 0;
     height: 100%;
     overflow: hidden;
@@ -27,30 +26,18 @@ body {
     bottom: 0;
     right: 0;
     left: 0;
-    -webkit-transform: skew(0,-12deg) translate(0, -75%);
-        -ms-transform: skew(0,-12deg) translate(0, -75%);
-            transform: skew(0,-12deg) translate(0, -75%);
+    -webkit-transform: skew(0,-12deg) translate(0, -70%);
+        -ms-transform: skew(0,-12deg) translate(0, -70%);
+            transform: skew(0,-12deg) translate(0, -70%);
     /* transform: translate(0, 50%); */
 }
-/* body, html {
-    position: relative;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    top: 0;
-    left: 0;
-    font-size: 100%;
-    font: inherit;
-} */
 
 #content {
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: 0px 1fr;
     grid-template-columns: 0px 1fr;
-    grid-auto-rows: minmax(40px, auto);
+    grid-auto-rows: minmax(70px, auto);
     width: 100%;
     height: 100%;
     margin: 0;
@@ -60,8 +47,9 @@ background: linear-gradient(-45deg, #C4E0E5, #6B5875); W3C, IE 10+/ Edge, Firefo
 
     position: absolute;
     padding: 0;
-                    grid-template-areas:
-      "sidebar header"
+    grid-template-areas:
+      "header header"
+      "sidebar main"
       "sidebar main";
     overflow: hidden;
 }
@@ -93,10 +81,14 @@ h1.section {
 
 header {
     -ms-grid-row: 1;
-    -ms-grid-column: 2;
-    grid-area: header;
-    height: 40px;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 11;
+    padding-left: 5px;
     width: 100%;
+    height: 70px;
+    display: inline-block;
+    position: relative;
+    grid-area: header;
 }
 
 header p {
@@ -193,20 +185,6 @@ sidebar {
     grid-area: sidebar;
     height: 100%;
     width: 270px;
-}
-
-#faded-container {
-    z-index: 2;
-    display: none;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    cursor: pointer;
-    overflow: hidden;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
 }
 
 .filter-sidebar-container {
@@ -450,7 +428,7 @@ span#add-task-bundle-span:hover {
     -webkit-box-flex: 1;
         -ms-flex: auto;
             flex: auto;
-    height: calc(100% - 57px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100% - 86px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
     overflow: auto;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
@@ -865,6 +843,7 @@ button.checkmark{
     top: 0;
     left: 0;
     overflow: hidden;
+    text-align: center;
 }
 
 #add-task-task-name {
@@ -896,6 +875,7 @@ button.checkmark{
 }
 
 .header-button-container span {
+    text-align: center;
     color: #6B5875;
     font-weight: 500;
     font-size: 18px;
@@ -1023,7 +1003,7 @@ button#save:hover {
     display: block;
 }
 
-ul {
+.task-bundles-header-container > ul {
     padding: 0;
     margin: 0;
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -1031,7 +1011,7 @@ ul {
     background-color: white;
 }
 
-ul li {
+.task-bundles-header-container > ul li {
     display: inline;
     text-align: center;
 }
@@ -1058,7 +1038,7 @@ li span:hover {
     color: black;
 }
 
-hr {
+.task-bundles-header-container hr {
     height: 3px;
     width: 33.333333%;
     width: calc(100% / 3);
@@ -1239,13 +1219,6 @@ i {
     -webkit-transform: rotate(-135deg);
 }
 
-.animated {
-    -webkit-animation-duration: 300ms;
-    animation-duration: 300ms;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-  }
-
 @-webkit-keyframes slideInLeft {
   from {
     -webkit-transform: translate3d(120%, 0, 0);
@@ -1275,37 +1248,6 @@ i {
 .slideInLeft {
   -webkit-animation-name: slideInLeft;
   animation-name: slideInLeft;
-}
-
-@-webkit-keyframes slideInRight {
-  from {
-    -webkit-transform: translate3d(-120%, 0, 0);
-    transform: translate3d(-120%, 0, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
-  
-@keyframes slideInRight {
-  from {
-    -webkit-transform: translate3d(-120%, 0, 0);
-    transform: translate3d(-120%, 0, 0);
-    visibility: visible;
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.slideInRight {
-  -webkit-animation-name: slideInRight;
-  animation-name: slideInRight;
 }
 
 @-webkit-keyframes slideInUp {
@@ -1338,37 +1280,6 @@ i {
     -webkit-animation-name: slideInUp;
     animation-name: slideInUp;
   }
-
-@-webkit-keyframes slideOutLeft {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(-140%, 0, 0);
-    transform: translate3d(-140%, 0, 0);
-  }
-}
-  
-@keyframes slideOutLeft {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(-140%, 0, 0);
-    transform: translate3d(-140%, 0, 0);
-  }
-}
-
-.slideOutLeft {
-  -webkit-animation-name: slideOutLeft;
-  animation-name: slideOutLeft;
-}
 
 @-webkit-keyframes slideOutRight {
   from {

@@ -1,5 +1,3 @@
-// Add the Firebase products that you want to use
-
 (function () {
     // Initialize Firebase
     var firebaseConfig = {
@@ -12,36 +10,49 @@
         appId: "1:800303839442:web:545c691401fa9658"
     };
     firebase.initializeApp(firebaseConfig);
-
-}());
-
-const btnLogout = document.getElementById('btnLogout');
-const btnSignUp = document.getElementById('btnLoginSignUp');
-const userEmail = document.getElementById('emailField');
-const userPassword = document.getElementById('passwordField');
-
-
-btnSignUp.addEventListener('click', e => {
-    window.location.href = "/signUpLogin";
-});
-
-firebase.auth().onAuthStateChanged(firebaseUser => {
-    if (firebaseUser) {
-        if(!firebase.auth().currentUser.emailVerified) {
-            window.location.href = "/emailNotVerified";
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+            updateLogoutButton();
         }
-        btnLogout.style.display = 'block';
-        btnSignUp.style.display = 'none';
-        document.getElementById('loginStatusDiv').style.display = 'inline';
-    }
-    else {
-        btnLogout.style.display = 'none';
-        btnSignUp.style.display = 'block';
-        document.getElementById('loginStatusDiv').style.display = 'none';
-    }
-});
+    });
 
-btnLogout.addEventListener('click', e => {
-    let auth = firebase.auth();
-    auth.signOut();
-});
+    function updateLogoutButton() {
+        document.getElementById("logout").style.backgroundColor = "transparent";
+        document.getElementById("logout").style.color = "#6B686D";
+        document.getElementById("logout").innerText = "LOGOUT";
+        document.getElementById("sideNav-logout").innerText = "LOGOUT";
+        document.getElementById("sideNav-logout").style.backgroundColor = "transparent";
+        document.getElementById("sideNav-logout").style.color = "#6B686D";
+    }
+
+    document.getElementById("hamburger").addEventListener('click', () => {
+        document.getElementById("sideNav").classList.remove("slideOutLeft");
+        document.getElementById("sideNav").style.opacity = "1";
+        document.getElementById("faded-container").style.display = "block";
+    });
+    
+    document.getElementById("faded-container").addEventListener('click', () => {
+        document.getElementById("sideNav").classList.add("slideOutLeft");
+        document.getElementById("faded-container").style.display = "none";
+    });
+
+    document.getElementById("logout").addEventListener('click', () => {
+        if (firebase.auth().currentUser) {
+            firebase.auth().signOut();
+            window.location.href = "/";
+        }
+        else {
+            window.location.href = "/signUpLogin";
+        }
+    });
+
+    document.getElementById("sideNav-logout").addEventListener('click', () => {
+        if (firebase.auth().currentUser) {
+            firebase.auth().signOut();
+            window.location.href = "/";
+        }
+        else {
+            window.location.href = "/signUpLogin";
+        }
+    });
+})();

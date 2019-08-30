@@ -5,8 +5,8 @@
   <title>Pregnancy Planning - myHoneyBump</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
-  <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="/index.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -15,8 +15,25 @@
   <link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203" sizes="16x16" />
 </head>
 
-<body style="min-height: 100%; top: 0px;">
-  <div class="navigation-container">
+<body style="min-height: 100%;">
+    <header>
+        <div id="hamburger">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+        <a href="/">
+            <img class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
+        <div class="topNav">
+            <ul>
+                <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>--><li class="articles"><a href="/articles">ARTICLES</a></li><li id="logout">LOG IN/SIGN UP</li>
+            </ul>
+        </div>
+    </header>
+  <!-- <div class="navigation-container">
     <div class="logo-container">
       <header><img class="logopic" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
       myHoneyBump</header>
@@ -32,11 +49,11 @@
       <a href="/checklist">pregnancy checklist</a>
       <a href="javascript:void(0)" class="icon" id="hamburger" onclick="openNav()">&#9776</a>
     </div>
-  </div>
+  </div> -->
 
   <div id="main">
   <div class="textinpiccontainer">
-    <img class="landingpic" alt="Hand on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FHand_on_Stomach.png?alt=media&token=ebfea8df-7dd5-4849-865b-4747761994b2">
+    <img class="landingpic" alt="Hands on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingPageHeroImage.jpg?alt=media&token=b95f4225-7cc1-4df0-bd65-ee4386507ecf">
     <div class="centered">
       <p id="landingtext">Pregnancy planning made easy.</p>
       <button>create</button>
@@ -90,13 +107,24 @@
     <br>
   </div>
 
+  <div id="faded-container"></div>
 <br>
 <br>
 <br>
 <br>
   </div>
-
-<script>
+    <div id="sideNav" class="animated slideInRight slideOutLeft">
+        <a href="/">
+            <img class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
+        <ul>
+            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><li class="articles"><a href="/articles">ARTICLES</a></li><li id="sideNav-logout">LOG IN/SIGN UP</li>
+        </ul>
+    </div>
+    <div id="faded-container"></div>
+<!-- <script>
 function openNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -116,8 +144,8 @@ function closeNav() {
   }
   document.body.style.backgroundColor = "white";
 }
-</script>
-
+</script> -->
+<script type="text/javascript" src="/index.js"></script>
 </body>
 
 </html>
