@@ -90,6 +90,7 @@
 
     .grid-container {
         display: grid;
+        grid-auto-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-areas:
             '. . ChecklistPicture ChecklistText . .'
             '. . BabyShowerWebsiteText BabyShowerWebsitePicture . .'
@@ -106,7 +107,7 @@
     }
 
     .grid-picture {
-        width: 500px;
+        width: 400px;
         height: 380px;
     }
 
