@@ -14,6 +14,7 @@
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
+            updateLogoutButton();
             checklistObj = await loadChecklist();
 
             // Adds another section to filter is user has added their own tasks.
@@ -39,11 +40,51 @@
             let main = document.getElementsByTagName("main");
             if (screen.width < 992) {
                 main[0].style.width = "calc(100vw)";
-                main[0].style.maxHeight = "100%";
+                main[0].style.maxHeight = "calc(100% + 29px)";
             }
         }
         else {
             console.log("User is logged out. Access denied.");
+            window.location.href = "/signUpLogin";
+        }
+    });
+
+    function updateLogoutButton() {
+        document.getElementById("logout").style.backgroundColor = "transparent";
+        document.getElementById("logout").style.color = "#6B686D";
+        document.getElementById("logout").innerText = "LOGOUT";
+        document.getElementById("sideNav-logout").innerText = "LOGOUT";
+        document.getElementById("sideNav-logout").style.backgroundColor = "transparent";
+        document.getElementById("sideNav-logout").style.color = "#6B686D";
+    }
+
+    document.getElementById("hamburger").addEventListener('click', () => {
+        document.getElementById("sideNav").classList.remove("slideOutLeft");
+        document.getElementById("sideNav").style.opacity = "1";
+        document.getElementById("faded-container").style.display = "block";
+    });
+
+    document.getElementById("faded-container").addEventListener('click', () => {
+        document.getElementById("sideNav").classList.add("slideOutLeft");
+        document.getElementById("faded-container").style.display = "none";
+    });
+
+    document.getElementById("logout").addEventListener('click', () => {
+        if (firebase.auth().currentUser) {
+            firebase.auth().signOut();
+            window.location.href = "/";
+        }
+        else {
+            window.location.href = "/signUpLogin";
+        }
+    });
+
+    document.getElementById("sideNav-logout").addEventListener('click', () => {
+        if (firebase.auth().currentUser) {
+            firebase.auth().signOut();
+            window.location.href = "/";
+        }
+        else {
             window.location.href = "/signUpLogin";
         }
     });
@@ -1968,11 +2009,11 @@
                 // For when called by event listeners for input
                 this.style.height = 'auto';
                 let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.35;
-                if (this.scrollHeight + 4 < maxHeight) {
-                    this.style.height = (Math.ceil(this.scrollHeight) + 4).toString() + 'px';
+                if (this.scrollHeight + 8 < maxHeight) {
+                    this.style.height = (Math.ceil(this.scrollHeight) + 8).toString() + 'px';
                 }
                 else {
-                    this.style.height = (Math.ceil(maxHeight) + 4) + 'px';
+                    this.style.height = (Math.ceil(maxHeight) + 8) + 'px';
                 }
             }
             catch {
@@ -1980,11 +2021,11 @@
                     // For when called by clicking open a task.
                     element.style.height = 'auto';
                     let maxHeight = document.getElementById('add-task-bottom-container').offsetHeight * 0.35;
-                    if (element.scrollHeight + 4 < maxHeight) {
-                        element.style.height = (Math.ceil(element.scrollHeight) + 4).toString() + 'px';
+                    if (element.scrollHeight + 8 < maxHeight) {
+                        element.style.height = (Math.ceil(element.scrollHeight) + 8).toString() + 'px';
                     }
                     else {
-                        element.style.height = (Math.ceil(maxHeight) + 4) + 'px';
+                        element.style.height = (Math.ceil(maxHeight) + 8) + 'px';
                     }
                 }
                 catch (e) {

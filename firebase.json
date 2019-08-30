@@ -48,11 +48,15 @@
       },
       {
         "source": "/aboutUs",
-        "destination": "/aboutus/aboutus.html"
+        "destination": "/aboutUs/aboutus.html"
       },
       {
         "source": "/articles",
         "destination": "/articles/articles.html"
+      },
+      {
+        "source": "/articles/**",
+        "destination": "/articlePage/articlePage.html"
       }
     ],
     "ignore": [
