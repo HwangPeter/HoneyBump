@@ -64,5 +64,6 @@ hr {
   }
 
   .profile-container {
-      
+      display: inline-block;
+      padding: 0px 45px;
   }
