@@ -67,3 +67,7 @@ hr {
       display: inline-block;
       padding: 0px 45px;
   }
+
+#contact {
+    text-align: left;
+}
