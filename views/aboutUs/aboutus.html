@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="aboutUs.css">
+  <link rel="stylesheet" href="/aboutUs/aboutus.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -15,84 +15,99 @@
   <link rel="icon" type="image/png" href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203" sizes="16x16" />
 </head>
 
-<body style="min-height: 100%; top: 0px;">
-  <div class="navigation-container">
-    <div class="logo-container">
-      <header><img class="logopic" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6" alt="myHoneyBumpLogo">
-      myHoneyBump</header>
+<body style="min-height: 100%; top: 0px; margin: 0;">
+  <header>
+    <div id="hamburger">
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
+        <div class="hamburger-line"></div>
     </div>
-
-    <div class="topnav" id="myTopnav">
-      <a href="javascript:void(0)" class="closebtn" id="x" onclick="closeNav()">&times;</a>
-      <a href="#" class="button" id="btnLoginSignUp">Sign Up/Login</a>
-      <a href="#" class="button" id="btnLogout">Logout</a>
-      <a href="#thebuzz">The Buzz</a>
-      <a href="#musthaves">Must-Haves</a>
-      <a href="#website">My (free!) baby website</a>
-      <a href="/checklist">pregnancy checklist</a>
-      <a href="javascript:void(0)" class="icon" id="hamburger" onclick="openNav()">&#9776</a>
+    <a href="/">
+        <img class="logopic"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+            alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+    </a>
+    <div class="topNav">
+        <ul>
+            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>--><li class="articles"><a href="/articles">ARTICLES</a></li><li id="logout">LOG IN/SIGN UP</li>
+            <hr id="header-underline" />
+        </ul>
     </div>
-  </div>
+</header>
 
   <div id="main">
     <div class="textinpiccontainer">
-      <img class="landingpic" alt="Background Photo" src="">
+      <img class="landingpic" alt="Background Photo" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FAbout%20Us%20Landing%20Photo.png?alt=media&token=ed685760-9717-4beb-938b-3e5491213b9d">
       <div class="centered">
         <p id="landingtext">About Us</p>
       </div>
     </div>
 
-    <div>
-      <h2>What is myHoneyBump?</h2><br>
-      <p>myHoneyBump is a website that offers free pregnancy planning tools to women going through pregnancy.
-      </p><br>
-      <h2>Why do we do it?</h2><br>
-      <p>Pregnancy is an exciting time in a couple's life but can also become overwhelming with how much there is to know and do.
-        Being an advocate for women's health, we see an opportunity to improve the pregnancy experience.
-        Our goal at myHoneyBump is to collect information from credible sources to make simple, unbiased, pregnancy planning tools for 
-        women of all backgrounds.
-      </p><br>
-      <h2>Values</h2><br>
-      <p>Transparent</p><br>
-      <h2>Mission Statement</h2><br>
-      <p>myHoneyBump improves the perinatum experience for women of all backgrounds by simplifying pregnancy health and utilizing technology
-        to prove personalized, credible Pregnancy Planning Tools.
-      </p><br>
+    <div style="text-align:center;width:70%;margin:auto;">
+      <h4>What we do</h4>
+      <p>We make simple, unbiased pregnancy planning tools for women of all backgrounds.</p>
+      <br>
+      <h4>Why we do it</h4>
+      <p>After having a child, we experienced how overwhelming planning a pregnancy can be.  
+        We wanted to compile all the resources we found in one place.</p>
+      <br>
+      <h4>Our passions</h4>
+      <p>We believe every woman, regardless of race, background, or socioeconomic status,
+        deserves the ability to take control of her pregnancy.</p>
+      <br>
+      <h4>Credibility</h4>
+      <p>myHoneyBump was created by nurses.  We try our very best to use credible resources for our content.
+        All of our resources are available to you for further reading.</p>
+      <br>
+      <h4>Meet our founding team:</h4>
+      <div class="profile-container">
+        <img class="profile" alt="Amanda" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FAmanda.jpg?alt=media&token=4a57eb6b-44f9-41d8-b46c-2d37ddb5791a">
+        <p>Amanda Hwang<br>CEO</p>
+      </div>
+      <div class="profile-container">
+        <img class="profile" alt="Michael" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FMichael.png?alt=media&token=76b94784-7810-45a5-a271-ddedb2e5eb9a">
+        <p>Michael Hwang<br>COO</p>
+      </div>
+      <div class="profile-container">
+        <img class="profile" alt="Peter" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FPeter.jpg?alt=media&token=91c50c19-ac32-47a0-818e-a696007a6071">
+        <p>Peter Hwang<br>CTO</p>
+      </div>
+      <div id="contact">
+        <h4>Contact Us</h4>
+        <p style="font-weight:700;">Address</p>
+        <p>APM Holdings LLC<br>
+        2390 CRENSHAW BOULEVARD #342<br>
+        TORRANCE, CA 90501</p>
+        <br>
+        <p style="font-weight:700;">Email</p>
+        <p>myHoneyBumpofficial@gmail.com</p>
+      </div>
     </div>
   </div>
 
+  <div id="sideNav" class="animated slideInRight slideOutLeft">
+    <a href="/">
+        <img class="logopic"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+            alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+    </a>
+    <ul>
+        <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li><li class="articles"><a href="/articles">ARTICLES</a></li><li id="sideNav-logout">LOG IN/SIGN UP</li>
+    </ul>
+</div>
+<div id="faded-container"></div>
+
   <div class="footer">
-    <a href="/aboutus">About myHoneyBump</a><br>
-    <a href="">Contact us</a><br>
+    <a href="/aboutUs">About myHoneyBump</a><br>
+    <a href="/contactUs">Contact us</a><br>
     <a href="">Advertise with us</a><br>
     <a href="">Privacy Policy</a><br>
-    <a href="">Terms & Conditions</a><br>
+    <a href="">Terms of Service</a><br>
     <br>
     <br>
     <br>
     <br>
   </div>
 
+  <script type="text/javascript" src="/aboutUs/aboutus.js"></script>
 
-
-  <script>
-    function openNav() {
-      var x = document.getElementById("myTopnav");
-      if (x.className === "topnav") {
-        x.className += " responsive";
-      } else {
-        x.className = "topnav";
-      }
-      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-    }
-    
-    function closeNav() {
-      var y = document.getElementById("myTopnav");
-      if (y.className === "topnav") {
-        y.className += " responsive";
-      } else {
-        y.className = "topnav";
-      }
-      document.body.style.backgroundColor = "white";
-    }
-    </script>
