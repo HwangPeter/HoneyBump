@@ -15,10 +15,8 @@ header {
     background-color: white;
 }
 
-.landingpic {
-    width: 100%;
-    height: auto;
-    z-index: -1;
+header span {
+    font-size: 20px;
 }
 
 .textinpiccontainer{
@@ -29,11 +27,18 @@ header {
     top: 0px;
 }
 
+.landingpic {
+    width: 100%;
+    height: 80%;
+    z-index: -1;
+}
+
 .centered {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%)
+    top: 15%;
+    left: 45%;
+    width:45%;
+    text-align: center;
 }
 
 #landingtext {
@@ -43,18 +48,21 @@ header {
     letter-spacing: 1;
 }
 
-#goaltext {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    text-align: justify;
+#landingparagraph {
+    font-size: 5px;
 }
 
 .textcontainer {
-    position: relative;
+    text-align: center;
 }
+
+/*
+#goaltext {
+    position: relative;
+    width: 80%;
+    text-align: justify;
+}
+*/
 
 .grid-container {
     display: grid;
@@ -89,15 +97,43 @@ header {
         padding-bottom: 75px;}
 
 @media only screen and (min-width: 992px) {
+    header span {
+        font-size: 50px;
+    }
+    
+    .textinpiccontainer{
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        height: auto;
+        top: 0px;
+    }
+
+    .landingpic {
+        width: 100%;
+        height: auto;
+        z-index: -1;
+    }
+    
     #landingtext {
         font-size: 55px;
     }
 
+    #landingparagraph {
+        font-size: 35px;
+    }
+
+    .textcontainer {
+        text-align: center;
+        width: 80%;
+        margin: auto;
+    }
+
     #goaltext {
         position: absolute;
-        top: 50%;
+        top: 80%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -80%);
         text-align: center;
     }
 
@@ -105,12 +141,15 @@ header {
         display: grid;
         grid-auto-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-areas:
-            '. . ChecklistPicture ChecklistText . .'
-            '. . BabyShowerWebsiteText BabyShowerWebsitePicture . .'
-            '. . ArticlesPicture ArticlesText . .';
+            'why why why why why why'
+            '. . checklist checklistDescription . .'
+            '. . articleDescription article . .'
+            'testimonials testimonials testimonials testimonials testimonials testimonials'
+            'profitable profitable profitable profitable profitable profitable'
+            'footer footer footer footer footer footer';
         height: 100vh;
         width: 100vw;
-        margin-top: 150px;
+        margin-top: 1000px;
         margin-bottom: 550px;
     }
 
@@ -124,14 +163,30 @@ header {
         height: 380px;
     }
 
-    .item1 {grid-area: ChecklistPicture;}
-    .item2 {grid-area: ChecklistText;
-            width: 30vw;}
-    .item3 {grid-area: BabyShowerWebsiteText;
-            width: 30vw;}
-    .item4 {grid-area: BabyShowerWebsitePicture;}
-    .item5 {grid-area: ArticlesPicture;}
-    .item6 {grid-area: ArticlesText;
-            width: 30vw;}
-
+    .item1 {
+        grid-area: why;
+    }
+    .item2 {
+        grid-area: checklist;
+    }
+    .item3 {
+        grid-area: checklistDescription;
+        width: 30vw;
+    }
+    .item4 {
+        grid-area: articleDescription;
+        width: 30vw
+    }
+    .item5 {
+        grid-area: article;
+    }
+    .item6 {
+        grid-area: testimonials;
+    }
+    .item7 {
+        grid-area: profitable;
+    }
+    .footer {
+        grid-area: footer;
+    }
 }

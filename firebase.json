@@ -57,10 +57,6 @@
       {
         "source": "/articles/**",
         "destination": "/articlePage/articlePage.html"
-      },
-      {
-        "source": "/contactUs",
-        "destination": "/aboutUs/aboutus.html#contact"
       }
     ],
     "ignore": [
