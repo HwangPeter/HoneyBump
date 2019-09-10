@@ -1054,7 +1054,7 @@ li span:hover {
     margin-top: 5px;
     background-color: #f6f8f9;
     position: relative;
-    height: calc(100% - 96px); /* 176 is the height of the header + checklist header + grid gaps + some borders. */
+    height: calc(100% - 126px); /* 126 is the height of the header + checklist header + grid gaps + some borders. */
     overflow: hidden;
     text-align: left;
     width: 300%;

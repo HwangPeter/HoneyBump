@@ -912,7 +912,7 @@ articleListObj = {
     },
     "what_should_i_include_in_my_birth_plan": {
         title: "What Should I Include In My Birth Plan?",
-        description: "Everything from pain control option to Kangaroo care.",
+        description: "Everything from pain control options to Kangaroo care.",
         thumbnail: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlanThumb.jpg?alt=media&token=21f39ec1-9312-4407-bfef-9d045ea55d60"
     },
     "what_should_i_avoid_while_pregnant": {

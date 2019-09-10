@@ -1353,35 +1353,36 @@
         // Otherwise all instances of that task are marked complete.
         function updateCompletionStatusLocally(taskInfoObj) {
             Object.keys(checklistObj).forEach(trimester => {
-                Object.keys(checklistObj[trimester]).forEach(section => {
-                    if (typeof checklistObj[trimester][section] === "object") {
+                if (trimester === taskInfoObj.trimester) {
+                    Object.keys(checklistObj[trimester]).forEach(section => {
+                        if (typeof checklistObj[trimester][section] === "object") {
+                            Object.keys(checklistObj[trimester][section]).forEach(task => {
+                                if (typeof checklistObj[trimester][section][task] === "object") {
 
-                        Object.keys(checklistObj[trimester][section]).forEach(task => {
-                            if (typeof checklistObj[trimester][section][task] === "object") {
-
-                                if ("id" in taskInfoObj && checklistObj[trimester][section][task].id === taskInfoObj.id) {
-                                    // User added tasks.
-                                    checklistObj[trimester][section][task].completed = taskInfoObj.completed;
-                                }
-                                else if (!("id" in taskInfoObj) && checklistObj[trimester][section][task].name === taskInfoObj.taskName) {
-                                    // Default tasks.
-                                    if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) >= 0) {
-                                        // Task is repeating and task found is in activeChecklists. Marking this task as complete.
+                                    if ("id" in taskInfoObj && checklistObj[trimester][section][task].id === taskInfoObj.id) {
+                                        // User added tasks.
                                         checklistObj[trimester][section][task].completed = taskInfoObj.completed;
                                     }
-                                    else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) < 0) {
-                                        // Task is repeating but task found is not in activeChecklists. 
-                                        checklistObj[trimester][section][task].completed = taskInfoObj.completed;
-                                    }
-                                    else if (!("repeat" in checklistObj[trimester][section][task])) {
-                                        // Task is not repeating. Mark as complete.
-                                        checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                    else if (!("id" in taskInfoObj) && checklistObj[trimester][section][task].name === taskInfoObj.taskName) {
+                                        // Default tasks.
+                                        if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) >= 0) {
+                                            // Task is repeating and task found is in activeChecklists. Marking this task as complete.
+                                            checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                        }
+                                        else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) < 0) {
+                                            // Task is repeating but task found is not in activeChecklists. 
+                                            checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                        }
+                                        else if (!("repeat" in checklistObj[trimester][section][task])) {
+                                            // Task is not repeating. Mark as complete.
+                                            checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                }
             });
         }
 
@@ -1506,6 +1507,32 @@
                     taskObj.taskName = element.childNodes[1].childNodes[3].childNodes[1].value;
                     if (element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data") !== null) {
                         taskObj.id = element.childNodes[1].childNodes[3].childNodes[1].getAttribute("data");
+                    }
+                }
+                while (element) {
+                    if (element.classList.contains("list-item-container")) {
+                        element = element.previousSibling.previousSibling;
+                        if (element.childNodes[1].childNodes[1].nodeName === "H1") {
+                            if (element.childNodes[1].childNodes[1].innerText === "BEFORE PREGNANCY") {
+                                taskObj.trimester = "Before Pregnancy";
+                            }
+                            else if (element.childNodes[1].childNodes[1].innerText === "1ST TRIMESTER") {
+                                taskObj.trimester = "1st Trimester";
+                            }
+                            else if (element.childNodes[1].childNodes[1].innerText === "2ND TRIMESTER") {
+                                taskObj.trimester = "2nd Trimester";
+                            }
+                            else if (element.childNodes[1].childNodes[1].innerText === "3RD TRIMESTER") {
+                                taskObj.trimester = "3rd Trimester";
+                            }
+                            else if (element.childNodes[1].childNodes[1].innerText === "AFTER PREGNANCY") {
+                                taskObj.trimester = "After Pregnancy";
+                            }
+                            break;
+                        }
+                    }
+                    else {
+                        element = element.parentNode;
                     }
                 }
             }
