@@ -45,7 +45,7 @@
         }
         else {
             console.log("User is logged out. Access denied.");
-            window.location.href = "/signUpLogin";
+            window.location.href = "/checklistLanding";
         }
     });
 

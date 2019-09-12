@@ -57,6 +57,10 @@
       {
         "source": "/articles/**",
         "destination": "/articlePage/articlePage.html"
+      },
+      {
+        "source": "/checklistLanding",
+        "destination": "/checklistLanding/checklistLanding.html"
       }
     ],
     "ignore": [

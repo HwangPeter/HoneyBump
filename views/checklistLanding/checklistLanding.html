@@ -1,0 +1,100 @@
+<!Doctype html>
+<html lang="en-US">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-147423519-1');
+    </script>
+
+    <title>Pregnancy Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/checklistLanding/checklistLanding.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
+    <link rel="icon" type="image/png"
+        href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
+        sizes="16x16" />
+</head>
+
+<body>
+
+    <div include-html="/header/header.html"></div>
+
+    <main>
+        <h3>Free Pregnancy Checklist</h3>
+        <img id="hero-image" alt="Woman standing by carriage"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=35c95e26-865a-470f-955e-3679b6c6fd84">
+        <div id="hero-text">
+            <p>Discover what to look for in a prenatal vitamin, how and when to do Kegel exercises, and what
+                foods/activities to avoid.
+                <br>
+                <br>
+                Learn about lab tests like carrier screening and quad screening and when to take them.
+                <br>
+                <br>
+                Get pro tips to make your life easier, such as preregistering at your hospital and stashing up on food
+                before the baby's arrival.
+            </p>
+        </div>
+
+        <br>
+        <span style="cursor: pointer; font-size: 14px;" onclick="window.location.href = '/signUpLogin';">Have a checklist? Log in</span>
+        <br>
+        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET STARTED</button>
+        <br>
+
+        <img id="description-img" alt="Task description within checklist"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FtaskDescription.png?alt=media&token=790018ff-c1fb-42aa-8157-ad01739f917b">
+        <div id="description-text">
+            <p>Read details of tasks for more in depth information.
+            </p>
+        </div>
+        <br>
+        <br>
+
+        <img id="add-task-img" alt="Adding task to checklist"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FaddTask.png?alt=media&token=9451fcdc-a95e-4406-9d04-d8c14aa41ff0">
+        <div id="add-task-text">
+            <p>Easily add personal tasks to fit the needs of your pregnancy.
+            </p>
+        </div>
+        <br>
+        <br>
+
+        <img id="add-update-img" alt="Update box on checklist"
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FaddUpdate.png?alt=media&token=a8789aa8-5dfc-45a3-9b9c-49fa78e0a756">
+        <div id="add-update-text">
+            <p>Add updates to tasks to help remember the smaller details.
+            </p>
+        </div>
+        <br>
+        <br>
+
+        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET STARTED</button>
+    </main>
+
+    <sidebar>
+    </sidebar>
+
+    <aside>
+    </aside>
+
+    <footer>
+        <br>
+    </footer>
+    <script type="module" src="/checklistLanding/checklistLanding.js"></script>
+
+</body>
+
+</html>

@@ -97,6 +97,7 @@ header a {
   width: 135px;
   margin-left: 5px;
   height: 40px;
+  cursor: pointer;
 }
 
 #sideNa-logout:hover {
@@ -140,6 +141,7 @@ header span {
 body {
     font-family: "Montserrat";
     background: white;
+    margin: 0;
 }
 
 h1 {
@@ -589,6 +591,7 @@ form {
     height: 50px;
     padding-top: 4px;
     box-sizing: border-box;
+    cursor: pointer;
   }
   
   .topNav #logout:hover {
