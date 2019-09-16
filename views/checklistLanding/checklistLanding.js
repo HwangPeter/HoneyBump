@@ -15,7 +15,6 @@
         if (user) {
             updateLogoutButton();
         }
-        addHeaderEventListeners();
     });
 
     function updateLogoutButton() {
@@ -87,4 +86,5 @@ function includeHTML() {
             return;
         }
     }
+    addHeaderEventListeners();
 };

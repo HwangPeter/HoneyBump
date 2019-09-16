@@ -61,6 +61,14 @@
       {
         "source": "/checklistLanding",
         "destination": "/checklistLanding/checklistLanding.html"
+      },
+      {
+        "source": "/terms",
+        "destination": "/terms/terms.html"
+      },
+      {
+        "source": "/privacyPolicy",
+        "destination": "/privacyPolicy/privacyPolicy.html"
       }
     ],
     "ignore": [

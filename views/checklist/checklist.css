@@ -551,15 +551,34 @@ span#add-task-bundle-span:hover {
     opacity: 1; /* required on iOS */
     min-height: 80px;
     height: calc(100% - 4px);
+    width: calc(100% - 34px);
     overflow-y: auto;
     border: 2px solid transparent;
     border-bottom: 2px solid #d5dce0;
     border-radius: 4px;
-    width: calc(100% - 20px);
     padding: 0px 10px;
     cursor: text !important;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    text-align: left;
+
+    font-family: "Montserrat";
+    font-size: 13px;
+    line-height: 22px;
+    background: transparent;
+    display: block;
+    outline: none;
+    position: relative;
+    resize: none;
+    bottom: 0;
+}
+
+#add-description-area a {
+    text-decoration: underline;
+}
+
+[contentEditable=true]:empty:not(:focus):before{
+    content:attr(data-text)
 }
 
 #add-description-area:focus {
@@ -568,6 +587,10 @@ span#add-task-bundle-span:hover {
 
 #add-description-area.hover:hover {
     border: 2px solid #d5dce0;
+}
+
+#notes-div {
+    width: 100%;
 }
 
 textarea {
@@ -607,7 +630,6 @@ textarea:focus {
 #trimester-select-container {
     width: calc(100% - 34px);
     height: 40px;
-    margin-left: 19px;
     text-align: left;
 }
 
@@ -699,7 +721,6 @@ textarea:focus {
     overflow-y: auto;
     border: 2px solid #d5dce0;
     border-radius: 4px;
-    width: calc(100% - 20px);
     padding: 0px 10px;
     cursor: text !important;
     -webkit-overflow-scrolling: touch;

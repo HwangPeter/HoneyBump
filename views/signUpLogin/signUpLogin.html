@@ -3,14 +3,14 @@
 
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'UA-147423519-1');
-</script>
+    gtag('config', 'UA-147423519-1');
+  </script>
 
   <title>Sign Up</title>
   <link rel="stylesheet" href="/styles/styles.css">
@@ -26,6 +26,21 @@
     sizes="16x16" />
 
 </head>
+<script>
+  (function () {
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = 'https://app.termly.io/embed.min.js';
+    s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
+    s.setAttribute("data-name", "termly-embed-banner");
+    var x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s, x);
+    setTimeout(function () {
+      document.getElementById("termly-code-snippet-support").style.position = "absolute";
+    }, 1000);
+  })();
+</script>
 <a href="/" id="logo">
   <img style="vertical-align:middle; width:50px;height:50px;"
     src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
@@ -33,42 +48,42 @@
   <header>myHoneyBump</header>
 </a>
 <div class="container" id="container" style="align-content: center;">
-    <div class="form-container" id="sign-up-container">
-      <form action="#">
-        <h1>Create Account</h1>
-        <h2>Please fill out the form below</h2>
-        <input id="signUpFirstName" type="text" placeholder="First name" />
-        <input id="signUpLastName" type="text" placeholder="Last name" />
-        <input id="signUpEmail" type="email" placeholder="Email" maxlength="255" />
-        <input id="signUpPass" type="password" placeholder="Password" />
-        <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
-        <div style="float:left">
-          <h4 style="display:inline">Mother's Birthdate (Optional)</h4>
-          <div class="popup" id="whyPopup">Why?
-            <h4 class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your
-              pregnancy</h4>
-          </div>
+  <div class="form-container" id="sign-up-container">
+    <form action="#">
+      <h1>Create Account</h1>
+      <h2>Please fill out the form below</h2>
+      <input id="signUpFirstName" type="text" placeholder="First name" />
+      <input id="signUpLastName" type="text" placeholder="Last name" />
+      <input id="signUpEmail" type="email" placeholder="Email" maxlength="255" />
+      <input id="signUpPass" type="password" placeholder="Password" />
+      <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
+      <div style="float:left">
+        <h4 style="display:inline">Mother's Birthdate (Optional)</h4>
+        <div class="popup" id="whyPopup">Why?
+          <h4 class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your
+            pregnancy</h4>
         </div>
-        <div class="birthdate-container">
-          <input id="signUpMomMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
-          <input id="signUpMomDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
-          <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
+      </div>
+      <div class="birthdate-container">
+        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpMomDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
+      </div>
+      <div style="float:left">
+        <h4 style="display:inline">Expected Delivery Date (Optional)</h4>
+        <div class="popup" id="dontKnowPopup">Don't know?
+          <h4 class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</h4>
         </div>
-        <div style="float:left">
-          <h4 style="display:inline">Expected Delivery Date (Optional)</h4>
-          <div class="popup" id="dontKnowPopup">Don't know?
-            <h4 class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</h4>
-          </div>
-        </div>
-        <div class="delivery-date-container">
-          <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
-          <input id="signUpBabyDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
-          <input id="signUpBabyYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
-        </div>
-        <h3 id="sign-up-error"></h3>
-        <button form="" id="signUpButton">Sign Up</button>
-      </form>
-    </div>
+      </div>
+      <div class="delivery-date-container">
+        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
+        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
+        <input id="signUpBabyYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
+      </div>
+      <h3 id="sign-up-error"></h3>
+      <button form="" id="signUpButton">Sign Up</button>
+    </form>
+  </div>
   <div class="form-container sign-in-container">
     <form action="#">
       <h1>Log In</h1>

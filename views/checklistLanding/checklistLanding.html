@@ -12,7 +12,7 @@
         gtag('config', 'UA-147423519-1');
     </script>
 
-    <title>Pregnancy Checklist</title>
+    <title>Free Pregnancy Checklist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/styles/styles.css">
@@ -28,7 +28,21 @@
 </head>
 
 <body>
-
+    <script>
+        (function () {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://app.termly.io/embed.min.js';
+            s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
+            s.setAttribute("data-name", "termly-embed-banner");
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+            setTimeout(function () {
+                document.getElementById("termly-code-snippet-support").style.position = "absolute";
+            }, 1000);
+        })();
+    </script>
     <div include-html="/header/header.html"></div>
 
     <main>
@@ -49,13 +63,17 @@
         </div>
 
         <br>
-        <span style="cursor: pointer; font-size: 14px;" onclick="window.location.href = '/signUpLogin';">Have a checklist? Log in</span>
+        <span style="cursor: pointer; font-size: 14px;" onclick="window.location.href = '/signUpLogin';">Have a
+            checklist? Log in</span>
         <br>
-        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET STARTED</button>
+        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET
+            STARTED</button>
+        <br>
+        <br>
         <br>
 
         <img id="description-img" alt="Task description within checklist"
-            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FtaskDescription.png?alt=media&token=790018ff-c1fb-42aa-8157-ad01739f917b">
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FtaskDescription.png?alt=media&token=2dd3f319-9bfb-4714-80ed-bedae7c5f6fb">
         <div id="description-text">
             <p>Read details of tasks for more in depth information.
             </p>
@@ -81,7 +99,8 @@
         <br>
         <br>
 
-        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET STARTED</button>
+        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET
+            STARTED</button>
     </main>
 
     <sidebar>
