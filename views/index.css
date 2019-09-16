@@ -15,10 +15,6 @@ header {
     background-color: white;
 }
 
-header span {
-    font-size: 20px;
-}
-
 .textinpiccontainer{
     position: absolute;
     text-align: center;
@@ -35,9 +31,9 @@ header span {
 
 .centered {
     position: absolute;
-    top: 15%;
-    left: 45%;
-    width:45%;
+    top: 20%;
+    left: 55%;
+    width:40%;
     text-align: center;
 }
 
@@ -97,9 +93,6 @@ header span {
         padding-bottom: 75px;}
 
 @media only screen and (min-width: 992px) {
-    header span {
-        font-size: 50px;
-    }
     
     .textinpiccontainer{
         position: absolute;
@@ -116,16 +109,16 @@ header span {
     }
     
     #landingtext {
-        font-size: 55px;
+        font-size: 40px;
     }
 
     #landingparagraph {
-        font-size: 35px;
+        font-size: 25px;
     }
 
     .textcontainer {
         text-align: center;
-        width: 80%;
+        width: 85%;
         margin: auto;
     }
 
