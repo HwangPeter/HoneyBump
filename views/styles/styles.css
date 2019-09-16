@@ -189,7 +189,6 @@ p {
 
 span {
 	font-family: "Montserrat";
-	font-size: 14px;
 	color: #6B686D;
 }
 
@@ -468,13 +467,10 @@ form {
   .col-10 {width: 83.33%;}
   .col-11 {width: 91.66%;}
   .col-12 {width: 100%;}
-  header {
-    font-size: 45px;
-  }
 
   .logopic {
-    width: 65px;
-    height: 65px;
+    width: 50px;
+    height: 50px;
   }
 
   button {
@@ -519,6 +515,7 @@ form {
 
   button {
     font-size: 16px;
+    cursor: pointer;
   }
 
   .navigation-container {
@@ -635,7 +632,7 @@ form {
     padding: 0 10px;
     font-family: "Montserrat";
     font-weight: 500;
-    font-size: 20px;
+    font-size: 14px;
   }
   
   header hr {
@@ -667,6 +664,12 @@ form {
   
   .articles:hover {
     border-bottom: 2px solid #6B5875;
+  }
+
+  .footer {
+    padding-top: 15px;
+    padding-left: 30px;
+    font-size: 18px;
   }
     
 }
