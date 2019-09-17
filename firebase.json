@@ -70,10 +70,6 @@
         "source": "/privacyPolicy",
         "destination": "/privacyPolicy/privacyPolicy.html"
       }
-      {
-        "source": "/checklistLanding",
-        "destination": "www.myhoneybump.com/checklistLanding"
-      }
     ],
     "ignore": [
       "firebase.json",

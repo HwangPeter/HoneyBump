@@ -41,24 +41,8 @@
       }, 1000);
     })();
   </script>
-  <header>
-    <div id="hamburger">
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-    </div>
-    <a href="/">
-        <img class="logopic"
-            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
-            alt="myHoneyBumpLogo"><span>myHoneyBump</span>
-    </a>
-    <div class="topNav">
-        <ul>
-            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>--><li class="articles"><a href="/articles">ARTICLES</a></li><li id="logout">LOG IN/SIGN UP</li>
-            <hr id="header-underline" />
-        </ul>
-    </div>
-</header>
+  
+  <div include-html="/header/header.html"></div>
 
   <div id="main">
     <div class="textinpiccontainer">
@@ -110,29 +94,7 @@
     </div>
   </div>
 
-  <div id="sideNav" class="animated slideInRight slideOutLeft">
-    <a href="/">
-        <img class="logopic"
-            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
-            alt="myHoneyBumpLogo"><span>myHoneyBump</span>
-    </a>
-    <ul>
-        <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li><li class="articles"><a href="/articles">ARTICLES</a></li><li id="sideNav-logout">LOG IN/SIGN UP</li>
-    </ul>
-</div>
-<div id="faded-container"></div>
-
-  <div class="footer">
-    <a href="/aboutUs">About myHoneyBump</a><br>
-    <a href="/contactUs">Contact us</a><br>
-    <a href="">Advertise with us</a><br>
-    <a href="">Privacy Policy</a><br>
-    <a href="">Terms of Service</a><br>
-    <br>
-    <br>
-    <br>
-    <br>
-  </div>
+  <div include-html="/footer/footer.html"></div>
 
   <script type="text/javascript" src="/aboutUs/aboutus.js"></script>
 
