@@ -57,10 +57,18 @@
       {
         "source": "/articles/**",
         "destination": "/articlePage/articlePage.html"
-      }
+      },
       {
         "source": "/checklistLanding",
-        "destination": "www.myhoneybump.com/checklistLanding"
+        "destination": "/checklistLanding/checklistLanding.html"
+      },
+      {
+        "source": "/terms",
+        "destination": "/terms/terms.html"
+      },
+      {
+        "source": "/privacyPolicy",
+        "destination": "/privacyPolicy/privacyPolicy.html"
       }
     ],
     "ignore": [

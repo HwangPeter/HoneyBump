@@ -12,11 +12,11 @@
         gtag('config', 'UA-147423519-1');
     </script>
 
-    <title>Pregnancy Planning - myHoneyBump</title>
+    <title>Free Pregnancy Checklist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/styles/styles.css">
-    <link rel="stylesheet" href="/articles/articles.css">
+    <link rel="stylesheet" href="/privacyPolicy/privacyPolicy.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -48,11 +48,30 @@
     <div include-html="/footer/footer.html"></div>
 
     <main>
-        <div id="featured">
-        </div>
-        <h3 class="underlined">Articles by Title</h3>
-        <div id="article-list">
-        </div>
+        <button
+            style="background: white; width: 165px; height: 30px; border-radius: 3px; border: 1px solid #5f7d9c; font-family: Roboto, Arial; font-size: 10px; color: #5f7d9c; font-weight: 600; box-sizing: border-box; cursor: pointer; padding: 0; outline: none;"
+            onclick="displayPreferenceModal()">Manage Cookie Preferences</button>
+        <!-- Termly Tracking Code -->
+
+        <div name="termly-embed" data-id="99dadf06-efc7-4aab-9263-309ef5342c74" data-type="iframe"></div>
+        <script type="text/javascript">(function (d, s, id) {
+                var js, tjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://app.termly.io/embed-policy.min.js";
+                tjs.parentNode.insertBefore(js, tjs);
+            }(document, 'script', 'termly-jssdk'));</script>
+
+        <!-- Termly Tracking Code -->
+
+        <div name="termly-embed" data-id="c2937000-fc5e-4760-9ffb-b749e1aa90a2" data-type="iframe"></div>
+        <script type="text/javascript">(function (d, s, id) {
+                var js, tjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://app.termly.io/embed-policy.min.js";
+                tjs.parentNode.insertBefore(js, tjs);
+            }(document, 'script', 'termly-jssdk'));</script>
     </main>
 
     <sidebar>
@@ -60,9 +79,12 @@
 
     <aside>
     </aside>
+
+    <footer>
+        <br>
+    </footer>
+    <script type="module" src="/privacyPolicy/privacyPolicy.js"></script>
+
 </body>
-
-
-<script type="text/javascript" src="/articles/articles.js"></script>
 
 </html>

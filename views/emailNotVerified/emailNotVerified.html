@@ -2,6 +2,16 @@
 <html>
 
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-147423519-1');
+</script>
+
   <link rel="stylesheet" href="/styles/styles.css">
   <title>Verify Email Required</title>
   <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
@@ -15,6 +25,21 @@
 </head>
 
 <body>
+  <script>
+    (function () {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://app.termly.io/embed.min.js';
+      s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
+      s.setAttribute("data-name", "termly-embed-banner");
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+      setTimeout(function () {
+        document.getElementById("termly-code-snippet-support").style.position = "absolute";
+      }, 1000);
+    })();
+  </script>
 
   <div id="loginDiv" class="main-div" style="text-align: center;">
     <h1 style="font-size: 14px;">Your email must be verified to continue. Check your email for the verification link.</h1>
