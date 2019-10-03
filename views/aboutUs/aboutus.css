@@ -2,6 +2,14 @@
     box-sizing: border-box;
 }
 
+header span {
+    color: white;
+}
+
+.hamburger-line {
+    background-color: white;
+}
+
 .landingpic {
     width: 100%;
     height: auto;
@@ -9,11 +17,11 @@
 }
 
 .textinpiccontainer{
-    position: relative;
+    position: absolute;
     text-align: center;
     width: 100%;
     height: auto;
-    top: 10px;
+    top: 0px;
 }
 
 .centered {
@@ -24,11 +32,11 @@
 }
 
 #landingtext {
-    font-size: 4vw;
+    font-size: 6vw;
     font-weight: 900;
     line-height: 1;
     letter-spacing: 1;
-    color: #6B5875;
+    color: white;
 }
 
 .header-text {

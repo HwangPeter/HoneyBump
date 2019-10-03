@@ -2,14 +2,14 @@
 
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'UA-147423519-1');
-</script>
+        gtag('config', 'UA-147423519-1');
+    </script>
 
     <title>Checklist</title>
     <!-- <meta name="viewport" content="initial-scale=1.0" > -->
@@ -31,17 +31,19 @@
 
 <body>
     <script>
-        (function () {
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
+        (function() {
+          var s = document.createElement("script");
+          s.type = "text/javascript";
           s.async = true;
-          s.src = 'https://app.termly.io/embed.min.js';
-          s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
+          s.src = "https://app.termly.io/embed.min.js";
+          s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
           s.setAttribute("data-name", "termly-embed-banner");
-          var x = document.getElementsByTagName('script')[0];
+          var x = document.getElementsByTagName("script")[0];
           x.parentNode.insertBefore(s, x);
-          setTimeout(function () {
-            document.getElementById("termly-code-snippet-support").style.position = "absolute";
+          setTimeout(function() {
+            document.getElementById("termly-code-snippet-support").style.position =
+              "absolute";
+            document.getElementById("termly-code-snippet-support").style.left = "0";
           }, 1000);
         })();
       </script>
@@ -61,7 +63,10 @@
             </a>
             <div class="topNav">
                 <ul>
-                    <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>--><li class="articles"><a href="/articles">ARTICLES</a></li><li id="logout">LOG IN/SIGN UP</li>
+                    <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+                    <!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>-->
+                    <li class="articles"><a href="/articles">ARTICLES</a></li>
+                    <li id="logout">LOG IN/SIGN UP</li>
                 </ul>
             </div>
         </header>
@@ -75,7 +80,8 @@
                                     focusable="false">Filters</button>
                             </div>
                             <div class="header-button-div">
-                                <button id="task-bundles-button" class="header-button unselectable" focusable="false">Task
+                                <button id="task-bundles-button" class="header-button unselectable"
+                                    focusable="false">Task
                                     <br>
                                     Bundles</button>
                             </div>
@@ -149,40 +155,42 @@
                             </div>
                         </div>
                         <div id="description-div" class="textarea-description-div">
-                            <div contenteditable = "false" data-text="Add description..." id="add-description-area" tabindex="2"></textarea>
+                            <div contenteditable="false" data-text="Add description..." id="add-description-area"
+                                tabindex="2"></textarea>
+                            </div>
+                            <div id="trimester-select-container">
+                                <span id="trimester-select-span">
+                                    Select trimester:
+                                </span>
+                                <form action="#" class="customSelect">
+                                    <div class="select">
+                                        <select id="trimester-select">
+                                            <option>Before Pregnancy</option>
+                                            <option>1st Trimester</option>
+                                            <option>2nd Trimester</option>
+                                            <option>3rd Trimester</option>
+                                            <option>After Pregnancy</option>
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="notes-div" class="textarea-description-div">
+                                <textarea id="add-notes-area" placeholder="Add an update..." tabindex="3"></textarea>
+                            </div>
                         </div>
-                        <div id="trimester-select-container">
-                            <span id="trimester-select-span">
-                                Select trimester:
-                            </span>
-                            <form action="#" class="customSelect">
-                                <div class="select">
-                                    <select id="trimester-select">
-                                        <option>Before Pregnancy</option>
-                                        <option>1st Trimester</option>
-                                        <option>2nd Trimester</option>
-                                        <option>3rd Trimester</option>
-                                        <option>After Pregnancy</option>
-                                        <option>All</option>
-                                    </select>
+                        <div id="delete-verification" class="modal">
+                            <div class="modal-content animate-bottom-up" onclick="return false;">
+                                <div>
+                                    <br>
+                                    <p>Are you sure you want to permanently delete this task?</p>
+                                    <span id="confirm-delete" focusable="false">Yes
+                                    </span>
+                                    <span onclick="document.getElementById('delete-verification').style.opacity='0'"
+                                        focusable="false">No
+                                    </span>
+                                    <br><br>
                                 </div>
-                            </form>
-                        </div>
-                        <div id="notes-div" class="textarea-description-div">
-                            <textarea id="add-notes-area" placeholder="Add an update..." tabindex="3"></textarea>
-                        </div>
-                    </div>
-                    <div id="delete-verification" class="modal">
-                        <div class="modal-content animate-bottom-up" onclick="return false;">
-                            <div>
-                                <br>
-                                <p>Are you sure you want to permanently delete this task?</p>
-                                <span id="confirm-delete" focusable="false">Yes
-                                </span>
-                                <span onclick="document.getElementById('delete-verification').style.opacity='0'"
-                                    focusable="false">No
-                                </span>
-                                <br><br>
                             </div>
                         </div>
                     </div>
@@ -204,13 +212,15 @@
                     </div>
                     <div class="task-bundles-header-container">
                         <ul>
-                            <li id="medical" class="selected"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                            <li id="medical" class="selected"><span
+                                    onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
                                 document.getElementById('medical').classList.add('selected');
                                 document.getElementById('underline').style.marginLeft = '0';
                                 document.getElementById('inner-task-bundles-container').classList.remove('other');
                                 document.getElementById('inner-task-bundles-container').classList.remove('my-bundles');
                                 document.getElementById('inner-task-bundles-container').classList.add('medical');">Medical</span></li><!--
-                                --><li id="other"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                                --><li id="other"><span
+                                    onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
                             document.getElementById('other').classList.add('selected');
                             document.getElementById('underline').style.marginLeft = '33.333%';
                             document.getElementById('inner-task-bundles-container').classList.remove('medical');
@@ -221,7 +231,8 @@
                             document.getElementById('underline').style.marginLeft = '66.666%';
                             document.getElementById('inner-task-bundles-container').classList.remove('other');
                             document.getElementById('inner-task-bundles-container').classList.remove('medical');
-                            document.getElementById('inner-task-bundles-container').classList.add('my-bundles');">My Bundles</span></li>
+                            document.getElementById('inner-task-bundles-container').classList.add('my-bundles');">My
+                                    Bundles</span></li>
                             <hr id="underline" />
                         </ul>
                     </div>
@@ -234,7 +245,8 @@
         <sidebar>
             <div id="faded-container">
             </div>
-            <div id="filter-sidebar" style="opacity: 0;" class="filter-sidebar-container animated slideInRight slideOutLeft">
+            <div id="filter-sidebar" style="opacity: 0;"
+                class="filter-sidebar-container animated slideInRight slideOutLeft">
                 <div id="dismiss-sidebar-button">
                     << </div> <br>
                         <div class="filter-container">
@@ -267,16 +279,18 @@
         </sidebar>
     </div>
     <div id="sideNav" class="animated slideInRight slideOutLeft">
-            <a href="/">
-                <img class="logopic"
-                    src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
-                    alt="myHoneyBumpLogo"><span>myHoneyBump</span>
-            </a>
-            <ul>
-                <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li><li class="articles"><a href="/articles">ARTICLES</a></li><li id="sideNav-logout">LOG IN/SIGN UP</li>
-            </ul>
-        </div>
-        <div id="faded-container"></div>
+        <a href="/">
+            <img class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
+        <ul>
+            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+            <li class="articles"><a href="/articles">ARTICLES</a></li>
+            <li id="sideNav-logout">LOG IN/SIGN UP</li>
+        </ul>
+    </div>
+    <div id="faded-container"></div>
 </body>
 
 <script type="text/javascript" src="/checklist/checklist.js"></script>

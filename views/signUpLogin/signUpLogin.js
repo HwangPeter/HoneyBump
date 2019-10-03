@@ -1,4 +1,5 @@
 (function () {
+
     // Initialize Firebase
     var firebaseConfig = {
         apiKey: "AIzaSyCi8N03o0dLjoU83NoQUES5Vb3bUspOkCI",
@@ -10,6 +11,35 @@
         appId: "1:800303839442:web:545c691401fa9658"
     };
     firebase.initializeApp(firebaseConfig);
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var uiConfig = {
+        callbacks: {
+          signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            // User successfully signed in.
+            // Return type determines whether we continue the redirect automatically
+            // or whether we leave that to developer to handle.
+            return true;
+          },
+          uiShown: function() {
+            // The widget is rendered.
+            // Hide the loader.
+            document.getElementById('loader').style.display = 'none';
+          }
+        },
+        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+        signInFlow: 'popup',
+        signInSuccessUrl: '/',
+        signInOptions: [
+          // Leave the lines as is for the providers you want to offer your users.
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        ],
+        // Terms of service url.
+        tosUrl: '/terms',
+        // Privacy policy url.
+        privacyPolicyUrl: '/privacyPolicy'
+      };
+      ui.start('#firebaseui-auth-container', uiConfig);
+
 }());
 
 // TODO: Check for user being logged in already. If so, direct to homepage.
@@ -365,7 +395,7 @@ function handleSignUp() {
         let data = jsonifySignUpData();
 
         firebase.functions().httpsCallable('storeNewUserData')(data).then(() => {
-            window.location.href = "/";
+            window.location.href = "/checklist";
             // firebase.functions().httpsCallable('sendVerification').call()
             //     .then(() => {
             //         window.location.href = "/emailNotVerified";

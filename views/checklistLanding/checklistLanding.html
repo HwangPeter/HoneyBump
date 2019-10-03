@@ -29,20 +29,22 @@
 
 <body>
     <script>
-        (function () {
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = 'https://app.termly.io/embed.min.js';
-            s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
-            s.setAttribute("data-name", "termly-embed-banner");
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
-            setTimeout(function () {
-                document.getElementById("termly-code-snippet-support").style.position = "absolute";
-            }, 1000);
+        (function() {
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://app.termly.io/embed.min.js";
+          s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
+          s.setAttribute("data-name", "termly-embed-banner");
+          var x = document.getElementsByTagName("script")[0];
+          x.parentNode.insertBefore(s, x);
+          setTimeout(function() {
+            document.getElementById("termly-code-snippet-support").style.position =
+              "absolute";
+            document.getElementById("termly-code-snippet-support").style.left = "0";
+          }, 1000);
         })();
-    </script>
+      </script>
 
     <div include-html="/header/header.html"></div>
     <div include-html="/footer/footer.html"></div>
@@ -50,7 +52,7 @@
     <main>
         <h3>Free Pregnancy Checklist</h3>
         <img id="hero-image" alt="Woman standing by carriage"
-            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=35c95e26-865a-470f-955e-3679b6c6fd84">
+            src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FchecklistLanding%2FchecklistLandingHero.png?alt=media&token=1ed9954d-126d-43f9-bb2f-ba3398c70e2a">
         <div id="hero-text">
             <p>Discover what to look for in a prenatal vitamin, how and when to do Kegel exercises, and what
                 foods/activities to avoid.
@@ -68,8 +70,8 @@
         <span style="cursor: pointer; font-size: 14px;" onclick="window.location.href = '/signUpLogin';">Have a
             checklist? Log in</span>
         <br>
-        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET
-            STARTED</button>
+        <a href="/signUpLogin" class="get-started-link"><button class="get-started">GET
+            STARTED</button></a>
         <br>
         <br>
         <br>
@@ -101,8 +103,8 @@
         <br>
         <br>
 
-        <button class="get-started" onclick="window.location.href = '/signUpLogin';" class="get-started">GET
-            STARTED</button>
+        <a href="/signUpLogin" class="get-started-link"><button class="get-started">GET
+            STARTED</button></a>
     </main>
 
     <sidebar>

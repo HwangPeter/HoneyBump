@@ -1,4 +1,5 @@
 (function () {
+    addImageSrc();
     // Initialize Firebase
     var firebaseConfig = {
         apiKey: "AIzaSyCi8N03o0dLjoU83NoQUES5Vb3bUspOkCI",
@@ -10,10 +11,12 @@
         appId: "1:800303839442:web:545c691401fa9658"
     };
     includeHTML();
+
     firebase.initializeApp(firebaseConfig);
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             updateLogoutButton();
+            document.getElementById("getStartedBtn").style.display = "none";
         }
     });
 
@@ -24,6 +27,19 @@
         document.getElementById("sideNav-logout").innerText = "LOGOUT";
         document.getElementById("sideNav-logout").style.backgroundColor = "transparent";
         document.getElementById("sideNav-logout").style.color = "#6B686D";
+    }
+
+    function addImageSrc() {
+        if (screen.width <= 768) {
+            document.getElementById("landingpic").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingHeroMobile.png?alt=media&token=b0f6aa0d-4110-42d8-b1b3-2f0cd61355a1";
+            document.getElementById("checklistImg").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingChecklistMobile.png?alt=media&token=511983ae-a676-41c7-82db-018202262364";
+            document.getElementById("articlesImg").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingArticlesMobile.png?alt=media&token=0c65c734-9577-4fc8-8c1c-8d9deab7d49e";
+        }
+        else {
+            document.getElementById("landingpic").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingHeroDesktop.png?alt=media&token=e6d6cde2-a1aa-4a5d-b2a5-02d3e9dcab96";
+            document.getElementById("checklistImg").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingChecklistDesktop.png?alt=media&token=461cf0fd-1184-4e8d-82cc-d1958bf93ab2";
+            document.getElementById("articlesImg").src = "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FlandingArticlesDesktop.png?alt=media&token=c57fb3a8-9d66-411d-b916-1f79b08db558";
+        }
     }
 })();
 

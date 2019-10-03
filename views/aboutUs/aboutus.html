@@ -27,17 +27,19 @@
 
 <body style="min-height: 100%; top: 0px; margin: 0;">
   <script>
-    (function () {
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
+    (function() {
+      var s = document.createElement("script");
+      s.type = "text/javascript";
       s.async = true;
-      s.src = 'https://app.termly.io/embed.min.js';
-      s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
+      s.src = "https://app.termly.io/embed.min.js";
+      s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
       s.setAttribute("data-name", "termly-embed-banner");
-      var x = document.getElementsByTagName('script')[0];
+      var x = document.getElementsByTagName("script")[0];
       x.parentNode.insertBefore(s, x);
-      setTimeout(function () {
-        document.getElementById("termly-code-snippet-support").style.position = "absolute";
+      setTimeout(function() {
+        document.getElementById("termly-code-snippet-support").style.position =
+          "absolute";
+        document.getElementById("termly-code-snippet-support").style.left = "0";
       }, 1000);
     })();
   </script>
@@ -46,21 +48,21 @@
 
   <div id="main">
     <div class="textinpiccontainer">
-      <img class="landingpic" alt="Background Photo" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FAbout%20Us%20Landing%20Photo.png?alt=media&token=ed685760-9717-4beb-938b-3e5491213b9d">
+      <img class="landingpic" alt="Background Photo" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FaboutUsHero.png?alt=media&token=7072f911-78ba-4482-99fa-0b34fe46492a">
       <div class="centered">
         <p id="landingtext">About Us</p>
       </div>
     </div>
 
-    <div style="text-align:center;width:70%;margin:auto;">
-      <h4>What we do</h4>
+    <div style="position:relative;text-align:center;width:90%;margin:auto;padding-top: calc(53vw - 70px);">
+      <h4>What We Do</h4>
       <p>We make simple, unbiased pregnancy planning tools for women of all backgrounds.</p>
       <br>
-      <h4>Why we do it</h4>
+      <h4>Why We Do It</h4>
       <p>After having a child, we experienced how overwhelming planning a pregnancy can be.  
         We wanted to compile all the resources we found in one place.</p>
       <br>
-      <h4>Our passions</h4>
+      <h4>Our Passions</h4>
       <p>We believe every woman, regardless of race, background, or socioeconomic status,
         deserves the ability to take control of her pregnancy.</p>
       <br>
@@ -68,7 +70,7 @@
       <p>myHoneyBump was created by nurses.  We try our very best to use credible resources for our content.
         All of our resources are available to you for further reading.</p>
       <br>
-      <h4>Meet our founding team:</h4>
+      <h4>Meet Our Founding Team</h4>
       <div class="profile-container">
         <img class="profile" alt="Amanda" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FaboutUs%2FAmanda.jpg?alt=media&token=4a57eb6b-44f9-41d8-b46c-2d37ddb5791a">
         <p>Amanda Hwang<br>CEO</p>
@@ -84,17 +86,16 @@
       <div id="contact">
         <h4>Contact Us</h4>
         <p style="font-weight:700;">Address</p>
-        <p>APM Holdings LLC<br>
-        2390 CRENSHAW BOULEVARD #342<br>
-        TORRANCE, CA 90501</p>
+        <p>2390 Crenshaw Boulevard Ste E #342<br>
+        Torrance, CA 90501</p>
         <br>
         <p style="font-weight:700;">Email</p>
         <p>myHoneyBumpofficial@gmail.com</p>
       </div>
     </div>
+    <div include-html="/footer/footer.html"></div>
   </div>
 
-  <div include-html="/footer/footer.html"></div>
 
   <script type="text/javascript" src="/aboutUs/aboutus.js"></script>
 

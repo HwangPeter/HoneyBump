@@ -14,8 +14,16 @@
     firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             updateLogoutButton();
+            updateGetStartedButtons();
         }
     });
+    
+    function updateGetStartedButtons() {
+        var buttons = document.getElementsByClassName("get-started-link");
+        for (var i=0; i<buttons.length; i++) {
+            buttons[i].href = "/checklist";
+        }
+    }
 
     function updateLogoutButton() {
         document.getElementById("logout").style.backgroundColor = "transparent";

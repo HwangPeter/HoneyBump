@@ -27,33 +27,26 @@ header span {
     top: 0px;
 }
 
-.landingpic {
+#landingpic {
     width: 100%;
-    height: 80%;
+    height: auto;
     z-index: -1;
 }
 
-.centered {
-    position: absolute;
-    top: 20%;
-    left: 55%;
-    width:40%;
-    text-align: center;
-}
-
-#landingtext {
-    font-size: 10px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: 1;
-}
-
 #landingparagraph {
-    font-size: 5px;
+    line-height: 1.3;
+    word-spacing: 3px;
+}
+
+.centered {
+    position: relative;
+    text-align: center;
+    margin: 0 8px 55px 8px;
 }
 
 .textcontainer {
     text-align: center;
+    margin-bottom: 65px;
 }
 
 /*
@@ -66,14 +59,15 @@ header span {
 
 .grid-container {
     display: grid;
+    grid-gap: 0;
     grid-template-areas:
-        'ChecklistPicture'
-        'ChecklistText'
-        'BabyShowerWebsitePicture'
-        'BabyShowerWebsiteText'
-        'ArticlesPicture'
-        'ArticlesText';
-    margin-top: 100px;
+        'whyUs'
+        'checklistPic'
+        'checklistText'
+        'articlesPic'
+        'articlesText'
+        'quotes';
+    margin: 0 8px;
 }
 
 .grid-container > div {
@@ -81,56 +75,72 @@ header span {
 }
 
 .grid-picture {
-    width: 150px;
-    height: 150px;
+    border-radius: 4px;
+    border: 4px solid #e6e5e7;
+    width: 100%;
+    height: auto;
 }
 
-.item1 {grid-area: ChecklistPicture;}
-.item2 {grid-area: ChecklistText;
-        padding-bottom: 75px;}
-.item3 {grid-area: BabyShowerWebsiteText;
-        padding-bottom: 75px;}
-.item4 {grid-area: BabyShowerWebsitePicture;}
-.item5 {grid-area: ArticlesPicture;}
-.item6 {grid-area: ArticlesText;
-        padding-bottom: 75px;}
+.item1 {grid-area: whyUs;}
+.item2 {grid-area: checklistPic;}
+.item3 {grid-area: checklistText;
+    padding-bottom: 75px;}
+.item4 {grid-area: articlesText;
+margin-bottom: 65px;}
+.item5 {grid-area: articlesPic;}
+.item6 {grid-area: quotes;}
 
-@media only screen and (min-width: 992px) {
-    
-    .textinpiccontainer{
+@media only screen and (min-width: 768px) {
+    .centered {
         position: absolute;
-        text-align: center;
-        width: 100%;
-        height: auto;
-        top: 0px;
-    }
-
-    .landingpic {
-        width: 100%;
-        height: auto;
-        z-index: -1;
-    }
-    
-    #landingtext {
-        font-size: 40px;
+        top: 1%;
+        left: 45%;
+        width: 50%;
+        margin: 0 8px;
     }
 
     #landingparagraph {
-        font-size: 25px;
-    }
-
-    .textcontainer {
-        text-align: center;
+        position: relative;
+        left: 19%;
         width: 85%;
-        margin: auto;
+        font-size: 15px;
+        line-height: 25px;
+        color: black;
     }
 
-    #goaltext {
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translate(-50%, -80%);
+    #getStartedBtn {
+        left: 11%;
+        position: relative;
+    }
+
+    button {
+        font-size: 15px;
+        padding: 8px 30px;
+    }
+
+    .grid-picture {
+        width: 60%;
+    }
+}
+@media only screen and (min-width: 992px) {
+    
+    .centered {
+        top: 1.2%;
         text-align: center;
+        margin: auto;
+        width: 55%;
+    }
+
+    #landingparagraph {
+        left: 19%;
+        font-size: 17px;
+        width: 70%;
+        line-height: 28px;
+    }
+
+    #getStartedBtn {
+        left: 5%;
+        padding: 10px 45px;
     }
 
     .grid-container {
@@ -145,18 +155,16 @@ header span {
             'testimonials testimonials testimonials testimonials testimonials testimonials'
             'profitable profitable profitable profitable profitable profitable'
             'footer footer footer footer footer footer';
-        height: 100%;
-        width: 100%;
-        margin-top: 1000px;
     }
 
     .grid-container > div {
         text-align: center;
+        margin: auto;
     }
 
     .grid-picture {
         width: 400px;
-        height: 380px;
+        height: auto;
     }
 
     .item1 {
@@ -166,15 +174,19 @@ header span {
         grid-area: checklist;
     }
     .item3 {
+        margin: auto;
+        padding-top: 50px;
         grid-area: checklistDescription;
         width: 30vw;
     }
     .item4 {
+        margin: auto;
         grid-area: articleDescription;
         width: 30vw
     }
     .item5 {
         grid-area: article;
+        margin-bottom: 65px;
     }
     .item6 {
         grid-area: testimonials;
@@ -184,5 +196,46 @@ header span {
     }
     .footer {
         grid-area: footer;
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    .centered {
+        top: 3%;
+        text-align: center;
+        margin: auto;
+        width: 55%;
+    }
+
+    #landingparagraph {
+        left: 12%;
+        font-size: 22px;
+        width: 83%;
+        line-height: 40px;
+    }
+
+    #getStartedBtn {
+        top: 25px;
+        left: 4%;
+        font-size: 25px;
+        padding: 10px 60px;
+    }
+}
+
+@media only screen and (min-width: 2560px) {
+
+    #landingtext {
+        font-size: 55px;
+    }
+
+    #landingparagraph {
+        font-size: 30px;
+    }
+
+    #getStartedBtn {
+        top: 25px;
+        left: 4%;
+        font-size: 25px;
+        padding: 10px 60px;
     }
 }

@@ -70,20 +70,22 @@
 
 <body>
     <script>
-        (function () {
-            var s = document.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = 'https://app.termly.io/embed.min.js';
-            s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
-            s.setAttribute("data-name", "termly-embed-banner");
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
-            setTimeout(function () {
-                document.getElementById("termly-code-snippet-support").style.position = "absolute";
-            }, 1000);
+        (function() {
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://app.termly.io/embed.min.js";
+          s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
+          s.setAttribute("data-name", "termly-embed-banner");
+          var x = document.getElementsByTagName("script")[0];
+          x.parentNode.insertBefore(s, x);
+          setTimeout(function() {
+            document.getElementById("termly-code-snippet-support").style.position =
+              "absolute";
+            document.getElementById("termly-code-snippet-support").style.left = "0";
+          }, 1000);
         })();
-    </script>
+      </script>
     <div id="message">
         <h1 id="status">Verifying...</h1>
     </div>
