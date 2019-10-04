@@ -19,20 +19,15 @@
     <title>Pregnancy Planning - myHoneyBump</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/styles/styles.css" />
-    <link rel="stylesheet" href="/index.css" />
+    <link async rel="stylesheet" href="/styles/styles.css" />
+    <link async rel="stylesheet" href="/index.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
-    <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
-    <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
-    <link
+    defer/>
+    <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <link async
       rel="icon"
       type="image/png"
       href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
@@ -41,7 +36,7 @@
   </head>
 
   <body style="min-height:100%;margin:0px;">
-    <script>
+    <script async> 
       (function() {
         var s = document.createElement("script");
         s.type = "text/javascript";
@@ -60,7 +55,7 @@
         }, 1000);
       })();
     </script>
-    <script>
+    <script async> 
       (function() {
         var ua = window.navigator.userAgent;
         var msie = ua.indexOf("MSIE ");
@@ -110,7 +105,7 @@
           </div>
 
           <div class="item2">
-            <img
+            <img defer
               id="checklistImg"
               class="grid-picture"
               alt="Pregnancy Checklist"
@@ -136,7 +131,7 @@
           </div>
 
           <div class="item5">
-            <img id="articlesImg" class="grid-picture" alt="Articles List" />
+            <img defer id="articlesImg" class="grid-picture" alt="Articles List" />
           </div>
 
           <div class="item6">
@@ -209,6 +204,6 @@ function closeNav() {
 </script> -->
       </div>
     </div>
-    <script type="text/javascript" src="/index.js"></script>
+    <script defer type="text/javascript" src="/index.js"></script>
   </body>
 </html>

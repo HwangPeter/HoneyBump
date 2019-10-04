@@ -913,7 +913,7 @@
                             referencesScrollHeight = document.getElementById("add-description-area").scrollHeight + 15;
                             // 15 to offset the 2 newlines before "References:"
                             taskData = getTaskData(checklistObj, currentTaskInfo);
-                            document.getElementById("add-description-area").innerHTML += "\n\nReferences:\n" + taskData.references + "\n";
+                            document.getElementById("add-description-area").innerHTML += "<br><br>References:<br>" + taskData.references + "<br>";
                             autoSize(document.getElementById('add-description-area'));
                             referencesDisplayed = true;
                         }
