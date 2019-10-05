@@ -17,7 +17,7 @@
             updateLogoutButton();
             checklistObj = await loadChecklist();
 
-            // Adds another section to filter is user has added their own tasks.
+            // Adds another section to filter if user has added their own tasks.
             if ("Tasks I Added" in checklistObj) {
                 let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-container">' +
                     '<div class="filter-header-container">' +
@@ -776,7 +776,7 @@
             }
 
             if (event.target.classList.contains("modal")) {
-                document.getElementById("delete-verification").style.opacity = 0;
+                document.getElementById("delete-verification").style.display = "none";
                 return;
             }
 
@@ -2064,12 +2064,32 @@
             }
         }
 
+        //Event listeners for ellipses/additional options menu in checklist header.
         document.getElementById('additional-options-button').addEventListener('click', async () => {
             optionsClicked();
         });
 
         document.getElementById('toggleCompleteSpan').addEventListener('click', async () => {
             toggleShowComplete();
+        });
+
+        document.getElementById('hardResetChecklist').addEventListener('click', async () => {
+            document.getElementById('hard-reset-verification').style.display = "block";
+        });
+
+        document.getElementById('confirm-hard-reset').addEventListener('click', async () => {
+            let uid = firebase.auth().currentUser.uid;
+            let db = firebase.firestore();
+            clearChecklist();
+            await db.collection('users').doc(uid).collection("checklist").doc("checklist").delete();
+            checklistObj = await loadChecklist();
+            await generateChecklist(checklistObj, checklistObj.settings);
+            addAddTaskAreaEventListener();
+            // Try catch so no error is thrown if user has never added a custom task.
+            try {
+            document.getElementById("user-tasks-filter-header").remove();
+            }
+            catch{}
         });
 
         // Event listener for add task area.

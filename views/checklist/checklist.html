@@ -18,7 +18,7 @@
     <meta charset="utf-8">
     <link async rel="stylesheet" href="/styles/styles.css">
     <link async rel="stylesheet" href="/checklist/checklist.css">
-    <link async el="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
+    <link async rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
     <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
     <script defer src="/__/firebase/6.1.0/firebase-auth.js"></script>
     <script defer src="/__/firebase/6.1.0/firebase-firestore.js"></script>
@@ -97,6 +97,7 @@
                                 <div class="dropdown">
                                     <div id="options-dropdown" class="dropdown-content unselectable">
                                         <span id="toggleCompleteSpan">Show completed tasks</span>
+                                        <span id="hardResetChecklist" style="color: red; font-weight:500;">Reset checklist</span>
                                     </div>
                                 </div>
                             </div>
@@ -104,6 +105,23 @@
                     </div>
                     <div id="checklist">
                     </div>
+
+                    <div id="hard-reset-verification" class="modal" style="text-align: center;"
+                    onclick="document.getElementById('hard-reset-verification').style.display='none';">
+                            <div class="modal-content animate-bottom-up" onclick="return false;">
+                                <div style="padding: 0 6px;">
+                                    <br>
+                                    <p>Are you sure you want to permanently reset your checklist?</p>
+                                    <p style="font-size: 16px; font-weight:500; margin-bottom: 15px;">All custom tasks, updates, and progress will be deleted.</p>
+                                    <span id="confirm-hard-reset" focusable="false">Yes
+                                    </span>
+                                    <span onclick="document.getElementById('hard-reset-verification').style.display='none';"
+                                        focusable="false">No
+                                    </span>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
                 </div>
 
                 <!-- Expanded task container -->
@@ -185,7 +203,7 @@
                                     <p>Are you sure you want to permanently delete this task?</p>
                                     <span id="confirm-delete" focusable="false">Yes
                                     </span>
-                                    <span onclick="document.getElementById('delete-verification').style.opacity='0'"
+                                    <span onclick="document.getElementById('delete-verification').style.display='none';"
                                         focusable="false">No
                                     </span>
                                     <br><br>
@@ -289,7 +307,6 @@
             <li id="sideNav-logout">LOG IN/SIGN UP</li>
         </ul>
     </div>
-    <div id="faded-container"></div>
 </body>
 
 <script defer type="text/javascript" src="/checklist/checklist.js"></script>
