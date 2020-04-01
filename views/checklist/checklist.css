@@ -61,6 +61,7 @@ h2.section {
     margin-left: 5px;
     cursor: default !important;
     height: 100%;
+    display: inline-block;
 }
 
 h1.section {
@@ -731,6 +732,39 @@ textarea:focus {
 
 #add-notes-area:hover {
     border: 2px solid #d5dce0;
+}
+
+#survey {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: fixed;
+    height: 340px;
+    width: 320px;
+    bottom: 0;
+    left: calc(50% - 160px);
+    margin: auto;
+    z-index: 5;
+    background-color: white;
+    opacity: 0;
+    border: 2px solid #6B5875;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.16), 0 5px 10px rgba(0,0,0,0.23);
+}
+
+#feedback {
+    position: relative;
+    border: 2px solid #d6d5d7;
+    border-radius: 4px;
+    min-height: 160px;
+    max-height: 160px;
+    width: 90%;
+    margin: auto;
+    margin-top: 16px;
+    padding: 6px;
+    cursor: text !important;
 }
 
 .modal {
@@ -1442,5 +1476,10 @@ i {
 
     #task-bundles-container {
         width: 45%;
+    }
+
+    #survey {
+        left: auto;
+        right: 16px;
     }
 }

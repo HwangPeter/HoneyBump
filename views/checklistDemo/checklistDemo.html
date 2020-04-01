@@ -1,0 +1,331 @@
+<html lang="en-US">
+
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-147423519-1');
+    </script>
+
+    <title>Checklist</title>
+    <!-- <meta name="viewport" content="initial-scale=1.0" > -->
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+    <meta charset="utf-8">
+    <link async rel="stylesheet" href="/styles/styles.css">
+    <link async rel="stylesheet" href="/checklistDemo/checklistDemo.css">
+    <link async rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap">
+    <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/6.1.0/firebase-firestore.js"></script>
+    <link async rel="icon" type="image/png"
+        href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
+        sizes="16x16" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <script async>
+        (function() {
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://app.termly.io/embed.min.js";
+          s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
+          s.setAttribute("data-name", "termly-embed-banner");
+          var x = document.getElementsByTagName("script")[0];
+          x.parentNode.insertBefore(s, x);
+          setTimeout(function() {
+            document.getElementById("termly-code-snippet-support").style.position =
+              "absolute";
+            document.getElementById("termly-code-snippet-support").style.left = "0";
+          }, 1000);
+        })();
+      </script>
+    <div class="background">
+    </div>
+    <div id="content">
+        <header>
+            <div id="hamburger">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </div>
+            <a href="/">
+                <img class="logopic"
+                    src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                    alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+            </a>
+            <div class="topNav">
+                <ul>
+                    <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+                    <!--<li class="website"><a href="/website">MY (FREE!) BABY WEBSITE</a></li><li class="must-haves"><a href="/mustHaves">MUST HAVES</a></li>-->
+                    <li class="articles"><a href="/articles">ARTICLES</a></li>
+                    <li id="logout">LOG IN/SIGN UP</li>
+                </ul>
+            </div>
+        </header>
+        <main>
+            <div class="content-div">
+                <div id="checklist-container">
+                    <div id="checklist-header">
+                        <div class="checklist-header-button-container">
+                            <div class="header-button-div">
+                                <button id="select-trimester" class="header-button unselectable"
+                                    focusable="false">Filters</button>
+                            </div>
+                            <div class="header-button-div">
+                                <button id="task-bundles-button" class="header-button unselectable"
+                                    focusable="false">Task
+                                    <br>
+                                    Bundles</button>
+                            </div>
+                        </div>
+                        <div class="right-options-button-container">
+                            <div class="additional-options-button-container" id="button-container">
+                                <button id="additional-options-button" title="More actions">
+                                    <svg id="optionsSVG" focusable="false" viewBox="0 0 32 32">
+                                        <path
+                                            d="M16,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S14.3,13,16,13z M3,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S1.3,13,3,13z M29,13c1.7,0,3,1.3,3,3s-1.3,3-3,3s-3-1.3-3-3S27.3,13,29,13z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <div class="dropdown">
+                                    <div id="options-dropdown" class="dropdown-content unselectable">
+                                        <span id="toggleCompleteSpan">Show completed tasks</span>
+                                        <span id="hardResetChecklist" style="color: red; font-weight:500;">Reset checklist</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="checklist">
+                    </div>
+
+                    <div id="hard-reset-verification" class="modal" style="text-align: center;"
+                    onclick="document.getElementById('hard-reset-verification').style.display='none';">
+                            <div class="modal-content animate-bottom-up" onclick="return false;">
+                                <div style="padding: 0 6px;">
+                                    <br>
+                                    <p>Are you sure you want to permanently reset your checklist?</p>
+                                    <p style="font-size: 16px; font-weight:500; margin-bottom: 15px;">All custom tasks, updates, and progress will be deleted.</p>
+                                    <span id="confirm-hard-reset" focusable="false">Yes
+                                    </span>
+                                    <span onclick="document.getElementById('hard-reset-verification').style.display='none';"
+                                        focusable="false">No
+                                    </span>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="cannot-save-notification" class="modal" style="text-align: center;"
+                        onclick="document.getElementById('cannot-save-notification').style.display='none';">
+                                <div class="modal-content animate-bottom-up" onclick="return false;">
+                                    <div style="padding: 0 6px;">
+                                        <br>
+                                        <p style="font-size: 16px; font-weight:500; margin-bottom: 15px;">You must be logged in to save changes to the checklist.</p>
+                                        <span onclick="document.getElementById('cannot-save-notification').style.display='none';"
+                                            focusable="false">Dismiss
+                                        </span>
+                                        <br><br>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+
+                <!-- Expanded task container -->
+                <div id="add-task-container" style="opacity: 0;" class="animated slideInLeft slideOutRight">
+                    <div class="header-button-container">
+                        <div class="option-button-cancel-div">
+                            <button id="cancel" class="icon-button nohover">
+                                <svg id="x-svg" class="icon-SVG" focusable="false" viewBox="0 0 32 32">
+                                    <path
+                                        d="M18.1,16L27,7.1c0.6-0.6,0.6-1.5,0-2.1s-1.5-0.6-2.1,0L16,13.9l-8.9-9C6.5,4.3,5.6,4.3,5,4.9S4.4,6.4,5,7l8.9,8.9L5,24.8c-0.6,0.6-0.6,1.5,0,2.1c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4l8.9-8.9l8.9,8.9c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4c0.6-0.6,0.6-1.5,0-2.1L18.1,16z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="option-button-icon-div">
+                            <button id="references" class="icon-button nohover" title="Display references">
+                                i</button>
+                        </div>
+                        <div class="option-button-icon-div">
+                            <button id="markAsComplete" class="icon-button nohover" title="Mark as complete">
+                                <svg id="markAsCompleteSVG" class="icon-SVG" focusable="false" viewBox="-3 -5 40 40">
+                                    <path
+                                        d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="option-button-icon-div">
+                            <button id="delete" class="icon-button nohover" title="Delete task">
+                                <svg id="deleteSVG" class="icon-SVG" focusable="false" viewBox="0 -256 1792 1792">
+                                    <path
+                                        d="M 512,800 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z m 256,0 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z m 256,0 V 224 q 0,-14 -9,-23 -9,-9 -23,-9 h -64 q -14,0 -23,9 -9,9 -9,23 v 576 q 0,14 9,23 9,9 23,9 h 64 q 14,0 23,-9 9,-9 9,-23 z M 1152,76 v 948 H 256 V 76 Q 256,54 263,35.5 270,17 277.5,8.5 285,0 288,0 h 832 q 3,0 10.5,8.5 7.5,8.5 14.5,27 7,18.5 7,40.5 z M 480,1152 h 448 l -48,117 q -7,9 -17,11 H 546 q -10,-2 -17,-11 z m 928,-32 v -64 q 0,-14 -9,-23 -9,-9 -23,-9 h -96 V 76 q 0,-83 -47,-143.5 -47,-60.5 -113,-60.5 H 288 q -66,0 -113,58.5 Q 128,-11 128,72 v 952 H 32 q -14,0 -23,9 -9,9 -9,23 v 64 q 0,14 9,23 9,9 23,9 h 309 l 70,167 q 15,37 54,63 39,26 79,26 h 320 q 40,0 79,-26 39,-26 54,-63 l 70,-167 h 309 q 14,0 23,-9 9,-9 9,-23 z"
+                                        id="path3745" inkscape:connector-curvature="0"
+                                        transform="matrix(1,0,0,-1,197.42373,1255.0508)">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="save-button-div">
+                            <button id="save" class="nohover">Save</button>
+                        </div>
+                    </div>
+                    <div id="add-task-bottom-container">
+                        <div id="task-name" class="list-item-container">
+                            <div class="textarea-div">
+                                <textarea id="add-task-task-name" placeholder="Add task..." rows="1"
+                                    tabindex="1"></textarea>
+                            </div>
+                        </div>
+                        <div id="description-div" class="textarea-description-div">
+                            <div contenteditable="false" data-text="Add description..." id="add-description-area"
+                                tabindex="2"></textarea>
+                            </div>
+                            <div id="trimester-select-container">
+                                <span id="trimester-select-span">
+                                    Select trimester:
+                                </span>
+                                <form action="#" class="customSelect">
+                                    <div class="select">
+                                        <select id="trimester-select">
+                                            <option>Before Pregnancy</option>
+                                            <option>1st Trimester</option>
+                                            <option>2nd Trimester</option>
+                                            <option>3rd Trimester</option>
+                                            <option>After Pregnancy</option>
+                                            <option>All</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="notes-div" class="textarea-description-div">
+                                <textarea id="add-notes-area" placeholder="Add an update..." tabindex="3"></textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <span style="font-size:10px;">As an Amazon Associate, we earn from qualifying purchases.</span>
+                        </div>
+                        <div id="delete-verification" class="modal">
+                            <div class="modal-content animate-bottom-up" onclick="return false;">
+                                <div>
+                                    <br>
+                                    <p>Are you sure you want to permanently delete this task?</p>
+                                    <span id="confirm-delete" focusable="false">Yes
+                                    </span>
+                                    <span onclick="document.getElementById('delete-verification').style.display='none';"
+                                        focusable="false">No
+                                    </span>
+                                    <br><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Bundles -->
+                <div id="task-bundles-container" style="opacity: 0;" class="animated slideInUp slideOutDown">
+                    <div class="header-button-container">
+                        <div class="option-button-cancel-div">
+                            <button id="cancel-task-bundles" class="icon-button nohover">
+                                <svg id="x-svg" class="icon-SVG" focusable="false" viewBox="0 0 32 32">
+                                    <path
+                                        d="M18.1,16L27,7.1c0.6-0.6,0.6-1.5,0-2.1s-1.5-0.6-2.1,0L16,13.9l-8.9-9C6.5,4.3,5.6,4.3,5,4.9S4.4,6.4,5,7l8.9,8.9L5,24.8c-0.6,0.6-0.6,1.5,0,2.1c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4l8.9-8.9l8.9,8.9c0.3,0.3,0.7,0.4,1.1,0.4s0.8-0.1,1.1-0.4c0.6-0.6,0.6-1.5,0-2.1L18.1,16z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                        <span>Task Bundles</span>
+                    </div>
+                    <div class="task-bundles-header-container">
+                        <ul>
+                            <li id="medical" class="selected"><span
+                                    onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                                document.getElementById('medical').classList.add('selected');
+                                document.getElementById('underline').style.marginLeft = '0';
+                                document.getElementById('inner-task-bundles-container').classList.remove('other');
+                                document.getElementById('inner-task-bundles-container').classList.remove('my-bundles');
+                                document.getElementById('inner-task-bundles-container').classList.add('medical');">Medical</span></li><!--
+                                --><li id="other"><span
+                                    onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                            document.getElementById('other').classList.add('selected');
+                            document.getElementById('underline').style.marginLeft = '33.333%';
+                            document.getElementById('inner-task-bundles-container').classList.remove('medical');
+                            document.getElementById('inner-task-bundles-container').classList.remove('my-bundles');
+                            document.getElementById('inner-task-bundles-container').classList.add('other');">Other</span></li><!--
+                                --><li id="myBundles"><span onclick="document.getElementsByClassName('selected')[0].classList.remove('selected');
+                            document.getElementById('myBundles').classList.add('selected');
+                            document.getElementById('underline').style.marginLeft = '66.666%';
+                            document.getElementById('inner-task-bundles-container').classList.remove('other');
+                            document.getElementById('inner-task-bundles-container').classList.remove('medical');
+                            document.getElementById('inner-task-bundles-container').classList.add('my-bundles');">My
+                                    Bundles</span></li>
+                            <hr id="underline" />
+                        </ul>
+                    </div>
+                    <!-- Has to be on one line to avoid inputting spacing. -->
+                    <div class="task-bundles medical" id="inner-task-bundles-container"><div class="task-bundle" id="medical-task-bundles"><br>No medical task bundles available</div><div class="task-bundle" id="other-task-bundles"><br>No other task bundles available</div><div class="task-bundle" id="my-bundles-task-bundles"><br>No task bundles added</div></div>
+                </div>
+            </div>
+        </main>
+        <!-- Filter sidebar -->
+        <sidebar>
+            <div id="faded-container">
+            </div>
+            <div id="filter-sidebar" style="opacity: 0;"
+                class="filter-sidebar-container animated slideInRight slideOutLeft">
+                <div id="dismiss-sidebar-button">
+                    << </div> <br>
+                        <div class="filter-container">
+                            <div class="filter-header-container">
+                                <span class="filter-header">Trimesters</span>
+                            </div>
+                            <form id="trimester-filter">
+                                <input type="checkbox" id="Before Pregnancy">
+                                <label for="Before Pregnancy" class="unselectable">Before Pregnancy</label>
+                                <input type="checkbox" id="1st Trimester">
+                                <label for="1st Trimester" class="unselectable">1st Trimester</label>
+                                <input type="checkbox" id="2nd Trimester">
+                                <label for="2nd Trimester" class="unselectable">2nd Trimester</label>
+                                <input type="checkbox" id="3rd Trimester">
+                                <label for="3rd Trimester" class="unselectable">3rd Trimester</label>
+                                <input type="checkbox" id="After Pregnancy">
+                                <label for="After Pregnancy" class="unselectable">After Pregnancy</label>
+                            </form>
+                        </div>
+                        <div id="filter-container-id" class=filter-container>
+                            <div class="filter-header-container">
+                                <span class="filter-header">Task Bundles</span>
+                            </div>
+                            <form id="task-bundles-filter">
+                                <span class="empty">No task bundles added</span>
+                            </form>
+                            <span id="add-task-bundle-span" class="unselectable">ADD TASK BUNDLES</span>
+                        </div>
+                </div>
+        </sidebar>
+    </div>
+    <div id="sideNav" class="animated slideInRight slideOutLeft">
+        <a href="/">
+            <img defer class="logopic"
+                src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+                alt="myHoneyBumpLogo"><span>myHoneyBump</span>
+        </a>
+        <ul>
+            <li class="checklist"><a href="/checklist">PREGNANCY CHECKLIST</a></li>
+            <li class="articles"><a href="/articles">ARTICLES</a></li>
+            <li id="sideNav-logout">LOG IN/SIGN UP</li>
+        </ul>
+    </div>
+</body>
+
+<script defer type="text/javascript" src="/checklistDemo/checklistDemo.js"></script>
+
+</html>

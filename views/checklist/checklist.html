@@ -26,6 +26,8 @@
         href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
         sizes="16x16" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <base target="_blank" rel="noopener noreferrer">
 </head>
 
 <body>
@@ -196,6 +198,9 @@
                                 <textarea id="add-notes-area" placeholder="Add an update..." tabindex="3"></textarea>
                             </div>
                         </div>
+                        <div>
+                        <span style="font-size:10px;">As an Amazon Associate, we earn from qualifying purchases.</span>
+                        </div>
                         <div id="delete-verification" class="modal">
                             <div class="modal-content animate-bottom-up" onclick="return false;">
                                 <div>
@@ -306,6 +311,19 @@
             <li class="articles"><a href="/articles">ARTICLES</a></li>
             <li id="sideNav-logout">LOG IN/SIGN UP</li>
         </ul>
+    </div>
+    <div id="survey" class="animated slideInUp slideOutDown">
+        <span style="font-weight:900; font-size: 22px; color: black;">Find this useful?</span><br>
+        <form style="text-align: center" id="surveyOptions">
+            <input type="checkbox" id="surveyYes" >
+            <label for="surveyYes" class="unselectable" style="display: inline-block; margin: 0; margin-right: 25px;">Yes</label>
+            <input type="checkbox" id="surveyNo">
+            <label for="surveyNo" class="unselectable" style="display: inline-block; margin: 0; margin-right: 25px;">No</label>
+        </form>
+        <span>We're always looking to improve!</span>
+        <textarea id="feedback" placeholder="Your feedback. . ."></textarea>
+        <button style="display: inline; position: relative; top: 40px;  padding: 12px 25px;" id="surveySubmit">Submit</button>
+        <button style="display: inline; position: relative; top: 40px; padding: 12px 25px;" id="surveyNoThanks">No Thanks</button>
     </div>
 </body>
 
