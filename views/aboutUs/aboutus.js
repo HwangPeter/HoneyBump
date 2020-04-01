@@ -19,7 +19,7 @@
 
     function updateLogoutButton() {
         document.getElementById("logout").style.backgroundColor = "transparent";
-        document.getElementById("logout").style.color = "#6B686D";
+        document.getElementById("logout").style.color = "black";
         document.getElementById("logout").innerText = "LOGOUT";
         document.getElementById("sideNav-logout").innerText = "LOGOUT";
         document.getElementById("sideNav-logout").style.backgroundColor = "transparent";

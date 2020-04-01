@@ -628,7 +628,6 @@ textarea:focus {
 }
 
 #trimester-select-container {
-    width: calc(100% - 34px);
     height: 40px;
     text-align: left;
 }
@@ -777,6 +776,10 @@ textarea:focus {
     font-size: 13px;
     font-family: "Montserrat";
     font-weight: 400;
+}
+
+#hard-reset-verification {
+    text-align: center;
 }
 
 .animate-bottom-up {

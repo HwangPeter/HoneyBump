@@ -1,117 +1,196 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+      gtag("config", "UA-147423519-1");
+    </script>
 
-    gtag('config', 'UA-147423519-1');
+    <title>Sign Up</title>
+    <link async rel="stylesheet" href="/styles/styles.css" />
+    <link async rel="stylesheet" href="signUpLogin/signUpLogin.css" />
+    <link async
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+    <link async
+      rel="icon"
+      type="image/png"
+      href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
+      sizes="16x16"
+    />
+
+  </head>
+  <script async>
+    (function() {
+      var s = document.createElement("script");
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "https://app.termly.io/embed.min.js";
+      s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
+      s.setAttribute("data-name", "termly-embed-banner");
+      var x = document.getElementsByTagName("script")[0];
+      x.parentNode.insertBefore(s, x);
+      setTimeout(function() {
+        document.getElementById("termly-code-snippet-support").style.position =
+          "absolute";
+        document.getElementById("termly-code-snippet-support").style.left = "0";
+      }, 1000);
+    })();
   </script>
-
-  <title>Sign Up</title>
-  <link rel="stylesheet" href="/styles/styles.css">
-  <link rel="stylesheet" href="signUpLogin/signUpLogin.css">
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
-  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-functions.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
-  <link rel="icon" type="image/png"
-    href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
-    sizes="16x16" />
-
-</head>
-<script>
-  (function () {
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = 'https://app.termly.io/embed.min.js';
-    s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
-    s.setAttribute("data-name", "termly-embed-banner");
-    var x = document.getElementsByTagName('script')[0];
-    x.parentNode.insertBefore(s, x);
-    setTimeout(function () {
-      document.getElementById("termly-code-snippet-support").style.position = "absolute";
-    }, 1000);
-  })();
-</script>
-<a href="/" id="logo">
-  <img style="vertical-align:middle; width:50px;height:50px;"
-    src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
-    alt="myHoneyBumpLogo">
-  <header>myHoneyBump</header>
-</a>
-<div class="container" id="container" style="align-content: center;">
-  <div class="form-container" id="sign-up-container">
-    <form action="#">
-      <h1>Create Account</h1>
-      <h2>Please fill out the form below</h2>
-      <input id="signUpFirstName" type="text" placeholder="First name" />
-      <input id="signUpLastName" type="text" placeholder="Last name" />
-      <input id="signUpEmail" type="email" placeholder="Email" maxlength="255" />
-      <input id="signUpPass" type="password" placeholder="Password" />
-      <input id="signUpPassConfirm" type="password" placeholder="Confirm password" />
-      <div style="float:left">
-        <h4 style="display:inline">Mother's Birthdate (Optional)</h4>
-        <div class="popup" id="whyPopup">Why?
-          <h4 class="popuptext" id="whyPopupText">This helps us provide a checklist that is more relevant to your
-            pregnancy</h4>
+  <a href="/" id="logo">
+    <img
+      style="vertical-align:middle; width:50px;height:50px;"
+      src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Flogo.png?alt=media&token=4efa35c0-e2fa-412a-a804-cec738de9cf6"
+      alt="myHoneyBumpLogo"
+    />
+    <header>myHoneyBump</header>
+  </a>
+  <div class="container" id="container" style="align-content: center;">
+    <div class="form-container" id="sign-up-container">
+      <form action="#">
+        <h1>Create Account</h1>
+        <h2>Please fill out the form below</h2>
+        <input id="signUpFirstName" type="text" placeholder="First name" />
+        <input id="signUpLastName" type="text" placeholder="Last name" />
+        <input
+          id="signUpEmail"
+          type="email"
+          placeholder="Email"
+          maxlength="255"
+        />
+        <input id="signUpPass" type="password" placeholder="Password" />
+        <input
+          id="signUpPassConfirm"
+          type="password"
+          placeholder="Confirm password"
+        />
+        <div style="float:left">
+          <h4 style="display:inline">Mother's Birthdate (Optional)</h4>
+          <div class="popup" id="whyPopup">
+            Why?
+            <h4 class="popuptext" id="whyPopupText">
+              This helps us provide a checklist that is more relevant to your
+              pregnancy
+            </h4>
+          </div>
         </div>
-      </div>
-      <div class="birthdate-container">
-        <input id="signUpMomMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
-        <input id="signUpMomDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
-        <input id="signUpMomYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
-      </div>
-      <div style="float:left">
-        <h4 style="display:inline">Expected Delivery Date (Optional)</h4>
-        <div class="popup" id="dontKnowPopup">Don't know?
-          <h4 class="popuptext" id="dontKnowPopupText">That's okay! You can always add it later.</h4>
+        <div class="birthdate-container">
+          <input
+            id="signUpMomMonth"
+            class="monthDay"
+            type="number"
+            placeholder="MM"
+            max="12"
+            min="1"
+          />
+          <input
+            id="signUpMomDay"
+            class="monthDay"
+            type="number"
+            placeholder="DD"
+            max="31"
+            min="1"
+          />
+          <input
+            id="signUpMomYear"
+            class="year"
+            type="number"
+            placeholder="YYYY"
+            max="9999"
+            min="1900"
+          />
         </div>
-      </div>
-      <div class="delivery-date-container">
-        <input id="signUpBabyMonth" class="monthDay" type="number" placeholder="MM" max="12" min="1" />
-        <input id="signUpBabyDay" class="monthDay" type="number" placeholder="DD" max="31" min="1" />
-        <input id="signUpBabyYear" class="year" type="number" placeholder="YYYY" max="9999" min="1900" />
-      </div>
-      <h3 id="sign-up-error"></h3>
-      <button form="" id="signUpButton">Sign Up</button>
-    </form>
-  </div>
-  <div class="form-container sign-in-container">
-    <form action="#">
-      <h1>Log In</h1>
-      <h2>To your account</h2>
-      <input id="loginEmail" type="email" placeholder="Email" maxlength="255" />
-      <input id="loginPass" type="password" placeholder="Password" />
-      <a href="/resetPassword">Forgot your password?</a>
-      <h3 id="log-in-error"></h3>
-      <button form="" id="loginButton">Log In</button>
-    </form>
-  </div>
-  <div class="overlay-container">
-    <div class="overlay">
-      <div class="overlay-panel overlay-left">
-        <h1 style="color: #FAF6F1;">Welcome Back!</h1>
-        <h2 style="color: #FAF6F1;">To view your account, please sign in</h2>
-        <button form="" class="ghost" id="ghostLogin">Log In</button>
-      </div>
-      <div class="overlay-panel overlay-right">
-        <h1 style="color: #FAF6F1;">Expecting?</h1>
-        <h2 style="color: #FAF6F1;">Sign up for a personalized checklist and other tools to help manage your pregnancy
-        </h2>
-        <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
+        <div style="float:left">
+          <h4 style="display:inline">Expected Delivery Date (Optional)</h4>
+          <div class="popup" id="dontKnowPopup">
+            Don't know?
+            <h4 class="popuptext" id="dontKnowPopupText">
+              That's okay! You can always add it later.
+            </h4>
+          </div>
+        </div>
+        <div class="delivery-date-container">
+          <input
+            id="signUpBabyMonth"
+            class="monthDay"
+            type="number"
+            placeholder="MM"
+            max="12"
+            min="1"
+          />
+          <input
+            id="signUpBabyDay"
+            class="monthDay"
+            type="number"
+            placeholder="DD"
+            max="31"
+            min="1"
+          />
+          <input
+            id="signUpBabyYear"
+            class="year"
+            type="number"
+            placeholder="YYYY"
+            max="9999"
+            min="1900"
+          />
+        </div>
+        <h3 id="sign-up-error"></h3>
+        <button form="" id="signUpButton">Sign Up</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form action="#">
+        <h1>Log In</h1>
+        <h2>To your account</h2>
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Email"
+          maxlength="255"
+        />
+        <input id="loginPass" type="password" placeholder="Password" />
+        <a href="/resetPassword">Forgot your password?</a>
+        <h3 id="log-in-error"></h3>
+        <button form="" id="loginButton">Log In</button>
+
+        <!-- <div id="firebaseui-auth-container" style="position: absolute; left: 0; bottom: -5px;"></div>
+      <div id="loader">Loading...</div> -->
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1 style="color: #FAF6F1;">Welcome Back!</h1>
+          <h2 style="color: #FAF6F1;">To view your account, please sign in</h2>
+          <button form="" class="ghost" id="ghostLogin">Log In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1 style="color: #FAF6F1;">Expecting?</h1>
+          <h2 style="color: #FAF6F1;">
+            Sign up for a personalized checklist and other tools to help manage
+            your pregnancy
+          </h2>
+          <button form="" class="ghost" id="ghostSignUp">Sign Up</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<script type="module" src="/signUpLogin/signUpLogin.js"></script>
-
+  <script defer type="module" src="/signUpLogin/signUpLogin.js"></script>
 </html>

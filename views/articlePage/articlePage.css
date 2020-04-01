@@ -80,6 +80,10 @@ main {
     overflow-wrap: break-word;
 }
 
+a {
+    text-decoration: underline;
+}
+
 h6 {
     padding-left: 15px;
 }

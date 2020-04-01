@@ -17,7 +17,7 @@
             updateLogoutButton();
             checklistObj = await loadChecklist();
 
-            // Adds another section to filter is user has added their own tasks.
+            // Adds another section to filter if user has added their own tasks.
             if ("Tasks I Added" in checklistObj) {
                 let userAddedTasksHTML = '<div id="user-tasks-filter-header" class="filter-container">' +
                     '<div class="filter-header-container">' +
@@ -562,6 +562,9 @@
             var button = buttons[i];
             button.setAttribute("tabindex", "-1");
         }
+
+        let disclaimer = "<p style='font-size:12px; text-align: center;'>myHoneyBump was created for educational purposes only, and is not medical or diagnostic advice.  Consult with a medical professional if you have health concerns.  Use of this site is subject to our Terms of Use and Privacy Policy.</p>"
+        document.getElementById('checklist').insertAdjacentHTML('beforeend', disclaimer);
     }
 
     function clearChecklist() {
@@ -773,7 +776,7 @@
             }
 
             if (event.target.classList.contains("modal")) {
-                document.getElementById("delete-verification").style.opacity = 0;
+                document.getElementById("delete-verification").style.display = "none";
                 return;
             }
 
@@ -910,7 +913,7 @@
                             referencesScrollHeight = document.getElementById("add-description-area").scrollHeight + 15;
                             // 15 to offset the 2 newlines before "References:"
                             taskData = getTaskData(checklistObj, currentTaskInfo);
-                            document.getElementById("add-description-area").innerHTML += "\n\nReferences:\n" + taskData.references + "\n";
+                            document.getElementById("add-description-area").innerHTML += "<br><br>References:<br>" + taskData.references + "<br>";
                             autoSize(document.getElementById('add-description-area'));
                             referencesDisplayed = true;
                         }
@@ -1099,14 +1102,14 @@
                 else if (element.classList && element.classList.contains("expandable-task-bundle")) {
                     if (element.childNodes[1].childNodes[0].classList.contains("down")) {
                         element.style.height = element.scrollHeight;
-                        element.style.boxShadow = "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)"
+                        // element.style.boxShadow = "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)"
                         element.childNodes[1].childNodes[0].classList.remove("down");
                         element.childNodes[1].childNodes[0].classList.add("up");
                         element.childNodes[1].style.top = "20px";
                     }
                     else if (element.childNodes[1].childNodes[0].classList.contains("up")) {
                         element.style.height = "25px";
-                        element.style.boxShadow = "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)";
+                        // element.style.boxShadow = "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)";
                         element.childNodes[1].childNodes[0].classList.remove("up");
                         element.childNodes[1].childNodes[0].classList.add("down");
                         element.childNodes[1].style.top = "15px";
@@ -1353,26 +1356,29 @@
         // Otherwise all instances of that task are marked complete.
         function updateCompletionStatusLocally(taskInfoObj) {
             Object.keys(checklistObj).forEach(trimester => {
-                if (trimester === taskInfoObj.trimester) {
+                if (trimester !== "settings") {
+                    // if (trimester === taskInfoObj.trimester || "id" in taskInfoObj) {
                     Object.keys(checklistObj[trimester]).forEach(section => {
                         if (typeof checklistObj[trimester][section] === "object") {
                             Object.keys(checklistObj[trimester][section]).forEach(task => {
                                 if (typeof checklistObj[trimester][section][task] === "object") {
-
                                     if ("id" in taskInfoObj && checklistObj[trimester][section][task].id === taskInfoObj.id) {
+
                                         // User added tasks.
                                         checklistObj[trimester][section][task].completed = taskInfoObj.completed;
                                     }
                                     else if (!("id" in taskInfoObj) && checklistObj[trimester][section][task].name === taskInfoObj.taskName) {
                                         // Default tasks.
-                                        if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) >= 0) {
+                                        if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" /*&& checklistObj.settings.activeChecklists.indexOf(trimester) >= 0*/) {
                                             // Task is repeating and task found is in activeChecklists. Marking this task as complete.
-                                            checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                            if (trimester === taskInfoObj["trimester"]) {
+                                                checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                            }
                                         }
-                                        else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) < 0) {
-                                            // Task is repeating but task found is not in activeChecklists. 
-                                            checklistObj[trimester][section][task].completed = taskInfoObj.completed;
-                                        }
+                                        // else if ("repeat" in checklistObj[trimester][section][task] && trimester !== "Tasks I Added" && checklistObj.settings.activeChecklists.indexOf(trimester) < 0) {
+                                        //     // Task is repeating but task found is not in activeChecklists. 
+                                        //     checklistObj[trimester][section][task].completed = taskInfoObj.completed;
+                                        // }
                                         else if (!("repeat" in checklistObj[trimester][section][task])) {
                                             // Task is not repeating. Mark as complete.
                                             checklistObj[trimester][section][task].completed = taskInfoObj.completed;
@@ -2058,12 +2064,32 @@
             }
         }
 
+        //Event listeners for ellipses/additional options menu in checklist header.
         document.getElementById('additional-options-button').addEventListener('click', async () => {
             optionsClicked();
         });
 
         document.getElementById('toggleCompleteSpan').addEventListener('click', async () => {
             toggleShowComplete();
+        });
+
+        document.getElementById('hardResetChecklist').addEventListener('click', async () => {
+            document.getElementById('hard-reset-verification').style.display = "block";
+        });
+
+        document.getElementById('confirm-hard-reset').addEventListener('click', async () => {
+            let uid = firebase.auth().currentUser.uid;
+            let db = firebase.firestore();
+            clearChecklist();
+            await db.collection('users').doc(uid).collection("checklist").doc("checklist").delete();
+            checklistObj = await loadChecklist();
+            await generateChecklist(checklistObj, checklistObj.settings);
+            addAddTaskAreaEventListener();
+            // Try catch so no error is thrown if user has never added a custom task.
+            try {
+            document.getElementById("user-tasks-filter-header").remove();
+            }
+            catch{}
         });
 
         // Event listener for add task area.

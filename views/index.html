@@ -1,113 +1,187 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html lang="en-US">
-
-<head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-147423519-1');
-  </script>
-
-  <title>Pregnancy Planning - myHoneyBump</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="/styles/styles.css">
-  <link rel="stylesheet" href="/index.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap">
-  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
-  <script src="/__/firebase/6.1.0/firebase-auth.js"></script>
-  <script src="/__/firebase/6.1.0/firebase-firestore.js"></script>
-  <link rel="icon" type="image/png"
-    href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
-    sizes="16x16" />
-</head>
-
-<body style="min-height:100%;margin:0px;">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-147423519-1"
+    ></script>
     <script>
-        (function () {
-          var s = document.createElement('script');
-          s.type = 'text/javascript';
-          s.async = true;
-          s.src = 'https://app.termly.io/embed.min.js';
-          s.id = '52bad088-ee4a-4ba7-ba72-968499454ed9';
-          s.setAttribute("data-name", "termly-embed-banner");
-          var x = document.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(s, x);
-          setTimeout(function () {
-            document.getElementById("termly-code-snippet-support").style.position = "absolute";
-          }, 1000);
-        })();
-      </script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-  <div include-html="/header/header.html"></div>
+      gtag("config", "UA-147423519-1");
+    </script>
 
-  <div id="main">
-  <div class="textinpiccontainer">
-    <img class="landingpic" alt="Hands on stomach" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2FHero%20image%20-%204th%20draft.png?alt=media&token=a8056710-0450-451b-b01f-5910687af86f">
-    <div class="centered">
-      <p id="landingtext">Manage your pregnancy with free tools built by professionals</p>
-      <p id="landingparagraph">Ever wonder if you're doing everything you can for your pregnancy? Get a customizable checklist to see what you might be missing. Check out details within your checklist to find answers to some of your burning questions...even the ones you didn't know you had!</p>
-      <br><br><br>
-      <button>Get Started</button>
-    </div>
+    <title>Pregnancy Planning - myHoneyBump</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <link async rel="stylesheet" href="/styles/styles.css" />
+    <link async rel="stylesheet" href="/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400&display=swap"
+    defer/>
+    <script defer src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/6.1.0/firebase-auth.js"></script>
+    <link async
+      rel="icon"
+      type="image/png"
+      href="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Flogo%2Ffavicon-16x16.png?alt=media&token=d793cf87-a557-434f-a345-d5100d079203"
+      sizes="16x16"
+    />
+  </head>
 
-  <div class="grid-container">
-    <div class="item1">
-      <div class="textcontainer">
-        <h3 style="text-align:center;">Why choose myHoneyBump?</h3><br>
-        <p style="line-height: 1.3;word-spacing:3px;">Our goal is to simplify the who's, what's, when’s, why’s and how’s of your pregnancy.  myHoneyBump breaks down the many mysteries and pregnancy questions so that you have more time to enjoy this once (or maybe more!) in a lifetime experience.</p>
-      </div>
+  <body style="min-height:100%;margin:0px;">
+    <script async> 
+      (function() {
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://app.termly.io/embed.min.js";
+        s.id = "52bad088-ee4a-4ba7-ba72-968499454ed9";
+        s.setAttribute("data-name", "termly-embed-banner");
+        var x = document.getElementsByTagName("script")[0];
+        x.parentNode.insertBefore(s, x);
+        setTimeout(function() {
+          document.getElementById(
+            "termly-code-snippet-support"
+          ).style.position = "absolute";
+          document.getElementById("termly-code-snippet-support").style.left =
+            "0";
+        }, 1000);
+      })();
+    </script>
+    <script async> 
+      (function() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        var rv = -1;
 
-    <div class="item3">
-      <h2>Pregnancy Checklist</h2>
-      <p>Explore things like what tests to expect, when to announce pregnancy, and when to start sleeping on your left side.</p>
-      <a href="/checklist"><button>Learn More</button></a>
-    </div>
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+          // If Internet Explorer, return version number
+          window.location = "/browserRec/browserRec.html";
+          return false;
+        }
+      })();
+    </script>
 
-    <div class="item4">
-      <h2>Articles</h2>
-      <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
-      <button>Learn More</button>
-    </div>
+    <div include-html="/header/header.html"></div>
 
-      <div class="item4">
-        <h2>Articles</h2>
-        <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room</p>
-        <button>Learn</button>
-      </div>
-
-    <div class="item6">
-      <div class="textcontainer">
-          <h3 style="text-align:center;">What our users are saying:</h3><br>
-          <p style="line-height: 1.3;word-spacing:3px;font-size:20px;"><span style="font-weight:700">"Woah, I had no idea I should have been doing some of these things in my first trimester!"</span> –Lilibeth O.</p>
-          <p style="line-height: 1.3;word-spacing:3px;font-size:20px;"><span style="font-weight:700">"I wish myHoneyBump existed before my first baby. Then I would have known what to expect before going to the hospital for my induction."</span> –Katia M.</p>
-          <p style="line-height: 1.3;word-spacing:3px;font-size:20px;"><span style="font-weight:700">"It has everything I wanted to know about pregnancy. I saved so much time using myHoneyBump and I feel confident that I’m doing things right for my baby boy on the way."</span> –Amanda H.</p>
+    <div id="main">
+      <div class="textinpiccontainer">
+        <div style="width: 100%; min-height: 50vw;">
+          <img id="landingpic" alt="Hands on stomach" />
         </div>
-      </div>
-
-      <div class="item7">
-        <div class="textcontainer">
-          <h3 style="text-align:center;">If it's free, how are you able to provide this content?</h3><br>
-          <p style="line-height: 1.3;word-spacing:3px;">myHoneyBump makes money through advertising and affiliate link marketing.  We would never endorse a product that we wouldn’t use ourselves.  When you purchase a product recommended through our site, we may receive a portion of those profits.</p>
+        <div class="centered">
+          <h3 id="landingtext">
+            myHoneyBump simplifies pregnancy so you can stay informed and
+            organized
+          </h3>
+          <p id="landingparagraph">
+            Get access to pertinent pregnancy information broken down by
+            healthcare professionals and a custom checklist to manage your pregnancy.
+          </p>
+          <a href="/signUpLogin"
+            ><button id="getStartedBtn">Get Started</button></a
+          >
         </div>
-    </div>
-    <!--
-    <div class="item5">
-      <img class="grid-picture" alt="kirby" src="https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2FlandingPage%2Fkirby.jpg?alt=media&token=210a9dcc-b64d-4866-9ada-92be889f0b2a">
-    </div>
+
+        <div class="grid-container">
+          <div class="item1">
+            <div class="textcontainer">
+              <h3 style="text-align:center;">Why choose myHoneyBump?</h3>
+              <p style="line-height: 1.3;word-spacing:3px;">
+                As parents, we know how overwhelming pregnancy planning can be.
+                That’s why we combined all the information that helped us most
+                to create one, easy to accomplish, interactive checklist. Our
+                information is compiled by healthcare professionals and our
+                sources are always available for further reading.
+              </p>
+            </div>
+          </div>
+
+          <div class="item2">
+            <img defer
+              id="checklistImg"
+              class="grid-picture"
+              alt="Pregnancy Checklist"
+            />
+          </div>
+
+          <div class="item3">
+            <h4>Pregnancy Checklist</h4>
+            <p>
+              Explore things like what tests to expect, when to announce
+              pregnancy, and when to start sleeping on your left side.
+            </p>
+            <a href="/checklist"><button>Learn More</button></a>
+          </div>
+
+          <div class="item4">
+            <h4>Articles</h4>
+            <p>
+              Read pregnancy FAQs and get totally prepared before setting foot
+              in the delivery room.
+            </p>
+            <a href="/articles"><button>Learn More</button></a>
+          </div>
+
+          <div class="item5">
+            <img defer id="articlesImg" class="grid-picture" alt="Articles List" />
+          </div>
+
+          <div class="item6">
+            <div class="textcontainer">
+              <h3 style="text-align:center;">What our users are saying:</h3>
+              <p style="font-weight:700">
+                "I had no idea I should have been doing some of these things in
+                my first trimester!"
+              </p>
+              <p>-Jessica O.</p>
+              <p style="font-weight:700">
+                "I wish myHoneyBump existed before my first baby. Then I would
+                have known what to expect before going to the hospital for my
+                induction."
+              </p>
+              <p>–Michelle M.</p>
+              <p style="font-weight:700">
+                "It has everything I wanted to know about pregnancy. I saved so
+                much time using myHoneyBump and I feel confident that I’m doing
+                things right for my baby boy on the way."
+              </p>
+              <p>–Lynn H.</p>
+            </div>
+          </div>
+
+          <div class="item7">
+            <div class="textcontainer">
+              <h3 style="text-align:center;">
+                If it's free, how are you able to provide this content?
+              </h3>
+              <p style="line-height: 1.3;word-spacing:3px;">
+                In the future, myHoneyBump will make money through advertising
+                and affiliate link marketing. We would never endorse a product
+                that we wouldn’t use ourselves. When you purchase a product
+                recommended through our site, we may receive a portion of those
+                profits.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!--
     <div class="item6">
       <h2>The "Buzz"</h2>
       <p>Read pregnancy FAQs and get totally prepared before setting foot in the delivery room.</p>
       <button>Learn</button>
     </div>-->
 
-    <div include-html="/footer/footer.html"></div>
-  <!-- <script>
+        <div include-html="/footer/footer.html"></div>
+        <!-- <script>
 function openNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -128,7 +202,8 @@ function closeNav() {
   document.body.style.backgroundColor = "white";
 }
 </script> -->
-  <script type="text/javascript" src="/index.js"></script>
-</body>
-
+      </div>
+    </div>
+    <script defer type="text/javascript" src="/index.js"></script>
+  </body>
 </html>

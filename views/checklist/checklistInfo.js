@@ -1,4 +1,4 @@
-/* ImageMagick terminal command to convert image dimensions
+            /* ImageMagick terminal command to convert image dimensions
  convert "input.jpg" -resize 500x500 -quality 100 "output.png"
  */
 
@@ -59,15 +59,15 @@ const checklistObj = {
             taskCount: "2",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
+                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re &lt; 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
+                references: `ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false</a> <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/">https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/</a> <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/folic-acid/">https://americanpregnancy.org/pregnancy-health/folic-acid/</a> <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/</a> <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/">https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/</a> <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/</a> <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945</a> `,
                 completed: "false",
                 repeat: "true",
             },
             task2: {
                 name: "Kegel exercises",
                 description: 'What are Kegels and how do I do them?<br>Kegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:<br>1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.<br>2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.<br>3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
+                references: `Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283">https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283</a> `,
                 completed: "false",
                 repeat: "true"
             }
@@ -83,20 +83,20 @@ const checklistObj = {
             },
             task2: {
                 name: "Make a preconception appointment",
-                description: "It is important to make a preconception appointment with your health care provider to learn things about your body that might complicate your pregnancy (or learn how to prevent these complications).  At this appointment, you can expect to discuss your overall health, medications you are taking that might affect a growing fetus (be sure to bring a list of all medications and supplements you are taking!), and how to manage health conditions (for example, diabetes or hypertension) that might impact your pregnancy.  You may also receive vaccines for which you are not already immune, and receive a Pap test as well as sexually transmitted infection (STI) screening.  Your provider might also suggest genetic carrier screening which is a lab test that can help determine the risk of having a baby with certain genetic conditions.  The Office on Women’s Health provides a worksheet to bring with you, to help remember what to talk about and to take notes on: https://www.womenshealth.gov/files/documents/preconception-visit.pdf ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health <br><br>ACOG. 2018. Good health before pregnancy: Before Pregnancy care. American College of Obstetricians and Gynecologists. Retrieved from <br><br>https://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Before Pregnancy-Care ",
+                description: `It is important to make a preconception appointment with your health care provider to learn things about your body that might complicate your pregnancy (or learn how to prevent these complications).  At this appointment, you can expect to discuss your overall health, medications you are taking that might affect a growing fetus (be sure to bring a list of all medications and supplements you are taking!), and how to manage health conditions (for example, diabetes or hypertension) that might impact your pregnancy.  You may also receive vaccines for which you are not already immune, and receive a Pap test as well as sexually transmitted infection (STI) screening.  Your provider might also suggest genetic carrier screening which is a lab test that can help determine the risk of having a baby with certain genetic conditions.  The Office on Women’s Health provides a worksheet to bring with you, to help remember what to talk about and to take notes on: <a href="https://www.womenshealth.gov/files/documents/preconception-visit.pdf">https://www.womenshealth.gov/files/documents/preconception-visit.pdf</a> `,
+                references: `OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from <a href="https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health">https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health</a> <br><br>ACOG. 2018. Good health before pregnancy: Before Pregnancy care. American College of Obstetricians and Gynecologists. Retrieved from <br><br><a href="https://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Before">https://www.acog.org/Patients/FAQs/Good-Health-Before-Pregnancy-Before</a> Pregnancy-Care `,
                 completed: "false"
             },
             task3: {
                 name: "Complete genetic carrier screening",
                 description: "Genetic carrier screening is a lab test done using either blood or saliva to check your possibility of having a child with some serious health conditions.  Carrier screening typically looks to see if you or partner carry the genes for cystic fibrosis, fragile X syndrome, sickle cell disease, Tay-Sachcs disease, or spinal muscular atrophy. ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health <br><br>ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what ",
+                references: `OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from <a href="https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health">https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health</a> <br><br>ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what">https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what</a> `,
                 completed: "false"
             },
             task4: {
                 name: "Visit the dentist",
                 description: "Why is the dentist so important? <br>During pregnancy, you may be more susceptible to gingivitis, cavities, and loose teeth (among other oral changes).  Dental care is always important, especially before and during your pregnancy to help prevent and promptly treat these problems.  Be sure to let your dentist know if you are already pregnant, as there are some procedures he may choose to wait on until later in your pregnancy or after you have delivered. ",
-                references: "APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false  ",
+                references: `APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/">https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/</a>  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false</a>  `,
                 completed: "false"
             },
             task5: {
@@ -107,8 +107,8 @@ const checklistObj = {
             },
             task6: {
                 name: "Stop smoking, drinking alcohol, and using illicit drugs and marijuana.",
-                description: "Why? <br>Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  According to The American College of Obstetricians and Gynecologists, drinking alcohol can cause irreversible birth defects and fetal alcohol syndrome as well as miscarriage and stillbirth.  Smoking (including electronic cigarettes and even second-hand smoke!), or the use of nicotine products is harmful because they reduce blood flow to your growing fetus.  This increases the risks of preterm birth, low birth weight, colic, sudden infant death syndrome (SIDS), asthma, and obesity during childhood.  Illegal drug use can lead to birth defects, miscarriage, preterm labor, and fetal death.  Although marijuana is legal in some places, that doesn’t mean it’s safe during pregnancy.  It is known to increase the risks of stillbirth and low birth weight as well as increase attention and behavior problems in childhood.  If you need help quitting any of the above, talk with your obstetrician and use the following resources: <br><br>Alcohol: www.aa.org  <br>Narcotics/opioids: www.na.org  <br>Smoking: www.lung.org or 1-800-QUIT-NOW ",
-                references: "ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can  <br><br>Mayo Clinic. 2017. Pregnancy nutrition: foods to avoid during pregnancy. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844  ",
+                description: `Why? <br>Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  According to The American College of Obstetricians and Gynecologists, drinking alcohol can cause irreversible birth defects and fetal alcohol syndrome as well as miscarriage and stillbirth.  Smoking (including electronic cigarettes and even second-hand smoke!), or the use of nicotine products is harmful because they reduce blood flow to your growing fetus.  This increases the risks of preterm birth, low birth weight, colic, sudden infant death syndrome (SIDS), asthma, and obesity during childhood.  Illegal drug use can lead to birth defects, miscarriage, preterm labor, and fetal death.  Although marijuana is legal in some places, that doesn’t mean it’s safe during pregnancy.  It is known to increase the risks of stillbirth and low birth weight as well as increase attention and behavior problems in childhood.  If you need help quitting any of the above, talk with your obstetrician and use the following resources: <br><br>Alcohol: <a href="http://www.aa.org">www.aa.org</a>  <br>Narcotics/opioids: <a href="http://www.na.org">www.na.org</a>  <br>Smoking: <a href="http://www.lung.org">www.lung.org</a> or 1-800-QUIT-NOW `,
+                references: `ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can">https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can</a>  <br><br>Mayo Clinic. 2017. Pregnancy nutrition: foods to avoid during pregnancy. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844</a>  `,
                 completed: "false"
             },
             task7: {
@@ -119,8 +119,7 @@ const checklistObj = {
             },
             task8: {
                 name: "Learn about foods and activities to avoid while pregnant",
-                // TODO: Add a URL here.
-                description: "<a href='/articles/what_should_i_avoid_while_pregnant'>See our What Should I Avoid While Pregnant? web page</a>",
+                description: '<a href="/articles/what_should_i_avoid_while_pregnant">See our What Should I Avoid While Pregnant? web page</a>',
                 references: "",
                 completed: "false"
             },
@@ -139,15 +138,15 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
+                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re &lt; 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
+                references: `ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false</a> <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/">https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/</a> <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/folic-acid/">https://americanpregnancy.org/pregnancy-health/folic-acid/</a> <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/</a> <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/">https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/</a> <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/</a> <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945</a> `,
                 completed: "false",
                 repeat: "true",
             },
             task2: {
                 name: "Kegel exercises",
                 description: 'What are Kegels and how do I do them?<br>Kegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:<br>1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.<br>2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.<br>3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
+                references: `Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283">https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283</a> `,
                 completed: "false",
                 repeat: "true"
             },
@@ -171,8 +170,8 @@ const checklistObj = {
             taskCount: "5",
             task1: {
                 name: "Stop smoking, drinking alcohol, and using illicit drugs and marijuana.",
-                description: "Why? <br>Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  According to The American College of Obstetricians and Gynecologists, drinking alcohol can cause irreversible birth defects and fetal alcohol syndrome as well as miscarriage and stillbirth.  Smoking (including electronic cigarettes and even second-hand smoke!), or the use of nicotine products is harmful because they reduce blood flow to your growing fetus.  This increases the risks of preterm birth, low birth weight, colic, sudden infant death syndrome (SIDS), asthma, and obesity during childhood.  Illegal drug use can lead to birth defects, miscarriage, preterm labor, and fetal death.  Although marijuana is legal in some places, that doesn’t mean it’s safe during pregnancy.  It is known to increase the risks of stillbirth and low birth weight as well as increase attention and behavior problems in childhood.  If you need help quitting any of the above, talk with your obstetrician and use the following resources: <br><br>Alcohol: www.aa.org  <br>Narcotics/opioids: www.na.org  <br>Smoking: www.lung.org or 1-800-QUIT-NOW ",
-                references: "ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can  <br><br>Mayo Clinic. 2017. Pregnancy nutrition: foods to avoid during pregnancy. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844  ",
+                description: `Why? <br>Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  According to The American College of Obstetricians and Gynecologists, drinking alcohol can cause irreversible birth defects and fetal alcohol syndrome as well as miscarriage and stillbirth.  Smoking (including electronic cigarettes and even second-hand smoke!), or the use of nicotine products is harmful because they reduce blood flow to your growing fetus.  This increases the risks of preterm birth, low birth weight, colic, sudden infant death syndrome (SIDS), asthma, and obesity during childhood.  Illegal drug use can lead to birth defects, miscarriage, preterm labor, and fetal death.  Although marijuana is legal in some places, that doesn’t mean it’s safe during pregnancy.  It is known to increase the risks of stillbirth and low birth weight as well as increase attention and behavior problems in childhood.  If you need help quitting any of the above, talk with your obstetrician and use the following resources: <br><br>Alcohol: <a href="http://www.aa.org">www.aa.org</a>  <br>Narcotics/opioids: <a href="http://www.na.org">www.na.org</a>  <br>Smoking: <a href="http://www.lung.org">www.lung.org</a> or 1-800-QUIT-NOW `,
+                references: `ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can">https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can</a>  <br><br>Mayo Clinic. 2017. Pregnancy nutrition: foods to avoid during pregnancy. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844</a>  `,
                 completed: "false"
             },
             task2: {
@@ -184,13 +183,12 @@ const checklistObj = {
             task3: {
                 name: "Schedule first prenatal appointment",
                 description: "When?<br>As soon as you find out you are pregnant, call your health care provider to schedule your first prenatal appointment.  This should take place 7-8 weeks after the first day of your last menstrual period. ",
-                references: "APA. 2016. Your first prenatal visit. American Pregnancy Association. Retrieved from https://americanpregnancy.org/planning/first-prenatal-visit/ ",
+                references: `APA. 2016. Your first prenatal visit. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/planning/first-prenatal-visit/">https://americanpregnancy.org/planning/first-prenatal-visit/</a> `,
                 completed: "false"
             },
             task4: {
                 name: "Learn about foods and activities to avoid while pregnant",
-                // Make a URL here.
-                description: "See our What Should I Avoid While Pregnant? web page",
+                description: '<a href="/articles/what_should_i_avoid_while_pregnant">See our What Should I Avoid While Pregnant?</a> web page',
                 references: "",
                 completed: "false"
             },
@@ -207,7 +205,7 @@ const checklistObj = {
             task1: {
                 name: "Make a list of questions to bring to your first prenatal appointment",
                 description: "What should I ask?<br>Here are a few suggestions of things to ask at your first prenatal appointment:<br>- Is it safe to continue taking all of my current medications, creams, and herbal supplements?<br>- What insect repellent is safe to use?<br>- What should I do if I experience cramping or bleeding?  What about a fever?  Who should I call if it’s after hours?<br>- Is there anything (food, activities, exercise, environmental hazards, etc.) I should avoid while pregnant?<br>- What during pregnancy is normal and not cause for concern, and what is an emergency?<br>- What parts of my beauty routine are safe/unsafe?  Are there hair or skincare products I should avoid?<br>- How often should I expect prenatal appointments each trimester?<br>- What should I be eating, and what kinds of exercise are safe?<br>- Does what I do for work pose a threat to my pregnancy? ",
-                references: "APA. 2016. Your first prenatal visit. American Pregnancy Association. Retrieved from https://americanpregnancy.org/planning/first-prenatal-visit/<br>Martin, Eva. 21 questions for your first prenatal visit. Bloomlife. Retrieved from https://bloomlife.com/preg-u/first-prenatal-visit/ ",
+                references: `APA. 2016. Your first prenatal visit. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/planning/first-prenatal-visit/">https://americanpregnancy.org/planning/first-prenatal-visit/</a><br>Martin, Eva. 21 questions for your first prenatal visit. Bloomlife. Retrieved from <a href="https://bloomlife.com/preg-u/first-prenatal-visit/">https://bloomlife.com/preg-u/first-prenatal-visit/</a> `,
                 completed: "false"
             },
             task2: {
@@ -219,7 +217,7 @@ const checklistObj = {
             task3: {
                 name: "Complete genetic carrier screening",
                 description: "Genetic carrier screening is a lab test done using either blood or saliva to check your possibility of having a child with some serious health conditions.  Carrier screening typically looks to see if you or partner carry the genes for cystic fibrosis, fragile X syndrome, sickle cell disease, Tay-Sachcs disease, or spinal muscular atrophy. ",
-                references: "OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health <br><br>ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what ",
+                references: `OWH. 2018. Preconception health. Office on Women’s Health. Retrieved from <a href="https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health">https://www.womenshealth.gov/pregnancy/you-get-pregnant/preconception-health</a> <br><br>ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what">https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Screening-Tests?IsMobileSet=false#what</a> `,
                 completed: "false"
             },
             task4: {
@@ -235,7 +233,7 @@ const checklistObj = {
             task1: {
                 name: "Consider first trimester screening",
                 description: "First Trimester Screening <br>First trimester screening is an optional test that helps determine the fetus’ risk of having Down Syndrome, trisomy 18, or trisomy 13.  The screening is done between 11 and 13 weeks of pregnancy, and consists of two parts: 1) ultrasound and 2) blood tests.  The ultrasound portion of the test is called “nuchal translucency screening” or NTS.  During the ultrasound, your provider will measure the nuchal fold of the fetus which is a space found in the back of the neck.  The blood tests check for levels of two things: pregnancy-associated plasma protein-A (PAPP-A), and human chorionic gonadotropin (hCG).  First trimester screening correctly identifies pregnancies with a trisomy disorder about 85% of the time.  In 5% of cases, expectant mothers receive a false positive.  Again, a positive result does NOT mean the fetus has a trisomy syndrome; it only determines the risk that a trisomy syndrome is present.  A positive result means that further testing is needed. ",
-                references: "ACOG. 2019. Prenatal genetic diagnostic tests. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Diagnostic-Tests<br>APA. 2016. First trimester screen. American Pregnancy Association. Retrieved from https://americanpregnancy.org/prenatal-testing/first-trimester-screen/<br>Mayo Clinic. 2019. First trimester screening. Retrieved from https://www.mayoclinic.org/tests-procedures/first-trimester-screening/about/pac-20394169<br>Stanford Children’s Health. First trimester screening. Retrieved from https://www.stanfordchildrens.org/en/topic/default?id=first-trimester-screening-90-P08568 ",
+                references: `ACOG. 2019. Prenatal genetic diagnostic tests. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Diagnostic-Tests">https://www.acog.org/Patients/FAQs/Prenatal-Genetic-Diagnostic-Tests</a><br>APA. 2016. First trimester screen. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/prenatal-testing/first-trimester-screen/">https://americanpregnancy.org/prenatal-testing/first-trimester-screen/</a><br>Mayo Clinic. 2019. First trimester screening. Retrieved from <a href="https://www.mayoclinic.org/tests-procedures/first-trimester-screening/about/pac-20394169">https://www.mayoclinic.org/tests-procedures/first-trimester-screening/about/pac-20394169</a><br>Stanford Children’s Health. First trimester screening. Retrieved from <a href="https://www.stanfordchildrens.org/en/topic/default?id=first-trimester-screening-90-P08568">https://www.stanfordchildrens.org/en/topic/default?id=first-trimester-screening-90-P08568</a> `,
                 completed: "false"
             }
         },
@@ -244,8 +242,8 @@ const checklistObj = {
             taskCount: "5",
             task1: {
                 name: "Plan a babymoon for your second trimester",
-                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.<br><br>Zika Virus <br>Zika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika<br><br>How to reduce risk of insect bites:<br>It is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:<br>- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness<br>- Use permethrin on clothing<br>- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)<br>- Stay in areas with air conditioning and screens on windows/doors to keep insects out<br>- Control mosquitos inside and outside of home<br>- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
-                references: "CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/about/overview.html<br>CDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/geo/index.html<br>Mother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from https://mothertobaby.org/fact-sheets/insect-repellents/ ",
+                description: `The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.<br><br>Zika Virus <br>Zika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: <a href="https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika">https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika</a><br><br>How to reduce risk of insect bites:<br>It is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:<br>- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness<br>- Use permethrin on clothing<br>- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)<br>- Stay in areas with air conditioning and screens on windows/doors to keep insects out<br>- Control mosquitos inside and outside of home<br>- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available `,
+                references: `CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/zika/about/overview.html">https://www.cdc.gov/zika/about/overview.html</a><br>CDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/zika/geo/index.html">https://www.cdc.gov/zika/geo/index.html</a><br>Mother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from <a href="https://mothertobaby.org/fact-sheets/insect-repellents/">https://mothertobaby.org/fact-sheets/insect-repellents/</a> `,
                 completed: "false"
             },
             task2: {
@@ -263,7 +261,7 @@ const checklistObj = {
             task4: {
                 name: "Visit the dentist",
                 description: "Why is the dentist so important? <br>During pregnancy, you may be more susceptible to gingivitis, cavities, and loose teeth (among other oral changes).  Dental care is always important, especially before and during your pregnancy to help prevent and promptly treat these problems.  Be sure to let your dentist know if you are already pregnant, as there are some procedures he may choose to wait on until later in your pregnancy or after you have delivered. ",
-                references: "APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false  ",
+                references: `APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/">https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/</a>  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false</a>  `,
                 completed: "false"
             },
             task5: {
@@ -281,15 +279,15 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
+                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re &lt; 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
+                references: `ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false</a> <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/">https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/</a> <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/folic-acid/">https://americanpregnancy.org/pregnancy-health/folic-acid/</a> <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/</a> <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/">https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/</a> <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/</a> <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945</a> `,
                 completed: "false",
                 repeat: "true",
             },
             task2: {
                 name: "Kegel exercises",
                 description: 'What are Kegels and how do I do them?<br>Kegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:<br>1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.<br>2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.<br>3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
+                references: `Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283">https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283</a> `,
                 completed: "false",
                 repeat: "true"
             },
@@ -319,8 +317,7 @@ const checklistObj = {
             },
             task2: {
                 name: "Make a birth plan",
-                // TODO: Add in link here.
-                description: "What kinds of things should I include? <a href='/articles/what_should_i_include_in_my_birth_plan'>See our birth plan web page for some ideas.</a>",
+                description: 'What kinds of things should I include? <a href="/articles/what_should_i_include_in_my_birth_plan">See our birth plan web page for some ideas.</a>',
                 references: "",
                 completed: "false"
             },
@@ -339,7 +336,7 @@ const checklistObj = {
             task5: {
                 name: "Begin sleeping on your left side",
                 description: "Why sleep on my left side?<br>During pregnancy, the increased size of your abdomen can put pressure on your internal organs and blood vessels.  Sleeping on your side (better yet, you left side) and bending your knees helps reduce complications like a drop in your blood pressure which will in turn reduce the amount of blood and nutrients that the placenta can deliver to your baby.  If you sleep on your back, you may also notice you feel light headed or dizzy, or develop back pain, difficulty breathing, hemorrhoids, or digestive problems.  Try to avoid sleeping on your back or stomach.  Sometimes, adding an extra pillow or two behind your head can help with difficulty breathing and heartburn.  Add an extra pillow between your knees for added comfort and improved circulation! ",
-                references: "APA. 2017. Sleeping positions during pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/sleeping-positions-during-pregnancy/<br><br>National Sleep Foundation. The best position for sleep during pregnancy. Retrieved from https://www.sleep.org/articles/best-pregnancy-sleep-position/ ",
+                references: `APA. 2017. Sleeping positions during pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/sleeping-positions-during-pregnancy/">https://americanpregnancy.org/pregnancy-health/sleeping-positions-during-pregnancy/</a><br><br>National Sleep Foundation. The best position for sleep during pregnancy. Retrieved from <a href="https://www.sleep.org/articles/best-pregnancy-sleep-position/">https://www.sleep.org/articles/best-pregnancy-sleep-position/</a> `,
                 completed: "false"
             }
         },
@@ -349,7 +346,7 @@ const checklistObj = {
             task1: {
                 name: "Consider quad screening",
                 description: "Quad Screening<br>Second trimester screening, also known as “quad screening,” is an optional blood test that is typically completed between weeks 15 to 22 of pregnancy.  It measures four blood components: alfa-fetoprotein (AFP), human chorionic gonadotropin (hCG), estriol, and inhibition-A.  A similar (but slightly less accurate) test called the “triple screen test” checks for AFP, hCG, and estriol.  Both quad and triple screening look at the blood test results combined with the mother’s age and ethnicity.  Similar to first trimester screening, quad screening assesses the RISK of a genetic disorder being present.  A positive result means only that further testing is needed.  The test screens for risk of the following: Down syndrome, trisomy 18, and neural tube defects. ",
-                references: "ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/-/media/For-Patients/faq165.pdf<br><br>APA. 2016. Quad screen test. American Pregnancy Association. Retrieved from https://americanpregnancy.org/prenatal-testing/quad-screen/<br><br>APA. 2016. Triple screen test. American Pregnancy Association. Retrieved from https://americanpregnancy.org/prenatal-testing/triple-screen-test/ ",
+                references: `ACOG. 2017. Prenatal genetic screening tests. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/-/media/For-Patients/faq165.pdf">https://www.acog.org/-/media/For-Patients/faq165.pdf</a><br><br>APA. 2016. Quad screen test. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/prenatal-testing/quad-screen/">https://americanpregnancy.org/prenatal-testing/quad-screen/</a><br><br>APA. 2016. Triple screen test. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/prenatal-testing/triple-screen-test/">https://americanpregnancy.org/prenatal-testing/triple-screen-test/</a> `,
                 completed: "false"
             },
         },
@@ -359,7 +356,7 @@ const checklistObj = {
             task1: {
                 name: "Prepare for glucose challenge",
                 description: "Glucose Challenge<br>Glucose challenge screening is bloodwork performed between 26 and 28 weeks of pregnancy.  It checks for a type of diabetes that happens during pregnancy, called “gestational diabetes.”  For the exam, the mother will be asked to drink a sweet liquid given by her provider.  Within 30-60 minutes, she will then have her blood drawn to check the level of sugar in her blood.  There is no fasting required for this screen.  If the blood sugar level is too high, another test will be performed called “glucose tolerance testing.”  Glucose tolerance testing is a longer version of the glucose challenge and does require fasting. ",
-                references: "ACOG. 2017. Gestational diabetes. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Gestational-Diabetes?IsMobileSet=false<br><br>APA. 2016. Glucose tolerance test. American Pregnancy Association. Retrieved from https://americanpregnancy.org/prenatal-testing/glucose-tolerence-test/<br><br>IQWiG. 2016. Glucose tolerance tests: What exactly do they involve? Institute for Quality and Efficiency in Health Care. Retrieved from https://www.informedhealth.org/glucose-tolerance-test.2194.en.html ",
+                references: `ACOG. 2017. Gestational diabetes. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Gestational-Diabetes?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Gestational-Diabetes?IsMobileSet=false</a><br><br>APA. 2016. Glucose tolerance test. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/prenatal-testing/glucose-tolerence-test/">https://americanpregnancy.org/prenatal-testing/glucose-tolerence-test/</a><br><br>IQWiG. 2016. Glucose tolerance tests: What exactly do they involve? Institute for Quality and Efficiency in Health Care. Retrieved from <a href="https://www.informedhealth.org/glucose-tolerance-test.2194.en.html">https://www.informedhealth.org/glucose-tolerance-test.2194.en.html</a> `,
                 completed: "false"
             },
         },
@@ -368,14 +365,13 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Go on a babymoon",
-                description: "The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.<br><br>Zika Virus <br>Zika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika<br><br>How to reduce risk of insect bites:<br>It is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:<br>- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness<br>- Use permethrin on clothing<br>- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)<br>- Stay in areas with air conditioning and screens on windows/doors to keep insects out<br>- Control mosquitos inside and outside of home<br>- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available ",
-                references: "CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/about/overview.html<br>CDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/zika/geo/index.html<br>Mother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from https://mothertobaby.org/fact-sheets/insect-repellents/ ",
+                description: `The second trimester is when you'll feel your best. Always get clearance from your health care provider before going on a trip while you are pregnant.  When planning, be sure to steer clear of areas known to have Zika Virus.<br><br>Zika Virus <br>Zika is a virus transmitted via mosquito bite from an infected mosquito or through sex with someone who has been infected with the virus.  Often, a person with the virus may show any symptoms.  If a pregnant woman gets Zika, she can pass it to her fetus which may cause severe birth defects. It is important while you are pregnant to avoid areas known to have active Zika outbreaks. The Centers for Disease Control and Prevention provides a map with areas at risk of Zika: <a href="https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika">https://wwwnc.cdc.gov/travel/page/world-map-areas-with-zika</a><br><br>How to reduce risk of insect bites:<br>It is still a good idea, even when not in areas with known active Zika virus, to protect yourself from insect bites while you are pregnant (and even when you aren’t too!).  Insects can transmit diseases such as Lyme disease, malaria, West Nile Virus, and Zika Virus just to name a few.  These diseases can all be harmful to a developing fetus.   There are some precautions you can take to help reduce the chances that you will be bitten by insects.  These include:<br>- Wear long sleeved shirts and pants when outside, especially when hiking or in wilderness<br>- Use permethrin on clothing<br>- Wear insect repellent (talk with your healthcare provider regarding insect repellent safety during pregnancy)<br>- Stay in areas with air conditioning and screens on windows/doors to keep insects out<br>- Control mosquitos inside and outside of home<br>- Sleep under a mosquito net when sleeping outdoors or when screened doors/air conditioning is not available `,
+                references: `CDC. 2019. About Zika: Overview. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/zika/about/overview.html">https://www.cdc.gov/zika/about/overview.html</a><br>CDC. 2019. Zika in the US. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/zika/geo/index.html">https://www.cdc.gov/zika/geo/index.html</a><br>Mother to Baby. 2019. Insect repellants. Organization of Teratology Information Specialists. Retrieved from <a href="https://mothertobaby.org/fact-sheets/insect-repellents/">https://mothertobaby.org/fact-sheets/insect-repellents/</a> `,
                 completed: "false"
             },
             task2: {
                 name: "Learn about these things before going into labor",
-                // TODO: Add webpage URL here.
-                description: "<a href='/articles/hospital_buzz_words'>See our Hospital Buzzz Words web page</a>",
+                description: '<a href="/articles/hospital_buzz_words">See our Hospital Buzzz Words web page</a>',
                 references: "",
                 completed: "false"
             },
@@ -388,7 +384,7 @@ const checklistObj = {
             task4: {
                 name: "Visit the dentist",
                 description: "Why is the dentist so important? <br>During pregnancy, you may be more susceptible to gingivitis, cavities, and loose teeth (among other oral changes).  Dental care is always important, especially before and during your pregnancy to help prevent and promptly treat these problems.  Be sure to let your dentist know if you are already pregnant, as there are some procedures he may choose to wait on until later in your pregnancy or after you have delivered. ",
-                references: "APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false  ",
+                references: `APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/">https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/</a>  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false</a> `,
                 completed: "false"
             }
         }
@@ -400,15 +396,15 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Take prenatal vitamin",
-                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re < 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
+                description: 'What should be in my prenatal vitamin?<br>While eating a balanced diet is the best way to be sure you and your baby are getting the right nutrients during pregnancy, it is still a good idea to supplement with a prenatal vitamin. Begin taking a prenatal vitamin at least one month before you plan to become pregnant.  It is recommended that all women of childbearing age take a daily prenatal vitamin, even if they are not planning to become pregnant.  Most neural tube defects occur in the first month of pregnancy, when many women do not yet know they are expecting.  Talk with your healthcare provider about the prenatal vitamin you plan to take, as different health conditions you have might change how much of a nutrient you need to have in your prenatal. We’ve shared the total number of each of these nutrients you will need daily between your healthy diet and prenatal vitamin:  <br><br>- folic acid (folate): 600-800 mcg/day<br>- iron: 27 mg /day<br>- calcium: 1,000 mg/day (unless you’re &lt; 18 years old, then you need 1,300 mg)<br>- vitamin D: 600 international units/day<br>- DHA: minimum of 300mg/day',
+                references: `ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false</a> <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/">https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/</a> <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/folic-acid/">https://americanpregnancy.org/pregnancy-health/folic-acid/</a> <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/</a> <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/">https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/</a> <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/</a> <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945</a> `,
                 completed: "false",
                 repeat: "true",
             },
             task2: {
                 name: "Kegel exercises",
                 description: 'What are Kegels and how do I do them?<br>Kegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:<br>1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.<br>2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.<br>3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
+                references: `Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283">https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283</a> `,
                 completed: "false",
                 repeat: "true"
             },
@@ -466,7 +462,7 @@ const checklistObj = {
             },
             task5: {
                 name: "Order breast pump through insurance",
-                description: "Breast Pump Aid<br>Most insurance companies will cover a portion, if not all, of the cost of your breast pump.  You may contact your insurance company directly to ask about the ordering process, or if you want to save some time, have a third party like Byram Healthcare (https://breastpumps.byramhealthcare.com/) or Aeroflow Breast Pumps (https://aeroflowbreastpumps.com/qualify-through-insurance) go through the process of contacting your insurance company and obtaining the physician’s order for you. ",
+                description: `Breast Pump Aid<br>Most insurance companies will cover a portion, if not all, of the cost of your breast pump.  You may contact your insurance company directly to ask about the ordering process, or if you want to save some time, have a third party like Byram Healthcare (<a href="https://breastpumps.byramhealthcare.com/">https://breastpumps.byramhealthcare.com/</a>) or Aeroflow Breast Pumps (<a href="https://aeroflowbreastpumps.com/qualify-through-insurance">https://aeroflowbreastpumps.com/qualify-through-insurance</a>) go through the process of contacting your insurance company and obtaining the physician’s order for you. `,
                 references: "",
                 completed: "false"
             },
@@ -476,15 +472,13 @@ const checklistObj = {
             taskCount: "4",
             task1: {
                 name: "Pack hospital bag",
-                // TODO: Add URL here.
-                description: "<a href='/articles/hospital_bag_checklist'>See our Hospital Bag Checklist web page</a>",
+                description: '<a href="/articles/hospital_bag_checklist">See our Hospital Bag Checklist web page</a>',
                 references: "",
                 completed: "false"
             },
             task2: {
                 name: "Decide whether to breastfeed or bottle feed",
-                // TODO: Add URL here.
-                description: "<a href='/articles/breast_vs_bottle'>See our Breast vs Bottle web page</a>",
+                description: '<a href="/articles/breast_vs_bottle">See our Breast vs Bottle web page</a>',
                 references: "",
                 completed: "false"
             },
@@ -549,7 +543,7 @@ const checklistObj = {
             task8: {
                 name: "Visit the dentist",
                 description: "Why is the dentist so important? <br>During pregnancy, you may be more susceptible to gingivitis, cavities, and loose teeth (among other oral changes).  Dental care is always important, especially before and during your pregnancy to help prevent and promptly treat these problems.  Be sure to let your dentist know if you are already pregnant, as there are some procedures he may choose to wait on until later in your pregnancy or after you have delivered. ",
-                references: "APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false  ",
+                references: `APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/">https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/</a>  <br><br>ACOG. 2017. Oral health care during pregnancy and through the lifespan. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Health-Care-for-Underserved-Women/Oral-Health-Care-During-Pregnancy-and-Through-the-Lifespan?IsMobileSet=false</a> `,
                 completed: "false"
             }
         }
@@ -562,13 +556,13 @@ const checklistObj = {
             task1: {
                 name: "Continue taking prenatal or postnatal vitamin daily, especially if you are breastfeeding or planning to have another baby",
                 description: "",
-                references: "ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/ <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/folic-acid/ <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/ <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/ <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/ <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945 ",
+                references: `ACOG. 2018. Nutrition during pregnancy. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false">https://www.acog.org/Patients/FAQs/Nutrition-During-Pregnancy?IsMobileSet=false</a> <br><br>APA. Omega 3 fatty acids. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/">https://americanpregnancy.org/pregnancy-health/omega-3-fatty-acids-faqs/</a> <br><br>APA. 2015a. Folic acid. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/folic-acid/">https://americanpregnancy.org/pregnancy-health/folic-acid/</a> <br><br>APA. 2015b. Prenatal vitamin limits. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-limits/</a> <br><br>APA. 2017. Nutrients and vitamins for pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/">https://americanpregnancy.org/pregnancy-health/nutrients-vitamins-pregnancy/</a> <br><br>APA. 2018. Prenatal vitamin ingredients. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/">https://americanpregnancy.org/pregnancy-health/prenatal-vitamin-ingredients/</a> <br><br>Mayo Clinic. 2018. Prenatal vitamins: Why they matter, how to choose. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/prenatal-vitamins/art-20046945</a> `,
                 completed: "false",
             },
             task2: {
                 name: "Kegel exercises",
                 description: 'What are Kegels and how do I do them?<br>Kegel exercises help strengthen your pelvic floor to help make labor and delivery easier, as well as prevent or shorten the time of urinary or fecal incontinence after delivery.  They work best when you start before getting pregnant…but if you are already pregnant, better late than never!  Here’s how you do Kegels:<br>1. Find your pelvic floor muscles.  You can do this by stopping urine midstream.  The muscles that tighten when you do this are the ones you will strengthen during Kegel exercises.<br>2. Practice!  Now that you know which muscles to strengthen, practice tightening these muscles for three seconds, then relax for three seconds.  Each day, increase the amount of time you tighten your pelvic floor during each repetition.  Your goal is three sets of 10-15 repetitions daily.  Don’t hold your breath during repetitions.<br>3. Note: It is important when doing Kegels to not tighten your abdomen, thighs, or buttocks.  Focus on only tightening your pelvic floor.  Also note: do not practice Kegels by stopping your flow of urine.  This can lead to urinary retention and increased risk for urinary tract infections. ',
-                references: "Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283 ",
+                references: `Mayo Clinic. 2018. Kegel exercises: A how-to guide for women. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283">https://www.mayoclinic.org/healthy-lifestyle/womens-health/in-depth/kegel-exercises/art-20045283</a> `,
                 completed: "false",
                 repeat: "true"
             },
@@ -866,8 +860,8 @@ const taskBundleObj = {
                 taskCount: "1",
                 task1: {
                     name: "Doula: Decide whether a doula is right for you",
-                    description: "To doula or not to doula?\nTo make this decision, let’s first talk about what a doula is: during labor, a doula is your number one cheerleader. She will stay by your side to help with pain techniques, position changes, massage, and breathing. A doula is NOT a medical professional and cannot substitute as one. A doula typically meets with you before delivery and remains with you throughout the entirety of the labor and delivery process. She will typically follow up during your postpartum period as well. The most common type of doula is one who supports you through labor. Here are some pros and cons to further help you decide if a doula might be right for you:\n\nPros:\nContinuous 1:1 support during labor\n- Can make labor more enjoyable\n- Can help you follow your birth plan more closely\n- Is associated with fewer interventions during labor (including cesarean sections, episiotomies, and pain medications)\n\nCons: \n- Cost: typically between $800 - $2,500, but varies greatly by region (this may or may not be covered by your insurance)\n- She might get in your partner’s way if s/he wants to take the lead cheerleader role\n- Your doula’s opinion may clash with the opinion of your healthcare provider",
-                    references: "ACOG. 2017. ACOG committee opinion: Approaches to limit intervention during labor and birth. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Approaches-to-Limit-Intervention-During-Labor-and-Birth?IsMobileSet=false\n\nAPA. 2017. Having a doula: Is a doula for me? American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/having-a-doula/\n\nWTE. 2018. What is a doula and should you hire one for your baby’s birth? What to Expect. Retrieved from https://www.whattoexpect.com/pregnancy/hiring-doula ",
+                    description: "To doula or not to doula?<br>To make this decision, let’s first talk about what a doula is: during labor, a doula is your number one cheerleader. She will stay by your side to help with pain techniques, position changes, massage, and breathing. A doula is NOT a medical professional and cannot substitute as one. A doula typically meets with you before delivery and remains with you throughout the entirety of the labor and delivery process. She will typically follow up during your postpartum period as well. The most common type of doula is one who supports you through labor. Here are some pros and cons to further help you decide if a doula might be right for you:<br><br>Pros:<br>Continuous 1:1 support during labor<br>- Can make labor more enjoyable<br>- Can help you follow your birth plan more closely<br>- Is associated with fewer interventions during labor (including cesarean sections, episiotomies, and pain medications)<br><br>Cons: <br>- Cost: typically between $800 - $2,500, but varies greatly by region (this may or may not be covered by your insurance)<br>- She might get in your partner’s way if s/he wants to take the lead cheerleader role<br>- Your doula’s opinion may clash with the opinion of your healthcare provider",
+                    references: `ACOG. 2017. ACOG committee opinion: Approaches to limit intervention during labor and birth. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Approaches-to-Limit-Intervention-During-Labor-and-Birth?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Approaches-to-Limit-Intervention-During-Labor-and-Birth?IsMobileSet=false</a><br><br>APA. 2017. Having a doula: Is a doula for me? American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/having-a-doula/">https://americanpregnancy.org/labor-and-birth/having-a-doula/</a><br><br>WTE. 2018. What is a doula and should you hire one for your baby’s birth? What to Expect. Retrieved from <a href="https://www.whattoexpect.com/pregnancy/hiring-doula">https://www.whattoexpect.com/pregnancy/hiring-doula</a> `,
                     completed: "false",
                 }
             }
@@ -881,7 +875,7 @@ const taskBundleObj = {
                 taskCount: "1",
                 task1: {
                     name: "Look up low-income assistance programs near me",
-                    description: "Low-income Assistance Programs\nThere are several assistance programs to help you and your baby throughout pregnancy and for several years after.  One of these examples is the Women, Infants, and Children (WIC) program which serves about half of all infants born in the United States.  To be connected with your local health department for resources on free or reduced prenatal care, call: \n- 800-311-BABY (800-311-2229) \n- (Spanish: 800-504-7081) \nTo see if you are eligible for the WIC program, please visit their website: https://www.fns.usda.gov/wic/women-infants-and-children ",
+                    description: `Low-income Assistance Programs<br>There are several assistance programs to help you and your baby throughout pregnancy and for several years after.  One of these examples is the Women, Infants, and Children (WIC) program which serves about half of all infants born in the United States.  To be connected with your local health department for resources on free or reduced prenatal care, call: <br>- 800-311-BABY (800-311-2229) <br>- (Spanish: 800-504-7081) <br>To see if you are eligible for the WIC program, please visit their website: <a href="https://www.fns.usda.gov/wic/women-infants-and-children">https://www.fns.usda.gov/wic/women-infants-and-children</a> `,
                     references: "",
                     completed: "false",
                 }
@@ -941,11 +935,19 @@ articleListObj = {
 // let db = firebase.firestore();
 // await db.collection("articles").doc("articleList").set(articleListObj);
 
+// let db = firebase.firestore();
+// await db.collection("articles").doc("what_should_i_include_in_my_birth_plan").set(what_should_i_include_in_my_birth_plan);
+// await db.collection("articles").doc("what_should_i_avoid_while_pregnant").set(what_should_i_avoid_while_pregnant);
+// await db.collection("articles").doc("hospital_buzz_words").set(hospital_buzz_words);
+// await db.collection("articles").doc("hospital_bag_checklist").set(hospital_bag_checklist);
+// await db.collection("articles").doc("breast_vs_bottle").set(breast_vs_bottle);
+
+
 //Individual article objects below.
 
-"what_should_i_include_in_my_birth_plan" = {
+what_should_i_include_in_my_birth_plan = {
     title: "What Should I Include In My Birth Plan?",
-    heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=9bd95402-3e83-408f-884c-6546d3e02ef5",
+    heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbirthPlan.jpg?alt=media&token=35c95e26-865a-470f-955e-3679b6c6fd84",
     heroImageAlt: "Opening a notebook",
     articleTextHTML: `There is an endless list of things you can write on your birth plan! In order to
         have the greatest chance of sticking to it though, we suggest picking a small handful of the most
@@ -1274,68 +1276,68 @@ articleListObj = {
 
         ACOG. 2017. Delayed umbilical cord clamping after birth. American College of Obstetricians and
         Gynecologists. Retrieved from
-        https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Delayed-Umbilical-Cord-Clamping-After-Birth?IsMobileSet=false
+        <a href="https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Delayed-Umbilical-Cord-Clamping-After-Birth?IsMobileSet=false">https://www.acog.org/Clinical-Guidance-and-Publications/Committee-Opinions/Committee-on-Obstetric-Practice/Delayed-Umbilical-Cord-Clamping-After-Birth?IsMobileSet=false</a>
         <br>
         <br>
         APA. 2015. Nitrous oxide during labor. American Pregnancy Association. Retrieved from
-        https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/
+        <a href="https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/">https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/</a>
         <br>
         <br>
         APA. 2015. Using narcotics for pain relief during childbirth. American Pregnancy Association.
-        Retrieved from https://americanpregnancy.org/labor-and-birth/narcotics/
+        Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/narcotics/">https://americanpregnancy.org/labor-and-birth/narcotics/</a>
         <br>
         <br>
         APA. 2017. Creating your birth plan. American Pregnancy Association. Retrieved from
-        https://americanpregnancy.org/labor-and-birth/birth-plan/
+        <a href="https://americanpregnancy.org/labor-and-birth/birth-plan/">https://americanpregnancy.org/labor-and-birth/birth-plan/</a>
         <br>
         <br>
         APA. 2017. Delayed cord clamping: What are the risks and benefits? American Pregnancy Association.
-        Retrieved from https://americanpregnancy.org/labor-and-birth/delayed-cord-clamping-risks-benefits/
+        Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/delayed-cord-clamping-risks-benefits/">https://americanpregnancy.org/labor-and-birth/delayed-cord-clamping-risks-benefits/</a>
         <br>
         <br>
         APA. 2017. Epidural Anesthesia. American Pregnancy Association. Retrieved from
-        https://americanpregnancy.org/labor-and-birth/epidural/
+        <a href="https://americanpregnancy.org/labor-and-birth/epidural/">https://americanpregnancy.org/labor-and-birth/epidural/</a>
         <br>
         <br>
         Cleveland Clinic. 2015. Kangaroo care. Retrieved from
-        https://my.clevelandclinic.org/health/treatments/12578-kangaroo-care
+        <a href="https://my.clevelandclinic.org/health/treatments/12578-kangaroo-care">https://my.clevelandclinic.org/health/treatments/12578-kangaroo-care</a>
         <br>
         <br>
-        Familydoctor.org. 2017. Dealing with pain during childbirth. American Academy of Family Physicians.
-        Retrieved from https://familydoctor.org/dealing-pain-childbirth/
+        <a href="http://Familydoctor.org">Familydoctor.org</a>. 2017. Dealing with pain during childbirth. American Academy of Family Physicians.
+        Retrieved from <a href="https://familydoctor.org/dealing-pain-childbirth/">https://familydoctor.org/dealing-pain-childbirth/</a>
         <br>
         <br>
         Johns Hopkins Medicine. Kangaroo Care. Retrieved from
-        https://www.hopkinsallchildrens.org/Services/Maternal-Fetal-Neonatal-Institute/Neonatology/Programs-and-Services/Kangaroo-Care
+        <a href="https://www.hopkinsallchildrens.org/Services/Maternal-Fetal-Neonatal-Institute/Neonatology/Programs-and-Services/Kangaroo-Care">https://www.hopkinsallchildrens.org/Services/Maternal-Fetal-Neonatal-Institute/Neonatology/Programs-and-Services/Kangaroo-Care</a>
         <br>
         <br>
         Labor positions and movement. Lamaze International. Retrieved from
-        https://www.lamaze.org/labor-positions
+        <a href="https://www.lamaze.org/labor-positions">https://www.lamaze.org/labor-positions</a>
         <br>
         <br>
         March of Dimes. 2014. Kangaroo care. Retrieved from
-        https://www.marchofdimes.org/baby/kangaroo-care.aspx
+        <a href="https://www.marchofdimes.org/baby/kangaroo-care.aspx">https://www.marchofdimes.org/baby/kangaroo-care.aspx</a>
         <br>
         <br>
         Mayo Clinic. 2017. Labor and delivery, postpartum care. Retrieved from
-        https://www.mayoclinic.org/healthy-lifestyle/labor-and-delivery/in-depth/labor-and-delivery/art-20049326
+        <a href="https://www.mayoclinic.org/healthy-lifestyle/labor-and-delivery/in-depth/labor-and-delivery/art-20049326">https://www.mayoclinic.org/healthy-lifestyle/labor-and-delivery/in-depth/labor-and-delivery/art-20049326</a>
         <br>
         <br>
         OWH. 2018. Labor and birth. Office on Women’s Health. Retrieved from
-        https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth
+        <a href="https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth">https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth</a>
         <br>
         <br>
         WHO. 2018. WHO recommendation on bathing and other immediate postnatal care of the newborn. World
         Health Organization. Retrieved from
-        https://extranet.who.int/rhl/topics/newborn-health/care-newborn-infant/who-recommendation-bathing-and-other-immediate-postnatal-care-newborn
+        <a href="https://extranet.who.int/rhl/topics/newborn-health/care-newborn-infant/who-recommendation-bathing-and-other-immediate-postnatal-care-newborn">https://extranet.who.int/rhl/topics/newborn-health/care-newborn-infant/who-recommendation-bathing-and-other-immediate-postnatal-care-newborn</a>
         <br>
         <br>
         WHO. 2019. Optimal timing of cord clamping for the prevention of iron deficiency anemia in infants.
-        World Health Organization. Retrieved from https://www.who.int/elena/titles/cord_clamping/en/
+        World Health Organization. Retrieved from <a href="https://www.who.int/elena/titles/cord_clamping/en/">https://www.who.int/elena/titles/cord_clamping/en/</a>
     `
 }
 
-"what_should_i_avoid_while_pregnant" = {
+what_should_i_avoid_while_pregnant = {
     title: "What Should I Avoid While Pregnant?",
     heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FavoidWhilePregnant.jpg?alt=media&token=49d0208d-55f6-4c8f-9684-49f549caf190",
     heroImageAlt: "Stop sign",
@@ -1386,7 +1388,7 @@ articleListObj = {
     Orange roughy 
     </li>
     <li>
-    Bigeye Tuna (canned light tuna, including skipjack, is safe to eat in moderation; do not eat more than 6 ounces of while/albacore tuna each week;) 
+    Bigeye Tuna (canned light tuna, including skipjack, is safe to eat in moderation; do not eat more than 6 ounces of white/albacore tuna each week;) 
     </li>
     </ul>
     <h6>
@@ -1410,8 +1412,8 @@ articleListObj = {
     </h6>
     <p class="indented">
     Some surprising food products that may contain raw eggs include: 
-    <p>
-    <ul><li>
+    </p><p>
+    </p><ul><li>
     Homemade hollandaise sauce 
     </li>
     <li>
@@ -1510,7 +1512,7 @@ articleListObj = {
     Alcohol, nicotine products, marijuana, and illicit drugs
     </h6>
     <p class="indented">
-    Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  If you need help quitting any of the above, talk with your physician ASAP and visit the following: Alcohol: www.aa.org, Narcotics/opioids: www.na.org, Smoking: www.lung.org or 1-800-QUIT-NOW  
+    Participating in even small or infrequent doses of drinking alcohol, smoking, or drug use is known to be harmful to your growing fetus.  If you need help quitting any of the above, talk with your physician ASAP and visit the following: Alcohol: <a href="http://www.aa.org">www.aa.org</a>, Narcotics/opioids: <a href="http://www.na.org">www.na.org</a>, Smoking: <a href="http://www.lung.org">www.lung.org</a> or 1-800-QUIT-NOW  
     </p>
     <ul><li>
     Alcohol (known to increase the risks of miscarriage, still birth, fetal alcohol syndrome or irreversible birth defects) 
@@ -1587,7 +1589,7 @@ articleListObj = {
     Changing the cat litter box
     </h6>
     <p class="indented">
-    Cat feces contain the bacteria toxoplasma.  If nobody else can help with this task, see the CDC’s recommendations on how to safely dispose of soiled cat litter: https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html 
+    Cat feces contain the bacteria toxoplasma.  If nobody else can help with this task, see the CDC’s recommendations on how to safely dispose of soiled cat litter: <a href="https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html">https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html</a> 
     </p>
     <h6>
     Teeth whitening 
@@ -1606,53 +1608,53 @@ articleListObj = {
     </h6>
 
     <h4> References: </h4>
-2018. Foods to avoid when pregnant. Pregnancy, Birth, and Baby. Retrieved from https://www.pregnancybirthbaby.org.au/foods-to-avoid-when-pregnant 
+2018. Foods to avoid when pregnant. Pregnancy, Birth, and Baby. Retrieved from <a href="https://www.pregnancybirthbaby.org.au/foods-to-avoid-when-pregnant">https://www.pregnancybirthbaby.org.au/foods-to-avoid-when-pregnant</a> 
 <br>
 <br>
-ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can 
+ACOG. 2019. Tobacco, alcohol, drugs, and pregnancy. American College of Obstetricians Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can">https://www.acog.org/Patients/FAQs/Tobacco-Alcohol-Drugs-and-Pregnancy?IsMobileSet=false#can</a> 
 <br>
 <br>
-APA. 2015. Recreation and pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/recreation/ 
+APA. 2015. Recreation and pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/recreation/">https://americanpregnancy.org/pregnancy-health/recreation/</a> 
 <br>
 <br>
-APA. 2017. Listeria and pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-complications/listeria/ 
+APA. 2017. Listeria and pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-complications/listeria/">https://americanpregnancy.org/pregnancy-complications/listeria/</a> 
 <br>
 <br>
-APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/ 
+APA. 2017. Pregnancy and dental work. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/">https://americanpregnancy.org/pregnancy-health/dental-work-and-pregnancy/</a> 
 <br>
 <br>
-APA. 2018. Foods to avoid during pregnancy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/foods-to-avoid-during-pregnancy/ 
+APA. 2018. Foods to avoid during pregnancy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/foods-to-avoid-during-pregnancy/">https://americanpregnancy.org/pregnancy-health/foods-to-avoid-during-pregnancy/</a> 
 <br>
 <br>
-APA. 2018. Mercury levels in fish. American Pregnancy Association. Retrieved from https://americanpregnancy.org/pregnancy-health/mercury-levels-in-fish/ 
+APA. 2018. Mercury levels in fish. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/pregnancy-health/mercury-levels-in-fish/">https://americanpregnancy.org/pregnancy-health/mercury-levels-in-fish/</a> 
 <br>
 <br>
-CDC. 2019. Parasites-Toxoplasmosis (Toxoplasma infection): Pregnant women. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html 
+CDC. 2019. Parasites-Toxoplasmosis (Toxoplasma infection): Pregnant women. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html">https://www.cdc.gov/parasites/toxoplasmosis/gen_info/pregnant.html</a> 
 <br>
 <br>
-FDA. 2019. Advice about eating fish: For women who are or might become pregnant, breastfeeding mothers, and young children. US Food and Drug Administration. Retrieved from https://www.fda.gov/food/consumers/advice-about-eating-fish 
+FDA. 2019. Advice about eating fish: For women who are or might become pregnant, breastfeeding mothers, and young children. US Food and Drug Administration. Retrieved from <a href="https://www.fda.gov/food/consumers/advice-about-eating-fish">https://www.fda.gov/food/consumers/advice-about-eating-fish</a> 
 <br>
 <br>
-FDA. 2019. Pregnancy. US Food and Drug Administration. Retrieved from https://www.fda.gov/consumers/womens-health-topics/pregnancy#XRaysAndUltrasounds 
+FDA. 2019. Pregnancy. US Food and Drug Administration. Retrieved from <a href="https://www.fda.gov/consumers/womens-health-topics/pregnancy#XRaysAndUltrasounds">https://www.fda.gov/consumers/womens-health-topics/pregnancy#XRaysAndUltrasounds</a> 
 <br>
 <br>
-Hawthorne, K. Is it safe to drink unpasteurized juice during pregnancy? BabyCenter. Retrieved from https://www.babycenter.com/404_is-it-safe-to-drink-unpasteurized-juice-during-pregnancy_1246870.bc 
+Hawthorne, K. Is it safe to drink unpasteurized juice during pregnancy? BabyCenter. Retrieved from <a href="https://www.babycenter.com/404_is-it-safe-to-drink-unpasteurized-juice-during-pregnancy_1246870.bc">https://www.babycenter.com/404_is-it-safe-to-drink-unpasteurized-juice-during-pregnancy_1246870.bc</a> 
 <br>
 <br>
-Mayo Clinic. 2017. Pregnancy nutrition: Foods to avoid during pregnancy. Retrieved from https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844 
+Mayo Clinic. 2017. Pregnancy nutrition: Foods to avoid during pregnancy. Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844">https://www.mayoclinic.org/healthy-lifestyle/pregnancy-week-by-week/in-depth/pregnancy-nutrition/art-20043844</a> 
 <br>
 <br>
-Mayo Clinic. 2018. Salmonella infection. Retrieved from https://www.mayoclinic.org/diseases-conditions/salmonella/symptoms-causes/syc-20355329 
+Mayo Clinic. 2018. Salmonella infection. Retrieved from <a href="https://www.mayoclinic.org/diseases-conditions/salmonella/symptoms-causes/syc-20355329">https://www.mayoclinic.org/diseases-conditions/salmonella/symptoms-causes/syc-20355329</a> 
 <br>
 <br>
-MD. 2017. Exercise during pregnancy. March of Dimes. Retrieved from https://www.marchofdimes.org/pregnancy/exercise-during-pregnancy.aspx 
+MD. 2017. Exercise during pregnancy. March of Dimes. Retrieved from <a href="https://www.marchofdimes.org/pregnancy/exercise-during-pregnancy.aspx">https://www.marchofdimes.org/pregnancy/exercise-during-pregnancy.aspx</a> 
 <br>
 <br>
-USDA, HHS. 2010. Dietary guidelines for Americans, 2010. Washington, DC: US Government Posting Office. Available at https://health.gov/dietaryguidelines/dga2010/dietaryguidelines2010.pdf 
+USDA, HHS. 2010. Dietary guidelines for Americans, 2010. Washington, DC: US Government Posting Office. Available at <a href="https://health.gov/dietaryguidelines/dga2010/dietaryguidelines2010.pdf">https://health.gov/dietaryguidelines/dga2010/dietaryguidelines2010.pdf</a> 
     `
 }
 
-"hospital_buzz_words" = {
+hospital_buzz_words = {
     title: "Hospital Buzz Words",
     heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FhospitalBuzzWords.jpg?alt=media&token=aaac2ef5-ab90-424e-9dcd-9299a2476485",
     heroImageAlt: "Doctor holding a baby",
@@ -1725,34 +1727,34 @@ USDA, HHS. 2010. Dietary guidelines for Americans, 2010. Washington, DC: US Gove
     <h4>
     References: 
     </h4>
-    ACOG. 2017. When pregnancy goes past your due date. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/When-Pregnancy-Goes-Past-Your-Due-Date#postterm 
+    ACOG. 2017. When pregnancy goes past your due date. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/When-Pregnancy-Goes-Past-Your-Due-Date#postterm">https://www.acog.org/Patients/FAQs/When-Pregnancy-Goes-Past-Your-Due-Date#postterm</a> 
     <br><br>
-    ACOG. 2018. Induction of labor at 39 weeks. American College of Obstetricians and Gynecologists. Retrieved from https://www.acog.org/Patients/FAQs/Induction-of-Labor-at-39-Weeks?IsMobileSet=false#membranes 
+    ACOG. 2018. Induction of labor at 39 weeks. American College of Obstetricians and Gynecologists. Retrieved from <a href="https://www.acog.org/Patients/FAQs/Induction-of-Labor-at-39-Weeks?IsMobileSet=false#membranes">https://www.acog.org/Patients/FAQs/Induction-of-Labor-at-39-Weeks?IsMobileSet=false#membranes</a> 
     <br><br>
-    APA. 2015. Episiotomy. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/episiotomy/ 
+    APA. 2015. Episiotomy. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/episiotomy/">https://americanpregnancy.org/labor-and-birth/episiotomy/</a> 
     <br><br>
-    APA. 2015. Nitrous oxide during labor. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/ 
+    APA. 2015. Nitrous oxide during labor. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/">https://americanpregnancy.org/labor-and-birth/nitrous-oxide-labor/</a> 
     <br><br>
-    APA. 2015. Using narcotics for pain relief during childbirth. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/narcotics/ 
+    APA. 2015. Using narcotics for pain relief during childbirth. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/narcotics/">https://americanpregnancy.org/labor-and-birth/narcotics/</a> 
     <br><br>
-    APA. 2015. Your child’s first test: The APGAR. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/apgar-test/ 
+    APA. 2015. Your child’s first test: The APGAR. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/apgar-test/">https://americanpregnancy.org/labor-and-birth/apgar-test/</a> 
     <br><br>
-    APA. 2017. Effacement. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/effacement/ 
+    APA. 2017. Effacement. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/effacement/">https://americanpregnancy.org/labor-and-birth/effacement/</a> 
     <br><br>
-    APA. 2017. Epidural Anesthesia. American Pregnancy Association. Retrieved from https://americanpregnancy.org/labor-and-birth/epidural/ 
+    APA. 2017. Epidural Anesthesia. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/labor-and-birth/epidural/">https://americanpregnancy.org/labor-and-birth/epidural/</a> 
     <br><br>
-    Familydoctor.org. 2017. Dealing with pain during childbirth. American Academy of Family Physicians. Retrieved from https://familydoctor.org/dealing-pain-childbirth/ 
+    <a href="http://Familydoctor.org">Familydoctor.org</a>. 2017. Dealing with pain during childbirth. American Academy of Family Physicians. Retrieved from <a href="https://familydoctor.org/dealing-pain-childbirth/">https://familydoctor.org/dealing-pain-childbirth/</a> 
     <br><br>
-    March of Dimes. 2018. Inducing labor. Retrieved from https://www.marchofdimes.org/pregnancy/inducing-labor.aspx 
+    March of Dimes. 2018. Inducing labor. Retrieved from <a href="https://www.marchofdimes.org/pregnancy/inducing-labor.aspx">https://www.marchofdimes.org/pregnancy/inducing-labor.aspx</a> 
     <br><br>
-    Menard, M., Main, E. 2014. Executive summary of the reVITALize initiative: Standardizing obstetric data definitions (Version 1.0). American College of Obstetricians and Gynecologists. Retrieved from http://download.lww.com/wolterskluwer_vitalstream_com/PermaLink/AOG/A/AOG_124_1_2014_05_28_MENARD_14-107_SDC3.pdf 
+    Menard, M., Main, E. 2014. Executive summary of the reVITALize initiative: Standardizing obstetric data definitions (Version 1.0). American College of Obstetricians and Gynecologists. Retrieved from <a href="http://download.lww.com/wolterskluwer_vitalstream_com/PermaLink/AOG/A/AOG_124_1_2014_05_28_MENARD_14-107_SDC3.pdf">http://download.lww.com/wolterskluwer_vitalstream_com/PermaLink/AOG/A/AOG_124_1_2014_05_28_MENARD_14-107_SDC3.pdf</a> 
     <br><br>
-    OWH. 2018. Labor and birth. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth 
+    OWH. 2018. Labor and birth. Office on Women’s Health. Retrieved from <a href="https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth">https://www.womenshealth.gov/pregnancy/childbirth-and-beyond/labor-and-birth</a> 
     <br><br>
     WHO recommendations: induction of labour at or beyond term. Geneva: World Health Organization; 2018. License: CC BY-NC-SA 3.0 IGO. `
 }
 
-"hospital_bag_checklist" = {
+hospital_bag_checklist = {
     title: "Hospital Bag Checklist",
     heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FhospitalBagChecklist.jpg?alt=media&token=bdddfc70-bd06-4c8a-9372-9009fead6599",
     heroImageAlt: "Duffle bag on wooden floor",
@@ -1843,7 +1845,7 @@ USDA, HHS. 2010. Dietary guidelines for Americans, 2010. Washington, DC: US Gove
     </li></ul>`
 }
 
-"breast_vs_bottle" = {
+breast_vs_bottle = {
     title: "Breast vs Bottle",
     heroImage: "https://firebasestorage.googleapis.com/v0/b/honeybump-49085.appspot.com/o/img%2Farticles%2FbreastVsBottle.jpg?alt=media&token=98219084-4e69-41d9-8052-9d1097076eb8",
     heroImageAlt: "Woman breastfeeding under tree",
@@ -1918,11 +1920,11 @@ Ask your partner to be involved!  Have him read up on the benefits of breastfeed
 </li><li>
 Know how often your baby will be eating: newborns tend to eat 8-12 times in a 24-hour period.  As your baby grows, the number of feedings tends to go down. 
 </li><li>
-Learn about the different breastfeeding positions: https://www.womenshealth.gov/breastfeeding/learning-breastfeed/getting-good-latch#4 
+Learn about the different breastfeeding positions: <a href="https://www.womenshealth.gov/breastfeeding/learning-breastfeed/getting-good-latch#4">https://www.womenshealth.gov/breastfeeding/learning-breastfeed/getting-good-latch#4</a> 
 </li><li>
-Learn about breastfeeding challenges, how to treat them, and when to seek help: https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges 
+Learn about breastfeeding challenges, how to treat them, and when to seek help: <a href="https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges">https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges</a> 
 </li><li>
-Talk with your employer about your plans to breastfeed to set up adequate time and a private place to pump when you return to work.  It is your right and is required by federal law that all employees working for employers covered by the Fair Labor Standards Act (FLSA) and who are not exempt from section 7 are entitled to a private space (NOT A BATHROOM) and adequate break time to express breastmilk for one year after the child is born.  Learn more about this here: https://webapps.dol.gov/elaws/elg/minwage.htm#who.  Even if you are not covered under this federal law, you may be entitled to these breaks under state law.  Learn more here: http://www.ncsl.org/research/health/breastfeeding-state-laws.aspx. 
+Talk with your employer about your plans to breastfeed to set up adequate time and a private place to pump when you return to work.  It is your right and is required by federal law that all employees working for employers covered by the Fair Labor Standards Act (FLSA) and who are not exempt from section 7 are entitled to a private space (NOT A BATHROOM) and adequate break time to express breastmilk for one year after the child is born.  Learn more about this here: <a href="https://webapps.dol.gov/elaws/elg/minwage.htm#who">https://webapps.dol.gov/elaws/elg/minwage.htm#who</a>.  Even if you are not covered under this federal law, you may be entitled to these breaks under state law.  Learn more here: <a href="http://www.ncsl.org/research/health/breastfeeding-state-laws.aspx">http://www.ncsl.org/research/health/breastfeeding-state-laws.aspx</a>. 
 </li><li>
 Take a breastfeeding class (you can do this even before your baby arrives!) 
 </li><li>
@@ -1933,25 +1935,26 @@ If you’re struggling with breastfeeding, don’t wait to get help!  It is impo
 <h4>
 References:  
 </h4>
-APA. 2018. Breastfeeding vs bottle feeding. American Pregnancy Association. Retrieved from https://americanpregnancy.org/breastfeeding/breastfeeding-and-bottle-feeding/ 
+APA. 2018. Breastfeeding vs bottle feeding. American Pregnancy Association. Retrieved from <a href="https://americanpregnancy.org/breastfeeding/breastfeeding-and-bottle-feeding/">https://americanpregnancy.org/breastfeeding/breastfeeding-and-bottle-feeding/</a> 
 <br><br>
-AAFP. Breastfeeding (Policy statement). American Academy of Family Physicians. Retrieved from https://www.aafp.org/about/policies/all/breastfeeding.html 
+AAFP. Breastfeeding (Policy statement). American Academy of Family Physicians. Retrieved from <a href="https://www.aafp.org/about/policies/all/breastfeeding.html">https://www.aafp.org/about/policies/all/breastfeeding.html</a> 
 <br><br>
-CDC. 2018. Breastfeeding report card. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/breastfeeding/data/reportcard.htm 
+CDC. 2018. Breastfeeding report card. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/breastfeeding/data/reportcard.htm">https://www.cdc.gov/breastfeeding/data/reportcard.htm</a> 
 <br><br>
-CDC. 2018. CDC releases 2018 breastfeeding report card. Centers for Disease Control and Prevention. Retrieved from https://www.cdc.gov/media/releases/2018/p0820-breastfeeding-report-card.html 
+CDC. 2018. CDC releases 2018 breastfeeding report card. Centers for Disease Control and Prevention. Retrieved from <a href="https://www.cdc.gov/media/releases/2018/p0820-breastfeeding-report-card.html">https://www.cdc.gov/media/releases/2018/p0820-breastfeeding-report-card.html</a> 
 <br><br>
-DOL. 2018. Fact sheet #73: Break time for nursing mothers under the FLSA. US Department of Labor, Wage and Hour Division. Retrieved from https://www.dol.gov/whd/regs/compliance/whdfs73.pdf 
+DOL. 2018. Fact sheet #73: Break time for nursing mothers under the FLSA. US Department of Labor, Wage and Hour Division. Retrieved from <a href="https://www.dol.gov/whd/regs/compliance/whdfs73.pdf">https://www.dol.gov/whd/regs/compliance/whdfs73.pdf</a> 
 <br><br>
-DOL. Frequently asked questions: Break time for nursing mothers. US Department of Labor, Wage and Hour Division. Retrieved from https://www.dol.gov/whd/nursingmothers/faqBTNM.htm 
+DOL. Frequently asked questions: Break time for nursing mothers. US Department of Labor, Wage and Hour Division. Retrieved from <a href="https://www.dol.gov/whd/nursingmothers/faqBTNM.htm">https://www.dol.gov/whd/nursingmothers/faqBTNM.htm</a> 
 <br><br>
-Horta, B., Victoria, C. 2013. Long-term effects of breastfeeding. World Health Organization. Retrieved from https://apps.who.int/iris/bitstream/handle/10665/79198/9789241505307_eng.pdf;jsessionid=DEDF6D061E164F1CFFBBDFFA86D8837F?sequence=1 
+Horta, B., Victoria, C. 2013. Long-term effects of breastfeeding. World Health Organization. Retrieved from <a href="https://apps.who.int/iris/bitstream/handle/10665/79198/9789241505307_eng.pdf;jsessionid=DEDF6D061E164F1CFFBBDFFA86D8837F?sequence=1">https://apps.who.int/iris/bitstream/handle/10665/79198/9789241505307_eng.pdf;jsessionid=DEDF6D061E164F1CFFBBDFFA86D8837F?sequence=1</a> 
 <br><br>
-KidsHealth. 2018. Breastfeeding vs formula feeding. Retrieved from https://kidshealth.org/en/parents/breast-bottle-feeding.html 
+KidsHealth. 2018. Breastfeeding vs formula feeding. Retrieved from <a href="https://kidshealth.org/en/parents/breast-bottle-feeding.html">https://kidshealth.org/en/parents/breast-bottle-feeding.html</a> 
 <br><br>
-Mayo Clinic. 2018. Breast-feeding vs. formula-feeding: What’s best? Retrieved from https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/breast-feeding/art-20047898 
+Mayo Clinic. 2018. Breast-feeding vs. formula-feeding: What’s best? Retrieved from <a href="https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/breast-feeding/art-20047898">https://www.mayoclinic.org/healthy-lifestyle/infant-and-toddler-health/in-depth/breast-feeding/art-20047898</a> 
 <br><br>
-OWH. 2018. Common breastfeeding challenges. Office on Women’s Health. Retrieved from https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges 
+OWH. 2018. Common breastfeeding challenges. Office on Women’s Health. Retrieved from <a href="https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges">https://www.womenshealth.gov/breastfeeding/breastfeeding-challenges/common-breastfeeding-challenges</a> 
 <br><br>
-WHO. 2002. The World Health Organization’s infant feeding recommendation. World Health Organization. Retrieved from https://www.who.int/nutrition/topics/infantfeeding_recommendation/en/`
+WHO. 2002. The World Health Organization’s infant feeding recommendation. World Health Organization. Retrieved from <a href="https://www.who.int/nutrition/topics/infantfeeding_recommendation/en/">https://www.who.int/nutrition/topics/infantfeeding_recommendation/en/</a>
+`
 }
