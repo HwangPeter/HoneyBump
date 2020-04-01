@@ -60,6 +60,11 @@ main {
     margin-bottom: 15px;
 }
 
+.article-image {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
 #title {
     text-align: left;
     padding: 5px;

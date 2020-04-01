@@ -69,6 +69,10 @@
       {
         "source": "/privacyPolicy",
         "destination": "/privacyPolicy/privacyPolicy.html"
+      },
+      {
+        "source": "/checklistDemo",
+        "destination": "/checklistDemo/checklistDemo.html"
       }
     ],
     "ignore": [

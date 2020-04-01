@@ -1,6 +1,7 @@
 (function () {
     var checklistObj;
-    let allTaskBundles = {};
+    var allTaskBundles = {};
+    var userDataSnap = {};
     // Initialize Firebase
     var firebaseConfig = {
         apiKey: "AIzaSyCi8N03o0dLjoU83NoQUES5Vb3bUspOkCI",
@@ -16,6 +17,7 @@
         if (user) {
             updateLogoutButton();
             checklistObj = await loadChecklist();
+            await updateChecklist();
 
             // Adds another section to filter if user has added their own tasks.
             if ("Tasks I Added" in checklistObj) {
@@ -45,9 +47,43 @@
         }
         else {
             console.log("User is logged out. Access denied.");
-            window.location.href = "/checklistLanding";
+            window.location.href = "/checklistDemo";
         }
     });
+
+    // Iterates through all user's tasks and sets the description to the same one as from the default checklist.
+    // Note: Does not currently add in new tasks from default checklist.
+    async function updateChecklist() {
+        let db = firebase.firestore();
+        let defaultChecklist = await db.collection('checklist').doc("defaultChecklist").get()
+        let defaultChecklistObj = defaultChecklist.data();
+        Object.keys(checklistObj).forEach(trimester => {
+            if (typeof checklistObj[trimester] === "object" && trimester !== "settings" && trimester !== "Tasks I Added") {
+                Object.keys(checklistObj[trimester]).forEach(section => {
+                    if (typeof checklistObj[trimester][section] === "object") {
+                        Object.keys(checklistObj[trimester][section]).forEach(task => {
+                            if (typeof checklistObj[trimester][section][task] === "object") {
+                                // Iterating through user's tasks.
+                                try {
+                                    Object.keys(defaultChecklistObj[trimester][section]).forEach(task => {
+                                        if (typeof defaultChecklistObj[trimester][section][task] === "object") {
+                                            if (defaultChecklistObj[trimester][section][task].name === checklistObj[trimester][section][task].name) {
+                                                // Found user's task in default checklist.
+                                                checklistObj[trimester][section][task].description = defaultChecklistObj[trimester][section][task].description;
+                                            }
+                                        }
+                                    });
+                                }
+                                catch (e) {
+                                    console.log(e);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 
     function updateLogoutButton() {
         document.getElementById("logout").style.backgroundColor = "transparent";
@@ -238,6 +274,9 @@
         let addedPostTaskHTML = "";
         let activeTaskBundles = {};
         let orderedTrimesterList = ["Tasks I Added", "Before Pregnancy", "1st Trimester", "2nd Trimester", "3rd Trimester", "After Pregnancy"];
+        userDataSnap = await getUserDataSnap();
+        let babyBirthDate = getBabyBirthDate(userDataSnap);
+        handleFeedback(userDataSnap);
 
         if ("taskBundles" in settings) {
             for (let taskBundle in settings.taskBundles) {
@@ -324,11 +363,16 @@
                         if (typeof checklistObj[trimester][section] === "object") {
                             // Iterating through sections
                             let tasksAddedThisSection = 0;
+                            let sectionDates = "";
+                            try {
+                                sectionDates = getSectionDates(babyBirthDate, checklistObj[trimester][section].title);
+                            }
+                            catch{ }
 
                             if (!userAddedTasksComplete && checklistObj[trimester][section].title !== "Tasks I Added (All)" && trimester === "Tasks I Added") {
                                 let sectionHTML = '<div class="list-item-container hoverable">\n' +
                                     '<div class="list-item">\n' +
-                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' +
+                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' + '<span style="font-weight:500;">' + sectionDates + '</span>' +
                                     '</div>\n' +
                                     '</div>\n';
                                 if (checklistObj[trimester][section].title.indexOf("Before") !== -1) { addedPreTaskHTML += sectionHTML; }
@@ -341,7 +385,7 @@
                                 // This is to mark the section after Daily in order to add additional Daily tasks.
                                 let sectionHTML = '<div id="sectionAfterDaily" class="list-item-container hoverable">\n' +
                                     '<div class="list-item">\n' +
-                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' +
+                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' + '<span style="font-weight:500;">' + sectionDates + '</span>' +
                                     '</div>\n' +
                                     '</div>\n';
 
@@ -354,7 +398,7 @@
                             else {
                                 let sectionHTML = '<div class="list-item-container hoverable">\n' +
                                     '<div class="list-item">\n' +
-                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' +
+                                    '<h2 class="section">' + checklistObj[trimester][section].title + '</h2>\n' + '<span style="font-weight:500;">' + sectionDates + '</span>' +
                                     '</div>\n' +
                                     '</div>\n';
 
@@ -392,12 +436,12 @@
                                         if (trimester === "Tasks I Added") {
                                             taskHTML +=
                                                 // TODO: Remove readonly here for desktop.
-                                                ' tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off" data="' + checklistObj[trimester][section][task].id
+                                                ' tabindex="-1" rows="1" wrap="off" data="' + checklistObj[trimester][section][task].id
                                                 + '">' + checklistObj[trimester][section][task].name + '</textarea>\n'
                                         }
                                         else {
                                             taskHTML +=
-                                                ' tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off">' + checklistObj[trimester][section][task].name + '</textarea>\n'
+                                                ' tabindex="-1" rows="1" wrap="off">' + checklistObj[trimester][section][task].name + '</textarea>\n'
                                         }
                                         taskHTML += '</div >\n';
 
@@ -447,8 +491,9 @@
                                                     //Iterating through tasks
                                                     let inDailySection = (activeTaskBundles[taskBundle][bundleSection].title === "Daily");
                                                     if (taskShouldBeDisplayed(activeTaskBundles[taskBundle][bundleSection][task], currentlyDisplayedTaskList, settings, trimester, inDailySection, checklistObj[trimester][section].title, taskBundle)) {
+                                                        let width = document.getElementById("checklist").offsetWidth - 45;
                                                         let taskHTML = '<div class="list-item-container hoverable">\n' +
-                                                            '<div class="list-item">\n' +
+                                                            '<div style="border-radius: 7px; border-right: 10px solid #6B5875; box-shadow:' + width + 'px -1px 0px white;" class="list-item">\n' +
                                                             '<div class="button-div">\n'
 
                                                         // Marks checklist button as completed if the task is completed.
@@ -470,7 +515,7 @@
                                                         }
 
                                                         taskHTML +=
-                                                            ' tabindex="-1" readonly placeholder="Add task..." rows="1" wrap="off">' + activeTaskBundles[taskBundle][bundleSection][task].name + '</textarea>\n'
+                                                            ' tabindex="-1" rows="1" wrap="off">' + activeTaskBundles[taskBundle][bundleSection][task].name + '</textarea>\n'
 
                                                         taskHTML += '</div >\n';
 
@@ -536,11 +581,8 @@
         });
         let addTaskHTML = '<div id="add-task-list-item-container" class="list-item-container hoverable">\n' +
             '<div class="list-item">\n' +
-            '<div class="button-div">\n' +
-            '<button class="checkmark nohover" hidden="hidden"><svg focusable="false" viewBox="-3 -5 40 40">\n' +
-            '<path d="M10.9,26.2c-0.5,0-1-0.2-1.4-0.6l-6.9-6.9c-0.8-0.8-0.8-2,0-2.8s2-0.8,2.8,0l5.4,5.4l16-15.9c0.8-0.8,2-0.8,2.8,0s0.8,2,0,2.8L12.3,25.6C11.9,26,11.4,26.2,10.9,26.2z"></path>\n' +
-            '</svg>\n' +
-            '</button>\n' +
+            '<div class="button-div" style="padding-right: 20px; font-size: 30px; color: #6B5875; cursor: pointer;">\n' +
+            '+\n' +
             '</div>\n' +
             '<div class="list-item-textarea-div">\n';
         if (screen.width >= 992) {
@@ -565,6 +607,203 @@
 
         let disclaimer = "<p style='font-size:12px; text-align: center;'>myHoneyBump was created for educational purposes only, and is not medical or diagnostic advice.  Consult with a medical professional if you have health concerns.  Use of this site is subject to our Terms of Use and Privacy Policy.</p>"
         document.getElementById('checklist').insertAdjacentHTML('beforeend', disclaimer);
+    }
+
+    function handleFeedback(snapshot) {
+        if (!snapshot || !snapshot.exists) {
+            return (new Error("Something went wrong grabbing user info"));
+        }
+        else {
+            let data = snapshot.data();
+            if ("feedback" in data) {
+                if (data.feedback === "notNow") {
+                    openSurvey();
+                }
+            }
+            else {
+                openSurvey();
+            }
+        }
+    }
+
+    function openSurvey() {
+        let survey = document.getElementById("survey");
+        setTimeout(function () {
+            survey.style.opacity = 1;
+            survey.classList.remove("slideOutDown");
+        }, 60000);
+    }
+
+    async function getUserDataSnap() {
+        let uid = firebase.auth().currentUser.uid;
+        let db = firebase.firestore();
+        var snapshot;
+        try {
+            snapshot = await db.collection('users').doc(uid).get()
+        }
+        catch{
+        }
+        return snapshot;
+    }
+
+    function getBabyBirthDate(snapshot) {
+        try {
+            if (!snapshot || !snapshot.exists) {
+                return (new Error("Something went wrong grabbing user info"));
+            }
+            else {
+                let data = snapshot.data();
+                if ("babyDay" in data) {
+                    let birthDay = data.babyYear + ", " + toDoubleDigit(data.babyMonth) + ", " + toDoubleDigit(data.babyDay);
+                    let date = new Date(birthDay);
+                    return date;
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return "";
+        }
+    }
+
+    function getSectionDates(babyBirthDay, sectionTitle) {
+        let tempDate = new Date();
+        let presentTime = tempDate.getTime();
+        let birthDayTime = babyBirthDay.getTime();
+        let fourtyTwoWeeks = 25401600000;
+
+        if ((birthDayTime - presentTime) > 0 && (birthDayTime - presentTime) < fourtyTwoWeeks) {
+            if (sectionTitle === "By 7-8 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 231);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                tempDate.setDate(tempDate.getDate() + 7);
+                var date2 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + " - " + date2 + ")");
+            }
+            else if (sectionTitle === "By 11-13 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 203);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                tempDate.setDate(tempDate.getDate() + 14);
+                var date2 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + " - " + date2 + ")");
+            }
+            else if (sectionTitle === "By End of 1st Trimester") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 189);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + ")");
+            }
+            else if (sectionTitle === "By 15-22 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 175);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                tempDate.setDate(tempDate.getDate() + 49);
+                var date2 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + " - " + date2 + ")");
+            }
+            else if (sectionTitle === "By 26-28 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 98);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                tempDate.setDate(tempDate.getDate() + 14);
+                var date2 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + " - " + date2 + ")");
+            }
+            else if (sectionTitle === "By End of 2nd Trimester") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 77);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + ")");
+            }
+            else if (sectionTitle === "By 34 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 42);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + ")");
+            }
+            else if (sectionTitle === "By 36 Weeks") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 28);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + ")");
+            }
+            else if (sectionTitle === "By End of 3rd Trimester") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() - 0);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (" + date1 + ")");
+            }
+            else if (sectionTitle === "By ~6 Months") {
+                let tempDate = new Date(babyBirthDay);
+                tempDate.setDate(tempDate.getDate() + 180);
+                var date1 = tempDate.toLocaleDateString(undefined, {
+                    day: '2-digit',
+                    month: 'numeric',
+                    year: '2-digit'
+                });
+                return (" &nbsp (~" + date1 + ")");
+            }
+            else {
+                return "";
+            }
+        }
+        else {
+            return "";
+        }
     }
 
     function clearChecklist() {
@@ -817,8 +1056,39 @@
                     if (element.disabled === true) {
                         return;
                     }
+                    if (element.id === "surveyNoThanks") {
+                        let data = userDataSnap.data();
+                        data["feedback"] = "noThanks";
 
-                    if (element.id === "select-trimester") {
+                        document.getElementById("survey").classList.remove("slideInUp");
+                        document.getElementById("survey").classList.add("slideOutDown");
+
+                        let uid = firebase.auth().currentUser.uid;
+                        let db = firebase.firestore();
+                        return db.collection('users').doc(uid).set(data, { merge: true })
+                    }
+                    else if (element.id === "surveySubmit") {
+                        if (!document.getElementById("surveyYes").checked && !document.getElementById("surveyNo").checked) {
+                            document.getElementById("surveyOptions").style.border = "2px solid red";
+                        }
+                        else {
+                            let surveyAns = {
+                                helpful: document.getElementById("surveyYes").checked,
+                                feedback: document.getElementById("feedback").value
+                            }
+                            document.getElementById("survey").classList.remove("slideInUp");
+                            document.getElementById("survey").classList.add("slideOutDown");
+
+                            let data = userDataSnap.data();
+                            data["feedback"] = "Done";
+                            let uid = firebase.auth().currentUser.uid;
+                            let db = firebase.firestore();
+                            await db.collection('users').doc(uid).set(data, { merge: true });
+                            return db.collection('feedback').doc(uid).set(surveyAns, { merge: true })
+                        }
+                    }
+
+                    else if (element.id === "select-trimester") {
                         if (screen.width >= 992) {
                             document.getElementById("content").style.gridTemplateColumns = "270px 1fr";
                         }
@@ -932,7 +1202,14 @@
                         document.getElementById("task-bundles-container").classList.add("slideOutDown");
                     }
                 }
-
+                else if (element.nodeName === "LABEL" && (element.getAttribute("for") === "surveyYes" || element.getAttribute("for") === "surveyNo")) {
+                    if (element.getAttribute("for") === "surveyYes") {
+                        document.getElementById("surveyNo").checked = false;
+                    }
+                    else {
+                        document.getElementById("surveyYes").checked = false;
+                    }
+                }
                 else if (element.nodeName === "LABEL") {
                     if (!document.getElementById(element.getAttribute("for")).checked) {
                         if (getCorrospondingTrimesterNum(element.getAttribute("for")) === null) {
@@ -1029,7 +1306,7 @@
                             allTaskBundles[tabName][element.id].description +
                             '</div>\n' +
                             '<div class="task-bundle-tasks">\n' +
-                            '<span>Package includes:</span>\n' +
+                            '<span>Bundle includes:</span>\n' +
                             '<br>\n';
                         Object.keys(allTaskBundles[tabName][element.id]).forEach(section => {
                             if (typeof allTaskBundles[tabName][element.id][section] === "object") {
@@ -1155,6 +1432,7 @@
             let medicalBundlesEmpty = true;
             let otherBundlesEmpty = true;
             let myBundlesEmpty = true;
+            let addedTrimester = false; // Used for checking if task bundle belongs to multiple trimesters.
 
             Object.keys(allTaskBundles).forEach(tab => {
                 Object.keys(allTaskBundles[tab]).forEach(taskBundle => {
@@ -1162,14 +1440,20 @@
                         '<p class="chevron"><i class="down"></i></p>\n' +
                         '<div class="task-bundle-title">\n' +
                         '<span class="task-bundle-title">' +
-                        taskBundle +
-                        '</span>' +
+                        taskBundle + ' (';
+                    Object.keys(allTaskBundles[tab][taskBundle]).forEach(section => {
+                        if (typeof allTaskBundles[tab][taskBundle][section] === "object") {
+                            if (!addedTrimester) { taskBundleHTML += allTaskBundles[tab][taskBundle][section].trimester; }
+                            else { taskbundleHTML += ', ' + allTaskBundles[tab][taskBundle][section].trimester; }
+                        }
+                    });
+                    taskBundleHTML += ')' + '</span>' +
                         '</div>\n' +
                         '<div class="task-bundle-description">\n' +
                         allTaskBundles[tab][taskBundle].description +
                         '</div>\n' +
                         '<div class="task-bundle-tasks">\n' +
-                        '<span>Package includes:</span>\n' +
+                        '<span>Bundle includes:</span>\n' +
                         '<br>\n';
                     Object.keys(allTaskBundles[tab][taskBundle]).forEach(section => {
                         if (typeof allTaskBundles[tab][taskBundle][section] === "object") {
@@ -2087,9 +2371,9 @@
             addAddTaskAreaEventListener();
             // Try catch so no error is thrown if user has never added a custom task.
             try {
-            document.getElementById("user-tasks-filter-header").remove();
+                document.getElementById("user-tasks-filter-header").remove();
             }
-            catch{}
+            catch{ }
         });
 
         // Event listener for add task area.

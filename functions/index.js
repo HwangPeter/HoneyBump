@@ -19,6 +19,73 @@ admin.initializeApp({
   storageBucket: "honeybump-49085.appspot.com",
 });
 
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'myhoneybumpofficial@gmail.com',
+    pass: 'xfrkvjlufrbiolld'
+    // user: 'phwang94@gmail.com',
+    // pass: 'vsfxeazjjglkeelo'
+  }
+});
+
+exports.sendWelcomeMail = functions.https.onCall((data, context) => {
+
+  return new Promise(async (resolve, reject) => {
+    if (context.auth.uid) {
+      // User is logged in.
+      try {
+        await sendWelcomeMail(context.auth.token.email);
+        return resolve("Success");
+      }
+      catch (err) {
+        return reject(err);
+      }
+    }
+    else {
+      return reject(new Error("Access denied."));
+    }
+  }).then(resolveValue => {
+    return resolveValue;
+  })
+    .catch(rejectValue => {
+      return rejectValue.message;
+    });
+});
+
+async function sendWelcomeMail(email) {
+
+  var htmlEmail;
+  try {
+    htmlEmail = await readFile('emailFiles/welcomeEmail.html', { encoding: 'utf-8' });
+    htmlEmail = htmlEmail.replace(/EMAIL ADDRESS HERE/g, email);
+  } catch (e) {
+    // Failed to read file.
+    return e;
+  }
+
+  const mailOptions = {
+    from: 'myHoneyBump <no-reply@myHoneyBump.com>',
+    to: email,
+    subject: 'Welcome to myHoneyBump!',
+    html: htmlEmail,
+    attachments: [{
+      filename: 'logo.png',
+      path: path.join(__dirname, '/emailFiles/logo.png'),
+      cid: 'logo'
+    }]
+  };
+
+  return transporter.sendMail(mailOptions, (erro, info) => {
+    if (erro) {
+      // Failed to send mail.
+      console.log(erro);
+      return erro.toString();
+    }
+    return 'Sent';
+  });
+}
+
 exports.storeNewUserData = functions.https.onCall((data) => {
   db = admin.firestore();
 
